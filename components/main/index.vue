@@ -114,7 +114,7 @@
                 
                 symbinUtil.ajax({
                     _this:s,
-                    url:window.config.baseUrl+'/wmadvuser/exitlogin',
+                    url:window.config.baseUrl+'/zmitiadmin/exitlogin',
                     data:{
                         username:s.userinfo.username,
                         accesstoken:s.userinfo.accesstoken
@@ -137,7 +137,7 @@
             },
             getSourceList(){
       			var s = this;
-
+                return;
                 var {obserable} = Vue;
       				
                 symbinUtil.ajax({

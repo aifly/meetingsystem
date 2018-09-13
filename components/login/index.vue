@@ -96,7 +96,7 @@
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/wmadvuser/login/',
+					url:window.config.baseUrl+'/zmitiadmin/login/',
 					data:{
 						username:_this.username,
 						userpwd:_this.password
@@ -110,6 +110,8 @@
 							var p = param.list;
 							window.localStorage.setItem('login',JSON.stringify(p));
 
+
+
 							if(_this.checked){
 								window.localStorage.setItem('wm_username',_this.username);
 								window.localStorage.setItem('wm_password',_this.password);
@@ -117,10 +119,11 @@
 								window.localStorage.setItem('wm_username','');
 								window.localStorage.setItem('wm_password','');
 							}
-							window.location.hash = '#/myreport/';
 							
 							_this.$Message.success('登录成功~');
 							
+							
+							window.location.hash = '#/myreport/';
 							window.location.reload();
 							_this.isLogined = true;
 							
