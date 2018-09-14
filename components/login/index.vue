@@ -1,5 +1,5 @@
 <template>
-		<div  class="wm-login-ui lt-full">
+	<div  class="wm-login-ui lt-full">
 		<header>
 			<div>
 				<div>
@@ -12,7 +12,7 @@
 		</header>
 		<section :style="{background:'url('+imgs.adminLoginBg+') no-repeat center 40%',backgroundSize:'100%'}" > 
 			<div class="wm-login-C">
-				<h2>会议系统 <span>(管理端)</span></h2>
+				<h2>公益广告上报系统 <span>(管理端)</span></h2>
 				<div class="wm-login-form">
 					<div>
 						<label>
@@ -46,9 +46,7 @@
 <script>
 	import './index.css';
 	import symbinUtil from '../lib/util';
-
 	import Vue from "vue";
-
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',
@@ -61,8 +59,8 @@
 				checked:false,
 				isLogined:false,
 				isMove:false,
+				isNotChrome:true,
 				showLoading:false,
-				isNotChrome:false,
 				showError:false,
 				errorMsg:'',
 				loginType:"员工登录",
@@ -81,8 +79,6 @@
 			},
 			login(){
 				var _this = this;
-
-
 				if(!this.username){
 					this.toastError();
  					return;
@@ -91,7 +87,6 @@
 					this.toastError('密码不能为空');
  					return;
 				}
-
 				this.showLoading = true;
 				var s = this;
 				symbinUtil.ajax({
@@ -106,24 +101,22 @@
 							var param = data;
 							delete param.getret;
 							delete param.getmsg;
-
 							var p = param.list;
-							window.localStorage.setItem('login',JSON.stringify(p));
-
-
-
+							
+							symbinUtil.clearCookie('adminlogin');
+							//symbinUtil.setCookie('adminlogin',JSON.stringify(p),1);
+							window.localStorage.setItem('adminlogin',JSON.stringify(p));
 							if(_this.checked){
-								window.localStorage.setItem('wm_username',_this.username);
-								window.localStorage.setItem('wm_password',_this.password);
+								window.localStorage.setItem('wm_adminusername',_this.username);
+								window.localStorage.setItem('wm_adminpassword',_this.password);
 							}else{
-								window.localStorage.setItem('wm_username','');
-								window.localStorage.setItem('wm_password','');
+								window.localStorage.setItem('wm_adminusername','');
+								window.localStorage.setItem('wm_adminpassword','');
 							}
+							window.location.hash = '#/student/';
 							
 							_this.$Message.success('登录成功~');
 							
-							
-							window.location.hash = '#/myreport/';
 							window.location.reload();
 							_this.isLogined = true;
 							
@@ -135,8 +128,8 @@
 				
 			},
 			checkCache(){
-				var username = window.localStorage.getItem('wm_username'),
-					password = window.localStorage.getItem('wm_password');
+				var username = window.localStorage.getItem('wm_adminusername'),
+					password = window.localStorage.getItem('wm_adminpassword');
 				
 				if(username && password){
 					this.username = username;
@@ -146,11 +139,9 @@
 			}
 		
 			
-
 		},
 		mounted(){
 			this.checkCache();
-			
 			var ua = navigator.userAgent.toLowerCase();
 			this.isNotChrome = !ua.match(/chrome\/([\d.]+)/)
 
@@ -166,6 +157,4 @@
         50%  { transform: rotate(180deg);}
         to   { transform: rotate(360deg);}
     }
-
  </style>
- 

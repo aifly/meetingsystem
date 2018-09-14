@@ -2,16 +2,13 @@
 .layout{
 	.layout-logo{
 		color: #FFF;
-		img{
-			height: 35px;
-			width: auto;
-		}
+		width: 300px;
 	}
 
 	.ivu-layout-header{
 		 @include displayFlex(row);
 		 justify-content: space-between;
-		 background:#fff;
+		 background:#373d41;
 		 &>div{
 			 //margin: 0 20px;
 
@@ -21,18 +18,23 @@
 				 @include displayFlex(row);
 				 color:#fff;
 				 text-align: center;
+				 font-size:30px;
+				 font-weight: bold;
 				 background:#b30501;
 				 .wm-title{
 					 margin: 0 auto;
 					 width: 300px;
+
 				 }
 				 
 			 }
 
 			 &:nth-of-type(2) {
-				 -webkit-flex:1;
-				 flex:1;
+				 -webkit-flex-grow:1;
+				 flex-grow:1;
+				 
 				 div{
+					 
 					 margin-top: 14px;
 					  width: 400px;
 					  height: 36px;
@@ -40,9 +42,11 @@
 					  ;
 					  margin-left: 20px;
 					  @include br(18px);
-					  background:#eeeeee;
+					  //background:#eeeeee;
+					  background:#21262a;
 					  border: none;
 					  padding: 0;
+					 
 					  @include pos(r);
 					  img{
 						  width: 20px;
@@ -65,12 +69,16 @@
 					 font-size:14px;
 					 outline: none;
 					 padding-left: 20px;
+					color:#fff;
+					&::-webkit-input-placeholder{
+						color:#eee;
+					}
 				 }
 			 }
 
 			 &.wm-user-info{
 				 //@include displayBox(row);
-				 min-width: 300px;
+				 min-width: 250px;
 				 @include pos(r);
 				 img{
 					width: 30px;
@@ -80,10 +88,11 @@
 					 background: #b30501;
 					 @include pos(a);
 					 right: 0;
+					 cursor: pointer;
 					 width: 80px;
 					 top: 0;
 					 height: 100%;
-					 cursor: pointer;
+					 
 					 text-align: center;
 
 					 img{
@@ -91,12 +100,12 @@
 					 }
 				 }
 				 span{
-					 vertical-align: middle;
-
+					vertical-align: middle;
+					color:#fff;
 					 margin:0 10px;
 					 display:inline-block;
 					 font-size:14px;
-					 max-width: 200px;
+					 max-width: 100px;
 					 @include pos(r);
 					 top: 0;
 					 z-index: 10;;
@@ -116,37 +125,13 @@
 	}
 
 	.wm-tab-C{
-		background:#eee;
-		width: 300px;
-		
+		background:#333645;
+		width: 300px !important;
 
 		&>div{
 			background: #fff;
 			border:1px solid #fff;
 		}
-
-		.ivu-menu-vertical .ivu-menu-item:hover,
-		.ivu-menu-vertical .ivu-menu-submenu-title:hover{
-			color:#b30501;
-		}
-
-		.ivu-menu-item-active,
-		.ivu-menu-item-selected{
-			&:not(.ivu-menu-submenu){
-				color:#b30501 !important;
-				background:rgba(179,5,1,.1) !important;
-
-				&:after{
-					background:#b30501 !important;
-				}
-				
-			}
-			a{
-				display: block;
-				width: 100%;
-			}
-		}
-
 		.wm-menu-item{
 			background: #fff;
 			height: 40px;
@@ -155,7 +140,6 @@
 			text-indent:3em;
 			a{
 				color:inherit;
-				
 			};
 			@include pos(r);
 
@@ -185,7 +169,6 @@
 			display: block;
 			width: 100%;
 			height: 100%;
-			color: inherit;
 		}
 		
 		img{
@@ -212,7 +195,7 @@
 
 	.wm-main-layout{
 		@include displayFlex(row);
-		margin-top: 10px;
+		//margin-top: 10px;
 	}
 
 	.symbin-main-menu{
@@ -238,11 +221,14 @@
 	i.ivu-icon-ionic{
 		opacity: 0;
 	}
-	.ivu-menu-item {
+	.ivu-menu-item{
 		text-indent: 4em;
 	}
 	.ivu-menu-item > a > i{
 		margin-right: 6px;
+	}
+	.ivu-menu-item>a{
+		color:rgba(255, 255, 255, 0.7);
 	}
 	.ivu-menu-submenu .ivu-menu-item{
 		padding-left: 24px!important;

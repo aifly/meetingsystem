@@ -6,17 +6,16 @@
 		<div class="wm-user-center">
 			<div>
 				<div class="wm-user-form-item">
-					<label for="">用户名：</label><input type="text"  v-model='userinfo.username'>
+					<label for="">用户名：</label><input type="text"  v-model='userinfo.adminusername'>
 					<div class="wm-user-error" v-if='userError'>{{userError}}</div>
 				</div>
 				<div class="wm-user-form-item">
-					<label for="">密码：</label><input :disabled='!showPassWord' type="password" v-model="userinfo.password">
-					<Button type='primary' @click='modifyPwd'>{{showPassWord?'确定':'修改密码'}}</Button>
+					<label for="">密码：</label><input type="password" :disabled='!showPassWord' v-model="userinfo.password">
+					<Button type='primary'  @click='modifyPwd'>{{showPassWord?'确定':'修改密码'}}</Button>
 					<div class="wm-user-error" v-if='passError'>{{passError}}</div>
 				</div>
 				<div class="wm-user-form-item" v-if='showPassWord'>
 					<label for="">确认密码：</label><input type="password" v-model="userinfo.repassword">
-					
 					<div class="wm-user-error" v-if='repassError'>{{repassError}}</div>
 				</div>
 				<div class="wm-user-form-item">
@@ -24,15 +23,15 @@
 					<div class="wm-user-error" v-if='usernameError'>{{usernameError}}</div>
 				</div>
 				<div class="wm-user-form-item">
-					<label for="">手机：</label><input type="text" v-model="userinfo.mobile">
+					<label for="">手机：</label><input type="text" v-model="userinfo.adminmobile">
 					<div class="wm-user-error" v-if='mobileError'>{{mobileError}}</div>
 				</div>
 				<div class="wm-user-form-item ">
-					<label for="">单位：</label><input type="text" v-model="userinfo.companyname">
+					<label for="">单位：</label><input type="text" v-model="userinfo.company">
 					<div class="wm-user-error" v-if='companyError'>{{companyError}}</div>
 				</div>
 
-				<div class="wm-user-form-item " >
+				<div class="wm-user-form-item "  v-if='false'>
 					<label for="">地址：</label>
 					<Cascader v-model="userinfo.cityids"  :load-data="getCityById"  change-on-select :data='provinceList'></Cascader>
 				</div>
@@ -64,9 +63,9 @@
 			return{
 				visible:false,
 				imgs:window.imgs,
+				showPassWord:false,
 				isLoading:false,
 				userError:"",
-				showPassWord:false,
 				companyError:"",
 				usernameError:"",
 				passError:"",
@@ -75,7 +74,11 @@
 
 				provinceList:[],
 
-				
+				formUser:{
+					oldpassword:'',
+					newpassword:'',
+					surepassword:''
+				},
 				userinfo:{}
 			}
 		},
@@ -90,19 +93,18 @@
 		},
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
-			
-			
+			console.log(this.userinfo)
 			this.getCityData();
-			this.getCityById({__value:this.userinfo.provinceid*1+','+this.userinfo.cityid*1});
-
-			this.userinfo.cityids = [this.userinfo.provinceid*1,this.userinfo.cityid*1,this.userinfo.areaid*1]
-
+			if(this.userinfo.isadmin){
+				//window.location.hash = '/periods';
+			}
 		},
 		
 		methods:{
 
+
 			modifyPwd(){
-				if(!this.showPassWord){
+					if(!this.showPassWord){
 					this.showPassWord = true;
 				}else{
 					var s = this;
@@ -124,23 +126,22 @@
 
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/wmadvuser/updateuserpwd/',
+						url:window.config.baseUrl+'/wmadadmin/updateadminpwd/',
 						data:{
-							username:s.userinfo.username,
-							accesstoken:s.userinfo.accesstoken,
-							userpwd:s.userinfo.password
+							adminusername:s.userinfo.adminusername,
+							admintoken:s.userinfo.admintoken,
+							adminpwd:s.userinfo.password
 						},
 						success(data){
 							console.log(data);
 							if(data.getret === 0){
-								
 								s.$Message.success('修改密码成功,请重新登录');
 								setTimeout(() => {
 									window.location.hash = '#/login';
 								}, 400);
 							}
 							else{
-								s.$Message.error('修改密码失败');
+								s.$Message.error(data.getmsg);
 							}
 						}
 					})
@@ -152,6 +153,7 @@
 				var provinceId = e.__value.split(',')[0];
 				var cityid = e.__value.split(',')[1];
 				var s = this;
+
 				
 				symbinUtil.ajax({
 					_this:s,
@@ -221,28 +223,27 @@
 				})
 			},
 			modifyUser(){
-
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/wmadvuser/updateuser',
+					url:window.config.baseUrl+'/wmadadmin/updateadmininfo',
 					validate:s.validate,
 					data:{
-						username:s.userinfo.username,
-						accesstoken:s.userinfo.accesstoken,
+						adminusername:s.userinfo.adminusername,
+						admintoken:s.userinfo.admintoken,
 						nickname:s.userinfo.nickname,
-						mobile:s.userinfo.mobile,
+						adminmobile:s.userinfo.adminmobile,
 						detailaddress:s.userinfo.detailaddress,
 						email:s.userinfo.email,
-						provinceid:s.userinfo.cityids[0],
+					/* 	provinceid:s.userinfo.cityids[0],
 						cityid:s.userinfo.cityids[1],
-						areaid:s.userinfo.cityids[2],
+						areaid:s.userinfo.cityids[2], */
 						companyname:s.userinfo.companyname
 					},success(data){
 						console.log(data);
 						 if(data.getret === 0){
 							s.$Message.success(data.getmsg);
-							data.list.username = s.userinfo.username;
+							data.list.admintoken = s.userinfo.admintoken;
 							data.list.accesstoken = s.userinfo.accesstoken;
 							window.localStorage.setItem('login',JSON.stringify(data.list));
 							///window.location.hash =  '/login';
@@ -252,7 +253,6 @@
 					}
 
 				})
-
 			},
 			ok(){
 				if(this.formUser.newpassword  !== this.formUser.surepassword){
@@ -275,7 +275,7 @@
 							s.$Message.warning('请重新登录');
 							window.location.hash =  '/login';
 						}else{
-							s.$Message.error('修改密码失败');
+							s.$Message.error(data.getmsg);
 						}
 					}
 

@@ -4,46 +4,78 @@
             <Header>
                <div>
                     <div class="wm-title">
-                        <img :src="imgs.userLoginTitle" alt="">
+                        <img :src="imgs.adminLoginTitle" alt="">
                     </div>
                </div>
                <div>
-                   <div>
-                       <span><img :src="imgs.search" alt=""></span><input type="text" v-model='kw'  placeholder="查询我的上报" />
+                   <div v-if='false'>
+                       <span><img :src="imgs.search" alt=""></span><input type="text" placeholder="查询我的上报" />
                    </div>
                </div>
                <div class="wm-user-info">
                    <span><img :src='imgs.man' /></span>
-                   <span class="zmiti-text-overflow">{{userinfo.nickname}}</span>
-                   <div title='退出' @click="logout">
+                   <span class="zmiti-text-overflow">{{userinfo.realname}}</span>
+                   <div @click="logout">
                        <img :src="imgs.logout" alt="">
                    </div>
                </div>
             </Header>
             <Layout class="wm-main-layout">
-                <div class="wm-tab-C" :style='{height:(viewH - 64- 10)+"px"}'>
-                   <div>
-                      <Menu width='300' :open-names="['1']"  >
-                            <Submenu name="1">
-                                <template slot="title">
-                                    <Icon type="ios-paper" />
-                                    我的上报
-                                </template>
-                                    <MenuItem to='/myreport/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "myreport"}' :key='i' v-for="(item,i) in sourceList" :name="item.resourceid">{{item.resourcecnname}}
-                                    </MenuItem>
-                            </Submenu>
-                             <Submenu name="2">
-                                <template slot="title">
-                                    <Icon type="ios-paper" />
-                                    我的
-                                </template>
-                                     <MenuItem to='/user/' name="13">个人中心 </MenuItem>
-                            </Submenu>
-                           
-                        </Menu>
-                   </div>
+                <div class="wm-tab-C" :style='{height:(viewH - 64)+"px"}'>
+                    <Menu width='300'   theme='dark'>
+                        
+                        <Submenu name="1">
+                            <template slot="title">
+                                <Icon type="ios-paper" />
+                                人员管理
+                            </template>
+                            <!--  <MenuItem :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "rate"}' :key='i' v-for="(item,i) in sourceList" :name="item.resourceid">{{item.resourcecnname}}
+                            </MenuItem> -->
+                            <MenuItem name='student' to='/student/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "student"}'>
+                                学员管理
+                            </MenuItem>
+                            <!--  <MenuItem :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "rate"}' :key='i' v-for="(item,i) in sourceList" :name="item.resourceid">{{item.resourcecnname}}
+                            </MenuItem> -->
+                            <MenuItem to='/teacher/' name='teacher' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "teacher"}'>
+                                教师管理
+                            </MenuItem>
+                            <MenuItem to='/adminuser/' name='adminuser' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "adminuser"}'>
+                                管理员管理
+                            </MenuItem>
+                        </Submenu>
+                         <Submenu name='4'>
+                            <template slot="title">
+                                <Icon type="ios-paper-plane" />
+                                会议系统
+                            </template>
+                            <MenuItem name='meeting' to='/meeting/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("meeting")>-1}'>
+                                会议管理
+                            </MenuItem>
+                            <MenuItem name='news' to='/news/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("news")>-1}'>
+                                新闻管理
+                            </MenuItem>
+                            <MenuItem name='class' to='/class/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("class")>-1}'>
+                                课程管理
+                            </MenuItem>
+                            <MenuItem name='attendance' to='/attendance/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("attendance")>-1}'>
+                                考勤管理
+                            </MenuItem>
+                            <!-- <MenuItem v-for='(resource,i) in resourceList' :key="i" :name='"collection"+i' :to='"/collection/"+resource.resourceid+"/0"' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "collection"}'>
+                                {{resource.resourcecnname}}
+                            </MenuItem> -->
+                        </Submenu>
+                        <Submenu name='2'>
+                            <template slot="title">
+                                <Icon type="ios-paper" />
+                                我的
+                            </template>
+                            <MenuItem name='user' to='/user/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "user"}'>
+                                个人中心
+                            </MenuItem>
+                        </Submenu>
+                    </Menu>
                 </div>
-                <Layout>
+                <Layout :style="{maxWidth:viewW-300+'px'}">
                    <router-view></router-view>
                 </Layout>
             </Layout>
@@ -67,98 +99,70 @@
 			return{
 				imgs:window.imgs,
                 viewH:document.documentElement.clientHeight,
+                viewW:window.innerWidth,
                 tabIndex:0,
                 userinfo:{},
-                sourceList:[],
-                kw:"",
-                topMenu:[
-                ],
-                defaultMenu:[
-                  
-                ],
+                
+                resourceList:[],
                 menus:[]
 			}
 		},
 		components:{
 		},
         beforeCreate(){
-                this.validateData = sysbinVerification.validate(this);
-            if(this.$route.name !== 'login' && this.$route.name !== 'register'){
-            }
-
+            this.validateData = sysbinVerification.validate(this);
+        },
+        watch:{
+           $route(e){
+               //console.log(e)
+           }
         },
 		mounted(){
+            window.s = this;
            ///this.menus = this.defaultMenu.concat([]);
             var obserable = Vue.obserable;
             
             var userinfo = symbinUtil.getUserInfo();
 
             this.userinfo = userinfo; 
-            if(this.$route.name !== 'login' && this.$route.name !== 'register'){
-                this.getSourceList();
+            
+            window.onresize = ()=>{
+                this.viewW  = window.innerWidth;
             }
             
-        },
-        watch:{
-            kw(val){
-                var s = this;
-                Vue.obserable.trigger({
-                    type:"searchReport",
-                    data:val
-                });
+            if(this.$route.name !== 'login'){
+               this.getResourceList();
             }
+            setTimeout(() => {
+                $('.ivu-menu-submenu-title').trigger('click')
+            }, 100);
         },
+       
 		methods:{
-            logout(){
+
+            getResourceList(){
                 var s = this;
-                
                 symbinUtil.ajax({
                     _this:s,
-                    url:window.config.baseUrl+'/zmitiadmin/exitlogin',
+                    url:window.config.baseUrl+'/wmadadmin/getsourcelist/',
                     data:{
-                        username:s.userinfo.username,
-                        accesstoken:s.userinfo.accesstoken
+                        admintoken:s.userinfo.admintoken,
+					    adminusername:s.userinfo.adminusername,
                     },
                     success(data){
                         if(data.getret === 0){
-                            s.$Message.success('注销成功');
-                            setTimeout(() => {
-                                window.location.hash = '#/login';
-                            }, 500);
-                        }
-                        else{
-                            s.$Message.error('注销失败');
+                            s.resourceList = data.list;
+                            Vue.obserable.on('getResource',()=>{
+                                return data.list;
+                            });
                         }
                     }
                 })
-            },
+			},
+
+            
             tab(index){
                 this.tabIndex = index;
-            },
-            getSourceList(){
-      			var s = this;
-                return;
-                var {obserable} = Vue;
-      				
-                symbinUtil.ajax({
-                    _this:s,
-                    url:window.config.baseUrl+'/wmadvuser/getsourcelist/',
-                    data:{
-                        username:s.userinfo.username,
-                        usertoken:s.userinfo.accesstoken
-                    },
-                    success(data){
-                        if(data.getret === 0){
-                                s.sourceList = data.list;
-                                obserable.on("getCurrentSourceId",()=>{
-                                    return data.list[0].resourceid;
-                                })
-                                obserable.on("getFeildList",()=>{
-                                    return JSON.parse(data.list[0].tablefield).fieldlist;
-                                })
-                            }
-                    }
-                })
             },
            
             loadMenu(option,fn){
@@ -189,8 +193,27 @@
                         
                     }
                 })
+            },
+            logout(){
+                var s = this;
+                symbinUtil.ajax({
+                    _this:s,
+                    url:window.config.baseUrl+'/zmitiadmin/exitlogin/',
+                    data:{
+                        adminuserid:s.userinfo.userid,
+						admintoken:s.userinfo.accesstoken
+                    },
+                    
+                    success(data){
+                        if(data.getret === 0){
+                            s.$Message.success('注销成功');
+                            symbinUtil.clearCookie('login');
+                            window.location.hash = '/login';
+                            window.sessionStorage.clear();
+                        }
+                    }
+                });
             }
-          
 		}
 	}
 </script>

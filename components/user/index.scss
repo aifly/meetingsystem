@@ -53,6 +53,7 @@ $color: #be0000;
         justify-content: center;
         -webkit-align-items:center;
         align-items:center;
+        margin-top: -20vh;
     }
 
     .wm-user-form-item{
@@ -63,12 +64,6 @@ $color: #be0000;
         height: 50px;
         margin: 4px 0;
         line-height: 50px;
-        
-        button{
-            @include pos(a);
-            right: 10px;
-            top: 8px;
-        };
         &.wm-require {
             label {
                 @include pos(r);
@@ -81,6 +76,13 @@ $color: #be0000;
                 }
             }
         }
+
+         button {
+             @include pos(a);
+             right: 10px;
+             top: 8px;
+         }
+
 
         .ivu-cascader {
             @include pos(a);
@@ -108,7 +110,7 @@ $color: #be0000;
             border: 1px solid #ccc;
             padding: 0;
             height: 30px;
-            width: 300px;
+            width: 270px;
             border: none;
         }
     }
