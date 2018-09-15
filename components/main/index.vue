@@ -131,7 +131,7 @@
             }
             
             if(this.$route.name !== 'login'){
-               this.getResourceList();
+              // this.getResourceList();
             }
             setTimeout(() => {
                 $('.ivu-menu-submenu-title').trigger('click')
@@ -142,12 +142,13 @@
 
             getResourceList(){
                 var s = this;
+                
                 symbinUtil.ajax({
                     _this:s,
                     url:window.config.baseUrl+'/wmadadmin/getsourcelist/',
                     data:{
-                        admintoken:s.userinfo.admintoken,
-					    adminusername:s.userinfo.adminusername,
+                        admintoken:s.userinfo.accesstoken,
+					    adminuserid:s.userinfo.userid,
                     },
                     success(data){
                         if(data.getret === 0){

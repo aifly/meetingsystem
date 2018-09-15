@@ -20,6 +20,10 @@
 				<FormItem label="说明：" prop="meetremarks">
 					<Input v-model="formAdmin.meetremarks" placeholder="说明" autocomplete="off" />
 				</FormItem>
+				<FormItem label="时间：" prop="meetremarks">
+					<DatePicker style="width:100%" v-model="formAdmin.datetimes" :value="formAdmin.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
+				</FormItem>
+				
 			</Form>
 		</Modal>
 
@@ -40,18 +44,6 @@
 		data(){
 			return{
 				content:"",
-				editorOption:{
-					modules:{
-                        toolbar:[
-						  ['bold', 'italic', 'underline','code', 'strike','color','link'],        // toggled buttons
-						  [{size:['small',false,'large','huge','12']}],//'12','14',false,'16','18','20','22','24'
-						  [{ 'color': [] }],
-						  [{ 'align': [] }],
-						  [{list:'ordered'},{list:'bullet'}],
-                          ['code-block','image','video','clean']
-                        ]
-                    }
-				},
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -62,7 +54,7 @@
 				viewH:window.innerHeight,
 
 				formAdmin:{
-					userpwd:'111111',
+					datetimes:[],
 					cityids:[]
 				},
 				userList:[],
@@ -103,7 +95,7 @@
                                         click: () => {
 											this.currentUserId = params.row.userid;
 											this.formAdmin = params.row;
-											this.formAdmin.cityids = [params.row.provinceid*1,params.row.cityid*1,params.row.areaid*1];
+											this.formAdmin.datetimes = [params.row.startdate,params.row.enddate];
 											this.visible = true;
                                         }
                                     }
@@ -115,7 +107,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											this.delAdUser(params.row.userid);
+											this.delAdUser(params.row.meetid);
 										},
 										
 									}
@@ -212,14 +204,14 @@
 					})
 				}
 			},
-			delAdUser(userid){
+			delAdUser(meetid){
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/zmitiadmin/delstudent/',
+					url:window.config.baseUrl+'/zmitiadmin/delmeet/',
 					validate:s.validate,
 					data:{
-						userid,
+						meetid,
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
 					},success(data){
@@ -269,15 +261,11 @@
 
 
 			addadUser(){
-
-				 
 			},
-
-			 
 			ok(){
 				var s = this;
 
-				if(s.currentUserId<=-1){
+				if(s.currentUserId<=-1){	
 
 					symbinUtil.ajax({
 						_this:s,
@@ -289,12 +277,12 @@
 							meetname:s.formAdmin.username,
 							status:1,
 							meetremarks:s.formAdmin.meetremarks,
-							startdate:'2018-09-11',
-							enddate:'2018-09-12'
+							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
+							enddate:new Date(s.formAdmin.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
-								//s.getmeetinglist();
+								s.getmeetinglist();
 							}
 							else{
 								s.$Message.error(data.getmsg);

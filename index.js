@@ -58,8 +58,8 @@ const router = new VueRouter({
 			component: Meeting,
 			props: true
 		}, {
-			path: '/lasses/',
-			name: 'lasses',
+			path: '/class/',
+			name: 'class',
 			component: Class,
 			props: true
 		},  {

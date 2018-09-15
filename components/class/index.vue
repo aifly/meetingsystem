@@ -361,12 +361,13 @@
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/zmitiadmin/getstudentlist/',
+					url:window.config.baseUrl+'/zmitiadmin/getcourselist/',
 					//validate:s.validate,
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
 						pagenum:1000,
+						meetid:1,
 						status:-1,//查询全部
 					},
 					success(data){

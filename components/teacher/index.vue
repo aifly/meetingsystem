@@ -1,20 +1,20 @@
 <template>
 	<div class="wm-rater-main-ui">
 		<header>
-			<div>评委管理</div>
+			<div>教师管理</div>
 			<section>
-				<Button type="primary" icon='md-add-circle' @click="addRater">新增评委</Button>
+				<Button type="primary" icon='md-add-circle' @click="addRater">新增教师</Button>
 			</section>
 		</header>
-		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='raterList' :columns='columns'   stripe></Table>
+		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='teacherList' :columns='columns'   stripe></Table>
 		<Modal
 			v-model="visible"
-			:title="currentRateid === -1? '新增评委':'编辑评委'"
+			:title="teatherid === -1? '新增教师':'编辑教师'"
 			@on-ok="ok"
 			@on-cancel="cancel">
 			<Form ref="formAdmin" :model="formAdmin" :label-width="72" >
-				<FormItem label="账号：" prop="ratername">
-					<Input style="width:310px;" v-model="formAdmin.ratername" placeholder="账号" autocomplete="off" />
+				<FormItem label="账号：" prop="accounts">
+					<Input style="width:310px;" v-model="formAdmin.accounts" placeholder="账号" autocomplete="off" />
 					<RadioGroup v-model="formAdmin.sex">
 						<Radio :label="1">
 							<span>男</span>
@@ -24,15 +24,18 @@
 						</Radio>
 					</RadioGroup>
 				</FormItem>
-				<FormItem label="密码：" prop="raterpwd">
-					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.raterpwd" placeholder="密码" autocomplete="off" />
-					<Button :disabled='currentRateid === -1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
+				<FormItem label="密码：" prop="teacherpwd">
+					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.teacherpwd" placeholder="密码" autocomplete="off" />
+					<Button :disabled='teatherid === -1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 				</FormItem>
 				<FormItem label="昵称：" prop="nickname">
 					<Input v-model="formAdmin.nickname" placeholder="昵称" autocomplete="off" />
 				</FormItem>
 				<FormItem label="电话：" prop="mobile">
 					<Input v-model="formAdmin.mobile" placeholder="电话" autocomplete="off" />
+				</FormItem>
+				<FormItem label="邮箱：" prop="email">
+					<Input v-model="formAdmin.email" placeholder="邮箱" autocomplete="off" />
 				</FormItem>
 			</Form>
 		</Modal>
@@ -54,14 +57,14 @@
 				split1: 0.8,
 				showPass:false,
 				viewH:window.innerHeight,
-				currentRateid:-1,
+				teatherid:-1,
 				formAdmin:{
-					raterpwd:'111111'
+					teacherpwd:'111111'
 				},
 				columns:[
 					{
 						title:"用户名",
-						key:'ratername',
+						key:'accounts',
 						align:'center',
 					},
 					{
@@ -103,8 +106,9 @@
                                     },
                                     on: {
                                         click: () => {
-											this.currentRateid = params.row.userid;
+											console.log(params.row);
 											this.formAdmin = params.row;
+											this.teatherid = params.row.teatherid;
 											this.visible = true;
                                         }
                                     }
@@ -138,7 +142,7 @@
 						}
 					}
 				],
-				raterList:[],
+				teacherList:[],
 				
 				userinfo:{}
 			}
@@ -152,8 +156,8 @@
 		},
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
-			this.getRaterlist();
-			
+			this.getTeacherList();
+			window.teacher = this;
 		},
 		
 		methods:{
@@ -162,7 +166,7 @@
 					this.showPass = true;
 					this.$refs['pass'].focus();
 				}else{
-					if(!this.formAdmin.raterpwd){
+					if(!this.formAdmin.teacherpwd){
 						this.$Message.error('密码不能为空');
 						return;
 					}
@@ -174,7 +178,7 @@
 							admintoken:s.userinfo.admintoken,
 							adminusername:s.userinfo.adminusername,
 							raterid:s.formAdmin.raterid,
-							raterpwd:s.formAdmin.raterpwd
+							teacherpwd:s.formAdmin.teacherpwd
 						},
 						success(data){
 							s.$Message[data.getret === 0 ?'success':'error'](data.getmsg);
@@ -184,24 +188,24 @@
 			},
 			addRater(){
 				this.formAdmin = {
-					raterpwd:'111111'
+					teacherpwd:'111111'
 				}
-				this.currentRateid = -1;
+				this.teatherid = -1;
 				this.visible = true;
 			},
-			getRaterlist(){
+			getTeacherList(){
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/wmadadmin/getreviewlist/',
+					url:window.config.baseUrl+'/zmitiadmin/getteacherlist/',
 					//validate:s.validate,
 					data:{
-						admintoken:s.userinfo.admintoken,
-						adminusername:s.userinfo.adminusername
+						admintoken:s.userinfo.accesstoken,
+					    adminuserid:s.userinfo.userid,
 					},success(data){
-						
+						console.log(data)
 						if(data.getret === 0){
-							s.raterList = data.list;
+							s.teacherList = data.list;
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -224,7 +228,7 @@
 					},success(data){
 						if(data.getret === 0){
 							s.$Message.success(data.getmsg);
-							s.getRaterlist();
+							s.getTeacherList();
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -236,20 +240,25 @@
 			ok(){
 				
 				var s = this;
-				if(s.currentRateid<=-1){
+				if(s.teatherid<=-1){
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/wmadadmin/addreview/',
+						url:window.config.baseUrl+'/zmitiadmin/addteacher/',
 						validate:s.validate,
 						data:{
-							ratername:s.formAdmin.ratername,
-							raterpwd:s.formAdmin.raterpwd,
-							admintoken:s.userinfo.admintoken,
-							adminusername:s.userinfo.adminusername
+							accounts:s.formAdmin.accounts,
+							teacherpwd:s.formAdmin.teacherpwd,
+							admintoken:s.userinfo.accesstoken,
+							adminuserid:s.userinfo.userid,
+							sex:s.formAdmin.sex,
+							email:s.formAdmin.email,
+							nickname:s.formAdmin.nickname,
+							mobile:s.formAdmin.mobile,
+							realname:s.formAdmin.realname,
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
-								s.getRaterlist();
+								s.getTeacherList();
 							}
 							else{
 								s.$Message.error(data.getmsg);
@@ -260,15 +269,19 @@
 				}else{
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/wmadadmin/editreview/',
+						url:window.config.baseUrl+'/zmitiadmin/updateteacherinfo/',
 						validate:s.validate,
 						data:{
-							ratername:s.formAdmin.ratername,
+							accounts:s.formAdmin.accounts,
+							teacherpwd:s.formAdmin.teacherpwd,
+							admintoken:s.userinfo.accesstoken,
+							adminuserid:s.userinfo.userid,
+							sex:s.formAdmin.sex,
+							email:s.formAdmin.email,
 							nickname:s.formAdmin.nickname,
 							mobile:s.formAdmin.mobile,
-							raterid:s.currentRateid,
-							admintoken:s.userinfo.admintoken,
-							adminusername:s.userinfo.adminusername
+							realname:s.formAdmin.realname,
+							teatherid:s.teatherid,
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
