@@ -21,6 +21,13 @@
 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 				</FormItem>
+				
+				<FormItem label="所属会议：" prop="mobile">
+					 <Select v-model="formAdmin.meetid">
+				       <Option v-for="item in meetList" :value="item.meetid" :key="item.meetid">{{ item.meetname }}</Option>
+				    </Select>
+				</FormItem>				
+
 				<FormItem label="手机号：" prop="mobile">
 					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
 				</FormItem>
@@ -87,6 +94,7 @@
 					userpwd:'111111',
 					cityids:[]
 				},
+				meetList:[],
 				userList:[],
 				columns:[
 					{
@@ -203,7 +211,8 @@
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
 			this.getCityData();
-			this.getaduserlist();
+			this.getmeetlist();
+			this.getstudentlist();
 		},
 		
 		methods:{
@@ -295,9 +304,25 @@
 					success(data){
 						console.log(data);
 						s.$Message[data.getret === 0 ? "success":"error"](data.getmsg);
-						s.getaduserlist();
+						s.getstudentlist();
 					}
 
+				})
+			},
+
+			getmeetlist(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getmeetlist',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+					},
+					success(data){
+						if(data.getret === 0){
+							s.meetList = data.list;
+						}
+					}
 				})
 			},
 
@@ -340,7 +365,7 @@
 					},success(data){
 						if(data.getret === 0){
 							s.$Message.success(data.getmsg);
-							s.getaduserlist();
+							s.getstudentlist();
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -357,7 +382,7 @@
 				};
 				this.visible = true;
 			},
-			getaduserlist(){
+			getstudentlist(){
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
@@ -408,13 +433,14 @@
 							studentname:s.formAdmin.studentname,
 							email:s.formAdmin.email,
 							provinceid:s.formAdmin.cityids[0],
+							meetid:s.formAdmin.meetid,
 							cityid:s.formAdmin.cityids[1],
 							areaid:s.formAdmin.cityids[2],
 							detailaddress:s.formAdmin.detailaddress
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
-								s.getaduserlist();
+								s.getstudentlist();
 							}
 							else{
 								s.$Message.error(data.getmsg);
