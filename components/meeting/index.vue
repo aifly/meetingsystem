@@ -192,6 +192,13 @@
 		},
 		components:{
 		},
+		watch:{
+			visible(val){
+				if(val && this.currentMeetid>-1){
+					this.upload();
+				}
+			}
+		},
 
 		beforeCreate(){
 			//var validate = sysbinVerification.validate(this);
@@ -203,7 +210,7 @@
 			this.userinfo = symbinUtil.getUserInfo();
 			//this.getCityData();
 			this.getmeetinglist();
-			this.upload();
+			
 		},
 		
 		methods:{
@@ -233,8 +240,8 @@
 				}
 				this.p = p;
 				if(s.uploader){
-					return;
-					//s.uploader.destroy();
+					
+					s.uploader.destroy();
 				}
 				var accepts  =  s.accepts;
 				var uploader = WebUploader.create({
