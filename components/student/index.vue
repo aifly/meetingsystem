@@ -31,6 +31,9 @@
 				<FormItem label="手机号：" prop="mobile">
 					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
 				</FormItem>
+				<FormItem label="职务：" prop="job">
+					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
+				</FormItem>
 
 				<FormItem label="公司名称：" prop="companyname">
 					<Input v-model="formAdmin.companyname" placeholder="公司名称" autocomplete="off" />
@@ -69,18 +72,7 @@
 		data(){
 			return{
 				content:"",
-				editorOption:{
-					modules:{
-                        toolbar:[
-						  ['bold', 'italic', 'underline','code', 'strike','color','link'],        // toggled buttons
-						  [{size:['small',false,'large','huge','12']}],//'12','14',false,'16','18','20','22','24'
-						  [{ 'color': [] }],
-						  [{ 'align': [] }],
-						  [{list:'ordered'},{list:'bullet'}],
-                          ['code-block','image','video','clean']
-                        ]
-                    }
-				},
+				 
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -107,6 +99,25 @@
 						title:"昵称",
 						key:'studentname',
 						align:'center'
+					},{
+						title:"职务",
+						key:'job',
+						align:'center'
+					},{
+						title:"省份",
+						key:'name',
+						align:'center'
+					},{
+						title:"手机号",
+						key:'mobile',
+						align:'center'
+					},{
+						title:"状态",
+						key:'status',
+						align:'center',
+						render(h,params){
+							return h('div',{},params.row.status ===1?'已审核':'未审核')
+						}
 					},{
 						title:'操作',
 						key:"action",
@@ -203,10 +214,10 @@
 		},
 
 		beforeCreate(){
-			//var validate = sysbinVerification.validate(this);
+			var validate = sysbinVerification.validate(this);
 			//symbinUtil.clearCookie('login');
 
-			///this.validate = validate;
+			this.validate = validate;
 		},
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
@@ -225,7 +236,7 @@
 				
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/share/getarealist',
+					url:window.config.baseUrl+'/meetshare/getarealist',
 					data:{
 						cityid
 					},
@@ -263,7 +274,7 @@
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/share/getcitylist/',
+					url:window.config.baseUrl+'/meetshare/getcitylist/',
 					data:{},
 					success(data){
 						//console.log(data);
@@ -434,6 +445,7 @@
 							email:s.formAdmin.email,
 							provinceid:s.formAdmin.cityids[0],
 							meetid:s.formAdmin.meetid,
+							job:s.formAdmin.job,
 							cityid:s.formAdmin.cityids[1],
 							areaid:s.formAdmin.cityids[2],
 							detailaddress:s.formAdmin.detailaddress
@@ -451,11 +463,13 @@
 				}else{
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntinfo/',
+						url:window.config.baseUrl+'/zmitiadmin/updatestudentinfo/',
 						//validate:s.validate,
 						data:{
 							username:s.formAdmin.username,
 							studentname:s.formAdmin.studentname,
+							meetid:s.formAdmin.meetid,
+							job:s.formAdmin.job,
 							userid:s.currentUserId,
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,

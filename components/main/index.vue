@@ -46,20 +46,27 @@
                          <Submenu name='4'>
                             <template slot="title">
                                 <Icon type="ios-paper-plane" />
-                                会议系统
+                                会议设置
                             </template>
                             <MenuItem name='meeting' to='/meeting/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("meeting")>-1}'>
                                 会议管理
                             </MenuItem>
-                            <MenuItem name='news' to='/news/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("news")>-1}'>
+                           <!--  <MenuItem name='news' to='/news/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("news")>-1}'>
                                 新闻管理
+                                1、签到报名管理
+                                2、新闻信息管理
+                                3、考勤管理（请假管理）
+                                4、课程管理
+                                5、外出活动表（管理员新建外出活动，然后选择活动人员、活动地址、活动时间等。）
+                                6、作业管理。
+                                7、考评管理
                             </MenuItem>
                             <MenuItem name='class' to='/class/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("class")>-1}'>
                                 课程管理
                             </MenuItem>
                             <MenuItem name='attendance' to='/attendance/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("attendance")>-1}'>
                                 考勤管理
-                            </MenuItem>
+                            </MenuItem> -->
                             <!-- <MenuItem v-for='(resource,i) in resourceList' :key="i" :name='"collection"+i' :to='"/collection/"+resource.resourceid+"/0"' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "collection"}'>
                                 {{resource.resourcecnname}}
                             </MenuItem> -->

@@ -6,16 +6,16 @@
 				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增会议</Button>
 			</section>
 		</header>
-		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
+		<Table ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 
 		<Modal
 			v-model="visible"
-			:title="currentUserId === -1? '新增用户':'编辑用户'"
-			@on-ok="ok"
+			:title="currentMeetid === -1? '新增会议':'编辑会议'"
+			@on-ok="meetAction"
 			@on-cancel="cancel">
-			<Form ref="formAdmin" :model="formAdmin" :label-width="82" >
+			<Form ref="formAdmin" :model="formAdmin" :label-width="88" >
 				<FormItem label="会议名称：" prop="username">
-					<Input :disabled = 'currentUserId !== -1'  v-model="formAdmin.username" placeholder="会议名称" autocomplete="off" />
+					<Input :disabled = 'currentMeetid !== -1'  v-model="formAdmin.username" placeholder="会议名称" autocomplete="off" />
 				</FormItem>
 				<FormItem label="说明：" prop="meetremarks">
 					<Input v-model="formAdmin.meetremarks" placeholder="说明" autocomplete="off" />
@@ -23,7 +23,19 @@
 				<FormItem label="时间：" prop="meetremarks">
 					<DatePicker style="width:100%" v-model="formAdmin.datetimes" :value="formAdmin.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
 				</FormItem>
-				
+
+				<FormItem label="banner图 ：" prop="bannerurl">
+					<div id="wm-upload" class="wm-upload">
+						
+					</div>
+				</FormItem>
+
+				<FormItem label="状态：" prop="status">
+					<i-switch v-model="formAdmin.status" size="large">
+						<span slot="open">可用</span>
+						<span slot="close">禁用</span>
+					</i-switch>
+				</FormItem>
 			</Form>
 		</Modal>
 
@@ -47,15 +59,17 @@
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
+				
 				isLoading:false,
-				currentUserId:-1,
+				currentMeetid:-1,
 				split1: 0.8,
 				showPass:false,
 				viewH:window.innerHeight,
 
 				formAdmin:{
 					datetimes:[],
-					cityids:[]
+					cityids:[],
+					status:true
 				},
 				userList:[],
 				columns:[
@@ -69,6 +83,14 @@
 						title:"说明",
 						key:'meetremarks',
 						align:'center'
+					},{
+						title:'状态',
+						key:'status',
+						align:'center',
+						render:(h,params)=>{
+							
+							return h('div',{},params.row.status ? '启用':'禁用');
+						},
 					},{
 						title:'操作',
 						key:"action",
@@ -92,9 +114,14 @@
 
                                     },
                                     on: {
-                                        click: () => {
-											this.currentUserId = params.row.userid;
+                                        click: (e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											this.currentMeetid = params.row.meetid;
 											this.formAdmin = params.row;
+											this.formAdmin.username =  params.row.meetname;
+											this.formAdmin.status = !!params.row.status;
+											
 											this.formAdmin.datetimes = [params.row.startdate,params.row.enddate];
 											this.visible = true;
                                         }
@@ -118,7 +145,9 @@
 											size: 'small'
 										},
 										on: {
-											click: () => {
+											click: (e) => {
+												
+												return false;
 												
 												//this.remove(params.index,params.row.employeeid)
 											}
@@ -142,7 +171,7 @@
                                     },
                                     on: {
                                         click: () => {
-											/*this.currentUserId = params.row.userid;
+											/*this.currentMeetid = params.row.userid;
 											this.formAdmin = params.row;
 											this.visible = true;*/
 
@@ -174,9 +203,136 @@
 			this.userinfo = symbinUtil.getUserInfo();
 			//this.getCityData();
 			this.getmeetinglist();
+			this.upload();
 		},
 		
 		methods:{
+
+			upload(){
+
+				
+				var s = this;
+				 
+				var p = {
+						/* username:s.userinfo.username,
+						usertoken:s.userinfo.accesstoken,
+						resourceid:id,
+						uploadfilename:s.formUpload.filetitle,
+						filedesc:s.formUpload.filedesc,
+						publicadtype:s.menus[s.currentType],
+						userlabel:s.formUpload.tagList.concat([]).join(','),
+						author:s.formUpload.author,
+						telphone:s.formUpload.telphone,
+						previewurl:s.formUpload.previewurl */
+						companyid:'company'+s.userinfo.companyid,
+						projectclassname:'meetingsystem',
+						projectsubclassname:'project'+s.currentMeetid,
+						uploadpath:'2018upload',
+						userid:s.userinfo.userid
+
+				}
+				this.p = p;
+				if(s.uploader){
+					return;
+					//s.uploader.destroy();
+				}
+				var accepts  =  s.accepts;
+				var uploader = WebUploader.create({
+					// 选完文件后，是否自动上传。
+					auto: true,
+					// swf文件路径
+					swf: './webuploader-0.1.5/Uploader.swf',
+					// 文件接收服务端。
+					//server: 'http://api.zmiti.com/v2/fileupload',
+					server: window.config.baseUrl+'/wmshare/uploadfile/',
+					// 选择文件的按钮。可选。
+					// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+					pick: '.wm-upload',
+					chunked: true, //开启分片上传
+					threads: 1, //上传并发数
+					method: 'POST',
+					compress:false,
+					prepareNextFile:true,//是否允许在文件传输时提前把下一个文件准备好。 对于一个文件的准备工作比较耗时，比如图片压缩，md5序列化。 如果能提前在当前文件传输期处理，可以节省总体耗时。
+					formData:p,
+					accept:'gif,jpg,jpeg,bmp,png,tiff,tif',
+					//dnd:'.wm-myreport-left',
+					disableGlobalDnd :true,//是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
+				});
+				uploader.on('dndAccept',(file,a)=>{
+					if(accepts[s.currentType].extensions.indexOf(file['0'].type.split('/')[1])<=-1){
+						s.$Message.error('目前不支持'+file['0'].type.split('/')[1]+'文件格式');
+					}
+				})
+
+				uploader.on("beforeFileQueued",function(file){
+					/* if(accepts[s.currentType].extensions.indexOf(file['type'].split('/')[1])<=-1){
+						s.$Message.error('当前文件格式不支持');
+						return;
+					} */
+					 
+				});
+
+				s.uploader = uploader;
+
+				// 当有文件添加进来的时候
+				var i = 0;
+				uploader.on('fileQueued', function (file) {
+					uploader.upload();
+					 
+				});
+				// 文件上传过程中创建进度条实时显示。
+				/* uploader.on('uploadProgress', function (file, percentage) {
+
+					
+					var index = -1;
+					var scale = (percentage * 100|0);
+					s.reportList.forEach((item,i)=>{
+						if(item.reportid === file.id){
+							index = i;
+							item.process = scale + '%';
+							if(scale >=100){
+								setTimeout(()=>{
+									item.isLoaded = true;
+									s.reportList = s.reportList.concat([]);
+								},500)
+							}
+						}
+					});
+				 
+				}); */
+
+				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+				uploader.on('uploadSuccess', function (file) {
+					console.log('success')
+				//	$('#' + file.id).addClass('upload-state-done');
+				});
+
+				// 文件上传失败，显示上传出错。
+				uploader.on('uploadError', function (file) {
+					console.log('error')
+					//$('#' + file.id).find('p.state').text('上传出错');
+				});
+
+				// 完成上传完了，成功或者失败，先删除进度条。
+				var iNow = 0;
+				uploader.on('uploadComplete', function (file) {
+					iNow++;
+					if(iNow === i){
+						console.log(file)
+					}
+					//
+				
+				});
+				
+			},
+
+			entry(e,index){
+				Vue.obserable.on('getMeetName',()=>{
+					return e.meetname;
+				});
+				
+				this.$router.push("/meetingsignup/"+e.meetid+'/'+e.meetname);
+			},
 			 
 			modifyPass(){
 				if(!this.showPass){
@@ -228,7 +384,7 @@
 			},
 
 			addNewAduser(){
-				this.currentUserId = -1;
+				this.currentMeetid = -1;
 				this.formAdmin = {
 					userpwd:'111111'
 				};
@@ -262,10 +418,10 @@
 
 			addadUser(){
 			},
-			ok(){
+			meetAction(){
 				var s = this;
 
-				if(s.currentUserId<=-1){	
+				if(s.currentMeetid<=-1){	
 
 					symbinUtil.ajax({
 						_this:s,
@@ -275,7 +431,7 @@
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
 							meetname:s.formAdmin.username,
-							status:1,
+							status:s.formAdmin.status|0,
 							meetremarks:s.formAdmin.meetremarks,
 							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
 							enddate:new Date(s.formAdmin.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
@@ -291,23 +447,23 @@
 	
 					})
 				}else{
+					console.log(s.formAdmin);
+					
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntinfo/',
+						url:window.config.baseUrl+'/zmitiadmin/updatemeet/',
 						//validate:s.validate,
 						data:{
 							username:s.formAdmin.username,
-							studentname:s.formAdmin.studentname,
-							userid:s.currentUserId,
+							meetname:s.formAdmin.meetname,
+							meetid:s.currentMeetid,
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
-							provinceid:s.formAdmin.cityids[0],
-							cityid:s.formAdmin.cityids[1],
-							areaid:s.formAdmin.cityids[2],
-							detailaddress:s.formAdmin.detailaddress,
-							mobile:s.formAdmin.mobile,
-							email:s.formAdmin.email,
-							companyname:s.formAdmin.companyname,
+							status:s.formAdmin.status|0,
+							meetremarks:s.formAdmin.meetremarks,
+							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
+							enddate:new Date(s.formAdmin.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
+						 
 							 
 						},success(data){
 							if(data.getret === 0){
@@ -323,7 +479,7 @@
 				
 			},
 			cancel(){
-				this.formUser = {};
+				this.formAdmin = {};
 			}
 		}
 	}

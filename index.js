@@ -9,6 +9,7 @@ import Login from './components/login/index';
 import Attendance from './components/attendance/index';
 import Meeting from './components/meeting/index';
 import Teacher from './components/teacher/index';
+import Signup from './components/signup/index';
 import Adminuser from './components/adminuser/index';
 //import Collection from './components/collection/index';
 import iView from 'iview';
@@ -48,8 +49,8 @@ const router = new VueRouter({
 			props: true
 		},
 		{
-			path: '/news/',
-			name: 'news',
+			path: '/meetingnews/:meetid/:meetname?/',
+			name: 'meetingnews',
 			component: News,
 			props: true
 		},  {
@@ -58,8 +59,8 @@ const router = new VueRouter({
 			component: Meeting,
 			props: true
 		}, {
-			path: '/class/',
-			name: 'class',
+			path: '/meetingclass/:meetid/:meetname?/',
+			name: 'meetingclass',
 			component: Class,
 			props: true
 		},  {
@@ -74,12 +75,16 @@ const router = new VueRouter({
 			props: true
 		
 		}, {
-			path: '/attendance/',
-			name: 'attendance',
+			path: '/meetingattendance/:meetid/:meetname?/',
+			name: 'meetingattendance',
 			component: Attendance,
 			props: true
+		}, {
+			path: '/meetingsignup/:meetid/:meetname?/',
+			name: 'meetingsignup',
+			component:Signup,
+			props: true
 		}
-
 	]
 });
 

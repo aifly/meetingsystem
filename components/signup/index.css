@@ -1,0 +1,117 @@
+/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {
+    background-color: #fff;
+    border-color: #bf1616;
+    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);
+}*/
+.lt-full {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.zmiti-text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-text-overflow: ellipsis;
+}
+
+.zmiti-play {
+  width: .8rem;
+  height: .8rem;
+  border-radius: 50%;
+  position: fixed;
+  z-index: 1000;
+  right: .5rem;
+  top: .5rem;
+}
+
+.zmiti-play.rotate {
+  -webkit-animation: rotate 5s linear infinite;
+  animation: rotate 5s linear infinite;
+}
+
+.symbin-left {
+  float: left !important;
+}
+
+.symbin-right {
+  float: right !important;
+}
+
+@-webkit-keyframes rotate {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.wm-signup-ui,
+.wm-news-main-ui,
+.wm-class-main-ui,
+.wm-attendance-ui {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+}
+
+.wm-signup-ui > div:nth-of-type(1),
+.wm-news-main-ui > div:nth-of-type(1),
+.wm-class-main-ui > div:nth-of-type(1),
+.wm-attendance-ui > div:nth-of-type(1) {
+  width: 200px;
+}
+
+.wm-signup-ui .wm-tab-content,
+.wm-news-main-ui .wm-tab-content,
+.wm-class-main-ui .wm-tab-content,
+.wm-attendance-ui .wm-tab-content {
+  box-sizing: border-box;
+  flex: 1;
+  -webkit-flex: 1;
+}
+
+.wm-signup-ui .wm-tab-content > div,
+.wm-news-main-ui .wm-tab-content > div,
+.wm-class-main-ui .wm-tab-content > div,
+.wm-attendance-ui .wm-tab-content > div {
+  width: 98%;
+  margin: 10px auto 10px;
+}
+
+.wm-signup-ui .wm-tab-content .wm-signup-wrap,
+.wm-news-main-ui .wm-tab-content .wm-signup-wrap,
+.wm-class-main-ui .wm-tab-content .wm-signup-wrap,
+.wm-attendance-ui .wm-tab-content .wm-signup-wrap {
+  margin: 50px auto;
+  width: 500px;
+}
+
+.wm-signup-ui .wm-tab-content .wm-signup-item,
+.wm-news-main-ui .wm-tab-content .wm-signup-item,
+.wm-class-main-ui .wm-tab-content .wm-signup-item,
+.wm-attendance-ui .wm-tab-content .wm-signup-item {
+  line-height: 40px;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  margin: 10px 0;
+}
+
+.wm-signup-ui .wm-tab-content .wm-signup-item > div,
+.wm-news-main-ui .wm-tab-content .wm-signup-item > div,
+.wm-class-main-ui .wm-tab-content .wm-signup-item > div,
+.wm-attendance-ui .wm-tab-content .wm-signup-item > div {
+  margin-right: 10px;
+}
+
+.wm-signup-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
+.wm-news-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
+.wm-class-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
+.wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {
+  width: 80px;
+  text-align: right;
+}

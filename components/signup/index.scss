@@ -1,0 +1,48 @@
+﻿@import "../css/base.scss";
+
+$baseColor: #fcffb4;
+$viewW: 750px;
+$color: #be0000;
+
+.wm-signup-ui,
+.wm-news-main-ui,
+.wm-class-main-ui,
+.wm-attendance-ui {
+
+    @include displayFlex(row);
+    &>div{
+        &:nth-of-type(1){
+            width: 200px;
+        }
+    }
+    .wm-tab-content{
+        box-sizing: border-box;
+        flex:1;
+        -webkit-flex:1;
+
+        &>div{
+            width: 98%;
+            margin: 10px auto 10px;
+        }
+
+        .wm-signup-wrap{
+            margin: 50px auto;
+            width: 500px;
+        }
+
+        .wm-signup-item{
+            line-height: 40px;
+            @include displayFlex(row);
+            margin: 10px 0;
+            &>div{
+                margin-right: 10px;
+                &:nth-of-type(1){
+                    width: 80px;
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+   
+}

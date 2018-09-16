@@ -1,51 +1,11 @@
 <template>
-	<div class="wm-student-main-ui">
-		<header>
-			<div>用户管理</div>
-			<section>
-				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增学员</Button>
-			</section>
-		</header>
-		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
-
-		<Modal
-			v-model="visible"
-			:title="currentUserId === -1? '新增用户':'编辑用户'"
-			@on-ok="ok"
-			@on-cancel="cancel">
-			<Form ref="formAdmin" :model="formAdmin" :label-width="82" >
-				<FormItem label="账号：" prop="ratername">
-					<Input :disabled = 'currentUserId !== -1'  v-model="formAdmin.username" placeholder="账号" autocomplete="off" />
-				</FormItem>
-				<FormItem label="密码：" prop="userpwd">
-					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
-					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
-				</FormItem>
-				<FormItem label="手机号：" prop="mobile">
-					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
-				</FormItem>
-
-				<FormItem label="公司名称：" prop="companyname">
-					<Input v-model="formAdmin.companyname" placeholder="公司名称" autocomplete="off" />
-				</FormItem>
+	<div class="wm-attendance-ui">
+		<div>
+			<Tab></Tab>
+		</div>
+		<div class="wm-tab-content">
 			
-				<FormItem label="昵称：" prop="studentname">
-					<Input v-model="formAdmin.studentname" placeholder="昵称" autocomplete="off" />
-				</FormItem>
-				<FormItem label="邮箱：" prop="email">
-					<Input v-model="formAdmin.email" placeholder="邮箱" autocomplete="off" />
-				</FormItem>
-				<FormItem label="地址：" prop="cityids">
-					<Cascader v-model="formAdmin.cityids"  :load-data="getCityById"  change-on-select :data='provinceList'></Cascader>
-				</FormItem>
-
-				<FormItem label="详细地址：" prop="studentname">
-					<Input type="textarea" v-model="formAdmin.detailaddress"></Input>
-				</FormItem>
-			</Form>
-		</Modal>
-
-		 
+		</div>
 	</div>
 </template>
 
@@ -54,6 +14,8 @@
 	import sysbinVerification from '../lib/verification';
 	import symbinUtil from '../lib/util';
 	import Vue from 'vue';
+
+	import Tab from '../commom/tab/index';
 	
 
 	export default {
@@ -62,18 +24,6 @@
 		data(){
 			return{
 				content:"",
-				editorOption:{
-					modules:{
-                        toolbar:[
-						  ['bold', 'italic', 'underline','code', 'strike','color','link'],        // toggled buttons
-						  [{size:['small',false,'large','huge','12']}],//'12','14',false,'16','18','20','22','24'
-						  [{ 'color': [] }],
-						  [{ 'align': [] }],
-						  [{list:'ordered'},{list:'bullet'}],
-                          ['code-block','image','video','clean']
-                        ]
-                    }
-				},
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -88,110 +38,14 @@
 					cityids:[]
 				},
 				userList:[],
-				columns:[
-					{
-						title:"用户名",
-						key:'username',
-						align:'center'
-						
-					},
-					{
-						title:"昵称",
-						key:'studentname',
-						align:'center'
-					},{
-						title:'操作',
-						key:"action",
-						align:'center',
-						render:(h,params)=>{
-							return h('div', [
-                               
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-										margin: '2px 5px',
-										border:'none',
-										background:'#fab82e',
-										color:'#fff',
-										padding: '3px 7px 2px',
-										fontSize: '12px',
-										borderRadius: '3px'
-
-                                    },
-                                    on: {
-                                        click: () => {
-											this.currentUserId = params.row.userid;
-											this.formAdmin = params.row;
-											this.formAdmin.cityids = [params.row.provinceid*1,params.row.cityid*1,params.row.areaid*1];
-											this.visible = true;
-                                        }
-                                    }
-                                }, '编辑'),
-                                h('Poptip',{
-									props:{
-										confirm:true,
-										title:"确定要删除吗"
-									},
-									on:{
-										'on-ok':()=>{
-											this.delAdUser(params.row.userid);
-										},
-										
-									}
-								},[
-									h('Button', {
-										props: {
-											type: 'error',
-											size: 'small'
-										},
-										on: {
-											click: () => {
-												
-												//this.remove(params.index,params.row.employeeid)
-											}
-										}
-									}, '删除')
-								]), h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-										display:"none",
-										margin: '2px 5px',
-										border:'none',
-										background:params.row.status*1 === 0 ? 'rgb(2, 29, 236)':'#b20000',
-										color:'#fff',
-										padding: '3px 7px 2px',
-										fontSize: '12px',
-										borderRadius: '3px'
-
-                                    },
-                                    on: {
-                                        click: () => {
-											/*this.currentUserId = params.row.userid;
-											this.formAdmin = params.row;
-											this.visible = true;*/
-
-											this.checkUser(params);
-
-											
-                                        }
-                                    }
-                                }, params.row.status*1 === 1 ? '撤销':"审核"),
-                            ]);
-						}
-					}
-				],
+				 
 
 				
 				userinfo:{}
 			}
 		},
 		components:{
+			Tab
 		},
 
 		beforeCreate(){
@@ -202,8 +56,7 @@
 		},
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
-			this.getCityData();
-			this.getaduserlist();
+			
 		},
 		
 		methods:{

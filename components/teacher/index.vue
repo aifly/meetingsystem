@@ -67,14 +67,7 @@
 						key:'accounts',
 						align:'center',
 					},
-					{
-						title:'姓别',
-						key:'sex',
-						align:'center',
-						render:(h,params)=>{
-							return h('div',{},params.row.sex === 1 ? '男':'女')
-						}
-					},
+					
 					{
 						title:"昵称",
 						key:'nickname',
@@ -83,6 +76,13 @@
 						title :'手机号',
 						key:'mobile',
 						align:'center'
+					},{
+						title:'姓别',
+						key:'sex',
+						align:'center',
+						render:(h,params)=>{
+							return h('div',{},params.row.sex === 1 ? '男':'女')
+						}
 					},{
 						title:'操作',
 						key:"action",
