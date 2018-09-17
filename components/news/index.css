@@ -8,16 +8,14 @@
   height: 100%;
   position: absolute;
   left: 0;
-  top: 0;
-}
+  top: 0; }
 
 .zmiti-text-overflow {
   overflow: hidden;
   white-space: nowrap;
   word-break: break-all;
   text-overflow: ellipsis;
-  -webkit-text-overflow: ellipsis;
-}
+  -webkit-text-overflow: ellipsis; }
 
 .zmiti-play {
   width: .8rem;
@@ -26,29 +24,21 @@
   position: fixed;
   z-index: 1000;
   right: .5rem;
-  top: .5rem;
-}
-
-.zmiti-play.rotate {
-  -webkit-animation: rotate 5s linear infinite;
-  animation: rotate 5s linear infinite;
-}
+  top: .5rem; }
+  .zmiti-play.rotate {
+    -webkit-animation: rotate 5s linear infinite;
+    animation: rotate 5s linear infinite; }
 
 .symbin-left {
-  float: left !important;
-}
+  float: left !important; }
 
 .symbin-right {
-  float: right !important;
-}
+  float: right !important; }
 
 @-webkit-keyframes rotate {
   to {
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
+    transform: rotate(360deg); } }
 .wm-student-main-ui > header {
   background: #fff;
   height: 50px;
@@ -58,55 +48,77 @@
   display: -webkit-flex;
   flex-flow: row;
   justify-content: space-between;
-  -webkit-justify-content: space-between;
-}
-
-.wm-student-main-ui > header > section {
-  margin-right: 30px;
-}
-
-.wm-student-main-ui > header > div {
-  font-size: 20px;
-  margin-left: 40px;
-  position: relative;
-}
-
-.wm-student-main-ui > header > div:before {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 20px;
-  background: #cc0000;
-  top: 15px;
-  left: -10px;
-}
-
+  -webkit-justify-content: space-between; }
+  .wm-student-main-ui > header > section {
+    margin-right: 30px; }
+  .wm-student-main-ui > header > div {
+    font-size: 20px;
+    margin-left: 40px;
+    position: relative; }
+    .wm-student-main-ui > header > div:before {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: #cc0000;
+      top: 15px;
+      left: -10px; }
 .wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {
-  left: 30px;
-}
+  left: 30px; }
+
+.wm-news-form-item {
+  width: 100%; }
+  .wm-news-form-item .ivu-form-item-content {
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row; }
+    .wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name {
+      margin-left: 100px;
+      position: relative; }
+      .wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-remove-encryptfile {
+        border: 1px solid red;
+        position: absolute;
+        right: -20px;
+        top: -10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        background: #be0000;
+        cursor: pointer; }
+        .wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-remove-encryptfile:before, .wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-remove-encryptfile:after {
+          content: '';
+          width: 2px;
+          height: 10px;
+          background: #fff;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%); }
+        .wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-remove-encryptfile:after {
+          width: 10px;
+          height: 2px; }
 
 .wm-news-encryptfile {
   width: 300px;
-  position: relative;
-}
-
-.wm-news-encryptfile .news-encryptfile {
-  position: absolute;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.wm-news-encryptfile .news-encryptfile > div {
-  position: absolute;
-  width: 100% !important;
-  height: 100% !important;
-  z-index: 100;
-  opacity: 0;
-  cursor: pointer;
-}
+  position: relative; }
+  .wm-news-encryptfile .news-encryptfile {
+    position: absolute;
+    width: 100% !important;
+    height: 100% !important; }
+    .wm-news-encryptfile .news-encryptfile > div {
+      position: absolute;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 100;
+      opacity: 0;
+      cursor: pointer; }
 
 .quill-editor {
   min-height: 200px;
   height: 200px;
-  margin-bottom: 40px;
-}
+  margin-bottom: 40px; }
+
+/*# sourceMappingURL=index.css.map */

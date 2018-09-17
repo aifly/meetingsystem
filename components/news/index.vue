@@ -45,15 +45,16 @@
 							</quill-editor>
 					</FormItem>
 					
-					<FormItem label="保密文件：" prop="encryptfile">
+					<FormItem label="保密文件：" prop="encryptfile" class='wm-news-form-item'>
 						<div class="wm-news-encryptfile">
 							<div class=" news-encryptfile">
 
 							</div>
-							<Button icon="ios-cloud-upload-outline">上传保密文件</Button>(保密文件仅支持pdf文件)
+							<Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件)
 						</div>
-						<div>
-
+						<div class="wm-news-encryptfile-name">
+							<span v-if='formNews.pdfurl' v-html='formNews.pdfurl.split("/").pop()'></span>
+							<span v-if='formNews.pdfurl' @click='delencryptfile' class="wm-news-remove-encryptfile"></span>
 						</div>
 					</FormItem>
 
@@ -129,7 +130,7 @@
                     ]
 				},
 				formNews:{
-					
+					pdfurl:'wm-news-remove-encryptfile.pdf'	
 				},
 				userList:[],
 				 
@@ -162,26 +163,51 @@
 			this.getNewsList();
 			this.getNewsTypeList();
 			this.upload({
-				pick:'.news-encryptfile'
+				pick:'.news-encryptfile',
+				 
+			});
+			this.upload({
+				pick:'.wm-upload',
+				accept:{
+					title: 'All',
+					extensions: 'doc,docx,pdf,xls,slsx',
+					mimeTypes: '*/*'
+				}
 			});
 		},
 		
 		methods:{
 
-			addNews(){
 
+			delencryptfile(){
+				this.formNews.pdfurl  = '';
+			},
+
+			addNews(){
+				var s = this;
+				var p = this.formNews;
+				p.admintoken = s.userinfo.accesstoken;
+				p.adminuserid = s.userinfo.userid;
+				p.meetid = s.$route.params.meetid;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/addnews',
+					data:p,
+					success(data){
+						console.log(data);
+					}
+				})
 			},
 			
 
 			upload(option = {}){
 
-				
+				window.ss = this;
 				var s = this;
 				 
 				var p = this.directoryList;
 				this.p = p;
 				if(s.uploader){
-					s.uploader.destroy();
+					//s.uploader.destroy();
 				}
 				var accepts  =  s.accepts;
 				var uploader = WebUploader.create({
@@ -200,7 +226,7 @@
 					compress:false,
 					prepareNextFile:true,//是否允许在文件传输时提前把下一个文件准备好。 对于一个文件的准备工作比较耗时，比如图片压缩，md5序列化。 如果能提前在当前文件传输期处理，可以节省总体耗时。
 					formData:p,
-					accept:{
+					accept:option.accept||{
 						title: 'All',
 						extensions: 'pdf',
 						mimeTypes: '*/*'
@@ -242,8 +268,14 @@
 
 				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
 				uploader.on('uploadSuccess', function (file,data) {
-					console.log(file);
+					console.log(file,data,option);
 					if(data.getret === 0){
+						if(option.pick === '.news-encryptfile'){//加密文件
+							s.formNews.pdfurl = data.fileurl;
+
+						}else if(option.pick === '.wm-upload'){
+							s.formNews.download += ','+data.fileurl;
+						}
 						//s.formNews.bannerurl = data.fileurl;
 					}
 				//	$('#' + file.id).addClass('upload-state-done');
