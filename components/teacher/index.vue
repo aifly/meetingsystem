@@ -9,7 +9,7 @@
 		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='teacherList' :columns='columns'   stripe></Table>
 		<Modal
 			v-model="visible"
-			:title="teatherid === -1? '新增教师':'编辑教师'"
+			:title="teacherid === -1? '新增教师':'编辑教师'"
 			@on-ok="ok"
 			@on-cancel="cancel">
 			<Form ref="formAdmin" :model="formAdmin" :label-width="72" >
@@ -26,7 +26,7 @@
 				</FormItem>
 				<FormItem label="密码：" prop="teacherpwd">
 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.teacherpwd" placeholder="密码" autocomplete="off" />
-					<Button :disabled='teatherid === -1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
+					<Button :disabled='teacherid === -1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 				</FormItem>
 				<FormItem label="昵称：" prop="nickname">
 					<Input v-model="formAdmin.nickname" placeholder="昵称" autocomplete="off" />
@@ -57,7 +57,7 @@
 				split1: 0.8,
 				showPass:false,
 				viewH:window.innerHeight,
-				teatherid:-1,
+				teacherid:-1,
 				formAdmin:{
 					teacherpwd:'111111'
 				},
@@ -106,9 +106,8 @@
                                     },
                                     on: {
                                         click: () => {
-											console.log(params.row);
 											this.formAdmin = params.row;
-											this.teatherid = params.row.teatherid;
+											this.teacherid = params.row.teacherid;
 											this.visible = true;
                                         }
                                     }
@@ -173,11 +172,11 @@
 					var s = this;
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/wmadadmin/updatereviewpwd',
+						url:window.config.baseUrl+'/zmitiadmin/updateteacherpwd',
 						data:{
-							admintoken:s.userinfo.admintoken,
-							adminusername:s.userinfo.adminusername,
-							raterid:s.formAdmin.raterid,
+							admintoken:s.userinfo.accesstoken,
+					    	adminuserid:s.userinfo.userid,
+							teacherid:s.teacherid,
 							teacherpwd:s.formAdmin.teacherpwd
 						},
 						success(data){
@@ -190,7 +189,7 @@
 				this.formAdmin = {
 					teacherpwd:'111111'
 				}
-				this.teatherid = -1;
+				this.teacherid = -1;
 				this.visible = true;
 			},
 			getTeacherList(){
@@ -240,7 +239,7 @@
 			ok(){
 				
 				var s = this;
-				if(s.teatherid<=-1){
+				if(s.teacherid<=-1){
 					symbinUtil.ajax({
 						_this:s,
 						url:window.config.baseUrl+'/zmitiadmin/addteacher/',
@@ -281,7 +280,7 @@
 							nickname:s.formAdmin.nickname,
 							mobile:s.formAdmin.mobile,
 							realname:s.formAdmin.realname,
-							teatherid:s.teatherid,
+							teacherid:s.teacherid,
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);

@@ -14,8 +14,8 @@
 			@on-ok="meetAction"
 			@on-cancel="cancel">
 			<Form ref="formAdmin" :model="formAdmin" :label-width="88" >
-				<FormItem label="会议名称：" prop="username">
-					<Input :disabled = 'currentMeetid !== -1'  v-model="formAdmin.username" placeholder="会议名称" autocomplete="off" />
+				<FormItem label="会议名称：" prop="meetname">
+					<Input  v-model="formAdmin.meetname" placeholder="会议名称" autocomplete="off" />
 				</FormItem>
 				<FormItem label="说明：" prop="meetremarks">
 					<Input v-model="formAdmin.meetremarks" placeholder="说明" autocomplete="off" />
@@ -24,9 +24,13 @@
 					<DatePicker style="width:100%" v-model="formAdmin.datetimes" :value="formAdmin.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
 				</FormItem>
 
-				<FormItem label="banner图 ：" prop="bannerurl">
+				<FormItem label="banner图 ：" v-show='currentMeetid>-1' prop="bannerurl">
+					
 					<div id="wm-upload" class="wm-upload">
 						
+					</div>
+					<div class="wm-meeting-banner" v-if='formAdmin.bannerurl' :style="{background:'url('+formAdmin.bannerurl+') no-repeat center',backgroundSize:'contain'}">
+
 					</div>
 				</FormItem>
 
@@ -69,7 +73,8 @@
 				formAdmin:{
 					datetimes:[],
 					cityids:[],
-					status:true
+					status:true,
+					bannerurl:'',
 				},
 				userList:[],
 				columns:[
@@ -119,7 +124,7 @@
 											e.stopPropagation();
 											this.currentMeetid = params.row.meetid;
 											this.formAdmin = params.row;
-											this.formAdmin.username =  params.row.meetname;
+											this.formAdmin.meetname =  params.row.meetname;
 											this.formAdmin.status = !!params.row.status;
 											
 											this.formAdmin.datetimes = [params.row.startdate,params.row.enddate];
@@ -210,7 +215,7 @@
 			this.userinfo = symbinUtil.getUserInfo();
 			//this.getCityData();
 			this.getmeetinglist();
-			
+			window.meeting = this;
 		},
 		
 		methods:{
@@ -221,7 +226,7 @@
 				var s = this;
 				 
 				var p = {
-						/* username:s.userinfo.username,
+						/* meetname:s.userinfo.meetname,
 						usertoken:s.userinfo.accesstoken,
 						resourceid:id,
 						uploadfilename:s.formUpload.filetitle,
@@ -293,24 +298,15 @@
 					
 					var index = -1;
 					var scale = (percentage * 100|0);
-					s.reportList.forEach((item,i)=>{
-						if(item.reportid === file.id){
-							index = i;
-							item.process = scale + '%';
-							if(scale >=100){
-								setTimeout(()=>{
-									item.isLoaded = true;
-									s.reportList = s.reportList.concat([]);
-								},500)
-							}
-						}
-					});
+					 
 				 
 				}); */
 
 				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
-				uploader.on('uploadSuccess', function (file) {
-					console.log('success')
+				uploader.on('uploadSuccess', function (file,data) {
+					if(data.getret === 0){
+						s.formAdmin.bannerurl = data.fileurl;
+					}
 				//	$('#' + file.id).addClass('upload-state-done');
 				});
 
@@ -323,9 +319,13 @@
 				// 完成上传完了，成功或者失败，先删除进度条。
 				var iNow = 0;
 				uploader.on('uploadComplete', function (file) {
+					console.log(file);
+					if(file.getret === 0){
+						s.formAdmin.bannerurl = file.fileurl;
+					}
 					iNow++;
 					if(iNow === i){
-						console.log(file)
+						
 					}
 					//
 				
@@ -437,7 +437,7 @@
 						data:{
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
-							meetname:s.formAdmin.username,
+							meetname:s.formAdmin.meetname,
 							status:s.formAdmin.status|0,
 							meetremarks:s.formAdmin.meetremarks,
 							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
@@ -461,12 +461,13 @@
 						url:window.config.baseUrl+'/zmitiadmin/updatemeet/',
 						//validate:s.validate,
 						data:{
-							username:s.formAdmin.username,
+							meetname:s.formAdmin.meetname,
 							meetname:s.formAdmin.meetname,
 							meetid:s.currentMeetid,
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
 							status:s.formAdmin.status|0,
+							bannerurl:s.formAdmin.bannerurl,
 							meetremarks:s.formAdmin.meetremarks,
 							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
 							enddate:new Date(s.formAdmin.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')

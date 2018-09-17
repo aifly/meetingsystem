@@ -4,6 +4,12 @@
 			<Tab></Tab>
 		</div>
 		<div class="wm-tab-content">
+			<header class="wm-tab-header">
+				<div>报名签到管理</div>
+				<div>
+					<Button v-if='false' type="primary">报名签到管理</Button>
+				</div>
+			</header>
 			<div v-if='currentUserId<=-1'>
 				<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 			</div>
@@ -75,7 +81,7 @@
 				passError:"",
 				repassError:"",
 				mobileError:"",
-				currentUserId:1,
+				currentUserId:-1,
 
 				columns:[
 					{
@@ -101,6 +107,18 @@
 							
 							return h('div',{},params.row.status===0 ?'未审核':params.row.status ===  1 ?'已审核':'未通过');
 						},
+					},{
+						title:'操作',
+						key:'action',
+						align:'center',
+						render(h,params){
+							return h('div',{
+								style:{
+									cursor:'pointer',
+									color:'#f90'
+								}
+							},'详情');
+						}
 					}
 				],
 

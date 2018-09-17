@@ -72,6 +72,9 @@
   box-sizing: border-box;
   flex: 1;
   -webkit-flex: 1;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column;
 }
 
 .wm-signup-ui .wm-tab-content > div,
@@ -80,6 +83,59 @@
 .wm-attendance-ui .wm-tab-content > div {
   width: 98%;
   margin: 10px auto 10px;
+  border: 1px solid #ddd;
+  position: relative;
+  flex: 1;
+  -webkit-flex: 1;
+  overflow: auto;
+}
+
+.wm-signup-ui .wm-tab-content > div .wm-meet-form,
+.wm-news-main-ui .wm-tab-content > div .wm-meet-form,
+.wm-class-main-ui .wm-tab-content > div .wm-meet-form,
+.wm-attendance-ui .wm-tab-content > div .wm-meet-form {
+  width: 100%;
+  margin: 0px auto;
+  padding: 20px 40px;
+  height: 600px;
+  overflow: auto;
+}
+
+.wm-signup-ui .wm-tab-content .wm-tab-header,
+.wm-news-main-ui .wm-tab-content .wm-tab-header,
+.wm-class-main-ui .wm-tab-content .wm-tab-header,
+.wm-attendance-ui .wm-tab-content .wm-tab-header {
+  width: 50px;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  width: 100%;
+  padding: 0 20px;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  line-height: 50px;
+  font-size: 20px;
+}
+
+.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
+.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
+.wm-class-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
+.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {
+  position: relative;
+  text-indent: .5em;
+}
+
+.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
+.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
+.wm-class-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
+.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: #be0000;
+  left: -4px;
+  position: absolute;
+  top: 12px;
 }
 
 .wm-signup-ui .wm-tab-content .wm-signup-wrap,

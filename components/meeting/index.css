@@ -85,6 +85,14 @@
   left: 30px;
 }
 
+.wm-meeting-banner {
+  width: 280px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .wm-upload {
   height: 100px;
   width: 100px;

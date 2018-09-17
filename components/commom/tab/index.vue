@@ -3,7 +3,7 @@
         <ul :style="{height:viewH - 64+'px'}" class="wm-tab-list" >
 			<li>{{meetname||$route.params.meetname}}</li>
             <li v-for="(menu ,i ) in menus " :key="i" :class="{'active':menu.to ===$route.name }">
-				<router-link :to="'/'+menu.to+'/'+$route.params.meetid+'/'"> {{menu.name}}</router-link>
+				<router-link :to="'/'+menu.to+'/'+$route.params.meetid+'/'+(meetname||$route.params.meetname)"> {{menu.name}}</router-link>
             </li>
         </ul>
     </div>
