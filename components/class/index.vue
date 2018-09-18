@@ -140,6 +140,8 @@
 											s.showDetail = true;
 											s.formClass = params.row;
 											s.currentClassId = params.row.syllabusid;
+											s.formClass.lessonstarttime = new Date(s.formClass.lessonstarttime);
+											s.formClass.lessonendtime = new Date(s.formClass.lessonendtime);
                                         }
                                     }
                                 }, '详情'),
@@ -260,12 +262,20 @@
 				p.meetid = s.$route.params.meetid;
 				p.lessonstarttime =  new Date(s.formClass.lessonstarttime).getTime()/1000;
 				p.lessonendtime =  new Date(s.formClass.lessonendtime).getTime()/1000;
+
+				var url = window.config.baseUrl+'/zmitiadmin/addcourse';
+				if(s.currentClassId>-1){
+					url = window.config.baseUrl+'/zmitiadmin/updatecourse';
+					p.syllabusid = s.currentClassId;
+				}
+
 				symbinUtil.ajax({
-					url:window.config.baseUrl+'/zmitiadmin/addcourse',
+					url,
 					data:p,
 					success(data){
 						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
-						console.log(data);
+						s.showDetail = false;
+						s.getClassList();
 					}
 				})
 			},
