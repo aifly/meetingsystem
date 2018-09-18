@@ -152,7 +152,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											//this.delAdUser(params.row.userid);
+											this.delClass(params.row.syllabusid);
 										},
 										
 									}
@@ -253,7 +253,23 @@
 			delencryptfile(){
 				this.formClass.pdfurl  = '';
 			},
-
+			delClass(syllabusid){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/delcourse',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						syllabusid
+					},
+					success(data){
+						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
+						if(data.getret === 0){
+							s.getClassList();
+						}
+					}
+				})
+			},
 			classAction(){
 				var s = this;
 				var p = JSON.parse(JSON.stringify(this.formClass));
@@ -284,30 +300,7 @@
 			
 			
 
-		 
-			delAdUser(userid){
-				var s = this;
-				symbinUtil.ajax({
-					_this:s,
-					url:window.config.baseUrl+'/zmitiadmin/delstudent/',
-					validate:s.validate,
-					data:{
-						userid,
-						admintoken:s.userinfo.accesstoken,
-						adminuserid:s.userinfo.userid,
-					},success(data){
-						if(data.getret === 0){
-							s.$Message.success(data.getmsg);
-							s.getClassList();
-						}
-						else{
-							s.$Message.error(data.getmsg);
-						}
-					}
-
-				})
-			},
-
+		  
 			getTeacherList(){
 				var s = this;
 				symbinUtil.ajax({
