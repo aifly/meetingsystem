@@ -1,10 +1,64 @@
 <template>
-	<div class="wm-news-main-ui">
+	<div class="wm-class-main-ui">
 		<div>
 			<Tab></Tab>
 		</div>
 		<div class="wm-tab-content">
-			
+			<header class="wm-tab-header">
+				<div>课程管理</div>
+				<div>
+					<Button type="primary">新增课程</Button>
+				</div>
+			</header>
+			<div class="wm-class-wrap" >
+				<Form v-show='showDetail' ref="formValidate" class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formClass" :rules="ruleValidate" :label-width="100">
+					<FormItem label="标题：" prop="title">
+						<Input v-model="formClass.title" placeholder="请填写标题"></Input>
+					</FormItem>
+					<FormItem label="上课老师：" prop="type">
+						<Select v-model="formClass.teacherid" placeholder="请选择上课老师">
+							<Option :value="ntype.teacherid" v-for='(ntype,i) in classTeacherList' :key="i">{{ntype.accounts}}</Option>
+						</Select>
+					</FormItem>
+					<FormItem label="教室位置：" prop="classroom">
+						<div class="wm-classroom-pos" id='wm-classroom-pos'>
+
+						</div>
+					</FormItem>
+					<FormItem label="课程内容：" prop="content">
+						<quill-editor 
+							v-model="formClass.content" 
+							ref="myQuillEditor" 
+							aria-placeholder="123"
+							:options="editorOption" 
+							@blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+							@change="onEditorChange($event)">
+						</quill-editor>
+					</FormItem>
+				
+					<FormItem label="上课时间：">
+						 <DatePicker type="datetime" placeholder="请选择上课时间" style="width:100%" v-model="formClass.lessonstarttime"></DatePicker>
+					</FormItem>
+
+					<FormItem label="下课时间：">
+						<DatePicker type="datetime" placeholder="请选择下课时间" style="width:100%" v-model="formClass.lessonendtime"></DatePicker>
+					</FormItem>
+
+					<FormItem label="上课教室：" prop="classroom">
+						<Input v-model="formClass.classroom" placeholder="请填写上课教室"></Input>
+					</FormItem>
+
+					
+					<FormItem>
+						<Button type="primary" @click="classAction()" size='large'>添加课程</Button>
+					</FormItem>
+				</Form>
+				<div v-if='!showDetail' class="wm-class-list">
+					<Table :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='courseList' :columns='columns'   stripe></Table>
+				</div>
+
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -16,30 +70,124 @@
 	import Vue from 'vue';
 
 	import Tab from '../commom/tab/index';
-	
-
+	import VueQuillEditor from 'vue-quill-editor';
+	import 'quill/dist/quill.core.css'
+	import 'quill/dist/quill.snow.css'
+	import 'quill/dist/quill.bubble.css'
+	Vue.use(VueQuillEditor)
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',
 		data(){
 			return{
-				content:"",
+				editorOption:{
+					modules:{
+                        toolbar:[
+						       // toggled buttons
+						  //[{size:['small',false,'large','huge','12']}],//'12','14',false,'16','18','20','22','24'
+                        ]
+                    }
+				},
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
 				isLoading:false,
-				currentUserId:-1,
-				split1: 0.8,
+				showDetail:false,
+				currentClassId:-1, 
 				showPass:false,
 				viewH:window.innerHeight,
+				classTeacherList:[],
+				columns:[
+					{
+						title:"标题",
+						key:'title',
+						align:'center'
+						
+					},
+					{
+						type:'html',
+						title:'内容',
+						key:'content',
+						align:'center'
+					}
+					,{
+						title:'操作',
+						key:'action',
+						align:'center',
+						render:(h,params)=>{
 
-				formAdmin:{
-					userpwd:'111111',
-					cityids:[]
+
+							return h('div', [
+                               
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+										margin: '2px 5px',
+										border:'none',
+										background:'#fab82e',
+										color:'#fff',
+										padding: '3px 7px 2px',
+										fontSize: '12px',
+										borderRadius: '3px'
+
+                                    },
+                                    on: {
+                                        click: () => {
+											var s = this;
+											s.showDetail = true;
+											s.formClass = params.row;
+											s.currentClassId = params.row.syllabusid;
+                                        }
+                                    }
+                                }, '详情'),
+                                h('Poptip',{
+									props:{
+										confirm:true,
+										title:"确定要删除吗"
+									},
+									on:{
+										'on-ok':()=>{
+											//this.delAdUser(params.row.userid);
+										},
+										
+									}
+								},[
+									h('Button', {
+										props: {
+											type: 'error',
+											size: 'small'
+										},
+										on: {
+											click: () => {
+											}
+										}
+									}, '删除')
+								])
+                            ]);
+							
+							 
+						}
+					}
+				],
+				ruleValidate:{
+					title: [
+                        { required: true, message: '标题不能为空', trigger: 'blur' }
+                    ],
+                    teacherid: [
+                        { required: true, message: '上课老师不能为空', trigger: 'change' }
+                    ]
 				},
-				userList:[],
+				formClass:{
+					pdfurl:'wm-news-remove-encryptfile.pdf'	
+				},
+				courseList:[],
 				 
+				directoryList:{
 
+				},
 				
 				userinfo:{}
 			}
@@ -55,132 +203,78 @@
 			///this.validate = validate;
 		},
 		mounted(){
+			window.s = this;
 			this.userinfo = symbinUtil.getUserInfo();
-			this.getCityData();
-			this.getaduserlist();
+			this.directoryList = {
+				companyid:'company'+s.userinfo.companyid,
+				projectclassname:'meetingsystem',
+				projectsubclassname:'project'+s.$route.params.meetid,
+				uploadpath:'public'
+			}
+			this.getClassList();
+			this.getTeacherList();
+			
+
+			this.initMap();
 		},
 		
 		methods:{
-			getCityById(e,callback){
-				
-				var provinceId = e.__value.split(',')[0];
-				var cityid = e.__value.split(',')[1];
+
+
+			initMap(){
+
+				var map = new AMap.Map('wm-classroom-pos', {
+					viewMode: '3D',
+					turboMode: false,
+					defaultCursor: 'pointer',
+					showBuildingBlock: false,
+					expandZoomRange: true,
+					zooms: [2, 40],
+					zoom: 4,
+					forceVector: true,
+				});
+				var object3Dlayer = new AMap.Object3DLayer({
+					zIndex: 110,
+					opacity: 1
+				});
+				map.add(object3Dlayer)
+
 				var s = this;
-
-				
-				symbinUtil.ajax({
-					_this:s,
-					url:window.config.baseUrl+'/share/getarealist',
-					data:{
-						cityid
-					},
-					success(data){
-						if(data.getret === 0){
-							console.log(data);
-							s.provinceList.forEach((item,i)=>{
-								if(item.value === provinceId*1){
-									item.children.forEach((child,k)=>{
-										if(child.value === cityid*1){
-											child.children = child.children || [];
-											data.list.map((d,l)=>{
-												child.children.push({
-													value:d.cityid,
-													label:d.name,
-													//loading: false
-												})
-											})
-											
-										}
-									})
-									callback();
-									
-								}
-								
-							});
-							
-
-						}
-					}
-
-				})
+				var clickEventListener = map.on('click', function(e) {
+					s.formClass.longitude = e.lnglat.getLng();
+					s.formClass.latitude = e.lnglat.getLat();
+					console.log( e.lnglat.getLng() + ',' + e.lnglat.getLat())
+				});
 			},
-			getCityData(){
-				var s = this;
-				symbinUtil.ajax({
-					_this:s,
-					url:window.config.baseUrl+'/share/getcitylist/',
-					data:{},
-					success(data){
-						//console.log(data);
-						if(data.getret === 0){
-							data.list.map((item,i)=>{
-								var children = [];
-								item.children && item.children.map((child,l)=>{
-									children.push({
-										value:child.cityid,
-										label:child.name,
-										loading: false,
-										children:[]
-										
-									})
-								})
-								s.provinceList.push({
-									value:item.cityid,
-									label:item.name,
-									children,
-									loading: false
-								})
-							})
-						}
-					}
-				})
+
+
+			delencryptfile(){
+				this.formClass.pdfurl  = '';
 			},
-			checkUser(params){
+
+			classAction(){
 				var s = this;
+				var p = JSON.parse(JSON.stringify(this.formClass));
+				p.admintoken = s.userinfo.accesstoken;
+				p.adminuserid = s.userinfo.userid;
+				p.meetid = s.$route.params.meetid;
+				p.lessonstarttime =  new Date(s.formClass.lessonstarttime).getTime()/1000;
+				p.lessonendtime =  new Date(s.formClass.lessonendtime).getTime()/1000;
 				symbinUtil.ajax({
-					_this:s,
-					url:window.config.baseUrl+'/wmadadmin/checkregistuser?t=1',
-					data:{
-						admintoken:s.userinfo.admintoken,
-						adminusername:s.userinfo.adminusername,
-						userids:params.row.userid,
-						status:params.row.status === 1 ? 0 : 1,
-					},
+					url:window.config.baseUrl+'/zmitiadmin/addcourse',
+					data:p,
 					success(data){
+						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
 						console.log(data);
-						s.$Message[data.getret === 0 ? "success":"error"](data.getmsg);
-						s.getaduserlist();
 					}
-
 				})
 			},
+			
+ 
+			
+			
 
-			modifyPass(){
-				if(!this.showPass){
-					this.showPass = true;
-					this.$refs['pass'].focus();
-
-				}else{
-					if(!this.formAdmin.userpwd){
-						this.$Message.error('密码不能为空');
-						return;
-					}
-					var s = this;
-					symbinUtil.ajax({
-						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntpwd',
-						data:{
-							admintoken:s.userinfo.accesstoken,
-							adminuserid:s.userinfo.userid,
-							userid:s.formAdmin.userid,
-							studentpwd:s.formAdmin.userpwd
-						},
-						success(data){
-							s.$Message[data.getret === 0 ?'success':'error'](data.getmsg);
-						}
-					})
-				}
-			},
+		 
 			delAdUser(userid){
 				var s = this;
 				symbinUtil.ajax({
@@ -194,7 +288,7 @@
 					},success(data){
 						if(data.getret === 0){
 							s.$Message.success(data.getmsg);
-							s.getaduserlist();
+							s.getClassList();
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -204,29 +298,39 @@
 				})
 			},
 
-			addNewAduser(){
-				this.currentUserId = -1;
-				this.formAdmin = {
-					userpwd:'111111'
-				};
-				this.visible = true;
+			getTeacherList(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getteacherlist',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+					},
+					success(data){
+						if(data.getret === 0){
+							s.classTeacherList = data.list;
+						}
+					}
+				});
 			},
-			getaduserlist(){
+
+			 
+			getClassList(){
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/zmitiadmin/getstudentlist/',
+					url:window.config.baseUrl+'/zmitiadmin/getcourselist/',
 					//validate:s.validate,
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
+						meetid:s.$route.params.meetid,
 						pagenum:1000,
 						status:-1,//查询全部
 					},
 					success(data){
-						console.log(data);
 						if(data.getret === 0){
-							s.userList = data.list;
+							s.courseList = data.list;
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -243,74 +347,13 @@
 			},
 
 			 
-			ok(){
-				var s = this;
-
-				if(s.currentUserId<=-1){
-
-					symbinUtil.ajax({
-						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/addstudent/',
-						validate:s.validate,
-						data:{
-							adminuserid:s.userinfo.userid,
-							studentpwd:s.formAdmin.userpwd,
-							admintoken:s.userinfo.accesstoken,
-							username:s.formAdmin.username,
-							mobile:s.formAdmin.mobile,
-							companyname:s.formAdmin.companyname,
-							studentname:s.formAdmin.studentname,
-							email:s.formAdmin.email,
-							provinceid:s.formAdmin.cityids[0],
-							cityid:s.formAdmin.cityids[1],
-							areaid:s.formAdmin.cityids[2],
-							detailaddress:s.formAdmin.detailaddress
-						},success(data){
-							if(data.getret === 0){
-								s.$Message.success(data.getmsg);
-								s.getaduserlist();
-							}
-							else{
-								s.$Message.error(data.getmsg);
-							}
-						}
-	
-					})
-				}else{
-					symbinUtil.ajax({
-						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntinfo/',
-						//validate:s.validate,
-						data:{
-							username:s.formAdmin.username,
-							studentname:s.formAdmin.studentname,
-							userid:s.currentUserId,
-							adminuserid:s.userinfo.userid,
-							admintoken:s.userinfo.accesstoken,
-							provinceid:s.formAdmin.cityids[0],
-							cityid:s.formAdmin.cityids[1],
-							areaid:s.formAdmin.cityids[2],
-							detailaddress:s.formAdmin.detailaddress,
-							mobile:s.formAdmin.mobile,
-							email:s.formAdmin.email,
-							companyname:s.formAdmin.companyname,
-							 
-						},success(data){
-							if(data.getret === 0){
-								s.$Message.success(data.getmsg);
-							}
-							else{
-								s.$Message.error(data.getmsg);
-							}
-						}
-	
-					})
-				}
-				
-			},
-			cancel(){
-				this.formUser = {};
-			}
+			 
+			onEditorBlur(){//失去焦点事件
+            },
+            onEditorFocus(){//获得焦点事件
+            },
+            onEditorChange(){//内容改变事件
+            },
 		}
 	}
 </script>

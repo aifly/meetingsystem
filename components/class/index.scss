@@ -5,5 +5,8 @@ $viewW: 750px;
 $color: #be0000;
 
 .wm-student-main-ui {
-   
+   @at-root.wm-classroom-pos{
+       border:1px solid #ddd;
+       height:500px;
+   }
 }

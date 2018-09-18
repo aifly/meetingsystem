@@ -11,7 +11,7 @@
 				</div>
 			</header>
 			<div class="wm-news-wrap">
-				<Form ref="formValidate" class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formNews" :rules="ruleValidate" :label-width="90">
+				<Form ref="formValidate" v-show='showDetail' class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formNews" :rules="ruleValidate" :label-width="90">
 					<FormItem label="标题：" prop="title">
 						<Row type='flex' :gutter='20' justify='space-between'>
 							<Col :span='12'><Input v-model="formNews.title" placeholder="请填写标题"></Input></Col>
@@ -46,25 +46,31 @@
 					</FormItem>
 					
 					<FormItem label="保密文件：" prop="encryptfile" class='wm-news-form-item'>
-						<div class="wm-news-encryptfile">
+						<div class="wm-news-encryptfile" v-show='!formNews.pdfurl'>
 							<div class=" news-encryptfile">
 
 							</div>
 							<Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件)
 						</div>
-						<div class="wm-news-encryptfile-name">
-							<span v-if='formNews.pdfurl' v-html='formNews.pdfurl.split("/").pop()'></span>
-							<span v-if='formNews.pdfurl' @click='delencryptfile' class="wm-news-remove-encryptfile"></span>
+						<div  v-if='formNews.pdfurl' class="wm-news-encryptfile-name" >
+							<span  v-html='formNews.pdfurl.split("/").pop()'></span>
+							<span @click='delencryptfile' class="wm-news-remove-encryptfile wm-close"></span>
 						</div>
 					</FormItem>
 
-					<FormItem label="附件：" prop="download">
-						<div class='wm-upload wm-news-download'>
-							<div></div>
-						</div>
-						<div>
-
-						</div>
+					<FormItem label="附件：" prop="download" class="wm-news-download-wrap">
+						<section>
+							<div class='wm-upload wm-news-download'>
+								<div></div>
+							</div>
+							<div class="wm-news-download-list" v-if='formNews.download'>
+								<div v-for='(dl,i) in formNews.download.split(",")' v-if='dl' :key="i">
+									<span class='wm-close' @click="deldownloadfile(dl,i)"></span>
+									<img :src='imgs[dl.split(".").pop()]' alt="">
+									{{dl.split('/').pop()}}
+								</div>
+							</div>
+						</section>
 					</FormItem>
 			
 					<FormItem label="新闻状态：" prop="encrypsign">
@@ -74,10 +80,12 @@
 						</RadioGroup>
 					</FormItem>
 					<FormItem>
-						<Button type="primary" @click="addNews()" size='large'>添加新闻</Button>
+						<Button type="primary" @click="newsAction()" size='large'>{{currentNewsId>-1?'编辑新闻':'添加新闻'}}</Button>
 					</FormItem>
 				</Form>
-
+				<div v-if='!showDetail' class="wm-news-list">
+					<Table :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns'   stripe></Table>
+				</div>
 			</div>
 
 		</div>
@@ -98,7 +106,7 @@
 	Vue.use(VueQuillEditor)
 	export default {
 		props:['obserable'],
-		name:'zmitiindex',
+		name:'zmitinews',
 		data(){
 			return{
 				editorOption:{
@@ -117,7 +125,8 @@
 				visible:false,
 				imgs:window.imgs,
 				isLoading:false,
-				currentUserId:-1, 
+				currentNewsId:-1, 
+				showDetail:false,
 				showPass:false,
 				viewH:window.innerHeight,
 				newsTypeList:[],
@@ -129,10 +138,95 @@
                         { required: true, message: '新闻分类不能为空', trigger: 'change' }
                     ]
 				},
+				columns:[
+					{
+						title:"标题",
+						key:'title',
+						align:'center'
+						
+					},
+					{
+						type:'html',
+						title:'内容',
+						key:'content',
+						align:'center'
+					}
+					,{
+						title:"新闻类型",
+						key:'newstype',
+						align:'center'
+					},{
+						title:'操作',
+						key:'action',
+						align:'center',
+						render:(h,params)=>{
+
+
+							return h('div', [
+                               
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+										margin: '2px 5px',
+										border:'none',
+										background:'#fab82e',
+										color:'#fff',
+										padding: '3px 7px 2px',
+										fontSize: '12px',
+										borderRadius: '3px'
+
+                                    },
+                                    on: {
+                                        click: () => {
+											var s = this;
+											s.showDetail = true;
+											s.formNews = params.row;
+											s.formNews.type = params.row.id;
+											s.currentNewsId = params.row.newsid;
+											s.formNews.iscommend = !!s.formNews.iscommend;
+											s.formNews.encrypsign = !!s.formNews.encrypsign;
+                                        }
+                                    }
+                                }, '详情'),
+                                h('Poptip',{
+									props:{
+										confirm:true,
+										title:"确定要删除吗"
+									},
+									on:{
+										'on-ok':()=>{
+											//this.delAdUser(params.row.userid);
+										},
+										
+									}
+								},[
+									h('Button', {
+										props: {
+											type: 'error',
+											size: 'small'
+										},
+										on: {
+											click: () => {
+											}
+										}
+									}, '删除')
+								])
+                            ]);
+							
+							 
+						}
+					}
+				],
 				formNews:{
-					pdfurl:'wm-news-remove-encryptfile.pdf'	
+					pdfurl:'',
+					download:'',
+					encrypsign:false,
+					iscommend:false
 				},
-				userList:[],
+				newsList:[],
 				 
 				directoryList:{
 
@@ -164,36 +258,110 @@
 			this.getNewsTypeList();
 			this.upload({
 				pick:'.news-encryptfile',
+				accept:{
+					title: 'All',
+					extensions: 'pdf',
+					mimeTypes: '*/*'
+				}
 				 
 			});
 			this.upload({
 				pick:'.wm-upload',
 				accept:{
 					title: 'All',
-					extensions: 'doc,docx,pdf,xls,slsx',
+					extensions: 'doc,docx,pdf,zip,rar',
 					mimeTypes: '*/*'
 				}
 			});
 		},
+
+		watch:{
+			formNews:()=>{
+
+			}
+		},
 		
 		methods:{
 
+			deldownloadfile(dl,index){
+				
+				var delstr = dl+','
+				if(index>=this.formNews.download.split(',').length-1){
+					delstr = ','+dl;
+				}
+				if(this.formNews.download.split(',').length === 1){
+					this.formNews.download =  '';
+				}else{
+					this.formNews.download = this.formNews.download.replace(delstr,'');
+				}
+				console.log(this.formNews.download);
+			},
 
 			delencryptfile(){
 				this.formNews.pdfurl  = '';
 			},
 
-			addNews(){
+			newsAction(){
 				var s = this;
-				var p = this.formNews;
+				var p = JSON.parse(JSON.stringify(this.formNews));
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
 				p.meetid = s.$route.params.meetid;
+
+				var url = window.config.baseUrl+'/zmitiadmin/addnews';
+				if(s.currentNewsId>-1){
+					url = window.config.baseUrl+'/zmitiadmin/updatenews';
+					p.newsid = s.currentNewsId;
+				}
+				p.iscommend = p.iscommend|0;
+				p.encrypsign = p.encrypsign|0;
+				if(p.download){
+
+					p.download = p.download.replace(/http:/ig,'https:');
+					p.download = p.download.replace(/https:\/\//ig,'');
+					var arr = [];
+					var http = window.config.baseUrl.replace('https://','').split('/');
+					http.pop();
+					p.download.split(',').map((dl)=>{
+						var dl = dl.replace(http,'');
+						arr.push(dl.replace('https//',''));
+					});
+					p.download = arr.join('/');
+				}
+				if(p.encryptfile){
+					p.encryptfile = p.encryptfile.replace(/http:/ig,'https:');
+					p.encryptfile = p.encryptfile.replace(/https:\/\//ig,'');
+					var arr1 = [];
+					p.encryptfile.split(',').map((dl)=>{
+						//http.pop();
+						var dl = dl.replace(http,'');
+						arr1.push(dl.replace('https//',''));
+					});
+					p.encryptfile = arr1.join('/');
+				}
+				if(p.wordurl){
+					p.wordurl = p.wordurl.replace(/http:/ig,'https:');
+					p.wordurl = p.wordurl.replace(/https:\/\//ig,'');
+					p.wordurl = p.wordurl.replace(http,''); 
+				}
+				
+				if(p.pdfurl){
+					p.pdfurl = p.pdfurl.replace(/http:/ig,'https:');
+					p.pdfurl = p.pdfurl.replace(/https:\/\//ig,'');
+					p.pdfurl = p.pdfurl.replace(http,'');
+				}
+				
 				symbinUtil.ajax({
-					url:window.config.baseUrl+'/zmitiadmin/addnews',
+					url,
 					data:p,
 					success(data){
 						console.log(data);
+						if(data.getret === 0 ){
+						 
+							s.getNewsList();
+							s.$Message.success(data.getmsg);
+							s.showDetail = false;
+						}
 					}
 				})
 			},
@@ -209,7 +377,7 @@
 				if(s.uploader){
 					//s.uploader.destroy();
 				}
-				var accepts  =  s.accepts;
+				
 				var uploader = WebUploader.create({
 					// 选完文件后，是否自动上传。
 					auto: true,
@@ -241,7 +409,7 @@
 				})
 
 				uploader.on("beforeFileQueued",function(file){
-					if('pdf'.indexOf(file['type'].split('/')[1])<=-1){
+					if(option.accept.extensions.indexOf(file['type'].split('/')[1])<=-1){
 						s.$Message.error('当前文件格式不支持');
 						return;
 					}
@@ -274,7 +442,11 @@
 							s.formNews.pdfurl = data.fileurl;
 
 						}else if(option.pick === '.wm-upload'){
-							s.formNews.download += ','+data.fileurl;
+							if(s.formNews.download.length <=0){
+								s.formNews.download = data.fileurl;
+							}else{
+								s.formNews.download += ',' + data.fileurl;
+							}
 						}
 						//s.formNews.bannerurl = data.fileurl;
 					}
@@ -299,33 +471,7 @@
 			},
 			
 			
-
-			modifyPass(){
-				if(!this.showPass){
-					this.showPass = true;
-					this.$refs['pass'].focus();
-
-				}else{
-					if(!this.formAdmin.userpwd){
-						this.$Message.error('密码不能为空');
-						return;
-					}
-					var s = this;
-					symbinUtil.ajax({
-						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntpwd',
-						data:{
-							admintoken:s.userinfo.accesstoken,
-							adminuserid:s.userinfo.userid,
-							userid:s.formAdmin.userid,
-							studentpwd:s.formAdmin.userpwd
-						},
-						success(data){
-							s.$Message[data.getret === 0 ?'success':'error'](data.getmsg);
-						}
-					})
-				}
-			},
+ 
 			delAdUser(userid){
 				var s = this;
 				symbinUtil.ajax({
@@ -370,7 +516,7 @@
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/zmitiadmin/getstudentlist/',
+					url:window.config.baseUrl+'/zmitiadmin/getnewslist/',
 					//validate:s.validate,
 					data:{
 						admintoken:s.userinfo.accesstoken,
@@ -381,7 +527,18 @@
 					success(data){
 						console.log(data);
 						if(data.getret === 0){
-							s.userList = data.list;
+							data.list.forEach((item=>{
+								item.iscommend = !!item.iscommend;
+								item.encrypsign = !!item.encrypsign;
+							}))
+							s.formNews = {
+								pdfurl:'',
+								download:'',
+								iscommend:false,
+								encryptfile:false
+							}
+							s.newsList = data.list;
+							
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -397,75 +554,7 @@
 				 
 			},
 
-			 
-			ok(){
-				var s = this;
-
-				if(s.currentUserId<=-1){
-
-					symbinUtil.ajax({
-						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/addstudent/',
-						validate:s.validate,
-						data:{
-							adminuserid:s.userinfo.userid,
-							studentpwd:s.formAdmin.userpwd,
-							admintoken:s.userinfo.accesstoken,
-							username:s.formAdmin.username,
-							mobile:s.formAdmin.mobile,
-							companyname:s.formAdmin.companyname,
-							studentname:s.formAdmin.studentname,
-							email:s.formAdmin.email,
-							provinceid:s.formAdmin.cityids[0],
-							cityid:s.formAdmin.cityids[1],
-							areaid:s.formAdmin.cityids[2],
-							detailaddress:s.formAdmin.detailaddress
-						},success(data){
-							if(data.getret === 0){
-								s.$Message.success(data.getmsg);
-								s.getNewsList();
-							}
-							else{
-								s.$Message.error(data.getmsg);
-							}
-						}
-	
-					})
-				}else{
-					symbinUtil.ajax({
-						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntinfo/',
-						//validate:s.validate,
-						data:{
-							username:s.formAdmin.username,
-							studentname:s.formAdmin.studentname,
-							userid:s.currentUserId,
-							adminuserid:s.userinfo.userid,
-							admintoken:s.userinfo.accesstoken,
-							provinceid:s.formAdmin.cityids[0],
-							cityid:s.formAdmin.cityids[1],
-							areaid:s.formAdmin.cityids[2],
-							detailaddress:s.formAdmin.detailaddress,
-							mobile:s.formAdmin.mobile,
-							email:s.formAdmin.email,
-							companyname:s.formAdmin.companyname,
-							 
-						},success(data){
-							if(data.getret === 0){
-								s.$Message.success(data.getmsg);
-							}
-							else{
-								s.$Message.error(data.getmsg);
-							}
-						}
-	
-					})
-				}
-				
-			},
-			cancel(){
-				this.formUser = {};
-			},
+			
 			onEditorBlur(){//失去焦点事件
             },
             onEditorFocus(){//获得焦点事件

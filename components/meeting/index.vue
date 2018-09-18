@@ -79,7 +79,7 @@
 				userList:[],
 				columns:[
 					{
-						title:"用户名",
+						title:"会议名称",
 						key:'meetname',
 						align:'center'
 						
@@ -216,19 +216,6 @@
 			//this.getCityData();
 			this.getmeetinglist();
 			window.meeting = this;
-
-			var s = this;
-			symbinUtil.ajax({
-				url:window.config.baseUrl+'/zmitiadmin/pdftrunimage',
-				data:{
-					admintoken:s.userinfo.accesstoken,
-					adminuserid:s.userinfo.userid,
-					pdfurl:'http://api.symbin.cn/uploads/company100000001/meetingsystem/project2072951143/public/usertemp/20180917/6692913390.pdf'
-				},
-				success(data){
-					console.log(data);
-				}
-			})
 		},
 		
 		methods:{
@@ -239,16 +226,6 @@
 				var s = this;
 				 
 				var p = {
-						/* meetname:s.userinfo.meetname,
-						usertoken:s.userinfo.accesstoken,
-						resourceid:id,
-						uploadfilename:s.formUpload.filetitle,
-						filedesc:s.formUpload.filedesc,
-						publicadtype:s.menus[s.currentType],
-						userlabel:s.formUpload.tagList.concat([]).join(','),
-						author:s.formUpload.author,
-						telphone:s.formUpload.telphone,
-						previewurl:s.formUpload.previewurl */
 						companyid:'company'+s.userinfo.companyid,
 						projectclassname:'meetingsystem',
 						projectsubclassname:'project'+s.currentMeetid,
