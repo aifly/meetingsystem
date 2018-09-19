@@ -11,7 +11,7 @@
 				</div>
 			</header>
 			<div v-if='currentUserId<=-1'>
-				<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
+				<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>
 			</div>
 			<div v-else class="wm-signup-wrap">
 				<div class="wm-signup-item">

@@ -1,7 +1,7 @@
 <template>
 	<div class="wm-student-main-ui">
 		<header>
-			<div>用户管理</div>
+			<div>学员管理</div>
 			<section>
 				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增学员</Button>
 			</section>
@@ -14,8 +14,12 @@
 			@on-ok="ok"
 			@on-cancel="cancel">
 			<Form ref="formAdmin" :model="formAdmin" :label-width="82" >
-				<FormItem label="账号：" prop="ratername">
-					<Input :disabled = 'currentUserId !== -1'  v-model="formAdmin.username" placeholder="账号" autocomplete="off" />
+				<FormItem label="手机号：" prop="mobile">
+					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
+				</FormItem>
+				
+				<FormItem label="姓名：" prop="studentname">
+					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
 				</FormItem>
 				<FormItem label="密码：" prop="userpwd">
 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
@@ -28,9 +32,7 @@
 				    </Select>
 				</FormItem>				
 
-				<FormItem label="手机号：" prop="mobile">
-					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
-				</FormItem>
+			
 				<FormItem label="职务：" prop="job">
 					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
 				</FormItem>
@@ -38,10 +40,7 @@
 				<FormItem label="公司名称：" prop="companyname">
 					<Input v-model="formAdmin.companyname" placeholder="公司名称" autocomplete="off" />
 				</FormItem>
-			
-				<FormItem label="昵称：" prop="studentname">
-					<Input v-model="formAdmin.studentname" placeholder="昵称" autocomplete="off" />
-				</FormItem>
+				
 				<FormItem label="邮箱：" prop="email">
 					<Input v-model="formAdmin.email" placeholder="邮箱" autocomplete="off" />
 				</FormItem>
@@ -438,7 +437,7 @@
 							adminuserid:s.userinfo.userid,
 							studentpwd:s.formAdmin.userpwd,
 							admintoken:s.userinfo.accesstoken,
-							username:s.formAdmin.username,
+							username:s.formAdmin.mobile,
 							mobile:s.formAdmin.mobile,
 							companyname:s.formAdmin.companyname,
 							studentname:s.formAdmin.studentname,

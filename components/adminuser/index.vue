@@ -80,7 +80,7 @@
 					},
 					{
 						title:"昵称",
-						key:'studentname',
+						key:'realname',
 						align:'center'
 					},{
 						title:'操作',
@@ -119,7 +119,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											this.delAdUser(params.row.userid);
+											this.delAdmin(params.row.userid);
 										},
 										
 									}
@@ -148,7 +148,8 @@
 										color:'#fff',
 										padding: '3px 7px 2px',
 										fontSize: '12px',
-										borderRadius: '3px'
+										borderRadius: '3px',
+										display:'none'
 
                                     },
                                     on: {
@@ -183,7 +184,7 @@
 		},
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
-			this.getaduserlist();
+			this.getAdminList();
 
 
 		},
@@ -203,7 +204,7 @@
 					success(data){
 						console.log(data);
 						s.$Message[data.getret === 0 ? "success":"error"](data.getmsg);
-						s.getaduserlist();
+						s.getAdminList();
 					}
 
 				})
@@ -222,12 +223,12 @@
 					var s = this;
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntpwd',
+						url:window.config.baseUrl+'/zmitiadmin/updateadminpwd',
 						data:{
 							admintoken:s.userinfo.accesstoken,
 							adminuserid:s.userinfo.userid,
 							userid:s.formAdmin.userid,
-							studentpwd:s.formAdmin.userpwd
+							userpwd:s.formAdmin.userpwd
 						},
 						success(data){
 							s.$Message[data.getret === 0 ?'success':'error'](data.getmsg);
@@ -235,20 +236,21 @@
 					})
 				}
 			},
-			delAdUser(userid){
-					var s = this;
+			delAdmin(userid){
+				
+				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/wmadadmin/deladuser/',
+					url:window.config.baseUrl+'/zmitiadmin/deladmin/',
 					validate:s.validate,
 					data:{
 						userid,
-						admintoken:s.userinfo.admintoken,
-						adminusername:s.userinfo.adminusername
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
 					},success(data){
 						if(data.getret === 0){
 							s.$Message.success(data.getmsg);
-							s.getaduserlist();
+							s.getAdminList();
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -265,11 +267,11 @@
 				};
 				this.visible = true;
 			},
-			getaduserlist(){
+			getAdminList(){
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/zmitiadmin/getstudentlist/',
+					url:window.config.baseUrl+'/zmitiadmin/getadminlist/',
 					//validate:s.validate,
 					data:{
 						admintoken:s.userinfo.accesstoken,
@@ -317,7 +319,7 @@
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
-								//s.getaduserlist();
+								//s.getAdminList();
 							}
 							else{
 								s.$Message.error(data.getmsg);

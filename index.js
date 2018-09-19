@@ -6,6 +6,7 @@ import User from './components/user/index';
 import Class from './components/class/index';
 import News from './components/news/index';
 import Login from './components/login/index';
+import Course from './components/course/index';
 import Attendance from './components/attendance/index';
 import Meeting from './components/meeting/index';
 import Teacher from './components/teacher/index';
@@ -59,11 +60,16 @@ const router = new VueRouter({
 			component: Meeting,
 			props: true
 		}, {
-			path: '/meetingclass/:meetid/:meetname?/',
-			name: 'meetingclass',
+			path: '/meetingcourse/:meetid/:meetname?/',
+			name: 'meetingcourse',
+			component: Course,
+			props: true
+		}, {
+			path: '/class/',
+			name: 'class',
 			component: Class,
 			props: true
-		},  {
+		}, {
 			path: '/user/',
 			name: 'user',
 			component: User,

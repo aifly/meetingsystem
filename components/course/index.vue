@@ -1,6 +1,56 @@
 <template>
-	<div class="wm-class-main-ui">
-		
+	<div class="wm-course-main-ui">
+		<div>
+			<Tab></Tab>
+		</div>
+		<div class="wm-tab-content">
+			<header class="wm-tab-header">
+				<div>课程管理</div>
+				<div>
+					<Button type="primary">新增课程</Button>
+				</div>
+			</header>
+			<div class="wm-course-wrap" >
+				<Form v-show='showDetail' ref="formValidate" class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formClass" :rules="ruleValidate" :label-width="100">
+					<FormItem label="标题：" prop="title">
+						<Input v-model="formClass.title" placeholder="请填写标题"></Input>
+					</FormItem>
+					<FormItem label="上课老师：" prop="type">
+						<Select v-model="formClass.teacherid" placeholder="请选择上课老师">
+							<Option :value="ntype.teacherid" v-for='(ntype,i) in classTeacherList' :key="i">{{ntype.accounts}}</Option>
+						</Select>
+					</FormItem>
+					<FormItem label="教室位置：" prop="classroom">
+						<div class="wm-classroom-pos" id='wm-classroom-pos'>
+
+						</div>
+					</FormItem>
+					<FormItem label="课程说明：" prop="content">
+						<Input type='textarea' v-model="formClass.content" :rows='5' />
+					</FormItem>
+				
+					<FormItem label="上课时间：">
+						 <DatePicker type="datetime" placeholder="请选择上课时间" style="width:100%" v-model="formClass.lessonstarttime"></DatePicker>
+					</FormItem>
+
+					<FormItem label="下课时间：">
+						<DatePicker type="datetime" placeholder="请选择下课时间" style="width:100%" v-model="formClass.lessonendtime"></DatePicker>
+					</FormItem>
+
+					<FormItem label="上课教室：" prop="classroom">
+						<Input v-model="formClass.classroom" placeholder="请填写上课教室"></Input>
+					</FormItem>
+					<FormItem>
+						<Button type="primary" @click="classAction()" size='large'>添加课程</Button>
+					</FormItem>
+				</Form>
+				<div v-if='!showDetail' class="wm-course-list">
+					<Table :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='courseList' :columns='columns'   stripe></Table>
+				</div>
+
+			</div>
+
+		</div>
 	</div>
 </template>
 
@@ -11,13 +61,24 @@
 	import Vue from 'vue';
 
 	import Tab from '../commom/tab/index';
-	
+	import VueQuillEditor from 'vue-quill-editor';
+	import 'quill/dist/quill.core.css'
+	import 'quill/dist/quill.snow.css'
+	import 'quill/dist/quill.bubble.css'
+	Vue.use(VueQuillEditor)
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',
 		data(){
 			return{
-			
+				editorOption:{
+					modules:{
+                        toolbar:[
+						       // toggled buttons
+						  //[{size:['small',false,'large','huge','12']}],//'12','14',false,'16','18','20','22','24'
+                        ]
+                    }
+				},
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -143,13 +204,46 @@
 				projectsubclassname:'project'+s.$route.params.meetid,
 				uploadpath:'public'
 			}
-		
+			this.getClassList();
+			this.getTeacherList();
 			
 
+			this.initMap();
 		},
 		
 		methods:{
 
+
+			initMap(){
+
+				var map = new AMap.Map('wm-classroom-pos', {
+					viewMode: '3D',
+					turboMode: false,
+					defaultCursor: 'pointer',
+					showBuildingBlock: false,
+					expandZoomRange: true,
+					zooms: [2, 40],
+					zoom: 4,
+					forceVector: true,
+				});
+				var object3Dlayer = new AMap.Object3DLayer({
+					zIndex: 110,
+					opacity: 1
+				});
+				map.add(object3Dlayer)
+
+				var s = this;
+				var clickEventListener = map.on('click', function(e) {
+					s.formClass.longitude = e.lnglat.getLng();
+					s.formClass.latitude = e.lnglat.getLat();
+					console.log( e.lnglat.getLng() + ',' + e.lnglat.getLat())
+				});
+			},
+
+
+			delencryptfile(){
+				this.formClass.pdfurl  = '';
+			},
 			delClass(syllabusid){
 				var s = this;
 				symbinUtil.ajax({
@@ -193,6 +287,11 @@
 				})
 			},
 			
+ 
+			
+			
+
+		  
 			getTeacherList(){
 				var s = this;
 				symbinUtil.ajax({
@@ -239,7 +338,16 @@
 			addadUser(){
 
 				 
-			}
+			},
+
+			 
+			 
+			onEditorBlur(){//失去焦点事件
+            },
+            onEditorFocus(){//获得焦点事件
+            },
+            onEditorChange(){//内容改变事件
+            },
 		}
 	}
 </script>

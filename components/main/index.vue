@@ -34,6 +34,9 @@
                             <MenuItem name='student' to='/student/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "student"}'>
                                 学员管理
                             </MenuItem>
+                          <!--   <MenuItem name='class' to='/class/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "class"}'>
+                                班级管理
+                            </MenuItem> -->
                             <!--  <MenuItem :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "rate"}' :key='i' v-for="(item,i) in sourceList" :name="item.resourceid">{{item.resourcecnname}}
                             </MenuItem> -->
                             <MenuItem to='/teacher/' name='teacher' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name === "teacher"}'>

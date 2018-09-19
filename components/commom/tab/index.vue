@@ -29,7 +29,7 @@
 						to:'meetingnews'
 					},{
 						name:'课程管理',
-						to:'meetingclass'
+						to:'meetingcourse'
 					},{
 						name:'考勤(请假)管理',
 						to:'meetingattendance'

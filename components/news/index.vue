@@ -144,12 +144,6 @@
 						key:'title',
 						align:'center'
 						
-					},
-					{
-						type:'html',
-						title:'内容',
-						key:'content',
-						align:'center'
 					}
 					,{
 						title:"新闻类型",
