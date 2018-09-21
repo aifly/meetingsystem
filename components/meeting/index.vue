@@ -75,6 +75,7 @@
 					cityids:[],
 					status:true,
 					bannerurl:'',
+					url:''
 				},
 				userList:[],
 				columns:[
@@ -296,6 +297,7 @@
 				uploader.on('uploadSuccess', function (file,data) {
 					if(data.getret === 0){
 						s.formAdmin.bannerurl = data.fileurl;
+						s.formAdmin.url = data.url;
 					}
 				//	$('#' + file.id).addClass('upload-state-done');
 				});
@@ -312,6 +314,7 @@
 					console.log(file);
 					if(file.getret === 0){
 						s.formAdmin.bannerurl = file.fileurl;
+						s.formAdmin.url = file.url;
 					}
 					iNow++;
 					if(iNow === i){
@@ -457,7 +460,7 @@
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
 							status:s.formAdmin.status|0,
-							bannerurl:s.formAdmin.bannerurl,
+							bannerurl:s.formAdmin.url,
 							meetremarks:s.formAdmin.meetremarks,
 							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
 							enddate:new Date(s.formAdmin.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
