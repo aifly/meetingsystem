@@ -309,13 +309,15 @@
 				}
 				p.iscommend = p.iscommend|0;
 				p.encrypsign = p.encrypsign|0;
+				var http = window.config.baseUrl.replace('https://','').split('/');
+				http.pop();
+				http = http.join('/');
 				if(p.download){
 
 					p.download = p.download.replace(/http:/ig,'https:');
 					p.download = p.download.replace(/https:\/\//ig,'');
 					var arr = [];
-					var http = window.config.baseUrl.replace('https://','').split('/');
-					http.pop();
+					
 					p.download.split(',').map((dl)=>{
 						var dl = dl.replace(http,'');
 						arr.push(dl.replace('https//',''));
@@ -344,6 +346,7 @@
 					p.pdfurl = p.pdfurl.replace(/https:\/\//ig,'');
 					p.pdfurl = p.pdfurl.replace(http,'');
 				}
+
 				
 				symbinUtil.ajax({
 					url,
