@@ -331,7 +331,7 @@
 						var dl = dl.replace(http,'');
 						arr1.push(dl.replace('https//',''));
 					});
-					p.encryptfile = arr1.join('/');
+					p.encryptfile = arr1.join(',');
 				}
 				if(p.wordurl){
 					p.wordurl = p.wordurl.replace(/http:/ig,'https:');
@@ -432,10 +432,29 @@
 				uploader.on('uploadSuccess', function (file,data) {
 					console.log(file,data,option);
 					if(data.getret === 0){
-						if(option.pick === '.news-encryptfile'){//加密文件
+						if(option.pick === '.news-encryptfile'){//加密文件上传
 							s.formNews.pdfurl = data.fileurl;
+							symbinUtil.ajax({
+								url:window.config.baseUrl+'/zmitiadmin/pdftrunimage',
+								data:{
+									adminuserid:s.userinfo.userid,
+									admintoken:s.userinfo.accesstoken,
+									pdfurl:s.formNews.pdfurl
+								},
+								success(data){
+									if(data.getret === 0){
+										s.$Message.success('pdf转图片成功');
+										s.formNews.encryptfile = data.list;
+										console.log(data.list);
+									}
+									else{
+										console.log(data);
+										s.$Message.success('pdf转图片失败');
+									}
+								}
+							})
 
-						}else if(option.pick === '.wm-upload'){
+						}else if(option.pick === '.wm-upload'){//附件上传
 							if(s.formNews.download.length <=0){
 								s.formNews.download = data.fileurl;
 							}else{
