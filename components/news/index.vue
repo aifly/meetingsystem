@@ -7,7 +7,7 @@
 			<header class="wm-tab-header">
 				<div>新闻信息管理</div>
 				<div>
-					<Button type="primary">新增新闻</Button>
+					<Button type="primary"　@click='showDetail = true'>新增新闻</Button>
 				</div>
 			</header>
 			<div class="wm-news-wrap">
@@ -339,7 +339,7 @@
 						var dl = dl.replace(http,'');
 						arr.push(dl.replace('https//',''));
 					});
-					p.download = arr.join('/');
+					p.download = arr.join(',');
 				}
 				if(p.encryptfile){
 					p.encryptfile = p.encryptfile.replace(/http:/ig,'https:');
