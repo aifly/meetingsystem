@@ -139,20 +139,37 @@
                     ]
 				},
 				columns:[
-					{
+					 {
+                        title:"序号",
+                        type: 'index',
+                        width: 60,
+                        align: 'center'
+                    },{
 						title:"标题",
 						key:'title',
-						align:'center'
-						
+						align:'left',
+						tooltip:true
 					}
 					,{
-						title:"新闻类型",
+						title:"类型",
 						key:'newstype',
-						align:'center'
+						align:'left',
+						width:60
+					},{
+						title:"是否推荐",
+						key:'iscommend',
+						align:'center',
+						width:100
+					},{
+						title:"修改时间",
+						key:'updatetime',
+						align:'center',
+						width:150
 					},{
 						title:'操作',
 						key:'action',
 						align:'center',
+						width:150,
 						render:(h,params)=>{
 
 
@@ -288,7 +305,7 @@
 				}else{
 					this.formNews.download = this.formNews.download.replace(delstr,'');
 				}
-				console.log(this.formNews.download);
+				//console.log(this.formNews.download);
 			},
 
 			delencryptfile(){
@@ -352,7 +369,7 @@
 					url,
 					data:p,
 					success(data){
-						console.log(data);
+					//	console.log(data);
 						if(data.getret === 0 ){
 						 
 							s.getNewsList();
@@ -433,7 +450,7 @@
 
 				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
 				uploader.on('uploadSuccess', function (file,data) {
-					console.log(file,data,option);
+				//	console.log(file,data,option);
 					if(data.getret === 0){
 						if(option.pick === '.news-encryptfile'){//加密文件上传
 							s.formNews.pdfurl = data.fileurl;
@@ -448,16 +465,17 @@
 									if(data.getret === 0){
 										s.$Message.success('pdf转图片成功');
 										s.formNews.encryptfile = data.list;
-										console.log(data.list);
+									//	console.log(data.list);
 									}
 									else{
-										console.log(data);
+									//	console.log(data);
 										s.$Message.success('pdf转图片失败');
 									}
 								}
 							})
 
 						}else if(option.pick === '.wm-upload'){//附件上传
+
 							if(s.formNews.download.length <=0){
 								s.formNews.download = data.fileurl;
 							}else{
@@ -471,7 +489,7 @@
 
 				// 文件上传失败，显示上传出错。
 				uploader.on('uploadError', function (file) {
-					console.log('error')
+				//	console.log('error')
 					//$('#' + file.id).find('p.state').text('上传出错');
 				});
 
@@ -541,7 +559,7 @@
 						status:-1,//查询全部
 					},
 					success(data){
-						console.log(data);
+					//	console.log(data);
 						if(data.getret === 0){
 							data.list.forEach((item=>{
 								item.iscommend = !!item.iscommend;
