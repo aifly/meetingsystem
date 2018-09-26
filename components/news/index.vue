@@ -335,7 +335,9 @@
 				var s = this;
 				this.delfile(dl.url,()=>{
 					s.formNews.download.splice(i,1);
-					s.newsAction();
+					if(s.formNews.newsid){
+						s.newsAction();
+					}
 				})
 				//console.log(this.formNews.download);
 			},
@@ -343,7 +345,9 @@
 			delencryptfile(){
 				this.delfile(this.formNews.pdfurl,()=>{
 					this.formNews.pdfurl  = '';
-					this.newsAction();
+					if(this.formNews.newsid){
+						this.newsAction();
+					}
 				});
 			},
 
@@ -528,8 +532,9 @@
 									if(data.getret === 0){
 										s.$Message.success('pdf转图片成功');
 										s.formNews.encryptfile = data.list;
-										
-										s.newsAction();
+										if(s.formNews.newsid){
+											s.newsAction();
+										}
 									//	console.log(data.list);
 									}
 									else{
@@ -542,8 +547,9 @@
 						}else if(option.pick === '.wm-upload'){//附件上传
 							s.formNews.download.splice(s.formNews.download.length-1,1,{url:data.fileurl});
 							s.formNews.download[s.formNews.download.length-1].isUploading = false;
-
-							s.newsAction();
+							if(s.formNews.newsid){
+								s.newsAction();
+							}
 						}
 						//s.formNews.bannerurl = data.fileurl;
 					}
