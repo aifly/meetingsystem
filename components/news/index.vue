@@ -488,6 +488,7 @@
 						s.formNews.download.push({url:file.name});
 						s.formNews.download[s.formNews.download.length-1].isUploading = true;
 						console.log(file);
+						i++;
 					}
 					 
 				});
@@ -513,8 +514,9 @@
 				});
 
 				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+				var iNow = 0;
 				uploader.on('uploadSuccess', function (file,data) {
-				//	console.log(file,data,option);
+					console.log('success ....',data.getret );
 					if(data.getret === 0){
 						if(option.pick === '.news-encryptfile'){//加密文件上传
 							s.showEncryptfileBtn = true;
@@ -546,10 +548,20 @@
 
 						}else if(option.pick === '.wm-upload'){//附件上传
 							s.formNews.download.splice(s.formNews.download.length-1,1,{url:data.fileurl});
-							s.formNews.download[s.formNews.download.length-1].isUploading = false;
-							if(s.formNews.newsid){
-								s.newsAction();
+							s.formNews.download.forEach((item)=>{
+								if(item.url === file.name){
+									item.isUploading = false;
+								}
+							})
+							s.formNews.download = s.formNews.download.concat([]);
+							//s.formNews.download[s.formNews.download.length-1].isUploading = false;
+							iNow++;
+							if(iNow === i){
+								if(s.formNews.newsid){
+									s.newsAction();
+								}
 							}
+							
 						}
 						//s.formNews.bannerurl = data.fileurl;
 					}
@@ -563,10 +575,14 @@
 				});
 
 				// 完成上传完了，成功或者失败，先删除进度条。
-				var iNow = 0;
+				
+
 				uploader.on('uploadComplete', function (file) {
+
 					
-					
+					if(option.pick === '.wm-upload'){//上传附件
+						
+					}
 					//
 				
 				});
