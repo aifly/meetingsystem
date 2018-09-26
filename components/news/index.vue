@@ -50,11 +50,19 @@
 							<div class=" news-encryptfile">
 
 							</div>
-							<Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件)
+							<span v-if='showEncryptfileBtn'>
+								 <Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件)
+							</span>	
+							<span v-else class='wm-news-encryptfile-progressbar'>
+								<label>{{percent}}%</label>
+								<span :style="{WebkitTransform:'translate3d('+(percent-100)+'%,0,0)'}"></span>
+							</span>
 						</div>
 						<div  v-if='formNews.pdfurl' class="wm-news-encryptfile-name" >
 							<span  v-html='formNews.pdfurl.split("/").pop()'></span>
 							<span @click='delencryptfile' class="wm-news-remove-encryptfile wm-close"></span>
+							<span v-if='isDisabledBtn' class='wm-news-encrypting'>文件加密中，请稍后... <Icon  type="ios-loading" class="demo-spin-icon-load"></Icon></span>
+
 						</div>
 					</FormItem>
 
@@ -64,10 +72,11 @@
 								<div></div>
 							</div>
 							<div class="wm-news-download-list" v-if='formNews.download'>
-								<div v-for='(dl,i) in formNews.download.split(",")' v-if='dl' :key="i">
+								<div v-for='(dl,i) in formNews.download' v-if='dl' :key="i">
 									<span class='wm-close' @click="deldownloadfile(dl,i)"></span>
-									<img :src='imgs[dl.split(".").pop()]' alt="">
-									{{dl.split('/').pop()}}
+									<img :src='imgs[dl.url.split(".").pop()]' alt="">
+									<span v-if='dl.isUploading' class='wm-news-download-progress'>{{dl.percent||0}}%</span>
+									{{dl.url.split('/').pop()}}
 								</div>
 							</div>
 						</section>
@@ -80,7 +89,7 @@
 						</RadioGroup>
 					</FormItem>
 					<FormItem>
-						<Button type="primary" @click="newsAction()" size='large'>{{currentNewsId>-1?'编辑新闻':'添加新闻'}}</Button>
+						<Button :disabled='isDisabledBtn' type="primary" @click="newsAction()" size='large'>{{currentNewsId>-1?'编辑新闻':'添加新闻'}}</Button>
 					</FormItem>
 				</Form>
 				<div v-if='!showDetail' class="wm-news-list">
@@ -126,16 +135,16 @@
 				imgs:window.imgs,
 				isLoading:false,
 				currentNewsId:-1, 
+				isDisabledBtn:false,
 				showDetail:false,
 				showPass:false,
+				percent:0,
+				showEncryptfileBtn:true,
 				viewH:window.innerHeight,
 				newsTypeList:[],
 				ruleValidate:{
 					title: [
                         { required: true, message: '标题不能为空', trigger: 'blur' }
-                    ],
-                    type: [
-                        { required: true, message: '新闻分类不能为空', trigger: 'change' }
                     ]
 				},
 				columns:[
@@ -159,7 +168,10 @@
 						title:"是否推荐",
 						key:'iscommend',
 						align:'center',
-						width:100
+						width:100,
+						render:(h,params)=>{
+							return h('div',{},params.row.iscommend?'是':'否');
+						}
 					},{
 						title:"修改时间",
 						key:'updatetime',
@@ -199,6 +211,9 @@
 											s.currentNewsId = params.row.newsid;
 											s.formNews.iscommend = !!s.formNews.iscommend;
 											s.formNews.encrypsign = !!s.formNews.encrypsign;
+											if(!s.formNews.download instanceof Array){
+												//s.formNews.download = s.formNews.download ? s.formNews.download.split(','):[];
+											}
                                         }
                                     }
                                 }, '详情'),
@@ -209,7 +224,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											//this.delAdUser(params.row.userid);
+											this.delNews(params.row.newsid);
 										},
 										
 									}
@@ -233,7 +248,7 @@
 				],
 				formNews:{
 					pdfurl:'',
-					download:'',
+					download:[],
 					encrypsign:false,
 					iscommend:false
 				},
@@ -280,7 +295,7 @@
 				pick:'.wm-upload',
 				accept:{
 					title: 'All',
-					extensions: 'doc,docx,pdf,zip,rar',
+					extensions: 'doc,docx,pdf,zip,rar,vnd.openxmlformats-officedocument.wordprocessingml.document,msword,x-zip-compressed,octet-stream',
 					mimeTypes: '*/*'
 				}
 			});
@@ -289,27 +304,47 @@
 		watch:{
 			formNews:()=>{
 
+			},
+			showDetail(val){
+				if(val){
+					s.isDisabledBtn = false;
+				}
 			}
 		},
 		
 		methods:{
 
-			deldownloadfile(dl,index){
-				
-				var delstr = dl+','
-				if(index>=this.formNews.download.split(',').length-1){
-					delstr = ','+dl;
-				}
-				if(this.formNews.download.split(',').length === 1){
-					this.formNews.download =  '';
-				}else{
-					this.formNews.download = this.formNews.download.replace(delstr,'');
-				}
+			delfile(url,fn){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/delnewsfile',
+					data:{
+						admintoken : s.userinfo.accesstoken,
+						adminuserid: s.userinfo.userid,
+						url
+					},
+					success(data){
+						if(data.getret ===0||data.getret ===1005){//1005文件不存在。
+							fn && fn();
+						}
+					}
+				})
+			},
+
+			deldownloadfile(dl,i){
+				var s = this;
+				this.delfile(dl.url,()=>{
+					s.formNews.download.splice(i,1);
+					s.newsAction();
+				})
 				//console.log(this.formNews.download);
 			},
 
 			delencryptfile(){
-				this.formNews.pdfurl  = '';
+				this.delfile(this.formNews.pdfurl,()=>{
+					this.formNews.pdfurl  = '';
+					this.newsAction();
+				});
 			},
 
 			newsAction(){
@@ -329,17 +364,23 @@
 				var http = window.config.baseUrl.replace('https://','').split('/');
 				http.pop();
 				http = http.join('/');
-				if(p.download){
-
-					p.download = p.download.replace(/http:/ig,'https:');
-					p.download = p.download.replace(/https:\/\//ig,'');
-					var arr = [];
-					
-					p.download.split(',').map((dl)=>{
-						var dl = dl.replace(http,'');
-						arr.push(dl.replace('https//',''));
-					});
-					p.download = arr.join(',');
+				
+				var downloadArr = [];
+				p.download.concat([]).map((item)=>{
+					downloadArr.push(item.url);
+				})
+				p.download = downloadArr.join(',');
+				p.download = p.download.replace(/http:/ig,'https:');
+				p.download = p.download.replace(/https:\/\//ig,'');
+				var arr = [];
+				
+				p.download.split(',').map((dl)=>{
+					var dl = dl.replace(http,'');
+					arr.push(dl.replace('https//',''));
+				});
+				p.download = arr.join(',');
+				if(p.download.charAt(0) === ','){
+					p.download = p.download.substring(1);
 				}
 				if(p.encryptfile){
 					p.encryptfile = p.encryptfile.replace(/http:/ig,'https:');
@@ -372,9 +413,9 @@
 					//	console.log(data);
 						if(data.getret === 0 ){
 						 
-							s.getNewsList();
+							//s.getNewsList();
 							s.$Message.success(data.getmsg);
-							s.showDetail = false;
+							//s.showDetail = false;
 						}
 					}
 				})
@@ -416,15 +457,16 @@
 					//dnd:'.wm-myreport-left',
 					disableGlobalDnd :true,//是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
 				});
-				uploader.on('dndAccept',(file,a)=>{
+				/* uploader.on('dndAccept',(file,a)=>{
 					if(accepts[s.currentType].extensions.indexOf(file['0'].type.split('/')[1])<=-1){
 						s.$Message.error('目前不支持'+file['0'].type.split('/')[1]+'文件格式');
 					}
-				})
+				}) */
 
 				uploader.on("beforeFileQueued",function(file){
 					if(option.accept.extensions.indexOf(file['type'].split('/')[1])<=-1){
 						s.$Message.error('当前文件格式不支持');
+						
 						return;
 					}
 					 
@@ -436,24 +478,44 @@
 				var i = 0;
 				uploader.on('fileQueued', function (file) {
 					uploader.upload();
+					if(option.pick === '.news-encryptfile'){//加密文件上传
+						s.showEncryptfileBtn = false;
+					}else if(option.pick === '.wm-upload'){//附件上传
+						s.formNews.download.push({url:file.name});
+						s.formNews.download[s.formNews.download.length-1].isUploading = true;
+						console.log(file);
+					}
 					 
 				});
 				// 文件上传过程中创建进度条实时显示。
-				/* uploader.on('uploadProgress', function (file, percentage) {
-
-					
-					var index = -1;
+				uploader.on('uploadProgress', function (file, percentage) {
+						var index = -1;
 					var scale = (percentage * 100|0);
-					 
+					
+					if(option.pick === '.news-encryptfile'){//加密文件上传
+						s.percent = scale;
+
+					}else if(option.pick === '.wm-upload'){//附件上传
+						s.formNews.download.forEach((item)=>{
+							//console.log(item.url , file.name)
+							if(item.url === file.name){
+								item.percent = scale;
+							}
+						})
+						s.formNews.download = s.formNews.download.concat([]);
+					}
+				
 				 
-				}); */
+				});
 
 				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
 				uploader.on('uploadSuccess', function (file,data) {
 				//	console.log(file,data,option);
 					if(data.getret === 0){
 						if(option.pick === '.news-encryptfile'){//加密文件上传
+							s.showEncryptfileBtn = true;
 							s.formNews.pdfurl = data.fileurl;
+							s.isDisabledBtn = true;
 							symbinUtil.ajax({
 								url:window.config.baseUrl+'/zmitiadmin/pdftrunimage',
 								data:{
@@ -462,9 +524,12 @@
 									pdfurl:s.formNews.pdfurl
 								},
 								success(data){
+									s.isDisabledBtn = false;
 									if(data.getret === 0){
 										s.$Message.success('pdf转图片成功');
 										s.formNews.encryptfile = data.list;
+										
+										s.newsAction();
 									//	console.log(data.list);
 									}
 									else{
@@ -475,12 +540,10 @@
 							})
 
 						}else if(option.pick === '.wm-upload'){//附件上传
+							s.formNews.download.splice(s.formNews.download.length-1,1,{url:data.fileurl});
+							s.formNews.download[s.formNews.download.length-1].isUploading = false;
 
-							if(s.formNews.download.length <=0){
-								s.formNews.download = data.fileurl;
-							}else{
-								s.formNews.download += ',' + data.fileurl;
-							}
+							s.newsAction();
 						}
 						//s.formNews.bannerurl = data.fileurl;
 					}
@@ -506,14 +569,14 @@
 			
 			
  
-			delAdUser(userid){
+			delNews(newsid){
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/zmitiadmin/delstudent/',
+					url:window.config.baseUrl+'/zmitiadmin/delnews/',
 					validate:s.validate,
 					data:{
-						userid,
+						newsid,
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
 					},success(data){
@@ -564,14 +627,25 @@
 							data.list.forEach((item=>{
 								item.iscommend = !!item.iscommend;
 								item.encrypsign = !!item.encrypsign;
+								var download = [];
+								item.download.split(',').map((d)=>{
+									if(d){
+										download.push({
+											url:d
+										})
+									}
+								});
+								item.download = download;
 							}))
 							s.formNews = {
 								pdfurl:'',
-								download:'',
+								download:[],
 								iscommend:false,
 								encryptfile:false
 							}
 							s.newsList = data.list;
+
+
 							
 						}
 						else{
@@ -598,4 +672,15 @@
 		}
 	}
 </script>
- 
+ <style>
+	.demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+        -webkit-animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+
+ </style>
