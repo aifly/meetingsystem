@@ -628,7 +628,7 @@
 								item.iscommend = !!item.iscommend;
 								item.encrypsign = !!item.encrypsign;
 								var download = [];
-								item.download.split(',').map((d)=>{
+								(item.download||"").split(',').map((d)=>{
 									if(d){
 										download.push({
 											url:d
