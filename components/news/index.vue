@@ -59,7 +59,9 @@
 							</span>
 						</div>
 						<div  v-if='formNews.pdfurl' class="wm-news-encryptfile-name" >
-							<span  v-html='formNews.pdfurl.split("/").pop()'></span>
+							<span>
+								<a   v-html='formNews.pdfurl.split("/").pop()' target='_blank' :href='formNews.pdfurl'></a>
+							</span>
 							<span @click='delencryptfile' class="wm-news-remove-encryptfile wm-close"></span>
 							<span v-if='isDisabledBtn' class='wm-news-encrypting'>文件加密中，请稍后... <Icon  type="ios-loading" class="demo-spin-icon-load"></Icon></span>
 
@@ -73,10 +75,13 @@
 							</div>
 							<div class="wm-news-download-list" v-if='formNews.download'>
 								<div v-for='(dl,i) in formNews.download' v-if='dl' :key="i">
+									
 									<span class='wm-close' @click="deldownloadfile(dl,i)"></span>
-									<img :src='imgs[dl.url.split(".").pop()]' alt="">
-									<span v-if='dl.isUploading' class='wm-news-download-progress'>{{dl.percent||0}}%</span>
-									{{dl.url.split('/').pop()}}
+									<a :href='dl.url' target='_blank'>
+										<img :src='imgs[dl.url.split(".").pop()]' alt="">
+										<span v-if='dl.isUploading' class='wm-news-download-progress'>{{dl.percent||0}}%</span>
+										{{dl.url.split('/').pop()}}
+									</a>
 								</div>
 							</div>
 						</section>
@@ -89,11 +94,13 @@
 						</RadioGroup>
 					</FormItem>
 					<FormItem>
-						<Button :disabled='isDisabledBtn' type="primary" @click="newsAction()" size='large'>{{currentNewsId>-1?'编辑新闻':'添加新闻'}}</Button>
+						<Button :disabled='isDisabledBtn' type="primary" @click="newsAction('click')" size='large'>{{currentNewsId>-1?'保存':'添加'}}</Button>
 					</FormItem>
 				</Form>
 				<div v-if='!showDetail' class="wm-news-list">
-					<Table :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns'   stripe></Table>
+					<Table  :loading="loading" :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns'   stripe>
+						<div slot='loading' class='wm-table-loading'>加载中<span>.</span><span>.</span><span>.</span></div>
+					</Table>
 				</div>
 			</div>
 
@@ -130,6 +137,7 @@
                         ]
                     }
 				},
+				loading:true,
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -351,7 +359,7 @@
 				});
 			},
 
-			newsAction(){
+			newsAction(type){
 				var s = this;
 				var p = JSON.parse(JSON.stringify(this.formNews));
 				p.admintoken = s.userinfo.accesstoken;
@@ -419,7 +427,7 @@
 						 
 							//s.getNewsList();
 							s.$Message.success(data.getmsg);
-							//s.showDetail = false;
+							s.showDetail = !!s.formNews.newsid;
 						}
 					}
 				})
@@ -532,7 +540,6 @@
 								success(data){
 									s.isDisabledBtn = false;
 									if(data.getret === 0){
-										s.$Message.success('pdf转图片成功');
 										s.formNews.encryptfile = data.list;
 										if(s.formNews.newsid){
 											s.newsAction();
@@ -666,7 +673,7 @@
 								encryptfile:false
 							}
 							s.newsList = data.list;
-
+							s.loading = false;
 
 							
 						}

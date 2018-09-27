@@ -67,6 +67,30 @@ $color: #be0000;
 
     }
 
+    .wm-table-loading{
+        color:red;
+        font-size:16px;
+        span{
+            font-size:30px;
+            @include animation(flash .8s infinite alternate);
+            &:nth-of-type(2){
+                @include animation(flash .8s .5s infinite alternate);
+            }
+            &:nth-of-type(3){
+                @include animation(flash .8s 1s infinite alternate);
+            }
+        }
+
+    }
+
+    @-webkit-keyframes flash{
+        to{opacity:0;}
+    }
+
+    @keyframes flash{
+        to{opacity:0;}
+    }
+
     .wm-news-encryptfile{
         width: 300px;
         @include pos(r);
