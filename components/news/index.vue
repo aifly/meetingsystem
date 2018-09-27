@@ -424,10 +424,11 @@
 					success(data){
 					//	console.log(data);
 						if(data.getret === 0 ){
-						 
 							//s.getNewsList();
-							s.$Message.success(data.getmsg);
-							s.showDetail = !!s.formNews.newsid;
+							if(type){
+								s.$Message.success(data.getmsg);
+								s.showDetail = false;
+							}
 						}
 					}
 				})
@@ -444,8 +445,8 @@
 				if(s.uploader){
 					//s.uploader.destroy();
 				}
-				
-				var uploader = WebUploader.create({
+
+				var params = {
 					// 选完文件后，是否自动上传。
 					auto: true,
 					// swf文件路径
@@ -468,7 +469,14 @@
 					},
 					//dnd:'.wm-myreport-left',
 					disableGlobalDnd :true,//是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
-				});
+				};
+
+				if(option.pick === '.news-encryptfile'){
+					params.fileSingleSizeLimit = 8*1024*1024;
+				}
+
+				
+				var uploader = WebUploader.create(params);
 				/* uploader.on('dndAccept',(file,a)=>{
 					if(accepts[s.currentType].extensions.indexOf(file['0'].type.split('/')[1])<=-1){
 						s.$Message.error('目前不支持'+file['0'].type.split('/')[1]+'文件格式');
@@ -476,9 +484,14 @@
 				}) */
 
 				uploader.on("beforeFileQueued",function(file){
+					
 					if(option.accept.extensions.indexOf(file['type'].split('/')[1])<=-1){
 						s.$Message.error('当前文件格式不支持');
 						
+						return;
+					}
+					if(file.size>params.fileSingleSizeLimit){
+						s.$Message.error('当前文件过大。最大8M');
 						return;
 					}
 					 
