@@ -50,7 +50,7 @@ const router = new VueRouter({
 			props: true
 		},
 		{
-			path: '/meetingnews/:meetid/:meetname/:hash?/',
+			path: '/meetingnews/:meetid/:meetname/',
 			name: 'meetingnews',
 			component: News,
 			props: true
@@ -60,7 +60,7 @@ const router = new VueRouter({
 			component: Meeting,
 			props: true
 		}, {
-			path: '/meetingcourse/:meetid/:meetname/:hash?/',
+			path: '/meetingcourse/:meetid/:meetname/',
 			name: 'meetingcourse',
 			component: Course,
 			props: true
@@ -81,12 +81,12 @@ const router = new VueRouter({
 			props: true
 		
 		}, {
-			path: '/meetingattendance/:meetid/:meetname/:hash?/',
+			path: '/meetingattendance/:meetid/:meetname/',
 			name: 'meetingattendance',
 			component: Attendance,
 			props: true
 		}, {
-			path: '/meetingsignup/:meetid/:meetname/:hash?/',
+			path: '/meetingsignup/:meetid/:meetname/',
 			name: 'meetingsignup',
 			component:Signup,
 			props: true

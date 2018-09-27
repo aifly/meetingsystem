@@ -3,7 +3,7 @@
         <ul :style="{height:viewH - 64+'px'}" class="wm-tab-list" >
 			<li>{{meetname||$route.params.meetname}}</li>
             <li @click='refresh' v-for="(menu ,i ) in menus " :key="i" :class="{'active':menu.to ===$route.name }">
-				<router-link :to="'/'+menu.to+'/'+$route.params.meetid+'/'+(meetname||$route.params.meetname)+'/'+ new Date().getTime()"> {{menu.name}}</router-link>
+				<router-link :to="'/'+menu.to+'/'+$route.params.meetid+'/'+(meetname||$route.params.meetname)"> {{menu.name}}</router-link>
             </li>
         </ul>
     </div>
