@@ -1,7 +1,7 @@
 <template>
 	<div class="wm-course-main-ui">
 		<div>
-			<Tab></Tab>
+			<Tab :refresh='refresh'></Tab>
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
@@ -213,6 +213,9 @@
 		
 		methods:{
 
+			refresh(){
+				
+			},
 
 			initMap(){
 

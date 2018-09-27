@@ -1,13 +1,13 @@
 <template>
 	<div class="wm-news-main-ui">
 		<div>
-			<Tab></Tab>
+			<Tab :refresh='refresh'></Tab>
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
 				<div>新闻信息管理</div>
 				<div>
-					<Button type="primary"　@click='showDetail = true'>新增新闻</Button>
+					<Button type="primary"　@click='addNews'>新增新闻</Button>
 				</div>
 			</header>
 			<div class="wm-news-wrap">
@@ -321,6 +321,25 @@
 		},
 		
 		methods:{
+
+			refresh(){
+				this.showDetail = false;
+				this.getNewsList();
+				this.formNews = {
+					download:[]
+				};
+			},
+
+			addNews(){
+				this.showDetail = true;
+				this.currentNewsId = -1;
+				this.formNews = {
+					pdfurl:'',
+					download:[],
+					encrypsign:false,
+					iscommend:false
+				};
+			},
 
 			delfile(url,fn){
 				var s = this;

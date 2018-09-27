@@ -1,7 +1,7 @@
 <template>
 	<div class="wm-signup-ui lt-full">
 		<div>
-			<Tab></Tab>
+			<Tab :refresh='refresh'></Tab>
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
@@ -151,7 +151,9 @@
 		},
 		
 		methods:{
-
+			refresh(){
+				
+			},
 			entry(e){
 				this.currentUserId = e.userid;
 				

@@ -110,14 +110,15 @@
 						title:"手机号",
 						key:'mobile',
 						align:'center'
-					},{
+					}
+					/* ,{
 						title:"状态",
 						key:'status',
 						align:'center',
 						render(h,params){
 							return h('div',{},params.row.status ===1?'已审核':'未审核')
 						}
-					},{
+					} */,{
 						title:'操作',
 						key:"action",
 						align:'center',

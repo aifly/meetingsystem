@@ -221,6 +221,8 @@
 		
 		methods:{
 
+		
+
 			upload(){
 
 				
@@ -331,7 +333,7 @@
 					return e.meetname;
 				});
 				
-				this.$router.push("/meetingsignup/"+e.meetid+'/'+e.meetname);
+				this.$router.push("/meetingsignup/"+e.meetid+'/'+e.meetname+'/'+ new Date().getTime());
 			},
 			 
 			modifyPass(){

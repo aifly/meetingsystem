@@ -2,8 +2,8 @@
     <div class="wm-tab-ui">
         <ul :style="{height:viewH - 64+'px'}" class="wm-tab-list" >
 			<li>{{meetname||$route.params.meetname}}</li>
-            <li v-for="(menu ,i ) in menus " :key="i" :class="{'active':menu.to ===$route.name }">
-				<router-link :to="'/'+menu.to+'/'+$route.params.meetid+'/'+(meetname||$route.params.meetname)"> {{menu.name}}</router-link>
+            <li @click='refresh' v-for="(menu ,i ) in menus " :key="i" :class="{'active':menu.to ===$route.name }">
+				<router-link :to="'/'+menu.to+'/'+$route.params.meetid+'/'+(meetname||$route.params.meetname)+'/'+ new Date().getTime()"> {{menu.name}}</router-link>
             </li>
         </ul>
     </div>
@@ -12,7 +12,7 @@
 	import './index.css';
 	import Vue from 'vue';
     export default {
-		props:['obserable'],
+		props:['obserable','refresh'],
 		name:'zmitiindex',
 		data(){
 			return{
@@ -52,7 +52,11 @@
 		},
 		components:{
 		},
+		watch:{
+			$route(){
 
+			}
+		},
 		beforeCreate(){
 			
 		},

@@ -50,7 +50,7 @@ const router = new VueRouter({
 			props: true
 		},
 		{
-			path: '/meetingnews/:meetid/:meetname?/',
+			path: '/meetingnews/:meetid/:meetname/:hash?/',
 			name: 'meetingnews',
 			component: News,
 			props: true
@@ -60,7 +60,7 @@ const router = new VueRouter({
 			component: Meeting,
 			props: true
 		}, {
-			path: '/meetingcourse/:meetid/:meetname?/',
+			path: '/meetingcourse/:meetid/:meetname/:hash?/',
 			name: 'meetingcourse',
 			component: Course,
 			props: true
@@ -81,17 +81,21 @@ const router = new VueRouter({
 			props: true
 		
 		}, {
-			path: '/meetingattendance/:meetid/:meetname?/',
+			path: '/meetingattendance/:meetid/:meetname/:hash?/',
 			name: 'meetingattendance',
 			component: Attendance,
 			props: true
 		}, {
-			path: '/meetingsignup/:meetid/:meetname?/',
+			path: '/meetingsignup/:meetid/:meetname/:hash?/',
 			name: 'meetingsignup',
 			component:Signup,
 			props: true
 		}
 	]
+});
+
+router.beforeEach((to, from, next) => { //导航守卫。
+	next();
 });
 
 new Vue({
