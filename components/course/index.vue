@@ -7,7 +7,7 @@
 			<header class="wm-tab-header">
 				<div>课程管理</div>
 				<div>
-					<Button type="primary">新增课程</Button>
+					<Button type="primary" @click="addCourse">新增课程</Button>
 				</div>
 			</header>
 			<div class="wm-course-wrap" >
@@ -174,7 +174,7 @@
                     ]
 				},
 				formClass:{
-					pdfurl:'wm-news-remove-encryptfile.pdf'	
+					pdfurl:''	
 				},
 				courseList:[],
 				 
@@ -212,6 +212,14 @@
 		},
 		
 		methods:{
+
+			addCourse(){
+				this.showDetail = true;
+				this.currentClassId = -1;
+				this.formClass = {
+				}
+			},
+
 
 			refresh(){
 				

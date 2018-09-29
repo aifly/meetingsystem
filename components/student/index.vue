@@ -104,7 +104,7 @@
 						align:'center'
 					},{
 						title:"省份",
-						key:'name',
+						key:'provincename',
 						align:'center'
 					},{
 						title:"手机号",

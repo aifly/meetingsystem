@@ -153,6 +153,9 @@
 				ruleValidate:{
 					title: [
                         { required: true, message: '标题不能为空', trigger: 'blur' }
+					],
+					type: [
+                        { required: true, message: '新闻分类不能为空', trigger: 'blur' }
                     ]
 				},
 				columns:[
@@ -181,8 +184,8 @@
 							return h('div',{},params.row.iscommend?'是':'否');
 						}
 					},{
-						title:"修改时间",
-						key:'updatetime',
+						title:"创建时间",
+						key:'createtime',
 						align:'center',
 						width:150
 					},{
@@ -232,7 +235,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											this.delNews(params.row.newsid);
+											this.delNews(params.row);
 										},
 										
 									}
@@ -380,6 +383,18 @@
 
 			newsAction(type){
 				var s = this;
+
+				if(!s.formNews.title){
+					this.$Message.error('新闻标题不能为空');
+					return;
+				}
+				if(!s.formNews.type){
+					this.$Message.error('新闻分类不能为空');
+					return;
+				}
+
+				
+
 				var p = JSON.parse(JSON.stringify(this.formNews));
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
@@ -443,9 +458,9 @@
 					success(data){
 					//	console.log(data);
 						if(data.getret === 0 ){
-							//s.getNewsList();
 							if(type){
 								s.$Message.success(data.getmsg);
+								s.getNewsList();
 								s.showDetail = false;
 							}
 						}
@@ -630,8 +645,26 @@
 			
 			
  
-			delNews(newsid){
+			delNews(row){
+				var newsid = row.newsid;
 				var s = this;
+				var url = [];
+				if(row.pdfurl){
+					url.push(row.pdfurl);
+				}
+				if(row.wordurl){
+					url.push(row.wordurl);
+				}
+				if(row.encryptfile){
+					url = url.concat(row.encryptfile.split(','));
+				}
+				if(row.download && row.download instanceof Array && row.download.length){
+					row.download.forEach((item)=>{
+						url.push(item.url)
+					})
+					
+				}
+			
 				symbinUtil.ajax({
 					_this:s,
 					url:window.config.baseUrl+'/zmitiadmin/delnews/',
@@ -643,6 +676,20 @@
 					},success(data){
 						if(data.getret === 0){
 							s.$Message.success(data.getmsg);
+							if(url.length){
+
+								symbinUtil.ajax({
+									url:window.config.baseUrl+'/zmitiadmin/delfiles',
+									data:{
+										admintoken:s.userinfo.accesstoken,
+										adminuserid:s.userinfo.userid,
+										url:url.join(',')
+									},
+									success(data){
+										console.log(data);
+									}
+								})
+							}
 							s.getNewsList();
 						}
 						else{

@@ -85,6 +85,53 @@
   left: 30px;
 }
 
+.wm-meeting-main-ui .wm-meet-list {
+  width: 100%;
+  position: relative;
+  border: 1px solid red;
+  padding: 0 30px;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li {
+  width: 45%;
+  margin-right: 5%;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions > div {
+  margin: 0 10px;
+  border: 1px solid #be0000;
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 12px;
+}
+
 .wm-meeting-banner {
   width: 280px;
   height: 100px;

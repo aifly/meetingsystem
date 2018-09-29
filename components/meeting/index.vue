@@ -6,7 +6,35 @@
 				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增会议</Button>
 			</section>
 		</header>
-		<Table ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
+		<Table v-if='false' ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='meetList' :columns='columns'   stripe></Table>
+		
+		<div class='wm-meet-list'>
+			<ul>
+				<li v-for='(meet,i) in meetList' :key="i">
+					<span class='wm-meet-item-status'>
+
+					</span>
+					<div class='wm-meet-item-header'>
+						<div class='wm-meet-item-header-left'>
+							<div class='wm-meet-item-name'>{{meet.meetname}}</div>
+							<div>时间：{{meet.startdate}} - {{meet.enddate}}</div>
+						</div>
+						<div class='wm-meet-item-header-right'>
+							<div class='wm-meet-item-actions'>
+								<div>详情</div>
+								<div>编辑</div>
+								<div>删除</div>
+							</div>
+							<div>报名人数：{{meet.studentcount||0 }}</div>
+						</div>
+					</div>
+					<div>
+						<div>会议说明：</div>
+						<div>{{meet.meetremarks}}</div>
+					</div>
+				</li>
+			</ul>
+		</div>
 
 		<Modal
 			v-model="visible"
@@ -77,7 +105,7 @@
 					bannerurl:'',
 					url:''
 				},
-				userList:[],
+				meetList:[],
 				columns:[
 					{
 						title:"会议名称",
@@ -333,7 +361,7 @@
 					return e.meetname;
 				});
 				
-				this.$router.push("/meetingsignup/"+e.meetid+'/'+e.meetname+'/'+ new Date().getTime());
+				this.$router.push("/meetingsignup/"+e.meetid+'/'+e.meetname);
 			},
 			 
 			modifyPass(){
@@ -407,7 +435,7 @@
 					success(data){
 						console.log(data);
 						if(data.getret === 0){
-							s.userList = data.list;
+							s.meetList = data.list;
 						}
 						else{
 							s.$Message.error(data.getmsg);
