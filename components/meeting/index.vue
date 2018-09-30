@@ -1,34 +1,90 @@
 <template>
 	<div class="wm-meeting-main-ui">
 		<header>
-			<div>会议管理</div>
+			<div>会议管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>
 			<section>
-				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增会议</Button>
+				<Button type="primary" icon='md-add-circle' v-if='!showDetail' @click="addNewAduser">新增会议</Button>
+				<Button type="primary" icon='ios-checkmark-circle-outline' v-else @click="meetAction">{{formMeet.meetid?'修改':'保存'}}</Button>
 			</section>
 		</header>
 		<Table v-if='false' ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='meetList' :columns='columns'   stripe></Table>
 		
-		<div class='wm-meet-list'>
+		<div v-if='showDetail' class='wm-meet-form' :style="{height:viewH-64-50+'px'}">
+			<section>
+				<div class='wm-meet-form-item wm-require'>
+					<div><label for="">名称：</label><input v-model='formMeet.meetname' type="text"></div>
+					<div class='wm-meet-form-error' v-if='meetnameErr'>{{meetnameErr}}</div>
+				</div>
+				<div class='wm-meet-form-item wm-require'>
+					<div>
+						<label for="">会议时间：</label>
+						<DatePicker style="width:80%" v-model="formMeet.datetimes" :value="formMeet.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
+					</div>
+					<div class='wm-meet-form-error'></div>
+				</div>
+				
+				<div class='wm-meet-form-item wm-meet-form-muli'>
+					<div><label for="">说明：</label><textarea v-model='formMeet.meetremarks' type="textarea"></textarea></div>
+				</div>
+				<div class='wm-meet-form-radio'>
+					<div>是否开启报名</div>
+					<div>
+						 <RadioGroup v-model="formMeet.issignup">
+							<Radio :value='1' label="是"></Radio>
+							<Radio :value='0' label="否"></Radio>
+						</RadioGroup>
+					</div>
+				</div>
+				<div class='wm-meet-form-radio'>
+					<div>是否开启用户审核</div>
+					<div>
+						<RadioGroup v-model="formMeet.ischecked">
+							<Radio :value='1' label="是"></Radio>
+							<Radio :value='0' label="否"></Radio>
+						</RadioGroup>
+					</div>
+				</div>
+				<div class='wm-meet-form-radio'>
+					<div>是否开启会议报道</div>
+					<div>
+						<RadioGroup v-model="formMeet.isreport">
+							<Radio :value='1' label="是"></Radio>
+							<Radio :value='0' label="否"></Radio>
+						</RadioGroup>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div v-else class='wm-meet-list wm-scroll' :style="{height:viewH-64-50+'px'}" >
 			<ul>
 				<li v-for='(meet,i) in meetList' :key="i">
 					<span class='wm-meet-item-status'>
-
+						<img :src="imgs[meet.status === 1 ? 'enable':'disable']" alt="">
 					</span>
 					<div class='wm-meet-item-header'>
 						<div class='wm-meet-item-header-left'>
 							<div class='wm-meet-item-name'>{{meet.meetname}}</div>
-							<div>时间：{{meet.startdate}} - {{meet.enddate}}</div>
+							<div class='wm-meet-item-info'>时间：{{meet.startdate}} - {{meet.enddate}}</div>
 						</div>
 						<div class='wm-meet-item-header-right'>
 							<div class='wm-meet-item-actions'>
-								<div>详情</div>
-								<div>编辑</div>
-								<div>删除</div>
+								<div @click="entry(meet,i)">详情</div>
+								<div @click='editMeet(meet,i)'>编辑</div>
+								<div>
+									<Poptip
+										confirm
+										title="确定要删除吗？"
+										@on-ok="delMeet(meet.meetid)"
+										>
+										<div>删除</div>
+									</Poptip>
+
+								</div>
 							</div>
-							<div>报名人数：{{meet.studentcount||0 }}</div>
+							<div class='wm-meet-item-info'>报名人数：{{meet.personnum|| '--' }}</div>
 						</div>
 					</div>
-					<div>
+					<div class='wm-meet-remark'>
 						<div>会议说明：</div>
 						<div>{{meet.meetremarks}}</div>
 					</div>
@@ -37,19 +93,20 @@
 		</div>
 
 		<Modal
+		v-if='false'
 			v-model="visible"
 			:title="currentMeetid === -1? '新增会议':'编辑会议'"
 			@on-ok="meetAction"
 			@on-cancel="cancel">
-			<Form ref="formAdmin" :model="formAdmin" :label-width="88" >
+			<Form ref="formMeet" :model="formMeet" :label-width="88" >
 				<FormItem label="会议名称：" prop="meetname">
-					<Input  v-model="formAdmin.meetname" placeholder="会议名称" autocomplete="off" />
+					<Input  v-model="formMeet.meetname" placeholder="会议名称" autocomplete="off" />
 				</FormItem>
 				<FormItem label="说明：" prop="meetremarks">
-					<Input v-model="formAdmin.meetremarks" placeholder="说明" autocomplete="off" />
+					<Input v-model="formMeet.meetremarks" placeholder="说明" autocomplete="off" />
 				</FormItem>
 				<FormItem label="时间：" prop="meetremarks">
-					<DatePicker style="width:100%" v-model="formAdmin.datetimes" :value="formAdmin.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
+					<DatePicker style="width:100%" v-model="formMeet.datetimes" :value="formMeet.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
 				</FormItem>
 
 				<FormItem label="banner图 ：" v-show='currentMeetid>-1' prop="bannerurl">
@@ -57,13 +114,13 @@
 					<div id="wm-upload" class="wm-upload">
 						
 					</div>
-					<div class="wm-meeting-banner" v-if='formAdmin.bannerurl' :style="{background:'url('+formAdmin.bannerurl+') no-repeat center',backgroundSize:'contain'}">
+					<div class="wm-meeting-banner" v-if='formMeet.bannerurl' :style="{background:'url('+formMeet.bannerurl+') no-repeat center',backgroundSize:'contain'}">
 
 					</div>
 				</FormItem>
 
 				<FormItem label="状态：" prop="status">
-					<i-switch v-model="formAdmin.status" size="large">
+					<i-switch v-model="formMeet.status" size="large">
 						<span slot="open">可用</span>
 						<span slot="close">禁用</span>
 					</i-switch>
@@ -88,9 +145,11 @@
 		data(){
 			return{
 				content:"",
+				showDetail:false,
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
+				meetnameErr:false,
 				
 				isLoading:false,
 				currentMeetid:-1,
@@ -98,7 +157,7 @@
 				showPass:false,
 				viewH:window.innerHeight,
 
-				formAdmin:{
+				formMeet:{
 					datetimes:[],
 					cityids:[],
 					status:true,
@@ -106,121 +165,7 @@
 					url:''
 				},
 				meetList:[],
-				columns:[
-					{
-						title:"会议名称",
-						key:'meetname',
-						align:'center'
-						
-					},
-					{
-						title:"说明",
-						key:'meetremarks',
-						align:'center'
-					},{
-						title:'状态',
-						key:'status',
-						align:'center',
-						render:(h,params)=>{
-							
-							return h('div',{},params.row.status ? '启用':'禁用');
-						},
-					},{
-						title:'操作',
-						key:"action",
-						align:'center',
-						render:(h,params)=>{
-							return h('div', [
-                               
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-										margin: '2px 5px',
-										border:'none',
-										background:'#fab82e',
-										color:'#fff',
-										padding: '3px 7px 2px',
-										fontSize: '12px',
-										borderRadius: '3px'
-
-                                    },
-                                    on: {
-                                        click: (e) => {
-											e.preventDefault();
-											e.stopPropagation();
-											this.currentMeetid = params.row.meetid;
-											this.formAdmin = params.row;
-											this.formAdmin.meetname =  params.row.meetname;
-											this.formAdmin.status = !!params.row.status;
-											
-											this.formAdmin.datetimes = [params.row.startdate,params.row.enddate];
-											this.visible = true;
-                                        }
-                                    }
-                                }, '编辑'),
-                                h('Poptip',{
-									props:{
-										confirm:true,
-										title:"确定要删除吗"
-									},
-									on:{
-										'on-ok':()=>{
-											this.delAdUser(params.row.meetid);
-										},
-										
-									}
-								},[
-									h('Button', {
-										props: {
-											type: 'error',
-											size: 'small'
-										},
-										on: {
-											click: (e) => {
-												
-												return false;
-												
-												//this.remove(params.index,params.row.employeeid)
-											}
-										}
-									}, '删除')
-								]), h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-										display:"none",
-										margin: '2px 5px',
-										border:'none',
-										background:params.row.status*1 === 0 ? 'rgb(2, 29, 236)':'#b20000',
-										color:'#fff',
-										padding: '3px 7px 2px',
-										fontSize: '12px',
-										borderRadius: '3px'
-
-                                    },
-                                    on: {
-                                        click: () => {
-											/*this.currentMeetid = params.row.userid;
-											this.formAdmin = params.row;
-											this.visible = true;*/
-
-											this.checkUser(params);
-
-											
-                                        }
-                                    }
-                                }, params.row.status*1 === 1 ? '撤销':"审核"),
-                            ]);
-						}
-					}
-				],
-
-				
+			 
 				userinfo:{}
 			}
 		},
@@ -245,115 +190,23 @@
 			//this.getCityData();
 			this.getmeetinglist();
 			window.meeting = this;
+
+			Vue.obserable.on('entyMeeting',()=>{
+				this.showDetail = false;
+
+			})
 		},
 		
 		methods:{
+			
 
-		
-
-			upload(){
-
-				
-				var s = this;
-				 
-				var p = {
-						companyid:'company'+s.userinfo.companyid,
-						projectclassname:'meetingsystem',
-						projectsubclassname:'project'+s.currentMeetid,
-						uploadpath:'2018upload',
-						userid:s.userinfo.userid
-
-				}
-				this.p = p;
-				if(s.uploader){
-					
-					s.uploader.destroy();
-				}
-				var accepts  =  s.accepts;
-				var uploader = WebUploader.create({
-					// 选完文件后，是否自动上传。
-					auto: true,
-					// swf文件路径
-					swf: './webuploader-0.1.5/Uploader.swf',
-					// 文件接收服务端。
-					//server: 'http://api.zmiti.com/v2/fileupload',
-					server: window.config.baseUrl+'/wmshare/uploadfile/',
-					// 选择文件的按钮。可选。
-					// 内部根据当前运行是创建，可能是input元素，也可能是flash.
-					pick: '.wm-upload',
-					chunked: true, //开启分片上传
-					threads: 1, //上传并发数
-					method: 'POST',
-					compress:false,
-					prepareNextFile:true,//是否允许在文件传输时提前把下一个文件准备好。 对于一个文件的准备工作比较耗时，比如图片压缩，md5序列化。 如果能提前在当前文件传输期处理，可以节省总体耗时。
-					formData:p,
-					accept:'gif,jpg,jpeg,bmp,png,tiff,tif',
-					//dnd:'.wm-myreport-left',
-					disableGlobalDnd :true,//是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
-				});
-				uploader.on('dndAccept',(file,a)=>{
-					if(accepts[s.currentType].extensions.indexOf(file['0'].type.split('/')[1])<=-1){
-						s.$Message.error('目前不支持'+file['0'].type.split('/')[1]+'文件格式');
-					}
-				})
-
-				uploader.on("beforeFileQueued",function(file){
-					/* if(accepts[s.currentType].extensions.indexOf(file['type'].split('/')[1])<=-1){
-						s.$Message.error('当前文件格式不支持');
-						return;
-					} */
-					 
-				});
-
-				s.uploader = uploader;
-
-				// 当有文件添加进来的时候
-				var i = 0;
-				uploader.on('fileQueued', function (file) {
-					uploader.upload();
-					 
-				});
-				// 文件上传过程中创建进度条实时显示。
-				/* uploader.on('uploadProgress', function (file, percentage) {
-
-					
-					var index = -1;
-					var scale = (percentage * 100|0);
-					 
-				 
-				}); */
-
-				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
-				uploader.on('uploadSuccess', function (file,data) {
-					if(data.getret === 0){
-						s.formAdmin.bannerurl = data.fileurl;
-						s.formAdmin.url = data.url;
-					}
-				//	$('#' + file.id).addClass('upload-state-done');
-				});
-
-				// 文件上传失败，显示上传出错。
-				uploader.on('uploadError', function (file) {
-					console.log('error')
-					//$('#' + file.id).find('p.state').text('上传出错');
-				});
-
-				// 完成上传完了，成功或者失败，先删除进度条。
-				var iNow = 0;
-				uploader.on('uploadComplete', function (file) {
-					console.log(file);
-					if(file.getret === 0){
-						s.formAdmin.bannerurl = file.fileurl;
-						s.formAdmin.url = file.url;
-					}
-					iNow++;
-					if(iNow === i){
-						
-					}
-					//
-				
-				});
-				
+			editMeet(meet,i){
+				this.currentMeetid = meet.meetid;
+				this.formMeet = meet;
+				this.formMeet.meetname =  meet.meetname;
+				this.formMeet.status = !!meet.status;
+				this.formMeet.datetimes = [meet.startdate,meet.enddate];
+				this.showDetail = true;
 			},
 
 			entry(e,index){
@@ -364,33 +217,8 @@
 				this.$router.push("/meetingsignup/"+e.meetid+'/'+e.meetname);
 			},
 			 
-			modifyPass(){
-				if(!this.showPass){
-					this.showPass = true;
-					this.$refs['pass'].focus();
-
-				}else{
-					if(!this.formAdmin.userpwd){
-						this.$Message.error('密码不能为空');
-						return;
-					}
-					var s = this;
-					symbinUtil.ajax({
-						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntpwd',
-						data:{
-							admintoken:s.userinfo.accesstoken,
-							adminuserid:s.userinfo.userid,
-							userid:s.formAdmin.userid,
-							studentpwd:s.formAdmin.userpwd
-						},
-						success(data){
-							s.$Message[data.getret === 0 ?'success':'error'](data.getmsg);
-						}
-					})
-				}
-			},
-			delAdUser(meetid){
+			 
+			delMeet(meetid){
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
@@ -415,10 +243,10 @@
 
 			addNewAduser(){
 				this.currentMeetid = -1;
-				this.formAdmin = {
+				this.formMeet = {
 					userpwd:'111111'
 				};
-				this.visible = true;
+				this.showDetail = true;
 			},
 			getmeetinglist(){
 				var s = this;
@@ -436,6 +264,10 @@
 						console.log(data);
 						if(data.getret === 0){
 							s.meetList = data.list;
+							/* s.meetList = s.meetList.concat(s.meetList);
+							s.meetList = s.meetList.concat(s.meetList);
+							s.meetList = s.meetList.concat(s.meetList);
+							s.meetList = s.meetList.concat(s.meetList); */
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -451,6 +283,10 @@
 			meetAction(){
 				var s = this;
 
+				if(!this.formMeet.meetname){
+					s.$Message.error('会议名称不能为空');
+					return;
+				}
 				if(s.currentMeetid<=-1){	
 
 					symbinUtil.ajax({
@@ -460,15 +296,16 @@
 						data:{
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
-							meetname:s.formAdmin.meetname,
-							status:s.formAdmin.status|0,
-							meetremarks:s.formAdmin.meetremarks,
-							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
-							enddate:new Date(s.formAdmin.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
+							meetname:s.formMeet.meetname,
+							status:s.formMeet.status|0,
+							meetremarks:s.formMeet.meetremarks,
+							startdate:new Date(s.formMeet.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
+							enddate:new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
 								s.getmeetinglist();
+								s.showDetail = false;
 							}
 							else{
 								s.$Message.error(data.getmsg);
@@ -477,28 +314,29 @@
 	
 					})
 				}else{
-					console.log(s.formAdmin);
+					console.log(s.formMeet);
 					
 					symbinUtil.ajax({
 						_this:s,
 						url:window.config.baseUrl+'/zmitiadmin/updatemeet/',
 						//validate:s.validate,
 						data:{
-							meetname:s.formAdmin.meetname,
-							meetname:s.formAdmin.meetname,
+							meetname:s.formMeet.meetname,
+							meetname:s.formMeet.meetname,
 							meetid:s.currentMeetid,
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
-							status:s.formAdmin.status|0,
-							bannerurl:s.formAdmin.url,
-							meetremarks:s.formAdmin.meetremarks,
-							startdate:new Date(s.formAdmin.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
-							enddate:new Date(s.formAdmin.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
+							status:s.formMeet.status|0,
+							bannerurl:s.formMeet.url,
+							meetremarks:s.formMeet.meetremarks,
+							startdate:new Date(s.formMeet.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
+							enddate:new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
 						 
 							 
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
+								s.showDetail = false;
 							}
 							else{
 								s.$Message.error(data.getmsg);
@@ -510,7 +348,7 @@
 				
 			},
 			cancel(){
-				this.formAdmin = {};
+				this.formMeet = {};
 			}
 		}
 	}

@@ -37,6 +37,8 @@ var imgs = {
 	pdf:'./assets/images/pdf.png',
 	zip: './assets/images/zip.png',
 	rar: './assets/images/zip.png',
+	enable:'./assets/images/enable.png',
+	disable:'./assets/images/disabled.png',
 
 
 	//smile:'./assets/images/smile.png',

@@ -14,8 +14,9 @@
 				<Form ref="formValidate" v-show='showDetail' class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formNews" :rules="ruleValidate" :label-width="90">
 					<FormItem label="标题：" prop="title">
 						<Row type='flex' :gutter='20' justify='space-between'>
-							<Col :span='12'><Input v-model="formNews.title" placeholder="请填写标题"></Input></Col>
-							<Col :span="3">
+							<Col :span='9'><Input v-model="formNews.title" placeholder="请填写标题"></Input></Col>
+							<Col :span="6">
+								<Checkbox label="Eat" v-model="formNews.isNotice">公告</Checkbox>
 								<Checkbox label="Eat" v-model="formNews.iscommend">推荐</Checkbox>
 							</Col>
 							<Col :span="6">
@@ -90,7 +91,7 @@
 					<FormItem label="新闻状态：" prop="encrypsign">
 						<RadioGroup v-model="formNews.state">
 							<Radio :label="0">待发</Radio>
-							<Radio :label="1">已发</Radio>
+							<Radio :label="1">签发</Radio>
 						</RadioGroup>
 					</FormItem>
 					<FormItem>
@@ -261,7 +262,8 @@
 					pdfurl:'',
 					download:[],
 					encrypsign:false,
-					iscommend:false
+					iscommend:false,
+					state:1
 				},
 				newsList:[],
 				 
@@ -340,7 +342,8 @@
 					pdfurl:'',
 					download:[],
 					encrypsign:false,
-					iscommend:false
+					iscommend:false,
+					state:1
 				};
 			},
 
