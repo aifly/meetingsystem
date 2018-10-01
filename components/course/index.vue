@@ -90,16 +90,30 @@
 				classTeacherList:[],
 				columns:[
 					{
-						title:"标题",
+						title:"课程名称",
 						key:'title',
 						align:'center'
 						
 					},
 					{
 						type:'html',
-						title:'内容',
-						key:'content',
+						title:'上课老师',
+						key:'accounts',
 						align:'center'
+					},
+					{
+						title:'上课教室',
+						key:'classroom',
+						align:'center'
+					},
+					{
+						title:'上课时间',
+						key:'lessonendtime',
+						align:'center',
+						width:300,
+						render:(h,params)=>{
+							return h('div',{},params.row.lessonstarttime+' - '+ params.row.lessonendtime)
+						}
 					}
 					,{
 						title:'操作',
@@ -222,11 +236,11 @@
 
 
 			refresh(){
-				
+				this.showDetail = false;
+				this.currentClassId = -1;
 			},
 
 			initMap(){
-
 				var map = new AMap.Map('wm-classroom-pos', {
 					viewMode: '3D',
 					turboMode: false,

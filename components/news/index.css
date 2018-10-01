@@ -222,6 +222,7 @@
   transform: rotate(-45deg);
   background: #be0000;
   cursor: pointer;
+  z-index: 100;
 }
 
 .wm-close:before, .wm-close:after {

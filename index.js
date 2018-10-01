@@ -11,6 +11,7 @@ import Attendance from './components/attendance/index';
 import Meeting from './components/meeting/index';
 import Teacher from './components/teacher/index';
 import Signup from './components/signup/index';
+import Report from './components/report/index';
 import Adminuser from './components/adminuser/index';
 //import Collection from './components/collection/index';
 import iView from 'iview';
@@ -63,6 +64,11 @@ const router = new VueRouter({
 			path: '/meetingcourse/:meetid/:meetname/',
 			name: 'meetingcourse',
 			component: Course,
+			props: true
+		}, {
+			path: '/meetingreport/:meetid/:meetname/',
+			name: 'meetingreport',
+			component: Report,
 			props: true
 		}, {
 			path: '/class/',

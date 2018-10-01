@@ -5,13 +5,17 @@
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
-				<div>报名签到管理</div>
-				<div>
-					<Button v-if='false' type="primary">报名签到管理</Button>
+				<div>学员报名管理</div>
+				<div class='wm-header-right-action'>
+					<div><Button @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button></div>
+					<div>
+						<Input v-model='keyword' placeholder="请输入学员姓名或者电话" class='wm-signup-search'/>
+					</div>
 				</div>
 			</header>
 			<div v-if='currentUserId<=-1'>
-				<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>
+				
+				<Table ref='scorelist'   :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>
 			</div>
 			<div v-else class="wm-signup-wrap">
 				<div class="wm-signup-item">
@@ -64,6 +68,9 @@
 	import sysbinVerification from '../lib/verification';
 	import Tab from '../commom/tab/index';
 	import symbinUtil from '../lib/util';
+	/**
+	 * 学员报名管理、
+	 */
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',
@@ -82,44 +89,167 @@
 				repassError:"",
 				mobileError:"",
 				currentUserId:-1,
+				keyword:"",
 
 				columns:[
 					{
-						title:"用户名",
-						key:'username',
+						title:"姓名",
+						key:'studentname',
+						align:'center'
+						
+					},{
+						title:"电话",
+						key:'mobile',
+						align:'center'
+						
+					},{
+						title:"省/市",
+						key:'provincename',
 						align:'center'
 						
 					},
 					{
-						title:'是否签到',
-						key:'issign',
-						align:'center',
-						render:(h,params)=>{
-							return h('div',{},params.row.issign===0 ?'未签到':'已签到');
-						}
-
+						title:"公司",
+						key:'companyname',
+						align:'center'
+						
+					},{
+						title:"职务",
+						key:'job',
+						align:'center'
+						
 					},
 					{
-						title:'状态',
+						title:'审核状态',
 						key:'status',
 						align:'center',
 						render:(h,params)=>{
 							
-							return h('div',{},params.row.status===0 ?'未审核':params.row.status ===  1 ?'已审核':'未通过');
+							return h('div',[
+								h('Icon',{
+									style:{
+										cursor:'pointer',
+										fontSize:'20px',
+										color:params.row.status===0?'#f90':'#5c6b77'
+									},
+									props:{
+										type:params.row.status===0?'ios-alert':'ios-alert-outline'
+									}
+								},1),
+								h('Icon',{
+									style:{
+										cursor:'pointer',
+										fontSize:'20px',
+										color:params.row.status===1?'green':'#5c6b77'
+									},
+									props:{
+										type:params.row.status===1?'ios-checkmark-circle':'ios-checkmark-circle-outline'
+									}
+								},'3'),
+								h('Icon',{
+									style:{
+										cursor:'pointer',
+										fontSize:'20px',
+										color:params.row.status===2?'#be0000':'#5c6b77'
+									},
+									props:{ 
+										type:params.row.status===2?'ios-remove-circle':'ios-remove-circle-outline'
+									}
+								},'2')
+								
+							],'1')
+								
 						},
-					},{
+					}
+					/* ,{
 						title:'操作',
 						key:'action',
+						width:200,
 						align:'center',
 						render(h,params){
-							return h('div',{
-								style:{
-									cursor:'pointer',
-									color:'#f90'
-								}
-							},'详情');
+							return h('div', {
+								
+							},[
+                               
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+										margin: '2px 5px',
+										border:'none',
+										background:'#fab82e',
+										color:'#fff',
+										padding: '3px 7px 2px',
+										fontSize: '12px',
+										borderRadius: '3px'
+
+                                    },
+                                    on: {
+                                        click: () => {
+											//this.currentUserId = params.row.userid;
+											//this.formAdmin = params.row;
+											//this.formAdmin.cityids = [params.row.provinceid*1,params.row.cityid*1,params.row.areaid*1];
+											//this.visible = true;
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('Poptip',{
+									props:{
+										confirm:true,
+										title:"确定要删除吗"
+									},
+									on:{
+										'on-ok':()=>{
+											this.delAdUser(params.row.userid);
+										},
+										
+									}
+								},[
+									h('Button', {
+										props: {
+											type: 'error',
+											size: 'small'
+										},
+										on: {
+											click: () => {
+												
+												//this.remove(params.index,params.row.employeeid)
+											}
+										}
+									}, '删除')
+								]), 
+								h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+										margin: '2px 5px',
+										border:'none',
+										background:params.row.status*1 === 0 ? 'rgb(2, 29, 236)':'#b20000',
+										color:'#fff',
+										padding: '3px 7px 2px',
+										fontSize: '12px',
+										borderRadius: '3px'
+
+                                    },
+                                    on: {
+                                        click: () => {
+											//this.currentUserId = params.row.userid;
+											//this.formAdmin = params.row;
+											//this.visible = true;
+
+											//this.checkUser(params);
+
+											
+                                        }
+                                    }
+                                }, '详情'),
+							]);
 						}
-					}
+					} */
 				],
 
 				userList:[
@@ -143,16 +273,32 @@
 		mounted(){
 			
 			this.userinfo = symbinUtil.getUserInfo();
-
-			console.log(this.userinfo);
-
 			this.getsignupList();
 			
 		},
+		watch:{
+			keyword(val){
+				if(val){
+					this.userList = this.defaultUserList.filter((item)=>{
+						return item.mobile.indexOf(val)>-1 || item.studentname.indexOf(val)>-1;
+					})
+				}else{
+					this.userList = this.defaultUserList.concat([]);
+				}
+			}
+		},
 		
 		methods:{
+
+			exportData(){
+				this.$refs.scorelist.exportCsv({
+					filename: '学员报名管理'
+				});
+			},
+
 			refresh(){
-				
+				this.getsignupList();
+				this.currentUserId =  -1;
 			},
 			entry(e){
 				this.currentUserId = e.userid;
@@ -172,6 +318,7 @@
 						console.log(data);
 						if(data.getret === 0){
 							s.userList = data.list;
+							s.defaultUserList = s.userList.concat([]);
 							s.formUser = s.userList[0];
 						}
 					}

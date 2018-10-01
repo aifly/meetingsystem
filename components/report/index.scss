@@ -15,20 +15,6 @@ $color: #be0000;
             width: 200px;
         }
     }
-
-    @at-root.wm-signup-search{
-        width: 300px;
-        ;
-    }
-    .wm-header-right-action{
-        @include displayFlex(row);
-        div{
-            margin-right: 20px;
-            i{
-                
-            }
-        }
-    }
     .wm-tab-content{
         box-sizing: border-box;
         flex:1;

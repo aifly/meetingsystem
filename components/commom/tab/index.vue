@@ -22,8 +22,12 @@
 				viewH:window.innerHeight,
 				menus:[
 					{
-						name:'报名签到管理',
+						name:'学员报名管理',
 						to:'meetingsignup'
+					},
+					{
+						name:'会议报到管理',
+						to:'meetingreport'
 					},{
 						name:'新闻信息管理',
 						to:'meetingnews'

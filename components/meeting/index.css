@@ -191,6 +191,7 @@
 }
 
 .wm-meeting-main-ui .wm-meet-form section .wm-meet-form-radio {
+  clear: left;
   display: flex;
   display: -webkit-flex;
   flex-flow: row;
@@ -289,6 +290,22 @@
   flex-flow: row;
   color: #000;
   height: 30px;
+  min-height: 70px;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(1) {
+  width: 80px;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(2) {
+  flex: 1;
+}
+
+.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(3) {
+  width: 70px;
+  position: relative;
+  top: -10px;
+  cursor: pointer;
 }
 
 .wm-meeting-banner {
@@ -297,6 +314,86 @@
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.wm-meet-banner-C {
+  width: 100%;
+  float: left;
+}
+
+.wm-meet-banner-C .wm-meet-banner-upload,
+.wm-meet-banner-C .wm-meet-banner-img {
+  display: inline-block;
+  width: 100px;
+  float: left;
+}
+
+.wm-meet-banner-C .wm-meet-banner-img {
+  margin-top: 10px;
+  margin-left: 40px;
+  width: 150px;
+  height: 76px;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  -webkit-justify-content: center;
+  -webkit-align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.wm-meet-banner-C .wm-meet-banner-img .wm-close {
+  margin-left: 70px;
+  margin-top: -50px;
+  left: auto;
+  top: auto;
+  right: auto;
+}
+
+.wm-meet-banner-C .wm-meet-banner-img img {
+  display: block;
+  vertical-align: middle;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.wm-meet-banner-C .wm-meet-banner-upload {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  cursor: pointer;
+}
+
+.wm-meet-banner-C .wm-meet-banner-upload i.ivu-icon {
+  position: absolute;
+  font-size: 30px;
+  left: 50%;
+  top: 50%;
+  color: #f90;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.wm-meet-banner-C .wm-meet-banner-upload .wm-upload {
+  height: 100px;
+  width: 100px;
+  z-index: 100;
+  position: relative;
+}
+
+.wm-meet-banner-C .wm-meet-banner-upload .wm-upload div {
+  width: 100% !important;
+  height: 100% !important;
+  left: 0;
+  top: 0;
+  border: 1px solid #eee;
+  position: absolute;
+}
+
+.wm-meet-banner-C .wm-meet-banner-upload .wm-upload input {
+  opacity: 0;
 }
 
 .wm-upload {

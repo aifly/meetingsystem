@@ -39,6 +39,7 @@ var imgs = {
 	rar: './assets/images/zip.png',
 	enable:'./assets/images/enable.png',
 	disable:'./assets/images/disabled.png',
+	createcode:'./assets/images/createcode.png',
 
 
 	//smile:'./assets/images/smile.png',
@@ -98,7 +99,8 @@ var imgs = {
 			name: '全部',
 			type:'all',
 			extensions: allExtensions.join(',')
-		}]
+		}],
+		qrcodeUrl:'http://h5.zmiti.com/public/wmmeeting/'
 	}
 
 	if (window.location.href.indexOf('localhost') > -1 || window.location.href.indexOf('zmiti.com') > -1) {

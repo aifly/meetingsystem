@@ -26,6 +26,19 @@
 				<div class='wm-meet-form-item wm-meet-form-muli'>
 					<div><label for="">说明：</label><textarea v-model='formMeet.meetremarks' type="textarea"></textarea></div>
 				</div>
+				<div class='wm-meet-banner-C'>
+					<div>上传会议banner图（750*380）</div>
+					<div class='wm-meet-banner-upload'>
+						<div id="wm-upload" class="wm-upload">
+							
+						</div>
+						<Icon type="md-add-circle" />
+					</div>
+					<div class='wm-meet-banner-img' @click='formMeet.bannerurl = ""'>
+						<img v-if='formMeet.bannerurl' :src="formMeet.bannerurl" alt="">
+						<span v-if='formMeet.bannerurl' class='wm-close'></span>
+					</div>
+				</div>
 				<div class='wm-meet-form-radio'>
 					<div>是否开启报名</div>
 					<div>
@@ -59,7 +72,7 @@
 			<ul>
 				<li v-for='(meet,i) in meetList' :key="i">
 					<span class='wm-meet-item-status'>
-						<img :src="imgs[meet.status === 1 ? 'enable':'disable']" alt="">
+						<img :src="imgs[meet.status === 1||meet.status ? 'enable':'disable']" alt="">
 					</span>
 					<div class='wm-meet-item-header'>
 						<div class='wm-meet-item-header-left'>
@@ -87,46 +100,16 @@
 					<div class='wm-meet-remark'>
 						<div>会议说明：</div>
 						<div>{{meet.meetremarks}}</div>
+						<div :title="meet.qrcode?'点击下载':'点击生成二维码'" @click="createQrcode(meet)"> 
+							<a target='_blank' :href='meet.qrcode' v-if='meet.qrcode'>
+								<img :src="meet.qrcode||imgs.createcode" alt="">
+							</a>
+							<img :src="meet.qrcode||imgs.createcode" alt="" v-else />
+						</div>
 					</div>
 				</li>
 			</ul>
 		</div>
-
-		<Modal
-		v-if='false'
-			v-model="visible"
-			:title="currentMeetid === -1? '新增会议':'编辑会议'"
-			@on-ok="meetAction"
-			@on-cancel="cancel">
-			<Form ref="formMeet" :model="formMeet" :label-width="88" >
-				<FormItem label="会议名称：" prop="meetname">
-					<Input  v-model="formMeet.meetname" placeholder="会议名称" autocomplete="off" />
-				</FormItem>
-				<FormItem label="说明：" prop="meetremarks">
-					<Input v-model="formMeet.meetremarks" placeholder="说明" autocomplete="off" />
-				</FormItem>
-				<FormItem label="时间：" prop="meetremarks">
-					<DatePicker style="width:100%" v-model="formMeet.datetimes" :value="formMeet.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
-				</FormItem>
-
-				<FormItem label="banner图 ：" v-show='currentMeetid>-1' prop="bannerurl">
-					
-					<div id="wm-upload" class="wm-upload">
-						
-					</div>
-					<div class="wm-meeting-banner" v-if='formMeet.bannerurl' :style="{background:'url('+formMeet.bannerurl+') no-repeat center',backgroundSize:'contain'}">
-
-					</div>
-				</FormItem>
-
-				<FormItem label="状态：" prop="status">
-					<i-switch v-model="formMeet.status" size="large">
-						<span slot="open">可用</span>
-						<span slot="close">禁用</span>
-					</i-switch>
-				</FormItem>
-			</Form>
-		</Modal>
 
 		 
 	</div>
@@ -172,9 +155,12 @@
 		components:{
 		},
 		watch:{
-			visible(val){
+			showDetail(val){
 				if(val && this.currentMeetid>-1){
-					this.upload();
+					
+					setTimeout(() => {
+						this.upload();
+					}, 100);
 				}
 			}
 		},
@@ -189,6 +175,7 @@
 			this.userinfo = symbinUtil.getUserInfo();
 			//this.getCityData();
 			this.getmeetinglist();
+			
 			window.meeting = this;
 
 			Vue.obserable.on('entyMeeting',()=>{
@@ -198,7 +185,124 @@
 		},
 		
 		methods:{
-			
+			upload(){
+				
+				var s = this;
+				
+				 
+				var p = {
+						companyid:'company'+s.userinfo.companyid,
+						projectclassname:'meetingsystem',
+						projectsubclassname:'project'+s.currentMeetid,
+						uploadpath:'2018upload',
+						userid:s.userinfo.userid
+				}
+				this.p = p;
+				if(s.uploader){
+					s.uploader.destroy();
+				}
+				var accepts  =  s.accepts;
+				var uploader = WebUploader.create({
+					// 选完文件后，是否自动上传。
+					auto: true,
+					// swf文件路径
+					swf: './webuploader-0.1.5/Uploader.swf',
+					// 文件接收服务端。
+					//server: 'http://api.zmiti.com/v2/fileupload',
+					server: window.config.baseUrl+'/wmshare/uploadfile/',
+					// 选择文件的按钮。可选。
+					// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+					pick: '.wm-upload',
+					chunked: true, //开启分片上传
+					threads: 1, //上传并发数
+					method: 'POST',
+					compress:false,
+					prepareNextFile:true,//是否允许在文件传输时提前把下一个文件准备好。 对于一个文件的准备工作比较耗时，比如图片压缩，md5序列化。 如果能提前在当前文件传输期处理，可以节省总体耗时。
+					formData:p,
+					accept:window.config.accepts[0],
+					//dnd:'.wm-myreport-left',
+					disableGlobalDnd :true,//是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
+				});
+				uploader.on('dndAccept',(file,a)=>{
+					if(accepts[s.currentType].extensions.indexOf(file['0'].type.split('/')[1])<=-1){
+						s.$Message.error('目前不支持'+file['0'].type.split('/')[1]+'文件格式');
+					}
+				})
+				uploader.on("beforeFileQueued",function(file){
+					/* if(accepts[s.currentType].extensions.indexOf(file['type'].split('/')[1])<=-1){
+						s.$Message.error('当前文件格式不支持');
+						return;
+					} */
+					 
+				});
+				s.uploader = uploader;
+				// 当有文件添加进来的时候
+				var i = 0;
+				uploader.on('fileQueued', function (file) {
+					uploader.upload();
+					 
+				});
+				// 文件上传过程中创建进度条实时显示。
+				/* uploader.on('uploadProgress', function (file, percentage) {
+					
+					var index = -1;
+					var scale = (percentage * 100|0);
+					 
+				 
+				}); */
+				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+				uploader.on('uploadSuccess', function (file,data) {
+					if(data.getret === 0){
+						s.formMeet.bannerurl = data.fileurl;
+						s.formMeet.url = data.url;
+					}
+				//	$('#' + file.id).addClass('upload-state-done');
+				});
+				// 文件上传失败，显示上传出错。
+				uploader.on('uploadError', function (file) {
+					console.log('error')
+					//$('#' + file.id).find('p.state').text('上传出错');
+				});
+				// 完成上传完了，成功或者失败，先删除进度条。
+				var iNow = 0;
+				uploader.on('uploadComplete', function (file) {
+					console.log(file);
+					if(file.getret === 0){
+						s.formMeet.bannerurl = file.fileurl;
+						s.formMeet.url = file.url;
+					}
+					iNow++;
+					if(iNow === i){
+						
+					}
+					//
+				
+				});
+				
+			},
+			createQrcode(meet){
+				if(meet.qrcode){
+					return;
+				}
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+ '/zmitiadmin/createmeetqrcode',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						meetid:meet.meetid,
+						url:window.config.qrcodeUrl+'?meetid='+meet.meetid
+					},
+					success(data){
+						console.log(data);
+						if(data.getret === 0){
+							meet.qrcode = data.qrcodeurl;
+							s.meetList = s.meetList.concat([]);
+						}
+					}
+				});
+
+			},
 
 			editMeet(meet,i){
 				this.currentMeetid = meet.meetid;

@@ -11,12 +11,20 @@
 				</div>
 			</header>
 			<div class="wm-news-wrap">
-				<Form ref="formValidate" v-show='showDetail' class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formNews" :rules="ruleValidate" :label-width="90">
-					<FormItem label="标题：" prop="title">
+				<Form ref="formValidate" v-show='showDetail' class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formNews" :rules="ruleValidate" :label-width="100">
+					<FormItem label="是否为公告：" prop="type" v-if='!formNews.newsid'>
+						<i-switch v-model="formNews.isNotice" size="large">
+							<span slot="open">是</span>
+							<span slot="close">否</span>
+						</i-switch>
+					</FormItem>
+					<FormItem label="公告内容：" prop="isNotice" v-if='formNews.isNotice'>
+						<Input :rows='5' type="textarea" v-model="formNews.content" />
+					</FormItem>
+					<FormItem label="标题：" prop="title"  v-if='!formNews.isNotice'>
 						<Row type='flex' :gutter='20' justify='space-between'>
-							<Col :span='9'><Input v-model="formNews.title" placeholder="请填写标题"></Input></Col>
-							<Col :span="6">
-								<Checkbox label="Eat" v-model="formNews.isNotice">公告</Checkbox>
+							<Col :span='12'><Input v-model="formNews.title" placeholder="请填写标题"></Input></Col>
+							<Col :span="3">
 								<Checkbox label="Eat" v-model="formNews.iscommend">推荐</Checkbox>
 							</Col>
 							<Col :span="6">
@@ -29,12 +37,12 @@
 							
 						</Row>
 					</FormItem>
-					<FormItem label="新闻分类：" prop="type">
+					<FormItem label="新闻分类：" prop="type" v-if='!formNews.isNotice'>
 						<Select v-model="formNews.type" placeholder="请选择新闻分类">
 							<Option :value="ntype.id" v-for='(ntype,i) in newsTypeList' :key="i">{{ntype.newstype}}</Option>
 						</Select>
 					</FormItem>
-					<FormItem label="内容：" prop="content">
+					<FormItem label="内容：" prop="content" v-if='!formNews.isNotice'>
 						
 						 <quill-editor 
 							v-model="formNews.content" 
@@ -46,7 +54,7 @@
 							</quill-editor>
 					</FormItem>
 					
-					<FormItem label="保密文件：" prop="encryptfile" class='wm-news-form-item'>
+					<FormItem label="保密文件：" prop="encryptfile" class='wm-news-form-item' v-if='!formNews.isNotice'>
 						<div class="wm-news-encryptfile" v-show='!formNews.pdfurl'>
 							<div class=" news-encryptfile">
 
@@ -69,7 +77,7 @@
 						</div>
 					</FormItem>
 
-					<FormItem label="附件：" prop="download" class="wm-news-download-wrap">
+					<FormItem label="附件：" prop="download" class="wm-news-download-wrap" v-if='!formNews.isNotice'>
 						<section>
 							<div class='wm-upload wm-news-download'>
 								<div></div>
@@ -88,7 +96,7 @@
 						</section>
 					</FormItem>
 			
-					<FormItem label="新闻状态：" prop="encrypsign">
+					<FormItem label="新闻状态：" prop="encrypsign" v-if='!formNews.isNotice'>
 						<RadioGroup v-model="formNews.state">
 							<Radio :label="0">待发</Radio>
 							<Radio :label="1">签发</Radio>
@@ -139,6 +147,7 @@
                     }
 				},
 				loading:true,
+				
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -175,7 +184,10 @@
 						title:"类型",
 						key:'newstype',
 						align:'left',
-						width:60
+						width:60,
+						render:(h,params)=>{
+							return h('div',{},params.row.type*1 === -1 ? '系统公告':params.row.newstype);
+						}
 					},{
 						title:"是否推荐",
 						key:'iscommend',
@@ -223,6 +235,7 @@
 											s.currentNewsId = params.row.newsid;
 											s.formNews.iscommend = !!s.formNews.iscommend;
 											s.formNews.encrypsign = !!s.formNews.encrypsign;
+											s.formNews.isNotice = !s.formNews.type;
 											if(!s.formNews.download instanceof Array){
 												//s.formNews.download = s.formNews.download ? s.formNews.download.split(','):[];
 											}
@@ -263,7 +276,8 @@
 					download:[],
 					encrypsign:false,
 					iscommend:false,
-					state:1
+					state:1,
+					isNotice:false,//是否是公告
 				},
 				newsList:[],
 				 
@@ -386,6 +400,12 @@
 
 			newsAction(type){
 				var s = this;
+
+				if(!s.formNews.newsid){//添加
+					s.formNews.title = '公告-'+new Date().toLocaleDateString();
+					s.formNews.type = -1;//类型为-1的时候表示为公告。
+
+				}
 
 				if(!s.formNews.title){
 					this.$Message.error('新闻标题不能为空');
@@ -722,6 +742,7 @@
 			 
 			getNewsList(){
 				var s = this;
+				 
 				symbinUtil.ajax({
 					_this:s,
 					url:window.config.baseUrl+'/zmitiadmin/getnewslist/',
@@ -730,7 +751,8 @@
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
 						pagenum:1000,
-						status:-1,//查询全部
+						meetid:s.$route.params.meetid,
+						//status:-1,//查询全部
 					},
 					success(data){
 					//	console.log(data);
