@@ -9,4 +9,21 @@ $color: #be0000;
        border:1px solid #ddd;
        height:500px;
    }
+
+
+   .wm-course-pos{
+       @include pos(a);
+       z-index: 10;
+       text-indent: 2em;
+       width: 100%;
+       .wm-course-pos-close{
+           @include pos(a);
+           right: 0;
+           i{
+               font-size:20px;
+               color:#be0000;
+               cursor: pointer;
+           }
+       }
+   }
 }

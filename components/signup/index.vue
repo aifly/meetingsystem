@@ -289,7 +289,7 @@
 		},
 		
 		methods:{
-
+			
 			exportData(){
 				this.$refs.scorelist.exportCsv({
 					filename: '学员报名管理'

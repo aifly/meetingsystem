@@ -197,6 +197,15 @@
 							return h('div',{},params.row.iscommend?'是':'否');
 						}
 					},{
+						title:"是否签发",
+						key:'state',
+						align:'center',
+						width:100,
+						render:(h,params)=>{
+							
+							return h('div',{},params.row.state*1===1?'是':'否');
+						}
+					},{
 						title:"创建时间",
 						key:'createtime',
 						align:'center',
@@ -401,10 +410,13 @@
 			newsAction(type){
 				var s = this;
 
-				if(!s.formNews.newsid){//添加
+				if(!s.formNews.newsid && s.formNews.isNotice){//添加
 					s.formNews.title = '公告-'+new Date().toLocaleDateString();
 					s.formNews.type = -1;//类型为-1的时候表示为公告。
-
+					if(s.formNews.content.length>55){
+						s.$Message.error('公告内容最多55个字');
+						return;
+					}
 				}
 
 				if(!s.formNews.title){
@@ -430,50 +442,12 @@
 				}
 				p.iscommend = p.iscommend|0;
 				p.encrypsign = p.encrypsign|0;
-				var http = window.config.baseUrl.replace('https://','').split('/');
-				http.pop();
-				http = http.join('/');
-				
-				var downloadArr = [];
-				p.download.concat([]).map((item)=>{
-					downloadArr.push(item.url);
-				})
-				p.download = downloadArr.join(',');
-				p.download = p.download.replace(/http:/ig,'https:');
-				p.download = p.download.replace(/https:\/\//ig,'');
+				 
 				var arr = [];
-				
-				p.download.split(',').map((dl)=>{
-					var dl = dl.replace(http,'');
-					arr.push(dl.replace('https//',''));
+				p.download.forEach((item,i)=>{
+					arr.push(item.url);
 				});
-				p.download = arr.join(',');
-				if(p.download.charAt(0) === ','){
-					p.download = p.download.substring(1);
-				}
-				if(p.encryptfile){
-					p.encryptfile = p.encryptfile.replace(/http:/ig,'https:');
-					p.encryptfile = p.encryptfile.replace(/https:\/\//ig,'');
-					var arr1 = [];
-					p.encryptfile.split(',').map((dl)=>{
-						//http.pop();
-						var dl = dl.replace(http,'');
-						arr1.push(dl.replace('https//',''));
-					});
-					p.encryptfile = arr1.join(',');
-				}
-				if(p.wordurl){
-					p.wordurl = p.wordurl.replace(/http:/ig,'https:');
-					p.wordurl = p.wordurl.replace(/https:\/\//ig,'');
-					p.wordurl = p.wordurl.replace(http,''); 
-				}
-				
-				if(p.pdfurl){
-					p.pdfurl = p.pdfurl.replace(/http:/ig,'https:');
-					p.pdfurl = p.pdfurl.replace(/https:\/\//ig,'');
-					p.pdfurl = p.pdfurl.replace(http,'');
-				}
-
+			 	p.download = arr.join(',');
 				
 				symbinUtil.ajax({
 					url,
@@ -598,14 +572,14 @@
 					if(data.getret === 0){
 						if(option.pick === '.news-encryptfile'){//加密文件上传
 							s.showEncryptfileBtn = true;
-							s.formNews.pdfurl = data.fileurl;
+							s.formNews.pdfurl = data.url;
 							s.isDisabledBtn = true;
 							symbinUtil.ajax({
 								url:window.config.baseUrl+'/zmitiadmin/pdftrunimage',
 								data:{
 									adminuserid:s.userinfo.userid,
 									admintoken:s.userinfo.accesstoken,
-									pdfurl:s.formNews.pdfurl
+									pdfurl:data.fileurl
 								},
 								success(data){
 									s.isDisabledBtn = false;

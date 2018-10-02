@@ -53,3 +53,21 @@
   border: 1px solid #ddd;
   height: 500px;
 }
+
+.wm-course-main-ui .wm-course-pos {
+  position: absolute;
+  z-index: 10;
+  text-indent: 2em;
+  width: 100%;
+}
+
+.wm-course-main-ui .wm-course-pos .wm-course-pos-close {
+  position: absolute;
+  right: 0;
+}
+
+.wm-course-main-ui .wm-course-pos .wm-course-pos-close i {
+  font-size: 20px;
+  color: #be0000;
+  cursor: pointer;
+}

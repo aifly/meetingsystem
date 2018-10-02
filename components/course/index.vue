@@ -12,7 +12,7 @@
 			</header>
 			<div class="wm-course-wrap" >
 				<Form v-show='showDetail' ref="formValidate" class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formClass" :rules="ruleValidate" :label-width="100">
-					<FormItem label="标题：" prop="title">
+					<FormItem label="课程名称：" prop="title">
 						<Input v-model="formClass.title" placeholder="请填写标题"></Input>
 					</FormItem>
 					<FormItem label="上课老师：" prop="type">
@@ -21,7 +21,13 @@
 						</Select>
 					</FormItem>
 					<FormItem label="教室位置：" prop="classroom">
-						<div class="wm-classroom-pos" id='wm-classroom-pos'>
+						<span>{{address}}</span> <Button style='margin-left:20px;' size='small' @click='showMap = true'>设置教室位置</Button>
+						<div class='wm-course-pos' v-show='showMap'>{{formClass.longitude}} &nbsp;&nbsp; {{formClass.latitude}}
+							<span class='wm-course-pos-close' @click="showMap = false">
+								<Icon type="ios-close-circle" />
+							</span>
+						</div>
+						<div v-if='showMap' class="wm-classroom-pos" id='wm-classroom-pos'>
 
 						</div>
 					</FormItem>
@@ -83,9 +89,11 @@
 				visible:false,
 				imgs:window.imgs,
 				isLoading:false,
-				showDetail:false,
+				showDetail:true,
 				currentClassId:-1, 
+				address:'',
 				showPass:false,
+				showMap:false,
 				viewH:window.innerHeight,
 				classTeacherList:[],
 				columns:[
@@ -188,7 +196,9 @@
                     ]
 				},
 				formClass:{
-					pdfurl:''	
+					pdfurl:'',
+					longitude :'116.585856',
+					latitude :'40.364989'
 				},
 				courseList:[],
 				 
@@ -224,6 +234,16 @@
 
 			this.initMap();
 		},
+
+		watch:{
+			showMap(val){
+				if(val){
+					setTimeout(() => {
+						this.initMap();
+					}, 100);
+				}
+			}
+		},
 		
 		methods:{
 
@@ -241,27 +261,42 @@
 			},
 
 			initMap(){
+				var s = this;
 				var map = new AMap.Map('wm-classroom-pos', {
-					viewMode: '3D',
 					turboMode: false,
 					defaultCursor: 'pointer',
 					showBuildingBlock: false,
 					expandZoomRange: true,
-					zooms: [2, 40],
+					zooms: [16, 40],
 					zoom: 4,
+					center:new AMap.LngLat(s.formClass.longitude,s.formClass.latitude),
 					forceVector: true,
 				});
-				var object3Dlayer = new AMap.Object3DLayer({
-					zIndex: 110,
-					opacity: 1
-				});
-				map.add(object3Dlayer)
+				//s.formClass.longitude,s.formClass.latitude
+				var g = new AMap.Geocoder({city: "010"});
+
+				  g.getAddress([s.formClass.longitude,s.formClass.latitude],function(status,result){
+					if (status === 'complete'&&result.regeocode) {
+						var address = result.regeocode.formattedAddress;
+						s.address = address;
+					}else{
+						//alert(JSON.stringify(result))
+					}
+				  })
 
 				var s = this;
 				var clickEventListener = map.on('click', function(e) {
 					s.formClass.longitude = e.lnglat.getLng();
 					s.formClass.latitude = e.lnglat.getLat();
-					console.log( e.lnglat.getLng() + ',' + e.lnglat.getLat())
+					
+					g.getAddress([s.formClass.longitude,s.formClass.latitude],function(status,result){
+						if (status === 'complete'&&result.regeocode) {
+							var address = result.regeocode.formattedAddress;
+							s.address = address;
+						}else{
+							//alert(JSON.stringify(result))
+						}
+					})
 				});
 			},
 
