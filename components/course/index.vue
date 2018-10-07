@@ -89,7 +89,7 @@
 				visible:false,
 				imgs:window.imgs,
 				isLoading:false,
-				showDetail:true,
+				showDetail:false,
 				currentClassId:-1, 
 				address:'',
 				showPass:false,

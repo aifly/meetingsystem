@@ -401,7 +401,7 @@
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
 							meetname:s.formMeet.meetname,
-							status:s.formMeet.status|0,
+							status:1,//s.formMeet.status|0,
 							meetremarks:s.formMeet.meetremarks,
 							startdate:new Date(s.formMeet.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
 							enddate:new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
@@ -434,7 +434,11 @@
 							bannerurl:s.formMeet.url,
 							meetremarks:s.formMeet.meetremarks,
 							startdate:new Date(s.formMeet.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
-							enddate:new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig,'-')
+							enddate:new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig,'-'),
+							ischecked:s.formMeet.ischecked|0,
+							isreport:s.formMeet.isreport|0,
+							issignup:s.formMeet.issignup|0
+
 						 
 							 
 						},success(data){

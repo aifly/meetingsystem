@@ -350,7 +350,7 @@
 					var s = this;
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/zmitiadmin/updatestuedntpwd',
+						url:window.config.baseUrl+'/zmitiadmin/updatestudentpwd',
 						data:{
 							admintoken:s.userinfo.accesstoken,
 							adminuserid:s.userinfo.userid,
@@ -359,6 +359,9 @@
 						},
 						success(data){
 							s.$Message[data.getret === 0 ?'success':'error'](data.getmsg);
+							if(data.getret === 0){
+								s.visible = false;
+							}
 						}
 					})
 				}

@@ -12884,7 +12884,7 @@
 					var s = this;
 					_libUtil2['default'].ajax({
 						_this: s,
-						url: window.config.baseUrl + '/zmitiadmin/updatestuedntpwd',
+						url: window.config.baseUrl + '/zmitiadmin/updatestudentpwd',
 						data: {
 							admintoken: s.userinfo.accesstoken,
 							adminuserid: s.userinfo.userid,
@@ -12893,6 +12893,9 @@
 						},
 						success: function success(data) {
 							s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
+							if (data.getret === 0) {
+								s.visible = false;
+							}
 						}
 					});
 				}
@@ -14430,6 +14433,9 @@
 				}
 				p.iscommend = p.iscommend | 0;
 				p.encrypsign = p.encrypsign | 0;
+				if (p.encryptfile) {
+					p.encrypsign = 1;
+				}
 
 				var arr = [];
 				p.download.forEach(function (item, i) {
@@ -14561,6 +14567,7 @@
 							s.showEncryptfileBtn = true;
 							s.formNews.pdfurl = data.url;
 							s.isDisabledBtn = true;
+							s.formNews.encrypsign = true;
 							_libUtil2['default'].ajax({
 								url: window.config.baseUrl + '/zmitiadmin/pdftrunimage',
 								data: {
@@ -28598,14 +28605,14 @@
 
 		methods: {
 			toastError: function toastError() {
-				var _this2 = this;
-
 				var msg = arguments.length <= 0 || arguments[0] === undefined ? '用户名不能为空' : arguments[0];
 
-				this.loginError = msg;
-				setTimeout(function () {
-					_this2.loginError = '';
-				}, 2000);
+				this.$Message.error(msg);
+				/*
+	   this.loginError = msg;
+	   	setTimeout(()=>{
+	   		this.loginError = '';
+	   	},2000)*/
 			},
 			login: function login() {
 				var _this = this;
@@ -28652,6 +28659,7 @@
 							_this.isLogined = true;
 						} else {
 							_this.toastError(data.getmsg);
+							_this.showLoading = false;
 						}
 					}
 				});
@@ -28881,7 +28889,7 @@
 				visible: false,
 				imgs: window.imgs,
 				isLoading: false,
-				showDetail: true,
+				showDetail: false,
 				currentClassId: -1,
 				address: '',
 				showPass: false,
@@ -30112,7 +30120,7 @@
 							adminuserid: s.userinfo.userid,
 							admintoken: s.userinfo.accesstoken,
 							meetname: s.formMeet.meetname,
-							status: s.formMeet.status | 0,
+							status: 1, //s.formMeet.status|0,
 							meetremarks: s.formMeet.meetremarks,
 							startdate: new Date(s.formMeet.datetimes[0]).toLocaleDateString().replace(/\//ig, '-'),
 							enddate: new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig, '-')
@@ -30144,7 +30152,10 @@
 							bannerurl: s.formMeet.url,
 							meetremarks: s.formMeet.meetremarks,
 							startdate: new Date(s.formMeet.datetimes[0]).toLocaleDateString().replace(/\//ig, '-'),
-							enddate: new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig, '-')
+							enddate: new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig, '-'),
+							ischecked: s.formMeet.ischecked | 0,
+							isreport: s.formMeet.isreport | 0,
+							issignup: s.formMeet.issignup | 0
 
 						}, success: function success(data) {
 							if (data.getret === 0) {
@@ -31564,6 +31575,9 @@
 						},
 						success: function success(data) {
 							s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
+							if (data.getret === 0) {
+								s.visible = false;
+							}
 						}
 					});
 				}

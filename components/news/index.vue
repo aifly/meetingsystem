@@ -442,6 +442,9 @@
 				}
 				p.iscommend = p.iscommend|0;
 				p.encrypsign = p.encrypsign|0;
+				if(p.encryptfile){
+					p.encrypsign = 1;
+				}
 				 
 				var arr = [];
 				p.download.forEach((item,i)=>{
@@ -574,6 +577,7 @@
 							s.showEncryptfileBtn = true;
 							s.formNews.pdfurl = data.url;
 							s.isDisabledBtn = true;
+							s.formNews.encrypsign = true;
 							symbinUtil.ajax({
 								url:window.config.baseUrl+'/zmitiadmin/pdftrunimage',
 								data:{

@@ -68,10 +68,12 @@
 		
 		methods:{
 			toastError(msg =  '用户名不能为空'){
+				this.$Message.error(msg);
+				/*
 				this.loginError = msg;
  				setTimeout(()=>{
  					this.loginError = '';
- 				},2000)
+ 				},2000)*/
 			},
 			login(){
 				var _this = this;
@@ -119,6 +121,7 @@
 							
 						}else{
 							_this.toastError(data.getmsg);
+							_this.showLoading = false;
 						}
 					}
 				})
