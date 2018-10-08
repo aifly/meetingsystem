@@ -78,7 +78,7 @@
 		data(){
 			return{
 				content:"",
-				 
+				keyword:'',
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -128,7 +128,14 @@
 					,{
 						title:"所属小组",
 						key:'groupname',
-						align:'center'
+						align:'center',
+						filters:[
+
+						] ,
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+							return row.groupid  === value;
+                        },
 						
 					},{
 						title:'操作',
@@ -243,7 +250,11 @@
 		watch:{
 			keyword(val){
 				if(val){
-					
+					this.userList = this.defaultUserList.filter((item,i)=>{
+						return item.studentname.indexOf(val)>-1 || item.meetname.indexOf(val)>-1;
+					})
+				}else{
+					this.userList = this.defaultUserList.concat([]);
 				}
 			}
 		},
@@ -260,6 +271,12 @@
 					success(data){
 						if(data.getret === 0){
 							s.groupList = data.list;
+							data.list.forEach((item,i)=>{
+								s.columns[6].filters.push({
+									value:item.groupid,
+									label:item.groupname
+								})
+							});
 						}
 					}
 				})

@@ -12125,11 +12125,11 @@
 	//                          <Submenu name='4'>
 	//                             <template slot="title">
 	//                                 <Icon type="ios-paper-plane" />
-	//                                 会议设置
+	//                                 培训设置
 	//                             </template>
 	//                             <MenuItem name='meeting' to='/meeting/' class='wm-meeing-mgr' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("meeting")>-1}'>
-	//                                <span style='opacity:0'>会议管理</span>
-	//                                <span class='wm-meeting-span' @click='entyMeeting'>会议管理</span>
+	//                                <span style='opacity:0'>培训管理</span>
+	//                                <span class='wm-meeting-span' @click='entyMeeting'>培训管理</span>
 	//                             </MenuItem>
 	//                            <!--  <MenuItem name='news' to='/news/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("news")>-1}'>
 	//                                 新闻管理
@@ -12506,7 +12506,7 @@
 /* 16 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n    <div class=\"layout\">\r\n        <Layout v-if='$route.name !== \"login\" && $route.name !== \"register\"'>\r\n            <Header>\r\n               <div>\r\n                    <div class=\"wm-title\">\r\n                        <img :src=\"imgs.adminLoginTitle\" alt=\"\">\r\n                    </div>\r\n               </div>\r\n               <div>\r\n                   <div v-if='false'>\r\n                       <span><img :src=\"imgs.search\" alt=\"\"></span><input type=\"text\" placeholder=\"查询我的上报\" />\r\n                   </div>\r\n               </div>\r\n               <div class=\"wm-user-info\">\r\n                   <span><img :src='imgs.man' /></span>\r\n                   <span class=\"zmiti-text-overflow\">{{userinfo.realname}}</span>\r\n                   <div @click=\"logout\">\r\n                       <img :src=\"imgs.logout\" alt=\"\">\r\n                   </div>\r\n               </div>\r\n            </Header>\r\n            <Layout class=\"wm-main-layout\">\r\n                <div class=\"wm-tab-C\" :style='{height:(viewH - 64)+\"px\"}'>\r\n                    <Menu width='300'   theme='dark'>\r\n                        \r\n                        <Submenu name=\"1\">\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                人员管理\r\n                            </template>\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem name='student' to='/student/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"student\"}'>\r\n                                学员管理\r\n                            </MenuItem>\r\n                          <!--   <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"class\"}'>\r\n                                班级管理\r\n                            </MenuItem> -->\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem to='/teacher/' name='teacher' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"teacher\"}'>\r\n                                教师管理\r\n                            </MenuItem>\r\n                            <MenuItem to='/adminuser/' name='adminuser' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"adminuser\"}'>\r\n                                管理员管理\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                         <Submenu name='4'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper-plane\" />\r\n                                会议设置\r\n                            </template>\r\n                            <MenuItem name='meeting' to='/meeting/' class='wm-meeing-mgr' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"meeting\")>-1}'>\r\n                               <span style='opacity:0'>会议管理</span>\r\n                               <span class='wm-meeting-span' @click='entyMeeting'>会议管理</span> \r\n                            </MenuItem>\r\n                           <!--  <MenuItem name='news' to='/news/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"news\")>-1}'>\r\n                                新闻管理\r\n                                1、签到报名管理\r\n                                2、新闻信息管理\r\n                                3、考勤管理（请假管理）\r\n                                4、课程管理\r\n                                5、外出活动表（管理员新建外出活动，然后选择活动人员、活动地址、活动时间等。）\r\n                                6、作业管理。\r\n                                7、考评管理\r\n                            </MenuItem>\r\n                            <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"class\")>-1}'>\r\n                                课程管理\r\n                            </MenuItem>\r\n                            <MenuItem name='attendance' to='/attendance/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"attendance\")>-1}'>\r\n                                考勤管理\r\n                            </MenuItem> -->\r\n                            <!-- <MenuItem v-for='(resource,i) in resourceList' :key=\"i\" :name='\"collection\"+i' :to='\"/collection/\"+resource.resourceid+\"/0\"' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"collection\"}'>\r\n                                {{resource.resourcecnname}}\r\n                            </MenuItem> -->\r\n                        </Submenu>\r\n                        <Submenu name='2'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                我的\r\n                            </template>\r\n                            <MenuItem name='user' to='/user/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"user\"}'>\r\n                                个人中心\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                    </Menu>\r\n                </div>\r\n                <Layout :style=\"{maxWidth:viewW-300+'px'}\">\r\n                   <router-view></router-view>\r\n                </Layout>\r\n            </Layout>\r\n        </Layout>\r\n        <div v-else>\r\n            <router-view></router-view>\r\n        </div>\r\n    </div>\r\n";
+	module.exports = "\r\n    <div class=\"layout\">\r\n        <Layout v-if='$route.name !== \"login\" && $route.name !== \"register\"'>\r\n            <Header>\r\n               <div>\r\n                    <div class=\"wm-title\">\r\n                        <img :src=\"imgs.adminLoginTitle\" alt=\"\">\r\n                    </div>\r\n               </div>\r\n               <div>\r\n                   <div v-if='false'>\r\n                       <span><img :src=\"imgs.search\" alt=\"\"></span><input type=\"text\" placeholder=\"查询我的上报\" />\r\n                   </div>\r\n               </div>\r\n               <div class=\"wm-user-info\">\r\n                   <span><img :src='imgs.man' /></span>\r\n                   <span class=\"zmiti-text-overflow\">{{userinfo.realname}}</span>\r\n                   <div @click=\"logout\">\r\n                       <img :src=\"imgs.logout\" alt=\"\">\r\n                   </div>\r\n               </div>\r\n            </Header>\r\n            <Layout class=\"wm-main-layout\">\r\n                <div class=\"wm-tab-C\" :style='{height:(viewH - 64)+\"px\"}'>\r\n                    <Menu width='300'   theme='dark'>\r\n                        \r\n                        <Submenu name=\"1\">\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                人员管理\r\n                            </template>\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem name='student' to='/student/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"student\"}'>\r\n                                学员管理\r\n                            </MenuItem>\r\n                          <!--   <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"class\"}'>\r\n                                班级管理\r\n                            </MenuItem> -->\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem to='/teacher/' name='teacher' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"teacher\"}'>\r\n                                教师管理\r\n                            </MenuItem>\r\n                            <MenuItem to='/adminuser/' name='adminuser' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"adminuser\"}'>\r\n                                管理员管理\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                         <Submenu name='4'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper-plane\" />\r\n                                培训设置\r\n                            </template>\r\n                            <MenuItem name='meeting' to='/meeting/' class='wm-meeing-mgr' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"meeting\")>-1}'>\r\n                               <span style='opacity:0'>培训管理</span>\r\n                               <span class='wm-meeting-span' @click='entyMeeting'>培训管理</span> \r\n                            </MenuItem>\r\n                           <!--  <MenuItem name='news' to='/news/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"news\")>-1}'>\r\n                                新闻管理\r\n                                1、签到报名管理\r\n                                2、新闻信息管理\r\n                                3、考勤管理（请假管理）\r\n                                4、课程管理\r\n                                5、外出活动表（管理员新建外出活动，然后选择活动人员、活动地址、活动时间等。）\r\n                                6、作业管理。\r\n                                7、考评管理\r\n                            </MenuItem>\r\n                            <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"class\")>-1}'>\r\n                                课程管理\r\n                            </MenuItem>\r\n                            <MenuItem name='attendance' to='/attendance/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"attendance\")>-1}'>\r\n                                考勤管理\r\n                            </MenuItem> -->\r\n                            <!-- <MenuItem v-for='(resource,i) in resourceList' :key=\"i\" :name='\"collection\"+i' :to='\"/collection/\"+resource.resourceid+\"/0\"' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"collection\"}'>\r\n                                {{resource.resourcecnname}}\r\n                            </MenuItem> -->\r\n                        </Submenu>\r\n                        <Submenu name='2'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                我的\r\n                            </template>\r\n                            <MenuItem name='user' to='/user/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"user\"}'>\r\n                                个人中心\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                    </Menu>\r\n                </div>\r\n                <Layout :style=\"{maxWidth:viewW-300+'px'}\">\r\n                   <router-view></router-view>\r\n                </Layout>\r\n            </Layout>\r\n        </Layout>\r\n        <div v-else>\r\n            <router-view></router-view>\r\n        </div>\r\n    </div>\r\n";
 
 /***/ }),
 /* 17 */
@@ -12540,6 +12540,7 @@
 	// 			<div>学员管理</div>
 	// 			<section>
 	// 				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增学员</Button>
+	// 				<Input v-model="keyword" placeholder="请输入关键字搜索" />
 	// 			</section>
 	// 		</header>
 	// 		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
@@ -12562,9 +12563,15 @@
 	// 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 	// 				</FormItem>
 	//
-	// 				<FormItem label="所属会议：" prop="mobile">
+	// 				<FormItem label="所属培训：" prop="mobile">
 	// 					 <Select v-model="formAdmin.meetid">
 	// 				       <Option v-for="item in meetList" :value="item.meetid" :key="item.meetid">{{ item.meetname }}</Option>
+	// 				    </Select>
+	// 				</FormItem>	
+	//
+	// 				<FormItem label="所属小组：" prop="mobile">
+	// 					 <Select v-model="formAdmin.groupid">
+	// 				       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
 	// 				    </Select>
 	// 				</FormItem>				
 	//
@@ -12625,7 +12632,7 @@
 
 			return {
 				content: "",
-
+				keyword: '',
 				provinceList: [],
 				visible: false,
 				imgs: window.imgs,
@@ -12633,6 +12640,7 @@
 				currentUserId: -1,
 				split1: 0.8,
 				showPass: false,
+				groupList: [],
 				viewH: window.innerHeight,
 
 				formAdmin: {
@@ -12662,15 +12670,22 @@
 					title: "手机号",
 					key: 'mobile',
 					align: 'center'
-				}
-				/* ,{
-	   	title:"状态",
-	   	key:'status',
-	   	align:'center',
-	   	render(h,params){
-	   		return h('div',{},params.row.status ===1?'已审核':'未审核')
-	   	}
-	   } */, {
+				}, {
+					title: "所属会议",
+					key: 'meetname',
+					align: 'center'
+
+				}, {
+					title: "所属小组",
+					key: 'groupname',
+					align: 'center',
+					filters: [],
+					filterMultiple: false,
+					filterMethod: function filterMethod(value, row) {
+						return row.groupid === value;
+					}
+
+				}, {
 					title: '操作',
 					key: "action",
 					align: 'center',
@@ -12765,9 +12780,42 @@
 			this.getCityData();
 			this.getmeetlist();
 			this.getstudentlist();
+			this.getGroupList();
+		},
+		watch: {
+			keyword: function keyword(val) {
+				if (val) {
+					this.userList = this.defaultUserList.filter(function (item, i) {
+						return item.studentname.indexOf(val) > -1 || item.meetname.indexOf(val) > -1;
+					});
+				} else {
+					this.userList = this.defaultUserList.concat([]);
+				}
+			}
 		},
 
 		methods: {
+			getGroupList: function getGroupList() {
+				var s = this;
+				_libUtil2['default'].ajax({
+					url: window.config.baseUrl + '/zmitiadmin/getusergrouplist',
+					data: {
+						admintoken: s.userinfo.accesstoken,
+						adminuserid: s.userinfo.userid
+					},
+					success: function success(data) {
+						if (data.getret === 0) {
+							s.groupList = data.list;
+							data.list.forEach(function (item, i) {
+								s.columns[6].filters.push({
+									value: item.groupid,
+									label: item.groupname
+								});
+							});
+						}
+					}
+				});
+			},
 			getCityById: function getCityById(e, callback) {
 
 				var provinceId = e.__value.split(',')[0];
@@ -12945,6 +12993,7 @@
 						console.log(data);
 						if (data.getret === 0) {
 							s.userList = data.list;
+							s.defaultUserList = s.userList.concat([]);
 						} else {
 							s.$Message.error(data.getmsg);
 						}
@@ -12976,6 +13025,7 @@
 							provinceid: s.formAdmin.cityids[0],
 							meetid: s.formAdmin.meetid,
 							job: s.formAdmin.job,
+							groupid: s.formAdmin.groupid,
 							cityid: s.formAdmin.cityids[1],
 							areaid: s.formAdmin.cityids[2],
 							detailaddress: s.formAdmin.detailaddress
@@ -13002,6 +13052,7 @@
 							userid: s.currentUserId,
 							adminuserid: s.userinfo.userid,
 							admintoken: s.userinfo.accesstoken,
+							groupid: s.formAdmin.groupid,
 							provinceid: s.formAdmin.cityids[0],
 							cityid: s.formAdmin.cityids[1],
 							areaid: s.formAdmin.cityids[2],
@@ -13066,7 +13117,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-student-main-ui > header {\r\n  background: #fff;\r\n  height: 50px;\r\n  width: 100%;\r\n  line-height: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n}\r\n\r\n.wm-student-main-ui > header > section {\r\n  margin-right: 30px;\r\n}\r\n\r\n.wm-student-main-ui > header > div {\r\n  font-size: 20px;\r\n  margin-left: 40px;\r\n  position: relative;\r\n}\r\n\r\n.wm-student-main-ui > header > div:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 2px;\r\n  height: 20px;\r\n  background: #cc0000;\r\n  top: 15px;\r\n  left: -10px;\r\n}\r\n\r\n.wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\r\n  left: 30px;\r\n}\r\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-student-main-ui > header {\r\n  background: #fff;\r\n  height: 50px;\r\n  width: 100%;\r\n  line-height: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n}\r\n\r\n.wm-student-main-ui > header > section {\r\n  margin-right: 30px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  -webkit-align-items: center;\r\n  align-items: center;\r\n}\r\n\r\n.wm-student-main-ui > header > section button {\r\n  display: block;\r\n  height: 30px;\r\n  margin-right: 20px;\r\n}\r\n\r\n.wm-student-main-ui > header > div {\r\n  font-size: 20px;\r\n  margin-left: 40px;\r\n  position: relative;\r\n}\r\n\r\n.wm-student-main-ui > header > div:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 2px;\r\n  height: 20px;\r\n  background: #cc0000;\r\n  top: 15px;\r\n  left: -10px;\r\n}\r\n\r\n.wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\r\n  left: 30px;\r\n}\r\n", ""]);
 
 	// exports
 
@@ -13075,7 +13126,7 @@
 /* 21 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-student-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>学员管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addNewAduser\">新增学员</Button>\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>\r\n\r\n\t\t<Modal\r\n\t\t\tv-model=\"visible\"\r\n\t\t\t:title=\"currentUserId === -1? '新增用户':'编辑用户'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属会议：\" prop=\"mobile\">\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"公司名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"公司名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\r\n\t\t \r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-student-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>学员管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addNewAduser\">新增学员</Button>\r\n\t\t\t\t<Input v-model=\"keyword\" placeholder=\"请输入关键字搜索\" />\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>\r\n\r\n\t\t<Modal\r\n\t\t\tv-model=\"visible\"\r\n\t\t\t:title=\"currentUserId === -1? '新增用户':'编辑用户'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\">\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\">\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"公司名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"公司名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\r\n\t\t \r\n\t</div>\r\n";
 
 /***/ }),
 /* 22 */
@@ -13821,7 +13872,7 @@
 					name: '学员报名管理',
 					to: 'meetingsignup'
 				}, {
-					name: '会议报到管理',
+					name: '培训报到管理',
 					to: 'meetingreport'
 				}, {
 					name: '新闻信息管理',
@@ -14006,7 +14057,7 @@
 	// 						</i-switch>
 	// 					</FormItem>
 	// 					<FormItem label="公告内容：" prop="isNotice" v-if='formNews.isNotice'>
-	// 						<Input :rows='5' type="textarea" v-model="formNews.content" />
+	// 						<Input :rows='5' type="textarea" ref='content' v-model="formNews.content" />
 	// 					</FormItem>
 	// 					<FormItem label="标题：" prop="title"  v-if='!formNews.isNotice'>
 	// 						<Row type='flex' :gutter='20' justify='space-between'>
@@ -14047,7 +14098,7 @@
 	//
 	// 							</div>
 	// 							<span v-if='showEncryptfileBtn'>
-	// 								 <Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件)
+	// 								 <Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件，最大支持8M)
 	// 							</span>	
 	// 							<span v-else class='wm-news-encryptfile-progressbar'>
 	// 								<label>{{percent}}%</label>
@@ -14334,6 +14385,20 @@
 				if (val) {
 					s.isDisabledBtn = false;
 				}
+			},
+			'formNews.content': {
+				handler: function handler(val, oldval) {
+					var s = this;
+					if (s.formNews.isNotice && val.length > 55) {
+						val = val.substr(0, 55);
+						s.formNews.content = val.substr(0, 55);
+						//s.$refs['content'].value  = val;
+
+						s.$Message.error('公告内容最多55个字');
+						return;
+					}
+				}
+
 			}
 		},
 
@@ -14416,7 +14481,7 @@
 					this.$Message.error('新闻标题不能为空');
 					return;
 				}
-				if (!s.formNews.type) {
+				if (!s.formNews.type && !s.formNews.isNotice) {
 					this.$Message.error('新闻分类不能为空');
 					return;
 				}
@@ -14803,7 +14868,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-student-main-ui > header {\r\n  background: #fff;\r\n  height: 50px;\r\n  width: 100%;\r\n  line-height: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n}\r\n\r\n.wm-student-main-ui > header > section {\r\n  margin-right: 30px;\r\n}\r\n\r\n.wm-student-main-ui > header > div {\r\n  font-size: 20px;\r\n  margin-left: 40px;\r\n  position: relative;\r\n}\r\n\r\n.wm-student-main-ui > header > div:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 2px;\r\n  height: 20px;\r\n  background: #cc0000;\r\n  top: 15px;\r\n  left: -10px;\r\n}\r\n\r\n.ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\r\n  left: 30px;\r\n}\r\n\r\n.wm-news-form-item {\r\n  width: 100%;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name {\r\n  position: relative;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-encrypting {\r\n  margin-left: 130px;\r\n  position: absolute;\r\n  width: 300px;\r\n  top: 0;\r\n  color: #be0000;\r\n  font-weight: bold;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-encrypting i {\r\n  font-size: 28px;\r\n  color: #be0000;\r\n}\r\n\r\n.wm-table-loading {\r\n  color: red;\r\n  font-size: 16px;\r\n}\r\n\r\n.wm-table-loading span {\r\n  font-size: 30px;\r\n  -webkit-animation: flash 0.8s infinite alternate;\r\n  animation: flash 0.8s infinite alternate;\r\n}\r\n\r\n.wm-table-loading span:nth-of-type(2) {\r\n  -webkit-animation: flash 0.8s 0.5s infinite alternate;\r\n  animation: flash 0.8s 0.5s infinite alternate;\r\n}\r\n\r\n.wm-table-loading span:nth-of-type(3) {\r\n  -webkit-animation: flash 0.8s 1s infinite alternate;\r\n  animation: flash 0.8s 1s infinite alternate;\r\n}\r\n\r\n@-webkit-keyframes flash {\r\n  to {\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n@keyframes flash {\r\n  to {\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n.wm-news-encryptfile {\r\n  width: 300px;\r\n  position: relative;\r\n}\r\n\r\n.wm-news-encryptfile .news-encryptfile {\r\n  position: absolute;\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n}\r\n\r\n.wm-news-encryptfile .news-encryptfile > div {\r\n  position: absolute;\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n  z-index: 100;\r\n  opacity: 0;\r\n  cursor: pointer;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar {\r\n  border: 1px solid #fab82e;\r\n  display: block;\r\n  height: 25px;\r\n  line-height: 25px;\r\n  position: relative;\r\n  border-radius: 11px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar label {\r\n  position: relative;\r\n  z-index: 10;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar span {\r\n  position: absolute;\r\n  width: 99.5%;\r\n  height: 20px;\r\n  left: 0;\r\n  top: 0;\r\n  border-radius: 10px;\r\n  margin: 1px;\r\n  -webkit-transform: translate3d(-100%, 0, 0);\r\n  transform: translate3d(-100%, 0, 0);\r\n  background-size: 3em 3em;\r\n  background-image: linear-gradient(-45deg, transparent 0em, transparent 0.8em, rgba(250, 184, 46, 0.7) 0.9em, rgba(250, 184, 46, 0.7) 2.1em, transparent 2.1em, transparent 2.9em, rgba(250, 184, 46, 0.7) 3.1em);\r\n  -webkit-animation: warning-animation 750ms infinite linear;\r\n  -moz-animation: warning-animation 750ms infinite linear;\r\n  animation: warning-animation 750ms infinite linear;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar span:before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  height: 100%;\r\n  background-image: linear-gradient(to bottom, rgba(250, 184, 46, 0.7), rgba(250, 184, 46, 0.7) 15%, transparent 60%, rgba(250, 184, 46, 0.7));\r\n}\r\n\r\n.wm-close {\r\n  border: 1px solid red;\r\n  position: absolute;\r\n  right: -20px;\r\n  top: -10px;\r\n  width: 20px;\r\n  height: 20px;\r\n  border-radius: 50%;\r\n  -webkit-transform: rotate(-45deg);\r\n  transform: rotate(-45deg);\r\n  background: #be0000;\r\n  cursor: pointer;\r\n  z-index: 100;\r\n}\r\n\r\n.wm-close:before, .wm-close:after {\r\n  content: '';\r\n  width: 2px;\r\n  height: 10px;\r\n  background: #fff;\r\n  position: absolute;\r\n  left: 50%;\r\n  top: 50%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n  transform: translate(-50%, -50%);\r\n}\r\n\r\n.wm-close:after {\r\n  width: 10px;\r\n  height: 2px;\r\n}\r\n\r\n.wm-news-download-wrap section {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  text-align: center;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list > div {\r\n  position: relative;\r\n  margin: 0 20px;\r\n  width: 90px;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list img {\r\n  width: 70px;\r\n  display: block;\r\n  margin: 0 auto;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list .wm-news-download-progress {\r\n  width: 100%;\r\n  height: 20px;\r\n  line-height: 20px;\r\n  color: #fff;\r\n  top: 30%;\r\n  margin-top: -10px;\r\n  left: 0;\r\n  position: absolute;\r\n  background: #f90;\r\n  background-size: 3em 3em;\r\n  background-image: linear-gradient(-45deg, transparent 0em, transparent 0.8em, rgba(250, 184, 46, 0.7) 0.9em, rgba(250, 184, 46, 0.7) 2.1em, transparent 2.1em, transparent 2.9em, rgba(250, 184, 46, 0.7) 3.1em);\r\n  -webkit-animation: warning-animation 750ms infinite linear;\r\n  -moz-animation: warning-animation 750ms infinite linear;\r\n  animation: warning-animation 750ms infinite linear;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list .wm-news-download-progress:before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  height: 100%;\r\n  background-image: linear-gradient(to bottom, rgba(250, 184, 46, 0.7), rgba(250, 184, 46, 0.7) 15%, transparent 60%, rgba(250, 184, 46, 0.7));\r\n}\r\n\r\n.quill-editor {\r\n  min-height: 200px;\r\n  height: 200px;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n@-webkit-keyframes warning-animation {\r\n  0% {\r\n    background-position: 0 0;\r\n  }\r\n  100% {\r\n    background-position: 3em 0;\r\n  }\r\n}\r\n\r\n@keyframes warning-animation {\r\n  0% {\r\n    background-position: 0 0;\r\n  }\r\n  100% {\r\n    background-position: 3em 0;\r\n  }\r\n}\r\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-student-main-ui > header {\r\n  background: #fff;\r\n  height: 50px;\r\n  width: 100%;\r\n  line-height: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n}\r\n\r\n.wm-student-main-ui > header > section {\r\n  margin-right: 30px;\r\n}\r\n\r\n.wm-student-main-ui > header > div {\r\n  font-size: 20px;\r\n  margin-left: 40px;\r\n  position: relative;\r\n}\r\n\r\n.wm-student-main-ui > header > div:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 2px;\r\n  height: 20px;\r\n  background: #cc0000;\r\n  top: 15px;\r\n  left: -10px;\r\n}\r\n\r\n.ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\r\n  left: 30px;\r\n}\r\n\r\n.wm-news-form-item {\r\n  width: 100%;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name {\r\n  position: relative;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-encrypting {\r\n  margin-left: 130px;\r\n  position: absolute;\r\n  width: 300px;\r\n  top: 0;\r\n  color: #be0000;\r\n  font-weight: bold;\r\n}\r\n\r\n.wm-news-form-item .ivu-form-item-content .wm-news-encryptfile-name .wm-news-encrypting i {\r\n  font-size: 28px;\r\n  color: #be0000;\r\n}\r\n\r\n.wm-table-loading {\r\n  color: red;\r\n  font-size: 16px;\r\n}\r\n\r\n.wm-table-loading span {\r\n  font-size: 30px;\r\n  -webkit-animation: flash 0.8s infinite alternate;\r\n  animation: flash 0.8s infinite alternate;\r\n}\r\n\r\n.wm-table-loading span:nth-of-type(2) {\r\n  -webkit-animation: flash 0.8s 0.5s infinite alternate;\r\n  animation: flash 0.8s 0.5s infinite alternate;\r\n}\r\n\r\n.wm-table-loading span:nth-of-type(3) {\r\n  -webkit-animation: flash 0.8s 1s infinite alternate;\r\n  animation: flash 0.8s 1s infinite alternate;\r\n}\r\n\r\n@-webkit-keyframes flash {\r\n  to {\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n@keyframes flash {\r\n  to {\r\n    opacity: 0;\r\n  }\r\n}\r\n\r\n.wm-news-encryptfile {\r\n  width: 360px;\r\n  position: relative;\r\n}\r\n\r\n.wm-news-encryptfile .news-encryptfile {\r\n  position: absolute;\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n}\r\n\r\n.wm-news-encryptfile .news-encryptfile > div {\r\n  position: absolute;\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n  z-index: 100;\r\n  opacity: 0;\r\n  cursor: pointer;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar {\r\n  border: 1px solid #fab82e;\r\n  display: block;\r\n  height: 25px;\r\n  line-height: 25px;\r\n  position: relative;\r\n  border-radius: 11px;\r\n  overflow: hidden;\r\n  text-align: center;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar label {\r\n  position: relative;\r\n  z-index: 10;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar span {\r\n  position: absolute;\r\n  width: 99.5%;\r\n  height: 20px;\r\n  left: 0;\r\n  top: 0;\r\n  border-radius: 10px;\r\n  margin: 1px;\r\n  -webkit-transform: translate3d(-100%, 0, 0);\r\n  transform: translate3d(-100%, 0, 0);\r\n  background-size: 3em 3em;\r\n  background-image: linear-gradient(-45deg, transparent 0em, transparent 0.8em, rgba(250, 184, 46, 0.7) 0.9em, rgba(250, 184, 46, 0.7) 2.1em, transparent 2.1em, transparent 2.9em, rgba(250, 184, 46, 0.7) 3.1em);\r\n  -webkit-animation: warning-animation 750ms infinite linear;\r\n  -moz-animation: warning-animation 750ms infinite linear;\r\n  animation: warning-animation 750ms infinite linear;\r\n}\r\n\r\n.wm-news-encryptfile .wm-news-encryptfile-progressbar span:before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  height: 100%;\r\n  background-image: linear-gradient(to bottom, rgba(250, 184, 46, 0.7), rgba(250, 184, 46, 0.7) 15%, transparent 60%, rgba(250, 184, 46, 0.7));\r\n}\r\n\r\n.wm-close {\r\n  border: 1px solid red;\r\n  position: absolute;\r\n  right: -20px;\r\n  top: -10px;\r\n  width: 20px;\r\n  height: 20px;\r\n  border-radius: 50%;\r\n  -webkit-transform: rotate(-45deg);\r\n  transform: rotate(-45deg);\r\n  background: #be0000;\r\n  cursor: pointer;\r\n  z-index: 100;\r\n}\r\n\r\n.wm-close:before, .wm-close:after {\r\n  content: '';\r\n  width: 2px;\r\n  height: 10px;\r\n  background: #fff;\r\n  position: absolute;\r\n  left: 50%;\r\n  top: 50%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n  transform: translate(-50%, -50%);\r\n}\r\n\r\n.wm-close:after {\r\n  width: 10px;\r\n  height: 2px;\r\n}\r\n\r\n.wm-news-download-wrap section {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  text-align: center;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list > div {\r\n  position: relative;\r\n  margin: 0 20px;\r\n  width: 90px;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list img {\r\n  width: 70px;\r\n  display: block;\r\n  margin: 0 auto;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list .wm-news-download-progress {\r\n  width: 100%;\r\n  height: 20px;\r\n  line-height: 20px;\r\n  color: #fff;\r\n  top: 30%;\r\n  margin-top: -10px;\r\n  left: 0;\r\n  position: absolute;\r\n  background: #f90;\r\n  background-size: 3em 3em;\r\n  background-image: linear-gradient(-45deg, transparent 0em, transparent 0.8em, rgba(250, 184, 46, 0.7) 0.9em, rgba(250, 184, 46, 0.7) 2.1em, transparent 2.1em, transparent 2.9em, rgba(250, 184, 46, 0.7) 3.1em);\r\n  -webkit-animation: warning-animation 750ms infinite linear;\r\n  -moz-animation: warning-animation 750ms infinite linear;\r\n  animation: warning-animation 750ms infinite linear;\r\n}\r\n\r\n.wm-news-download-wrap .wm-news-download-list .wm-news-download-progress:before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  height: 100%;\r\n  background-image: linear-gradient(to bottom, rgba(250, 184, 46, 0.7), rgba(250, 184, 46, 0.7) 15%, transparent 60%, rgba(250, 184, 46, 0.7));\r\n}\r\n\r\n.quill-editor {\r\n  min-height: 200px;\r\n  height: 200px;\r\n  margin-bottom: 40px;\r\n}\r\n\r\n@-webkit-keyframes warning-animation {\r\n  0% {\r\n    background-position: 0 0;\r\n  }\r\n  100% {\r\n    background-position: 3em 0;\r\n  }\r\n}\r\n\r\n@keyframes warning-animation {\r\n  0% {\r\n    background-position: 0 0;\r\n  }\r\n  100% {\r\n    background-position: 3em 0;\r\n  }\r\n}\r\n", ""]);
 
 	// exports
 
@@ -28452,7 +28517,7 @@
 /* 55 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-news-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>新闻信息管理</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\"　@click='addNews'>新增新闻</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class=\"wm-news-wrap\">\r\n\t\t\t\t<Form ref=\"formValidate\" v-show='showDetail' class=\"wm-meet-form wm-scroll\" :style='{height:viewH - 64- 90+\"px\"}' :model=\"formNews\" :rules=\"ruleValidate\" :label-width=\"100\">\r\n\t\t\t\t\t<FormItem label=\"是否为公告：\" prop=\"type\" v-if='!formNews.newsid'>\r\n\t\t\t\t\t\t<i-switch v-model=\"formNews.isNotice\" size=\"large\">\r\n\t\t\t\t\t\t\t<span slot=\"open\">是</span>\r\n\t\t\t\t\t\t\t<span slot=\"close\">否</span>\r\n\t\t\t\t\t\t</i-switch>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"公告内容：\" prop=\"isNotice\" v-if='formNews.isNotice'>\r\n\t\t\t\t\t\t<Input :rows='5' type=\"textarea\" v-model=\"formNews.content\" />\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"标题：\" prop=\"title\"  v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<Row type='flex' :gutter='20' justify='space-between'>\r\n\t\t\t\t\t\t\t<Col :span='12'><Input v-model=\"formNews.title\" placeholder=\"请填写标题\"></Input></Col>\r\n\t\t\t\t\t\t\t<Col :span=\"3\">\r\n\t\t\t\t\t\t\t\t<Checkbox label=\"Eat\" v-model=\"formNews.iscommend\">推荐</Checkbox>\r\n\t\t\t\t\t\t\t</Col>\r\n\t\t\t\t\t\t\t<Col :span=\"6\">\r\n\t\t\t\t\t\t\t\t加密开关：\r\n\t\t\t\t\t\t\t\t<i-switch v-model=\"formNews.encrypsign\" size=\"large\">\r\n\t\t\t\t\t\t\t\t\t<span slot=\"open\">开启</span>\r\n\t\t\t\t\t\t\t\t\t<span slot=\"close\">关闭</span>\r\n\t\t\t\t\t\t\t\t</i-switch>\r\n\t\t\t\t\t\t\t</Col>\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t</Row>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"新闻分类：\" prop=\"type\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<Select v-model=\"formNews.type\" placeholder=\"请选择新闻分类\">\r\n\t\t\t\t\t\t\t<Option :value=\"ntype.id\" v-for='(ntype,i) in newsTypeList' :key=\"i\">{{ntype.newstype}}</Option>\r\n\t\t\t\t\t\t</Select>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"内容：\" prop=\"content\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t <quill-editor \r\n\t\t\t\t\t\t\tv-model=\"formNews.content\" \r\n\t\t\t\t\t\t\tref=\"myQuillEditor\" \r\n\t\t\t\t\t\t\taria-placeholder=\"123\"\r\n\t\t\t\t\t\t\t:options=\"editorOption\" \r\n\t\t\t\t\t\t\t@blur=\"onEditorBlur($event)\" @focus=\"onEditorFocus($event)\"\r\n\t\t\t\t\t\t\t@change=\"onEditorChange($event)\">\r\n\t\t\t\t\t\t\t</quill-editor>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t\r\n\t\t\t\t\t<FormItem label=\"保密文件：\" prop=\"encryptfile\" class='wm-news-form-item' v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<div class=\"wm-news-encryptfile\" v-show='!formNews.pdfurl'>\r\n\t\t\t\t\t\t\t<div class=\" news-encryptfile\">\r\n\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<span v-if='showEncryptfileBtn'>\r\n\t\t\t\t\t\t\t\t <Button icon=\"ios-cloud-upload-outline\">上传保密文件</Button> (保密文件仅支持pdf文件)\r\n\t\t\t\t\t\t\t</span>\t\r\n\t\t\t\t\t\t\t<span v-else class='wm-news-encryptfile-progressbar'>\r\n\t\t\t\t\t\t\t\t<label>{{percent}}%</label>\r\n\t\t\t\t\t\t\t\t<span :style=\"{WebkitTransform:'translate3d('+(percent-100)+'%,0,0)'}\"></span>\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div  v-if='formNews.pdfurl' class=\"wm-news-encryptfile-name\" >\r\n\t\t\t\t\t\t\t<span>\r\n\t\t\t\t\t\t\t\t<a   v-html='formNews.pdfurl.split(\"/\").pop()' target='_blank' :href='formNews.pdfurl'></a>\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span @click='delencryptfile' class=\"wm-news-remove-encryptfile wm-close\"></span>\r\n\t\t\t\t\t\t\t<span v-if='isDisabledBtn' class='wm-news-encrypting'>文件加密中，请稍后... <Icon  type=\"ios-loading\" class=\"demo-spin-icon-load\"></Icon></span>\r\n\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t\t<FormItem label=\"附件：\" prop=\"download\" class=\"wm-news-download-wrap\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<section>\r\n\t\t\t\t\t\t\t<div class='wm-upload wm-news-download'>\r\n\t\t\t\t\t\t\t\t<div></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"wm-news-download-list\" v-if='formNews.download'>\r\n\t\t\t\t\t\t\t\t<div v-for='(dl,i) in formNews.download' v-if='dl' :key=\"i\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<span class='wm-close' @click=\"deldownloadfile(dl,i)\"></span>\r\n\t\t\t\t\t\t\t\t\t<a :href='dl.url' target='_blank'>\r\n\t\t\t\t\t\t\t\t\t\t<img :src='imgs[dl.url.split(\".\").pop()]' alt=\"\">\r\n\t\t\t\t\t\t\t\t\t\t<span v-if='dl.isUploading' class='wm-news-download-progress'>{{dl.percent||0}}%</span>\r\n\t\t\t\t\t\t\t\t\t\t{{dl.url.split('/').pop()}}\r\n\t\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</section>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\r\n\t\t\t\t\t<FormItem label=\"新闻状态：\" prop=\"encrypsign\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formNews.state\">\r\n\t\t\t\t\t\t\t<Radio :label=\"0\">待发</Radio>\r\n\t\t\t\t\t\t\t<Radio :label=\"1\">签发</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem>\r\n\t\t\t\t\t\t<Button :disabled='isDisabledBtn' type=\"primary\" @click=\"newsAction('click')\" size='large'>{{currentNewsId>-1?'保存':'添加'}}</Button>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t</Form>\r\n\t\t\t\t<div v-if='!showDetail' class=\"wm-news-list\">\r\n\t\t\t\t\t<Table  :loading=\"loading\" :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns'   stripe>\r\n\t\t\t\t\t\t<div slot='loading' class='wm-table-loading'>加载中<span>.</span><span>.</span><span>.</span></div>\r\n\t\t\t\t\t</Table>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-news-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>新闻信息管理</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\"　@click='addNews'>新增新闻</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class=\"wm-news-wrap\">\r\n\t\t\t\t<Form ref=\"formValidate\" v-show='showDetail' class=\"wm-meet-form wm-scroll\" :style='{height:viewH - 64- 90+\"px\"}' :model=\"formNews\" :rules=\"ruleValidate\" :label-width=\"100\">\r\n\t\t\t\t\t<FormItem label=\"是否为公告：\" prop=\"type\" v-if='!formNews.newsid'>\r\n\t\t\t\t\t\t<i-switch v-model=\"formNews.isNotice\" size=\"large\">\r\n\t\t\t\t\t\t\t<span slot=\"open\">是</span>\r\n\t\t\t\t\t\t\t<span slot=\"close\">否</span>\r\n\t\t\t\t\t\t</i-switch>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"公告内容：\" prop=\"isNotice\" v-if='formNews.isNotice'>\r\n\t\t\t\t\t\t<Input :rows='5' type=\"textarea\" ref='content' v-model=\"formNews.content\" />\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"标题：\" prop=\"title\"  v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<Row type='flex' :gutter='20' justify='space-between'>\r\n\t\t\t\t\t\t\t<Col :span='12'><Input v-model=\"formNews.title\" placeholder=\"请填写标题\"></Input></Col>\r\n\t\t\t\t\t\t\t<Col :span=\"3\">\r\n\t\t\t\t\t\t\t\t<Checkbox label=\"Eat\" v-model=\"formNews.iscommend\">推荐</Checkbox>\r\n\t\t\t\t\t\t\t</Col>\r\n\t\t\t\t\t\t\t<Col :span=\"6\">\r\n\t\t\t\t\t\t\t\t加密开关：\r\n\t\t\t\t\t\t\t\t<i-switch v-model=\"formNews.encrypsign\" size=\"large\">\r\n\t\t\t\t\t\t\t\t\t<span slot=\"open\">开启</span>\r\n\t\t\t\t\t\t\t\t\t<span slot=\"close\">关闭</span>\r\n\t\t\t\t\t\t\t\t</i-switch>\r\n\t\t\t\t\t\t\t</Col>\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t</Row>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"新闻分类：\" prop=\"type\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<Select v-model=\"formNews.type\" placeholder=\"请选择新闻分类\">\r\n\t\t\t\t\t\t\t<Option :value=\"ntype.id\" v-for='(ntype,i) in newsTypeList' :key=\"i\">{{ntype.newstype}}</Option>\r\n\t\t\t\t\t\t</Select>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"内容：\" prop=\"content\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t <quill-editor \r\n\t\t\t\t\t\t\tv-model=\"formNews.content\" \r\n\t\t\t\t\t\t\tref=\"myQuillEditor\" \r\n\t\t\t\t\t\t\taria-placeholder=\"123\"\r\n\t\t\t\t\t\t\t:options=\"editorOption\" \r\n\t\t\t\t\t\t\t@blur=\"onEditorBlur($event)\" @focus=\"onEditorFocus($event)\"\r\n\t\t\t\t\t\t\t@change=\"onEditorChange($event)\">\r\n\t\t\t\t\t\t\t</quill-editor>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t\r\n\t\t\t\t\t<FormItem label=\"保密文件：\" prop=\"encryptfile\" class='wm-news-form-item' v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<div class=\"wm-news-encryptfile\" v-show='!formNews.pdfurl'>\r\n\t\t\t\t\t\t\t<div class=\" news-encryptfile\">\r\n\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<span v-if='showEncryptfileBtn'>\r\n\t\t\t\t\t\t\t\t <Button icon=\"ios-cloud-upload-outline\">上传保密文件</Button> (保密文件仅支持pdf文件，最大支持8M)\r\n\t\t\t\t\t\t\t</span>\t\r\n\t\t\t\t\t\t\t<span v-else class='wm-news-encryptfile-progressbar'>\r\n\t\t\t\t\t\t\t\t<label>{{percent}}%</label>\r\n\t\t\t\t\t\t\t\t<span :style=\"{WebkitTransform:'translate3d('+(percent-100)+'%,0,0)'}\"></span>\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div  v-if='formNews.pdfurl' class=\"wm-news-encryptfile-name\" >\r\n\t\t\t\t\t\t\t<span>\r\n\t\t\t\t\t\t\t\t<a   v-html='formNews.pdfurl.split(\"/\").pop()' target='_blank' :href='formNews.pdfurl'></a>\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span @click='delencryptfile' class=\"wm-news-remove-encryptfile wm-close\"></span>\r\n\t\t\t\t\t\t\t<span v-if='isDisabledBtn' class='wm-news-encrypting'>文件加密中，请稍后... <Icon  type=\"ios-loading\" class=\"demo-spin-icon-load\"></Icon></span>\r\n\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t\t<FormItem label=\"附件：\" prop=\"download\" class=\"wm-news-download-wrap\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<section>\r\n\t\t\t\t\t\t\t<div class='wm-upload wm-news-download'>\r\n\t\t\t\t\t\t\t\t<div></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"wm-news-download-list\" v-if='formNews.download'>\r\n\t\t\t\t\t\t\t\t<div v-for='(dl,i) in formNews.download' v-if='dl' :key=\"i\">\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t<span class='wm-close' @click=\"deldownloadfile(dl,i)\"></span>\r\n\t\t\t\t\t\t\t\t\t<a :href='dl.url' target='_blank'>\r\n\t\t\t\t\t\t\t\t\t\t<img :src='imgs[dl.url.split(\".\").pop()]' alt=\"\">\r\n\t\t\t\t\t\t\t\t\t\t<span v-if='dl.isUploading' class='wm-news-download-progress'>{{dl.percent||0}}%</span>\r\n\t\t\t\t\t\t\t\t\t\t{{dl.url.split('/').pop()}}\r\n\t\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</section>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\r\n\t\t\t\t\t<FormItem label=\"新闻状态：\" prop=\"encrypsign\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formNews.state\">\r\n\t\t\t\t\t\t\t<Radio :label=\"0\">待发</Radio>\r\n\t\t\t\t\t\t\t<Radio :label=\"1\">签发</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem>\r\n\t\t\t\t\t\t<Button :disabled='isDisabledBtn' type=\"primary\" @click=\"newsAction('click')\" size='large'>{{currentNewsId>-1?'保存':'添加'}}</Button>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t</Form>\r\n\t\t\t\t<div v-if='!showDetail' class=\"wm-news-list\">\r\n\t\t\t\t\t<Table  :loading=\"loading\" :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns'   stripe>\r\n\t\t\t\t\t\t<div slot='loading' class='wm-table-loading'>加载中<span>.</span><span>.</span><span>.</span></div>\r\n\t\t\t\t\t</Table>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 56 */
@@ -29339,7 +29404,30 @@
 	var _commomTabIndex2 = _interopRequireDefault(_commomTabIndex);
 
 	var status = ['未签到', '已签到', '请假未审批', '请假已通过审批', '打卡异常', '请假驳回'];
-
+	var filter = [{
+		label: '缺勤',
+		value: 0
+	}, {
+		label: '正常',
+		value: 1
+	}, {
+		label: '请假待批',
+		value: 2
+	}, {
+		label: '请假已批',
+		value: 3
+	}, {
+		label: '考勤异常',
+		value: 4
+	}, {
+		label: '请假驳回',
+		value: 5
+	}];
+	var excuse = {
+		title: '事由',
+		key: 'excuse',
+		align: 'center'
+	};
 	exports['default'] = {
 		props: ['obserable'],
 		name: 'zmitiindex',
@@ -29380,36 +29468,15 @@
 					render: function render(h, params) {
 						return h('div', {}, status[params.row.status]);
 					},
-					filters: [{
-						label: '缺勤',
-						value: 0
-					}, {
-						label: '正常',
-						value: 1
-					}, {
-						label: '请假待批',
-						value: 2
-					}, {
-						label: '请假已批',
-						value: 3
-					}, {
-						label: '考勤异常',
-						value: 4
-					}, {
-						label: '请假驳回',
-						value: 5
-					}],
+					filters: filter,
 					filterMultiple: false,
 					filterMethod: function filterMethod(value, row) {
 						return row.status === value;
 					}
-				}, {
-					title: '事由',
-					key: 'excuse',
-					align: 'center'
-				}, {
+				}, excuse, {
 					title: '操作',
 					key: 'action',
+					align: 'center',
 					render: function render(h, params) {
 						if (params.row.status === 2) {
 							return h('div', {}, [h('Button', {
@@ -29437,8 +29504,24 @@
 									}
 								}
 							}, '同意')]);
+						} else {
+							if (params.row.status !== 1) {
+
+								return h('Button', {
+									props: {
+										type: 'primary',
+										size: 'small'
+									},
+									on: {
+										click: function click() {
+											_this.checked(1, params.row.id, params.index);
+											_this.detailList.splice(params.index, 1);
+										}
+									}
+								}, '修正');
+							}
+							return h('div', {}, '');
 						}
-						return h('div', {}, '');
 					}
 				}],
 				columns: [{
@@ -29552,9 +29635,38 @@
 			},
 
 			getDetail: function getDetail(type, val, name) {
+				var _this2 = this;
 
 				var s = this;
 				this.name = name;
+				if (val === 2 || val === 3 || val === 4 || val === 5) {
+					//this.cacheColumns =  this.cacheColumns || this.columns1.concat([]);
+					if (val === 4) {
+						//考勤异常
+						if (this.columns1[4].key === 'excuse') {
+							this.columns1.splice(4, 1);
+							this.columns1.splice(4, 0, {
+								title: '考勤地址',
+								key: 'addressname',
+								align: 'center'
+
+							});
+						}
+					} else {
+						if (this.columns1[4].key !== 'excuse') {
+							this.columns1.splice(4, 0, excuse);
+						}
+						this.columns1.forEach(function (item, i) {
+							if (item.key === 'addressname') {
+								_this2.columns1.splice(i, 1);
+							}
+						});
+					}
+					this.columns1[3].filters = null;
+				} else {
+					this.columns1[3].filters = filter;
+				}
+
 				_libUtil2['default'].ajax({
 					_this: s,
 					url: window.config.baseUrl + '/zmitiadmin/meetclassdetail/',
@@ -29714,9 +29826,9 @@
 	// <template>
 	// 	<div class="wm-meeting-main-ui">
 	// 		<header>
-	// 			<div>会议管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>
+	// 			<div>培训管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>
 	// 			<section>
-	// 				<Button type="primary" icon='md-add-circle' v-if='!showDetail' @click="addNewAduser">新增会议</Button>
+	// 				<Button type="primary" icon='md-add-circle' v-if='!showDetail' @click="addNewAduser">新增培训</Button>
 	// 				<Button type="primary" icon='ios-checkmark-circle-outline' v-else @click="meetAction">{{formMeet.meetid?'修改':'保存'}}</Button>
 	// 			</section>
 	// 		</header>
@@ -29730,7 +29842,7 @@
 	// 				</div>
 	// 				<div class='wm-meet-form-item wm-require'>
 	// 					<div>
-	// 						<label for="">会议时间：</label>
+	// 						<label for="">培训时间：</label>
 	// 						<DatePicker style="width:80%" v-model="formMeet.datetimes" :value="formMeet.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
 	// 					</div>
 	// 					<div class='wm-meet-form-error'></div>
@@ -29740,7 +29852,7 @@
 	// 					<div><label for="">说明：</label><textarea v-model='formMeet.meetremarks' type="textarea"></textarea></div>
 	// 				</div>
 	// 				<div class='wm-meet-banner-C'>
-	// 					<div>上传会议banner图（750*380）</div>
+	// 					<div>上传培训banner图（750*380）</div>
 	// 					<div class='wm-meet-banner-upload'>
 	// 						<div id="wm-upload" class="wm-upload">
 	//
@@ -29771,7 +29883,7 @@
 	// 					</div>
 	// 				</div>
 	// 				<div class='wm-meet-form-radio'>
-	// 					<div>是否开启会议报道</div>
+	// 					<div>是否开启培训报道</div>
 	// 					<div>
 	// 						<RadioGroup v-model="formMeet.isreport">
 	// 							<Radio :value='1' label="是"></Radio>
@@ -29811,7 +29923,7 @@
 	// 						</div>
 	// 					</div>
 	// 					<div class='wm-meet-remark'>
-	// 						<div>会议说明：</div>
+	// 						<div>培训说明：</div>
 	// 						<div>{{meet.meetremarks}}</div>
 	// 						<div :title="meet.qrcode?'点击下载':'点击生成二维码'" @click="createQrcode(meet)">
 	// 							<a target='_blank' :href='meet.qrcode' v-if='meet.qrcode'>
@@ -30107,7 +30219,7 @@
 				var s = this;
 
 				if (!this.formMeet.meetname) {
-					s.$Message.error('会议名称不能为空');
+					s.$Message.error('培训名称不能为空');
 					return;
 				}
 				if (s.currentMeetid <= -1) {
@@ -30214,7 +30326,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-meeting-main-ui > header {\r\n  background: #fff;\r\n  height: 50px;\r\n  width: 100%;\r\n  line-height: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui > header i {\r\n  font-size: 16px;\r\n}\r\n\r\n.wm-meeting-main-ui > header > section {\r\n  margin-right: 30px;\r\n}\r\n\r\n.wm-meeting-main-ui > header:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 96%;\r\n  left: 2%;\r\n  height: 1px;\r\n  background: #eee;\r\n  bottom: 0;\r\n}\r\n\r\n.wm-meeting-main-ui > header > div {\r\n  font-size: 20px;\r\n  margin-left: 40px;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui > header > div:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 2px;\r\n  height: 20px;\r\n  background: #cc0000;\r\n  top: 15px;\r\n  left: -10px;\r\n}\r\n\r\n.wm-meeting-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\r\n  left: 20px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form {\r\n  background: #fff;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 96%;\r\n  left: 2%;\r\n  height: 1px;\r\n  background: #eee;\r\n  top: 0;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section {\r\n  width: 500px;\r\n  padding-top: 50px;\r\n  margin: 0 auto;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item {\r\n  height: 50px;\r\n  line-height: 50px;\r\n  margin: 10px 0;\r\n  position: relative;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item.wm-require:before {\r\n  content: '*';\r\n  color: #f00;\r\n  position: absolute;\r\n  font-size: 16px;\r\n  left: 10px;\r\n  top: 3px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item.wm-meet-form-muli {\r\n  height: 150px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: column;\r\n  padding-bottom: 20px;\r\n  vertical-align: top;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item.wm-meet-form-muli textarea {\r\n  display: block;\r\n  margin-left: 20px;\r\n  width: 460px;\r\n  height: 80px;\r\n  resize: none;\r\n  line-height: 20px;\r\n  border: none;\r\n  background: transparent;\r\n  outline: none;\r\n  margin-bottom: 20px;\r\n  margin-top: -10px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item label {\r\n  margin-left: 20px;\r\n  display: inline-block;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item input {\r\n  height: 30px;\r\n  background: transparent;\r\n  border: none;\r\n  width: 350px;\r\n  outline: none;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item > div:nth-of-type(1) {\r\n  background: #eee;\r\n  flex: 1;\r\n  -webkit-flex: 1;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item > div:nth-of-type(2) {\r\n  width: 100px;\r\n  color: #f00;\r\n  font-weight: bold;\r\n  position: absolute;\r\n  left: 101%;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-radio {\r\n  clear: left;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  height: 40px;\r\n  line-height: 40px;\r\n  border-bottom: 1px solid #eee;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list {\r\n  background: #fff;\r\n  width: 100%;\r\n  position: relative;\r\n  padding: 30px 30px 0;\r\n  overflow: auto;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  -webkit-flex-wrap: wrap;\r\n  flex-wrap: wrap;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li {\r\n  width: 48%;\r\n  margin: 20px 0 0;\r\n  border: 1px solid #eeeeee;\r\n  padding: 0 10px;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-status {\r\n  position: absolute;\r\n  width: 70px;\r\n  top: -10px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  border-bottom: 1px solid #eee;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  margin: 16px auto 20px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-name {\r\n  font-size: 16px;\r\n  font-weight: bold;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-info,\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-left .wm-meet-item-info {\r\n  line-height: 40px;\r\n  color: #999999;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-left {\r\n  padding: 0 10px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right {\r\n  text-align: right;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions {\r\n  text-align: left;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions > div {\r\n  margin: 0 5px;\r\n  cursor: pointer;\r\n  border-radius: 4px;\r\n  padding: 2px 10px;\r\n  font-size: 12px;\r\n  background: #ededed;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions > div:nth-of-type(1) {\r\n  background: #f90;\r\n  color: #fff;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  color: #000;\r\n  height: 30px;\r\n  min-height: 70px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(1) {\r\n  width: 80px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(2) {\r\n  flex: 1;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(3) {\r\n  width: 70px;\r\n  position: relative;\r\n  top: -10px;\r\n  cursor: pointer;\r\n}\r\n\r\n.wm-meeting-banner {\r\n  width: 280px;\r\n  height: 100px;\r\n  position: absolute;\r\n  top: 0;\r\n  right: 0;\r\n}\r\n\r\n.wm-meet-banner-C {\r\n  width: 100%;\r\n  float: left;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload,\r\n.wm-meet-banner-C .wm-meet-banner-img {\r\n  display: inline-block;\r\n  width: 100px;\r\n  float: left;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-img {\r\n  margin-top: 10px;\r\n  margin-left: 40px;\r\n  width: 150px;\r\n  height: 76px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  -webkit-justify-content: center;\r\n  -webkit-align-items: center;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-img .wm-close {\r\n  margin-left: 70px;\r\n  margin-top: -50px;\r\n  left: auto;\r\n  top: auto;\r\n  right: auto;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-img img {\r\n  display: block;\r\n  vertical-align: middle;\r\n  max-width: 100%;\r\n  max-height: 100%;\r\n  width: auto;\r\n  height: auto;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload {\r\n  width: 100px;\r\n  height: 100px;\r\n  position: relative;\r\n  cursor: pointer;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload i.ivu-icon {\r\n  position: absolute;\r\n  font-size: 30px;\r\n  left: 50%;\r\n  top: 50%;\r\n  color: #f90;\r\n  -webkit-transform: translate3d(-50%, -50%, 0);\r\n  transform: translate3d(-50%, -50%, 0);\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload .wm-upload {\r\n  height: 100px;\r\n  width: 100px;\r\n  z-index: 100;\r\n  position: relative;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload .wm-upload div {\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n  left: 0;\r\n  top: 0;\r\n  border: 1px solid #eee;\r\n  position: absolute;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload .wm-upload input {\r\n  opacity: 0;\r\n}\r\n\r\n.wm-upload {\r\n  height: 100px;\r\n  width: 100px;\r\n  position: relative;\r\n}\r\n\r\n.wm-upload div {\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n  left: 0;\r\n  top: 0;\r\n  border: 1px solid #eee;\r\n  position: absolute;\r\n}\r\n\r\n.wm-upload div:before, .wm-upload div:after {\r\n  content: '';\r\n  position: absolute;\r\n  width: 4px;\r\n  height: 50px;\r\n  background: #ddd;\r\n  left: 50%;\r\n  top: 50%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n  transform: translate(-50%, -50%);\r\n  border-radius: 2px;\r\n}\r\n\r\n.wm-upload div:after {\r\n  width: 50px;\r\n  height: 4px;\r\n}\r\n\r\n.wm-upload input {\r\n  opacity: 0;\r\n}\r\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-meeting-main-ui > header {\r\n  background: #fff;\r\n  height: 50px;\r\n  width: 100%;\r\n  line-height: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui > header i {\r\n  font-size: 16px;\r\n}\r\n\r\n.wm-meeting-main-ui > header > section {\r\n  margin-right: 30px;\r\n}\r\n\r\n.wm-meeting-main-ui > header:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 96%;\r\n  left: 2%;\r\n  height: 1px;\r\n  background: #eee;\r\n  bottom: 0;\r\n}\r\n\r\n.wm-meeting-main-ui > header > div {\r\n  font-size: 20px;\r\n  margin-left: 40px;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui > header > div:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 2px;\r\n  height: 20px;\r\n  background: #cc0000;\r\n  top: 15px;\r\n  left: -10px;\r\n}\r\n\r\n.wm-meeting-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\r\n  left: 20px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form {\r\n  background: #fff;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form:before {\r\n  content: \"\";\r\n  position: absolute;\r\n  width: 96%;\r\n  left: 2%;\r\n  height: 1px;\r\n  background: #eee;\r\n  top: 0;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section {\r\n  width: 500px;\r\n  padding-top: 50px;\r\n  margin: 0 auto;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item {\r\n  height: 50px;\r\n  line-height: 50px;\r\n  margin: 10px 0;\r\n  position: relative;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item.wm-require:before {\r\n  content: '*';\r\n  color: #f00;\r\n  position: absolute;\r\n  font-size: 16px;\r\n  left: 10px;\r\n  top: 3px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item.wm-meet-form-muli {\r\n  height: 150px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: column;\r\n  padding-bottom: 20px;\r\n  vertical-align: top;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item.wm-meet-form-muli textarea {\r\n  display: block;\r\n  margin-left: 20px;\r\n  width: 460px;\r\n  height: 80px;\r\n  resize: none;\r\n  line-height: 20px;\r\n  border: none;\r\n  background: transparent;\r\n  outline: none;\r\n  margin-bottom: 20px;\r\n  margin-top: -10px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item label {\r\n  margin-left: 20px;\r\n  display: inline-block;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item input {\r\n  height: 30px;\r\n  background: transparent;\r\n  border: none;\r\n  width: 350px;\r\n  outline: none;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item > div:nth-of-type(1) {\r\n  background: #eee;\r\n  flex: 1;\r\n  -webkit-flex: 1;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-item > div:nth-of-type(2) {\r\n  width: 100px;\r\n  color: #f00;\r\n  font-weight: bold;\r\n  position: absolute;\r\n  left: 101%;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-form section .wm-meet-form-radio {\r\n  clear: left;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  height: 40px;\r\n  line-height: 40px;\r\n  border-bottom: 1px solid #eee;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list {\r\n  background: #fff;\r\n  width: 100%;\r\n  position: relative;\r\n  padding: 30px 30px 0;\r\n  overflow: auto;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  -webkit-flex-wrap: wrap;\r\n  flex-wrap: wrap;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li {\r\n  width: 48%;\r\n  margin: 20px 0 0;\r\n  border: 1px solid #eeeeee;\r\n  padding: 0 10px;\r\n  position: relative;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-status {\r\n  position: absolute;\r\n  width: 70px;\r\n  top: -10px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  border-bottom: 1px solid #eee;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  margin: 16px auto 20px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-name {\r\n  font-size: 16px;\r\n  font-weight: bold;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-info,\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-left .wm-meet-item-info {\r\n  line-height: 40px;\r\n  color: #999999;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-left {\r\n  padding: 0 10px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right {\r\n  text-align: right;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions {\r\n  text-align: left;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions > div {\r\n  margin: 0 5px;\r\n  cursor: pointer;\r\n  border-radius: 4px;\r\n  padding: 2px 10px;\r\n  font-size: 12px;\r\n  background: #ededed;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions > div:nth-of-type(1) {\r\n  background: #f90;\r\n  color: #fff;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  color: #000;\r\n  height: 30px;\r\n  min-height: 70px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(1) {\r\n  width: 80px;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(2) {\r\n  flex: 1;\r\n}\r\n\r\n.wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(3) {\r\n  width: 70px;\r\n  position: relative;\r\n  top: -10px;\r\n  cursor: pointer;\r\n}\r\n\r\n.wm-meeting-banner {\r\n  width: 280px;\r\n  height: 100px;\r\n  position: absolute;\r\n  top: 0;\r\n  right: 0;\r\n}\r\n\r\n.wm-meet-banner-C {\r\n  width: 100%;\r\n  float: left;\r\n}\r\n\r\n.wm-meet-banner-C i {\r\n  display: none;\r\n  opacity: 0;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload,\r\n.wm-meet-banner-C .wm-meet-banner-img {\r\n  display: inline-block;\r\n  width: 100px;\r\n  float: left;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-img {\r\n  margin-top: 10px;\r\n  margin-left: 40px;\r\n  width: 150px;\r\n  height: 76px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  -webkit-justify-content: center;\r\n  -webkit-align-items: center;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-img .wm-close {\r\n  margin-left: 70px;\r\n  margin-top: -50px;\r\n  left: auto;\r\n  top: auto;\r\n  right: auto;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-img img {\r\n  display: block;\r\n  vertical-align: middle;\r\n  max-width: 100%;\r\n  max-height: 100%;\r\n  width: auto;\r\n  height: auto;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload {\r\n  width: 100px;\r\n  height: 100px;\r\n  position: relative;\r\n  cursor: pointer;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload i.ivu-icon {\r\n  position: absolute;\r\n  font-size: 30px;\r\n  left: 50%;\r\n  top: 50%;\r\n  color: #f90;\r\n  -webkit-transform: translate3d(-50%, -50%, 0);\r\n  transform: translate3d(-50%, -50%, 0);\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload .wm-upload {\r\n  height: 100px;\r\n  width: 100px;\r\n  z-index: 100;\r\n  position: relative;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload .wm-upload div {\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n  left: 0;\r\n  top: 0;\r\n  border: 1px solid #eee;\r\n  position: absolute;\r\n}\r\n\r\n.wm-meet-banner-C .wm-meet-banner-upload .wm-upload input {\r\n  opacity: 0;\r\n}\r\n\r\n.wm-upload {\r\n  height: 100px;\r\n  width: 100px;\r\n  position: relative;\r\n}\r\n\r\n.wm-upload div {\r\n  width: 100% !important;\r\n  height: 100% !important;\r\n  left: 0;\r\n  top: 0;\r\n  border: 1px solid #eee;\r\n  position: absolute;\r\n}\r\n\r\n.wm-upload div:before, .wm-upload div:after {\r\n  content: '';\r\n  position: absolute;\r\n  width: 4px;\r\n  height: 50px;\r\n  background: #ddd;\r\n  left: 50%;\r\n  top: 50%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n  transform: translate(-50%, -50%);\r\n  border-radius: 2px;\r\n}\r\n\r\n.wm-upload div:after {\r\n  width: 50px;\r\n  height: 4px;\r\n}\r\n\r\n.wm-upload input {\r\n  opacity: 0;\r\n}\r\n", ""]);
 
 	// exports
 
@@ -30223,7 +30335,7 @@
 /* 77 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-meeting-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>会议管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' v-if='!showDetail' @click=\"addNewAduser\">新增会议</Button>\r\n\t\t\t\t<Button type=\"primary\" icon='ios-checkmark-circle-outline' v-else @click=\"meetAction\">{{formMeet.meetid?'修改':'保存'}}</Button>\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table v-if='false' ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='meetList' :columns='columns'   stripe></Table>\r\n\t\t\r\n\t\t<div v-if='showDetail' class='wm-meet-form' :style=\"{height:viewH-64-50+'px'}\">\r\n\t\t\t<section>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div><label for=\"\">名称：</label><input v-model='formMeet.meetname' type=\"text\"></div>\r\n\t\t\t\t\t<div class='wm-meet-form-error' v-if='meetnameErr'>{{meetnameErr}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<label for=\"\">会议时间：</label>\r\n\t\t\t\t\t\t<DatePicker style=\"width:80%\" v-model=\"formMeet.datetimes\" :value=\"formMeet.datetimes\" format=\"yyyy/MM/dd\" type=\"daterange\" placement=\"bottom-end\" placeholder=\"请选择开始和结束日期\"></DatePicker>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-form-error'></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class='wm-meet-form-item wm-meet-form-muli'>\r\n\t\t\t\t\t<div><label for=\"\">说明：</label><textarea v-model='formMeet.meetremarks' type=\"textarea\"></textarea></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-banner-C'>\r\n\t\t\t\t\t<div>上传会议banner图（750*380）</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-upload'>\r\n\t\t\t\t\t\t<div id=\"wm-upload\" class=\"wm-upload\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<Icon type=\"md-add-circle\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-img' @click='formMeet.bannerurl = \"\"'>\r\n\t\t\t\t\t\t<img v-if='formMeet.bannerurl' :src=\"formMeet.bannerurl\" alt=\"\">\r\n\t\t\t\t\t\t<span v-if='formMeet.bannerurl' class='wm-close'></span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启报名</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t <RadioGroup v-model=\"formMeet.issignup\">\r\n\t\t\t\t\t\t\t<Radio :value='1' label=\"是\"></Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' label=\"否\"></Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启用户审核</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.ischecked\">\r\n\t\t\t\t\t\t\t<Radio :value='1' label=\"是\"></Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' label=\"否\"></Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启会议报道</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.isreport\">\r\n\t\t\t\t\t\t\t<Radio :value='1' label=\"是\"></Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' label=\"否\"></Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</section>\r\n\t\t</div>\r\n\t\t<div v-else class='wm-meet-list wm-scroll' :style=\"{height:viewH-64-50+'px'}\" >\r\n\t\t\t<ul>\r\n\t\t\t\t<li v-for='(meet,i) in meetList' :key=\"i\">\r\n\t\t\t\t\t<span class='wm-meet-item-status'>\r\n\t\t\t\t\t\t<img :src=\"imgs[meet.status === 1||meet.status ? 'enable':'disable']\" alt=\"\">\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<div class='wm-meet-item-header'>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-left'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-name'>{{meet.meetname}}</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>时间：{{meet.startdate}} - {{meet.enddate}}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-right'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-actions'>\r\n\t\t\t\t\t\t\t\t<div @click=\"entry(meet,i)\">详情</div>\r\n\t\t\t\t\t\t\t\t<div @click='editMeet(meet,i)'>编辑</div>\r\n\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t<Poptip\r\n\t\t\t\t\t\t\t\t\t\tconfirm\r\n\t\t\t\t\t\t\t\t\t\ttitle=\"确定要删除吗？\"\r\n\t\t\t\t\t\t\t\t\t\t@on-ok=\"delMeet(meet.meetid)\"\r\n\t\t\t\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t\t\t<div>删除</div>\r\n\t\t\t\t\t\t\t\t\t</Poptip>\r\n\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>报名人数：{{meet.personnum|| '--' }}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-remark'>\r\n\t\t\t\t\t\t<div>会议说明：</div>\r\n\t\t\t\t\t\t<div>{{meet.meetremarks}}</div>\r\n\t\t\t\t\t\t<div :title=\"meet.qrcode?'点击下载':'点击生成二维码'\" @click=\"createQrcode(meet)\"> \r\n\t\t\t\t\t\t\t<a target='_blank' :href='meet.qrcode' v-if='meet.qrcode'>\r\n\t\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\">\r\n\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\" v-else />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\r\n\t\t \r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-meeting-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>培训管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' v-if='!showDetail' @click=\"addNewAduser\">新增培训</Button>\r\n\t\t\t\t<Button type=\"primary\" icon='ios-checkmark-circle-outline' v-else @click=\"meetAction\">{{formMeet.meetid?'修改':'保存'}}</Button>\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table v-if='false' ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='meetList' :columns='columns'   stripe></Table>\r\n\t\t\r\n\t\t<div v-if='showDetail' class='wm-meet-form' :style=\"{height:viewH-64-50+'px'}\">\r\n\t\t\t<section>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div><label for=\"\">名称：</label><input v-model='formMeet.meetname' type=\"text\"></div>\r\n\t\t\t\t\t<div class='wm-meet-form-error' v-if='meetnameErr'>{{meetnameErr}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<label for=\"\">培训时间：</label>\r\n\t\t\t\t\t\t<DatePicker style=\"width:80%\" v-model=\"formMeet.datetimes\" :value=\"formMeet.datetimes\" format=\"yyyy/MM/dd\" type=\"daterange\" placement=\"bottom-end\" placeholder=\"请选择开始和结束日期\"></DatePicker>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-form-error'></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class='wm-meet-form-item wm-meet-form-muli'>\r\n\t\t\t\t\t<div><label for=\"\">说明：</label><textarea v-model='formMeet.meetremarks' type=\"textarea\"></textarea></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-banner-C'>\r\n\t\t\t\t\t<div>上传培训banner图（750*380）</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-upload'>\r\n\t\t\t\t\t\t<div id=\"wm-upload\" class=\"wm-upload\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<Icon type=\"md-add-circle\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-img' @click='formMeet.bannerurl = \"\"'>\r\n\t\t\t\t\t\t<img v-if='formMeet.bannerurl' :src=\"formMeet.bannerurl\" alt=\"\">\r\n\t\t\t\t\t\t<span v-if='formMeet.bannerurl' class='wm-close'></span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启报名</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t <RadioGroup v-model=\"formMeet.issignup\">\r\n\t\t\t\t\t\t\t<Radio :value='1' label=\"是\"></Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' label=\"否\"></Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启用户审核</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.ischecked\">\r\n\t\t\t\t\t\t\t<Radio :value='1' label=\"是\"></Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' label=\"否\"></Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启培训报道</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.isreport\">\r\n\t\t\t\t\t\t\t<Radio :value='1' label=\"是\"></Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' label=\"否\"></Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</section>\r\n\t\t</div>\r\n\t\t<div v-else class='wm-meet-list wm-scroll' :style=\"{height:viewH-64-50+'px'}\" >\r\n\t\t\t<ul>\r\n\t\t\t\t<li v-for='(meet,i) in meetList' :key=\"i\">\r\n\t\t\t\t\t<span class='wm-meet-item-status'>\r\n\t\t\t\t\t\t<img :src=\"imgs[meet.status === 1||meet.status ? 'enable':'disable']\" alt=\"\">\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<div class='wm-meet-item-header'>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-left'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-name'>{{meet.meetname}}</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>时间：{{meet.startdate}} - {{meet.enddate}}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-right'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-actions'>\r\n\t\t\t\t\t\t\t\t<div @click=\"entry(meet,i)\">详情</div>\r\n\t\t\t\t\t\t\t\t<div @click='editMeet(meet,i)'>编辑</div>\r\n\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t<Poptip\r\n\t\t\t\t\t\t\t\t\t\tconfirm\r\n\t\t\t\t\t\t\t\t\t\ttitle=\"确定要删除吗？\"\r\n\t\t\t\t\t\t\t\t\t\t@on-ok=\"delMeet(meet.meetid)\"\r\n\t\t\t\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t\t\t<div>删除</div>\r\n\t\t\t\t\t\t\t\t\t</Poptip>\r\n\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>报名人数：{{meet.personnum|| '--' }}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-remark'>\r\n\t\t\t\t\t\t<div>培训说明：</div>\r\n\t\t\t\t\t\t<div>{{meet.meetremarks}}</div>\r\n\t\t\t\t\t\t<div :title=\"meet.qrcode?'点击下载':'点击生成二维码'\" @click=\"createQrcode(meet)\"> \r\n\t\t\t\t\t\t\t<a target='_blank' :href='meet.qrcode' v-if='meet.qrcode'>\r\n\t\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\">\r\n\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\" v-else />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\r\n\t\t \r\n\t</div>\r\n";
 
 /***/ }),
 /* 78 */
@@ -30639,7 +30751,10 @@
 	// 			<header class="wm-tab-header">
 	// 				<div>学员报名管理</div>
 	// 				<div class='wm-header-right-action'>
-	// 					<div><Button @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button></div>
+	// 					<div>
+	// 						<Button size='small' @click='addStudent' type="primary" icon='ios-add-circle'>新增学员</Button>
+	// 						<Button size='small' @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button>
+	// 					</div>
 	// 					<div>
 	// 						<Input v-model='keyword' placeholder="请输入学员姓名或者电话" class='wm-signup-search'/>
 	// 					</div>
@@ -30921,6 +31036,10 @@
 
 		methods: {
 
+			addStudent: function addStudent() {//添加学员。
+
+			},
+
 			exportData: function exportData() {
 				this.$refs.scorelist.exportCsv({
 					filename: '学员报名管理'
@@ -31006,7 +31125,7 @@
 /* 87 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-signup-ui lt-full\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>学员报名管理</div>\r\n\t\t\t\t<div class='wm-header-right-action'>\r\n\t\t\t\t\t<div><Button @click='exportData' type=\"primary\" icon='md-cloud-upload'>导出</Button></div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Input v-model='keyword' placeholder=\"请输入学员姓名或者电话\" class='wm-signup-search'/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div v-if='currentUserId<=-1'>\r\n\t\t\t\t\r\n\t\t\t\t<Table ref='scorelist'   :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>\r\n\t\t\t</div>\r\n\t\t\t<div v-else class=\"wm-signup-wrap\">\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>用户名：</div> <div>{{formUser.username}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>昵称：</div> <div>{{formUser.nickname}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>省份：</div><div>{{formUser.provinceid[0].name}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>手机号：</div><div>{{formUser.mobile}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>职位：</div><div>{{formUser.job}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>座机号：</div><div>{{formUser.telphone}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>邮箱：</div><div>{{formUser.email}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>性别：</div><div>{{formUser.sex?'女':'男'}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>是否签到：</div><div>{{formUser.issign?'是':'否'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>状态：</div><div>{{formUser.status?'已审核':'未审核'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t\r\n\r\n\r\n\t\t\t\t\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-signup-ui lt-full\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>学员报名管理</div>\r\n\t\t\t\t<div class='wm-header-right-action'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Button size='small' @click='addStudent' type=\"primary\" icon='ios-add-circle'>新增学员</Button>\r\n\t\t\t\t\t\t<Button size='small' @click='exportData' type=\"primary\" icon='md-cloud-upload'>导出</Button>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Input v-model='keyword' placeholder=\"请输入学员姓名或者电话\" class='wm-signup-search'/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div v-if='currentUserId<=-1'>\r\n\t\t\t\t\r\n\t\t\t\t<Table ref='scorelist'   :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>\r\n\t\t\t</div>\r\n\t\t\t<div v-else class=\"wm-signup-wrap\">\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>用户名：</div> <div>{{formUser.username}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>昵称：</div> <div>{{formUser.nickname}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>省份：</div><div>{{formUser.provinceid[0].name}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>手机号：</div><div>{{formUser.mobile}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>职位：</div><div>{{formUser.job}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>座机号：</div><div>{{formUser.telphone}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>邮箱：</div><div>{{formUser.email}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>性别：</div><div>{{formUser.sex?'女':'男'}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>是否签到：</div><div>{{formUser.issign?'是':'否'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>状态：</div><div>{{formUser.status?'已审核':'未审核'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t\r\n\r\n\r\n\t\t\t\t\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 88 */
@@ -31041,15 +31160,20 @@
 	// 		</div>
 	// 		<div class="wm-tab-content">
 	// 			<header class="wm-tab-header">
-	// 				<div>会议报到管理</div>
+	// 				<div>培训报到管理</div>
 	// 				<div class='wm-header-right-action'>
-	// 					<div><Button @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button></div>
+	// 					<div>
+	// 						<span>应参会人数：<label>{{totalNum}}</label>人</span>
+	// 						<span>已报到人数：<label>{{participantsNum}}</label>人</span>
+	// 						<span>未报到人数：<label>{{unparticipantsNum}}</label>人</span>
+	// 						<Button @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button>
+	// 					</div>
 	// 					<div>
 	// 						<Input v-model='keyword' placeholder="请输入学员姓名或者电话" class='wm-signup-search'/>
 	// 					</div>
 	// 				</div>
 	// 			</header>
-	// 			<div v-if='currentUserId<=-1'>
+	// 			<div v-if='currentUserId<=-1' class='wm-scroll'>
 	// 				<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>
 	// 			</div>
 	// 			<div v-else class="wm-signup-wrap">
@@ -31140,7 +31264,8 @@
 				repassError: "",
 				mobileError: "",
 				currentUserId: -1,
-
+				totalNum: 0,
+				participantsNum: 0,
 				columns: [{
 					title: "姓名",
 					key: 'studentname',
@@ -31202,6 +31327,11 @@
 				userinfo: {}
 			};
 		},
+		computed: {
+			unparticipantsNum: function unparticipantsNum() {
+				return this.totalNum - this.participantsNum;
+			}
+		},
 		components: {
 			Tab: _commomTabIndex2['default']
 		},
@@ -31234,7 +31364,7 @@
 		methods: {
 			exportData: function exportData() {
 				this.$refs.scorelist.exportCsv({
-					filename: '会议报到管理'
+					filename: '培训报到管理'
 				});
 			},
 			refresh: function refresh() {
@@ -31260,6 +31390,8 @@
 							s.userList = data.list;
 							s.defaultUserList = s.userList.concat([]);
 							s.formUser = s.userList[0];
+							s.totalNum = data.totalnum.num;
+							s.participantsNum = data.signnum.num;
 						}
 					}
 				});
@@ -31307,7 +31439,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-signup-ui,\r\n.wm-news-main-ui,\r\n.wm-course-main-ui,\r\n.wm-attendance-ui {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-signup-ui > div:nth-of-type(1),\r\n.wm-news-main-ui > div:nth-of-type(1),\r\n.wm-course-main-ui > div:nth-of-type(1),\r\n.wm-attendance-ui > div:nth-of-type(1) {\r\n  width: 200px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content,\r\n.wm-news-main-ui .wm-tab-content,\r\n.wm-course-main-ui .wm-tab-content,\r\n.wm-attendance-ui .wm-tab-content {\r\n  box-sizing: border-box;\r\n  flex: 1;\r\n  -webkit-flex: 1;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: column;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content > div,\r\n.wm-news-main-ui .wm-tab-content > div,\r\n.wm-course-main-ui .wm-tab-content > div,\r\n.wm-attendance-ui .wm-tab-content > div {\r\n  width: 98%;\r\n  margin: 10px auto 10px;\r\n  border-top: 1px solid #ddd;\r\n  position: relative;\r\n  flex: 1;\r\n  -webkit-flex: 1;\r\n  overflow: auto;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content > div .wm-meet-form,\r\n.wm-news-main-ui .wm-tab-content > div .wm-meet-form,\r\n.wm-course-main-ui .wm-tab-content > div .wm-meet-form,\r\n.wm-attendance-ui .wm-tab-content > div .wm-meet-form {\r\n  width: 100%;\r\n  margin: 0px auto;\r\n  padding: 20px 40px;\r\n  height: 600px;\r\n  overflow: auto;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-tab-header,\r\n.wm-news-main-ui .wm-tab-content .wm-tab-header,\r\n.wm-course-main-ui .wm-tab-content .wm-tab-header,\r\n.wm-attendance-ui .wm-tab-content .wm-tab-header {\r\n  width: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  width: 100%;\r\n  padding: 0 20px;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  line-height: 50px;\r\n  font-size: 20px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\r\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\r\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\r\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {\r\n  position: relative;\r\n  text-indent: .5em;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\r\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\r\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\r\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {\r\n  content: '';\r\n  width: 4px;\r\n  height: 24px;\r\n  background: #be0000;\r\n  left: -4px;\r\n  position: absolute;\r\n  top: 12px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-wrap,\r\n.wm-news-main-ui .wm-tab-content .wm-signup-wrap,\r\n.wm-course-main-ui .wm-tab-content .wm-signup-wrap,\r\n.wm-attendance-ui .wm-tab-content .wm-signup-wrap {\r\n  margin: 50px auto;\r\n  width: 500px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-item,\r\n.wm-news-main-ui .wm-tab-content .wm-signup-item,\r\n.wm-course-main-ui .wm-tab-content .wm-signup-item,\r\n.wm-attendance-ui .wm-tab-content .wm-signup-item {\r\n  line-height: 40px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  margin: 10px 0;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-item > div,\r\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div,\r\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div,\r\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div {\r\n  margin-right: 10px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\r\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\r\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\r\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {\r\n  width: 80px;\r\n  text-align: right;\r\n}\r\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\r\n.lt-full {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n}\r\n\r\n.zmiti-text-overflow {\r\n  overflow: hidden;\r\n  white-space: nowrap;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  -webkit-text-overflow: ellipsis;\r\n}\r\n\r\n.zmiti-play {\r\n  width: .8rem;\r\n  height: .8rem;\r\n  border-radius: 50%;\r\n  position: fixed;\r\n  z-index: 1000;\r\n  right: .5rem;\r\n  top: .5rem;\r\n}\r\n\r\n.zmiti-play.rotate {\r\n  -webkit-animation: rotate 5s linear infinite;\r\n  animation: rotate 5s linear infinite;\r\n}\r\n\r\n.symbin-left {\r\n  float: left !important;\r\n}\r\n\r\n.symbin-right {\r\n  float: right !important;\r\n}\r\n\r\n@-webkit-keyframes rotate {\r\n  to {\r\n    -webkit-transform: rotate(360deg);\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n\r\n.wm-signup-ui,\r\n.wm-news-main-ui,\r\n.wm-course-main-ui,\r\n.wm-attendance-ui {\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n}\r\n\r\n.wm-signup-ui > div:nth-of-type(1),\r\n.wm-news-main-ui > div:nth-of-type(1),\r\n.wm-course-main-ui > div:nth-of-type(1),\r\n.wm-attendance-ui > div:nth-of-type(1) {\r\n  width: 200px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content,\r\n.wm-news-main-ui .wm-tab-content,\r\n.wm-course-main-ui .wm-tab-content,\r\n.wm-attendance-ui .wm-tab-content {\r\n  box-sizing: border-box;\r\n  flex: 1;\r\n  -webkit-flex: 1;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: column;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-header-right-action span,\r\n.wm-news-main-ui .wm-tab-content .wm-header-right-action span,\r\n.wm-course-main-ui .wm-tab-content .wm-header-right-action span,\r\n.wm-attendance-ui .wm-tab-content .wm-header-right-action span {\r\n  font-size: 12px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-header-right-action span label,\r\n.wm-news-main-ui .wm-tab-content .wm-header-right-action span label,\r\n.wm-course-main-ui .wm-tab-content .wm-header-right-action span label,\r\n.wm-attendance-ui .wm-tab-content .wm-header-right-action span label {\r\n  font-size: 16px;\r\n  color: #be0000;\r\n  font-weight: bold;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content > div,\r\n.wm-news-main-ui .wm-tab-content > div,\r\n.wm-course-main-ui .wm-tab-content > div,\r\n.wm-attendance-ui .wm-tab-content > div {\r\n  width: 98%;\r\n  margin: 10px auto 10px;\r\n  border-top: 1px solid #ddd;\r\n  position: relative;\r\n  flex: 1;\r\n  -webkit-flex: 1;\r\n  overflow: auto;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content > div .wm-meet-form,\r\n.wm-news-main-ui .wm-tab-content > div .wm-meet-form,\r\n.wm-course-main-ui .wm-tab-content > div .wm-meet-form,\r\n.wm-attendance-ui .wm-tab-content > div .wm-meet-form {\r\n  width: 100%;\r\n  margin: 0px auto;\r\n  padding: 20px 40px;\r\n  height: 600px;\r\n  overflow: auto;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-tab-header,\r\n.wm-news-main-ui .wm-tab-content .wm-tab-header,\r\n.wm-course-main-ui .wm-tab-content .wm-tab-header,\r\n.wm-attendance-ui .wm-tab-content .wm-tab-header {\r\n  width: 50px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  width: 100%;\r\n  padding: 0 20px;\r\n  justify-content: space-between;\r\n  -webkit-justify-content: space-between;\r\n  line-height: 50px;\r\n  font-size: 20px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\r\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\r\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\r\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {\r\n  position: relative;\r\n  text-indent: .5em;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\r\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\r\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\r\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {\r\n  content: '';\r\n  width: 4px;\r\n  height: 24px;\r\n  background: #be0000;\r\n  left: -4px;\r\n  position: absolute;\r\n  top: 12px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-wrap,\r\n.wm-news-main-ui .wm-tab-content .wm-signup-wrap,\r\n.wm-course-main-ui .wm-tab-content .wm-signup-wrap,\r\n.wm-attendance-ui .wm-tab-content .wm-signup-wrap {\r\n  margin: 50px auto;\r\n  width: 500px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-item,\r\n.wm-news-main-ui .wm-tab-content .wm-signup-item,\r\n.wm-course-main-ui .wm-tab-content .wm-signup-item,\r\n.wm-attendance-ui .wm-tab-content .wm-signup-item {\r\n  line-height: 40px;\r\n  display: flex;\r\n  display: -webkit-flex;\r\n  flex-flow: row;\r\n  margin: 10px 0;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-item > div,\r\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div,\r\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div,\r\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div {\r\n  margin-right: 10px;\r\n}\r\n\r\n.wm-signup-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\r\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\r\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\r\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {\r\n  width: 80px;\r\n  text-align: right;\r\n}\r\n", ""]);
 
 	// exports
 
@@ -31316,7 +31448,7 @@
 /* 92 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-signup-ui lt-full\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>会议报到管理</div>\r\n\t\t\t\t<div class='wm-header-right-action'>\r\n\t\t\t\t\t<div><Button @click='exportData' type=\"primary\" icon='md-cloud-upload'>导出</Button></div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Input v-model='keyword' placeholder=\"请输入学员姓名或者电话\" class='wm-signup-search'/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div v-if='currentUserId<=-1'>\r\n\t\t\t\t<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>\r\n\t\t\t</div>\r\n\t\t\t<div v-else class=\"wm-signup-wrap\">\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>用户名：</div> <div>{{formUser.username}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>昵称：</div> <div>{{formUser.nickname}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>省份：</div><div>{{formUser.provinceid[0].name}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>手机号：</div><div>{{formUser.mobile}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>职位：</div><div>{{formUser.job}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>座机号：</div><div>{{formUser.telphone}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>邮箱：</div><div>{{formUser.email}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>性别：</div><div>{{formUser.sex?'女':'男'}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>是否签到：</div><div>{{formUser.issign?'是':'否'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>状态：</div><div>{{formUser.status?'已审核':'未审核'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t\r\n\r\n\r\n\t\t\t\t\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-signup-ui lt-full\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>培训报到管理</div>\r\n\t\t\t\t<div class='wm-header-right-action'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<span>应参会人数：<label>{{totalNum}}</label>人</span>\r\n\t\t\t\t\t\t<span>已报到人数：<label>{{participantsNum}}</label>人</span>\r\n\t\t\t\t\t\t<span>未报到人数：<label>{{unparticipantsNum}}</label>人</span>\r\n\t\t\t\t\t\t<Button @click='exportData' type=\"primary\" icon='md-cloud-upload'>导出</Button>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Input v-model='keyword' placeholder=\"请输入学员姓名或者电话\" class='wm-signup-search'/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div v-if='currentUserId<=-1' class='wm-scroll'>\r\n\t\t\t\t<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>\r\n\t\t\t</div>\r\n\t\t\t<div v-else class=\"wm-signup-wrap\">\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>用户名：</div> <div>{{formUser.username}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>昵称：</div> <div>{{formUser.nickname}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>省份：</div><div>{{formUser.provinceid[0].name}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>手机号：</div><div>{{formUser.mobile}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>职位：</div><div>{{formUser.job}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>座机号：</div><div>{{formUser.telphone}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>邮箱：</div><div>{{formUser.email}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>性别：</div><div>{{formUser.sex?'女':'男'}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>是否签到：</div><div>{{formUser.issign?'是':'否'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>状态：</div><div>{{formUser.status?'已审核':'未审核'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t\r\n\r\n\r\n\t\t\t\t\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 93 */
