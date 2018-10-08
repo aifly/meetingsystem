@@ -77,6 +77,22 @@
   flex-flow: column;
 }
 
+.wm-signup-ui .wm-tab-content .wm-header-right-action span,
+.wm-news-main-ui .wm-tab-content .wm-header-right-action span,
+.wm-course-main-ui .wm-tab-content .wm-header-right-action span,
+.wm-attendance-ui .wm-tab-content .wm-header-right-action span {
+  font-size: 12px;
+}
+
+.wm-signup-ui .wm-tab-content .wm-header-right-action span label,
+.wm-news-main-ui .wm-tab-content .wm-header-right-action span label,
+.wm-course-main-ui .wm-tab-content .wm-header-right-action span label,
+.wm-attendance-ui .wm-tab-content .wm-header-right-action span label {
+  font-size: 16px;
+  color: #be0000;
+  font-weight: bold;
+}
+
 .wm-signup-ui .wm-tab-content > div,
 .wm-news-main-ui .wm-tab-content > div,
 .wm-course-main-ui .wm-tab-content > div,

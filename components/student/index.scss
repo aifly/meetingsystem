@@ -15,7 +15,14 @@ $color: #be0000;
         -webkit-justify-content: space-between;
         &>section {
             margin-right: 30px;
-            ;
+            @include displayFlex(row);
+            -webkit-align-items: center;
+            align-items: center;
+            button{
+                display: block;
+                height: 30px;
+                margin-right: 20px;;
+            }
         }
         &>div {
             font-size: 20px;

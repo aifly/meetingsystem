@@ -19,6 +19,16 @@ $color: #be0000;
         box-sizing: border-box;
         flex:1;
         -webkit-flex:1;
+        .wm-header-right-action{
+            span{
+                font-size:12px;
+                label{
+                    font-size:16px;
+                    color:#be0000;
+                    font-weight: bold;
+                }
+            }
+        }
 
         &>div{
             width: 98%;

@@ -7,7 +7,10 @@
 			<header class="wm-tab-header">
 				<div>学员报名管理</div>
 				<div class='wm-header-right-action'>
-					<div><Button @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button></div>
+					<div>
+						<Button size='small' @click='addStudent' type="primary" icon='ios-add-circle'>新增学员</Button>
+						<Button size='small' @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button>
+					</div>
 					<div>
 						<Input v-model='keyword' placeholder="请输入学员姓名或者电话" class='wm-signup-search'/>
 					</div>
@@ -289,6 +292,10 @@
 		},
 		
 		methods:{
+
+			addStudent(){//添加学员。
+
+			},
 			
 			exportData(){
 				this.$refs.scorelist.exportCsv({

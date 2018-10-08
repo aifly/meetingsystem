@@ -321,6 +321,11 @@
   float: left;
 }
 
+.wm-meet-banner-C i {
+  display: none;
+  opacity: 0;
+}
+
 .wm-meet-banner-C .wm-meet-banner-upload,
 .wm-meet-banner-C .wm-meet-banner-img {
   display: inline-block;

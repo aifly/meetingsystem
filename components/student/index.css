@@ -63,6 +63,17 @@
 
 .wm-student-main-ui > header > section {
   margin-right: 30px;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.wm-student-main-ui > header > section button {
+  display: block;
+  height: 30px;
+  margin-right: 20px;
 }
 
 .wm-student-main-ui > header > div {

@@ -4,6 +4,7 @@
 			<div>学员管理</div>
 			<section>
 				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增学员</Button>
+				<Input v-model="keyword" placeholder="请输入关键字搜索" />
 			</section>
 		</header>
 		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
@@ -26,9 +27,15 @@
 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 				</FormItem>
 				
-				<FormItem label="所属会议：" prop="mobile">
+				<FormItem label="所属培训：" prop="mobile">
 					 <Select v-model="formAdmin.meetid">
 				       <Option v-for="item in meetList" :value="item.meetid" :key="item.meetid">{{ item.meetname }}</Option>
+				    </Select>
+				</FormItem>	
+
+				<FormItem label="所属小组：" prop="mobile">
+					 <Select v-model="formAdmin.groupid">
+				       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
 				    </Select>
 				</FormItem>				
 
@@ -79,6 +86,7 @@
 				currentUserId:-1,
 				split1: 0.8,
 				showPass:false,
+				groupList:[],
 				viewH:window.innerHeight,
 
 				formAdmin:{
@@ -111,14 +119,18 @@
 						key:'mobile',
 						align:'center'
 					}
-					/* ,{
-						title:"状态",
-						key:'status',
-						align:'center',
-						render(h,params){
-							return h('div',{},params.row.status ===1?'已审核':'未审核')
-						}
-					} */,{
+					,{
+						title:"所属会议",
+						key:'meetname',
+						align:'center'
+						
+					}
+					,{
+						title:"所属小组",
+						key:'groupname',
+						align:'center'
+						
+					},{
 						title:'操作',
 						key:"action",
 						align:'center',
@@ -224,9 +236,34 @@
 			this.getCityData();
 			this.getmeetlist();
 			this.getstudentlist();
+			this.getGroupList();
+
+			
+		},
+		watch:{
+			keyword(val){
+				if(val){
+					
+				}
+			}
 		},
 		
 		methods:{
+			getGroupList(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getusergrouplist',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+					},
+					success(data){
+						if(data.getret === 0){
+							s.groupList = data.list;
+						}
+					}
+				})
+			},
 			getCityById(e,callback){
 				
 				var provinceId = e.__value.split(',')[0];
@@ -412,6 +449,7 @@
 						console.log(data);
 						if(data.getret === 0){
 							s.userList = data.list;
+							s.defaultUserList = s.userList.concat([]);
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -449,6 +487,7 @@
 							provinceid:s.formAdmin.cityids[0],
 							meetid:s.formAdmin.meetid,
 							job:s.formAdmin.job,
+							groupid:s.formAdmin.groupid,
 							cityid:s.formAdmin.cityids[1],
 							areaid:s.formAdmin.cityids[2],
 							detailaddress:s.formAdmin.detailaddress
@@ -476,6 +515,7 @@
 							userid:s.currentUserId,
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
+							groupid:s.formAdmin.groupid,
 							provinceid:s.formAdmin.cityids[0],
 							cityid:s.formAdmin.cityids[1],
 							areaid:s.formAdmin.cityids[2],

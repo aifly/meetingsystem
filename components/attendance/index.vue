@@ -75,7 +75,37 @@
 		'打卡异常',
 		'请假驳回',
 	];
-
+	var filter =[
+		{
+			label: '缺勤',
+			value: 0
+		},
+		{
+			label: '正常',
+			value: 1
+		},
+		{
+			label: '请假待批',
+			value:2
+		},
+		{
+			label: '请假已批',
+			value:3
+		},
+		{
+			label: '考勤异常',
+			value:4
+		},
+		{
+			label: '请假驳回',
+			value:5
+		}
+	];
+	var excuse = {
+		title:'事由',
+		key:'excuse',
+		align:'center'
+	}
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',
@@ -117,43 +147,15 @@
 						render:(h,params)=>{
 							return h('div',{},status[params.row.status]);
 						},
-						filters: [
-							{
-                                label: '缺勤',
-                                value: 0
-                            },
-                            {
-                                label: '正常',
-                                value: 1
-                            },
-                            {
-                                label: '请假待批',
-                                value:2
-                            },
-                            {
-                                label: '请假已批',
-                                value:3
-                            },
-                            {
-                                label: '考勤异常',
-                                value:4
-                            },
-                            {
-                                label: '请假驳回',
-                                value:5
-                            }
-                        ],
+						filters:filter ,
                         filterMultiple: false,
                         filterMethod (value, row) {
 							return row.status  === value;
                         },
-					},{
-						title:'事由',
-						key:'excuse',
-						align:'center'
-					},{
+					},excuse,{
 						title:'操作',
 						key:'action',
+						align:'center',
 						render:(h,params)=>{
 							if(params.row.status === 2){
 								return h('div',{},[
@@ -185,7 +187,24 @@
 									},'同意'),
 								]);
 							}
-							return h('div',{},'');
+							else{
+								if(params.row.status !== 1){
+
+									return h('Button',{
+										props:{
+											type:'primary',
+											size:'small'
+										},
+										on:{
+											click:()=>{
+												this.checked(1,params.row.id,params.index);
+												this.detailList.splice(params.index,1);
+											}
+										}
+									},'修正');
+								}
+								return h('div',{},'');
+							}
 						}
 					}
 				],
@@ -310,6 +329,34 @@
 
 				var s = this;
 				this.name = name;
+				if(val === 2 || val === 3 || val === 4 || val === 5){
+					//this.cacheColumns =  this.cacheColumns || this.columns1.concat([]);
+					if(val === 4){//考勤异常
+						if(this.columns1[4].key === 'excuse'){
+							this.columns1.splice(4,1);
+							this.columns1.splice(4,0,{
+								title:'考勤地址',
+								key:'addressname',
+								align:'center',
+
+							})
+						}
+					}else{
+						if(this.columns1[4].key !== 'excuse'){
+							this.columns1.splice(4,0,excuse);
+						}
+						this.columns1.forEach((item,i)=>{
+							if(item.key === 'addressname'){
+								this.columns1.splice(i,1);
+							}
+						})
+						
+					}
+					this.columns1[3].filters = null;
+				}else{
+					this.columns1[3].filters = filter;
+				}
+				 
 				symbinUtil.ajax({
 					_this:s,
 					url:window.config.baseUrl+'/zmitiadmin/meetclassdetail/',

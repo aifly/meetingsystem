@@ -26,7 +26,7 @@
 						to:'meetingsignup'
 					},
 					{
-						name:'会议报到管理',
+						name:'培训报到管理',
 						to:'meetingreport'
 					},{
 						name:'新闻信息管理',

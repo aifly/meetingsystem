@@ -1,9 +1,9 @@
 <template>
 	<div class="wm-meeting-main-ui">
 		<header>
-			<div>会议管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>
+			<div>培训管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>
 			<section>
-				<Button type="primary" icon='md-add-circle' v-if='!showDetail' @click="addNewAduser">新增会议</Button>
+				<Button type="primary" icon='md-add-circle' v-if='!showDetail' @click="addNewAduser">新增培训</Button>
 				<Button type="primary" icon='ios-checkmark-circle-outline' v-else @click="meetAction">{{formMeet.meetid?'修改':'保存'}}</Button>
 			</section>
 		</header>
@@ -17,7 +17,7 @@
 				</div>
 				<div class='wm-meet-form-item wm-require'>
 					<div>
-						<label for="">会议时间：</label>
+						<label for="">培训时间：</label>
 						<DatePicker style="width:80%" v-model="formMeet.datetimes" :value="formMeet.datetimes" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择开始和结束日期"></DatePicker>
 					</div>
 					<div class='wm-meet-form-error'></div>
@@ -27,7 +27,7 @@
 					<div><label for="">说明：</label><textarea v-model='formMeet.meetremarks' type="textarea"></textarea></div>
 				</div>
 				<div class='wm-meet-banner-C'>
-					<div>上传会议banner图（750*380）</div>
+					<div>上传培训banner图（750*380）</div>
 					<div class='wm-meet-banner-upload'>
 						<div id="wm-upload" class="wm-upload">
 							
@@ -58,7 +58,7 @@
 					</div>
 				</div>
 				<div class='wm-meet-form-radio'>
-					<div>是否开启会议报道</div>
+					<div>是否开启培训报道</div>
 					<div>
 						<RadioGroup v-model="formMeet.isreport">
 							<Radio :value='1' label="是"></Radio>
@@ -98,7 +98,7 @@
 						</div>
 					</div>
 					<div class='wm-meet-remark'>
-						<div>会议说明：</div>
+						<div>培训说明：</div>
 						<div>{{meet.meetremarks}}</div>
 						<div :title="meet.qrcode?'点击下载':'点击生成二维码'" @click="createQrcode(meet)"> 
 							<a target='_blank' :href='meet.qrcode' v-if='meet.qrcode'>
@@ -388,7 +388,7 @@
 				var s = this;
 
 				if(!this.formMeet.meetname){
-					s.$Message.error('会议名称不能为空');
+					s.$Message.error('培训名称不能为空');
 					return;
 				}
 				if(s.currentMeetid<=-1){	

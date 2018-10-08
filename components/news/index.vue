@@ -19,7 +19,7 @@
 						</i-switch>
 					</FormItem>
 					<FormItem label="公告内容：" prop="isNotice" v-if='formNews.isNotice'>
-						<Input :rows='5' type="textarea" v-model="formNews.content" />
+						<Input :rows='5' type="textarea" ref='content' v-model="formNews.content" />
 					</FormItem>
 					<FormItem label="标题：" prop="title"  v-if='!formNews.isNotice'>
 						<Row type='flex' :gutter='20' justify='space-between'>
@@ -60,7 +60,7 @@
 
 							</div>
 							<span v-if='showEncryptfileBtn'>
-								 <Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件)
+								 <Button icon="ios-cloud-upload-outline">上传保密文件</Button> (保密文件仅支持pdf文件，最大支持8M)
 							</span>	
 							<span v-else class='wm-news-encryptfile-progressbar'>
 								<label>{{percent}}%</label>
@@ -223,7 +223,7 @@
                                 h('Button', {
                                     props: {
                                         type: 'primary',
-                                        size: 'small'
+										size: 'small',
                                     },
                                     style: {
 										margin: '2px 5px',
@@ -345,6 +345,20 @@
 				if(val){
 					s.isDisabledBtn = false;
 				}
+			},
+			'formNews.content':{
+				handler(val,oldval){
+					var s = this;
+					if(s.formNews.isNotice && val.length>55){
+						val  = val.substr(0,55);
+						s.formNews.content = val.substr(0,55);
+						//s.$refs['content'].value  = val;
+					
+						s.$Message.error('公告内容最多55个字');
+						return;
+					}
+				}
+				
 			}
 		},
 		
@@ -423,7 +437,7 @@
 					this.$Message.error('新闻标题不能为空');
 					return;
 				}
-				if(!s.formNews.type){
+				if(!s.formNews.type && !s.formNews.isNotice){
 					this.$Message.error('新闻分类不能为空');
 					return;
 				}

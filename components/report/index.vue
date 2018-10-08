@@ -5,15 +5,20 @@
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
-				<div>会议报到管理</div>
+				<div>培训报到管理</div>
 				<div class='wm-header-right-action'>
-					<div><Button @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button></div>
+					<div>
+						<span>应参会人数：<label>{{totalNum}}</label>人</span>
+						<span>已报到人数：<label>{{participantsNum}}</label>人</span>
+						<span>未报到人数：<label>{{unparticipantsNum}}</label>人</span>
+						<Button @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button>
+					</div>
 					<div>
 						<Input v-model='keyword' placeholder="请输入学员姓名或者电话" class='wm-signup-search'/>
 					</div>
 				</div>
 			</header>
-			<div v-if='currentUserId<=-1'>
+			<div v-if='currentUserId<=-1' class='wm-scroll'>
 				<Table ref='scorelist' @on-row-click='entry'  :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>
 			</div>
 			<div v-else class="wm-signup-wrap">
@@ -86,7 +91,8 @@
 				repassError:"",
 				mobileError:"",
 				currentUserId:-1,
-
+				totalNum:0,
+				participantsNum:0,
 				columns:[
 					{
 						title:"姓名",
@@ -164,6 +170,11 @@
 				userinfo:{}
 			}
 		},
+		computed:{
+			unparticipantsNum(){
+				return this.totalNum - this.participantsNum;
+			}
+		},
 		components:{
 			Tab
 		},
@@ -198,7 +209,7 @@
 		methods:{
 			exportData(){
 				this.$refs.scorelist.exportCsv({
-					filename: '会议报到管理'
+					filename: '培训报到管理'
 				});
 			},
 			refresh(){
@@ -226,6 +237,8 @@
 							s.userList = data.list;
 							s.defaultUserList = s.userList.concat([]);
 							s.formUser = s.userList[0];
+							s.totalNum = data.totalnum.num;
+							s.participantsNum = data.signnum.num
 						}
 					}
 				})

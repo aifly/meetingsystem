@@ -49,11 +49,11 @@
                          <Submenu name='4'>
                             <template slot="title">
                                 <Icon type="ios-paper-plane" />
-                                会议设置
+                                培训设置
                             </template>
                             <MenuItem name='meeting' to='/meeting/' class='wm-meeing-mgr' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("meeting")>-1}'>
-                               <span style='opacity:0'>会议管理</span>
-                               <span class='wm-meeting-span' @click='entyMeeting'>会议管理</span> 
+                               <span style='opacity:0'>培训管理</span>
+                               <span class='wm-meeting-span' @click='entyMeeting'>培训管理</span> 
                             </MenuItem>
                            <!--  <MenuItem name='news' to='/news/' :class='{"ivu-menu-item-active ivu-menu-item-selected":$route.name.indexOf("news")>-1}'>
                                 新闻管理
