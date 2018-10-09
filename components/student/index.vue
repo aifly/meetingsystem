@@ -97,12 +97,6 @@
 				userList:[],
 				columns:[
 					{
-						title:"用户名",
-						key:'username',
-						align:'center'
-						
-					},
-					{
 						title:"昵称",
 						key:'studentname',
 						align:'center'
