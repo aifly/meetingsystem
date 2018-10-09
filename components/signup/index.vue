@@ -8,7 +8,7 @@
 				<div>学员报名管理</div>
 				<div class='wm-header-right-action'>
 					<div>
-						<Button size='small' @click='addStudent' type="primary" icon='ios-add-circle'>新增学员</Button>
+						<Button v-if='false' size='small' @click='addStudent' type="primary" icon='ios-add-circle'>新增学员</Button>
 						<Button size='small' @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button>
 					</div>
 					<div>

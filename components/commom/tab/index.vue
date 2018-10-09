@@ -29,7 +29,7 @@
 						name:'培训报到管理',
 						to:'meetingreport'
 					},{
-						name:'新闻信息管理',
+						name:'培训信息管理',
 						to:'meetingnews'
 					},{
 						name:'课程管理',
