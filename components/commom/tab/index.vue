@@ -35,7 +35,7 @@
 						name:'课程管理',
 						to:'meetingcourse'
 					},{
-						name:'考勤(请假)管理',
+						name:'考勤管理',
 						to:'meetingattendance'
 					}
 				],

@@ -333,14 +333,16 @@
 				}else{
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/wmadadmin/editaduser/',
+						url:window.config.baseUrl+'/zmitiadmin/updateadmininfo/',
 						validate:s.validate,
 						data:{
 							username:s.formAdmin.username,
 							studentname:s.formAdmin.studentname,
 							userid:s.currentUserId,
-							admintoken:s.userinfo.admintoken,
-							adminusername:s.userinfo.adminusername
+							realname:s.formAdmin.realname,
+							mobile:s.formAdmin.mobile,
+							adminuserid:s.userinfo.userid,
+							admintoken:s.userinfo.accesstoken,
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>中国文明网新媒体平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style lang="">
+        *{margin:0;padding:0;}
+        ul,li{list-style: none;}
+        body{
+            font-size:12px;
+            background: #f7f7f7;
+            color:#ce0000;
+        }
+        .wm-header{
+            width: 100%;
+            height: 4px;
+            background: #ce0000;
+        }
+        .wm-bottom{
+            background: #ce0000;
+            width: 100%;
+            height: 40px;   
+            line-height: 40px;
+
+            text-align: center;
+            color:#fff;
+            position: absolute;
+            bottom:0;
+            left: 0;;   
+             }
+            .wm-bottom span{
+                position: absolute;
+                right:10px;
+            }
+        .wm-project-list{
+            width: 1000px;
+            margin: 0 auto;
+           
+
+        }
+        .wm-project-list ul{
+            display: flex;
+            -webkit-display: flex;
+            width: 100%;
+            -webkit-flex-wrap:wrap;
+            flex-wrap:wrap;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            
+        }
+.wm-project-list li{
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    background:#fff;
+    text-align: center;
+    margin: 10px 0;
+    position: relative;
+    border-radius: 20px;
+
+
+}
+.wm-project-list li a{
+    text-decoration: none;
+    color:inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 10;
+    -webkit-transition: .3s;
+transition: .3s;
+    
+}
+.wm-project-list li a:hover{
+    text-indent: 2em;
+
+}
+.wm-project-list li span{
+    position: absolute;
+    right: 20px;
+    color:#d6d6d6;
+}
+.wm-project-list h2{
+    text-align: center;
+    font-weight: normal;
+    font-size:40px;
+    line-height: 100px;;
+}
+.wm-project-list li:before{
+    content:'';
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    position: absolute;
+    box-shadow: 0 0 10px rgba(200,200,200,0.5);
+
+}
+
+    </style>
+</head>
+<body>
+    <header class='wm-header'>
+
+    </header>
+    <div class='wm-index'>
+        <div class='wm-project-list'>
+            <h2>中国文明网新媒体平台</h2>
+            <ul>
+                <li><a target='_blank' href="http://h5.wenming.cn/wmreport/">公益广告上报系统 <span>→</span> </a></li>
+                <li><a target='_blank' href="http://h5.wenming.cn/wmreport/download.html">时代楷模素材下载 <span>→</span> </a></li>
+                <li><a target='_blank' href="http://h5.wenming.cn/appraiser/">文明考评系统 <span>→</span> </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class='wm-bottom'>
+        京ICP备10031449号  互联网新闻信息服务许可证号1012017004
+        <span>v1.0.4</span>
+    </div>
+</body>
+</html>

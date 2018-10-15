@@ -266,6 +266,7 @@
 						if(data.getret === 0){
 							s.groupList = data.list;
 							data.list.forEach((item,i)=>{
+								s.columns[6].filters = s.columns[6].filters || [];
 								s.columns[6].filters.push({
 									value:item.groupid,
 									label:item.groupname
