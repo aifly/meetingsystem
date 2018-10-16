@@ -78,11 +78,100 @@
   flex-flow: row;
 }
 
-.wm-signup-ui .wm-header-right-action div,
-.wm-news-main-ui .wm-header-right-action div,
-.wm-course-main-ui .wm-header-right-action div,
-.wm-attendance-ui .wm-header-right-action div {
+.wm-signup-ui .wm-header-right-action > div,
+.wm-news-main-ui .wm-header-right-action > div,
+.wm-course-main-ui .wm-header-right-action > div,
+.wm-attendance-ui .wm-header-right-action > div {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
   margin-right: 20px;
+}
+
+.wm-signup-ui .wm-header-right-action > div:nth-of-type(2),
+.wm-news-main-ui .wm-header-right-action > div:nth-of-type(2),
+.wm-course-main-ui .wm-header-right-action > div:nth-of-type(2),
+.wm-attendance-ui .wm-header-right-action > div:nth-of-type(2) {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  align-items: flex-end;
+  font-size: 12px;
+}
+
+.wm-signup-ui .wm-header-right-action > div .wm-header-temp,
+.wm-news-main-ui .wm-header-right-action > div .wm-header-temp,
+.wm-course-main-ui .wm-header-right-action > div .wm-header-temp,
+.wm-attendance-ui .wm-header-right-action > div .wm-header-temp {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn,
+.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
+.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
+.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn {
+  margin-right: 5px;
+  position: relative;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #dcdee2;
+  top: 10px;
+}
+
+.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,
+.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,
+.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
+.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
+.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,
+.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,
+.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
+.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
+.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,
+.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,
+.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
+.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
+.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:after {
+  display: none;
+}
+
+.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
+.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
+.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
+.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn input,
+.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
+.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
+.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wm-signup-ui .wm-header-right-action > div > div,
+.wm-news-main-ui .wm-header-right-action > div > div,
+.wm-course-main-ui .wm-header-right-action > div > div,
+.wm-attendance-ui .wm-header-right-action > div > div {
+  height: 40px;
+  position: relative;
+}
+
+.wm-signup-ui .wm-header-right-action > div > div .wm-upload,
+.wm-news-main-ui .wm-header-right-action > div > div .wm-upload,
+.wm-course-main-ui .wm-header-right-action > div > div .wm-upload,
+.wm-attendance-ui .wm-header-right-action > div > div .wm-upload {
+  position: absolute;
 }
 
 .wm-signup-ui .wm-tab-content,

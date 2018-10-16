@@ -79,6 +79,7 @@ var imgs = {
 	var allExtensions = imgExtensions.concat(videoExtensions).concat(textExtensions);
 	window.config = {
 		baseUrl: 'http://10.137.0.3/v1',
+		importModel: './assets/js/templet.zip',
 		accepts: [{
 			id: 0,
 			name: '图片',

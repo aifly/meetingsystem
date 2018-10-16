@@ -14,16 +14,16 @@
 
 
 			 &:nth-of-type(1){
-				 width: 300px;
+				 width: 200px;
 				 @include displayFlex(row);
 				 color:#fff;
 				 text-align: center;
 				 font-size:30px;
 				 font-weight: bold;
-				 background:#b30501;
+				 background:#ce0000;
 				 .wm-title{
 					 margin: 0 auto;
-					 width: 300px;
+					 width: 200px;
 
 				 }
 				 
@@ -138,7 +138,7 @@
 
 	.wm-tab-C{
 		background:#333645;
-		width: 300px !important;
+		width: 200px !important;
 
 		&>div{
 			background: #fff;

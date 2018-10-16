@@ -22,7 +22,7 @@
             </Header>
             <Layout class="wm-main-layout">
                 <div class="wm-tab-C" :style='{height:(viewH - 64)+"px"}'>
-                    <Menu width='300'   theme='dark'>
+                    <Menu width='200'   theme='dark'>
                         
                         <Submenu name="1">
                             <template slot="title">
@@ -86,7 +86,7 @@
                         </Submenu>
                     </Menu>
                 </div>
-                <Layout :style="{maxWidth:viewW-300+'px'}">
+                <Layout :style="{maxWidth:viewW-200+'px'}">
                    <router-view></router-view>
                 </Layout>
             </Layout>

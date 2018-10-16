@@ -3,13 +3,22 @@
 		<div>
 			<Tab :refresh='refresh'></Tab>
 		</div>
-		<div class="wm-tab-content">
+		<div class="wm-tab-content" v-show='!showAddStudent'>
 			<header class="wm-tab-header">
 				<div>学员报名管理</div>
 				<div class='wm-header-right-action'>
 					<div>
-						<Button v-if='false' size='small' @click='addStudent' type="primary" icon='ios-add-circle'>新增学员</Button>
-						<Button size='small' @click='exportData' type="primary" icon='md-cloud-upload'>导出</Button>
+						<div class='wm-header-temp'>
+							<a :href='importModel' target='_blank' download="templet">导入模板下载</a>
+						</div>
+						<div class='wm-exportexcel-btn ivu-btn ivu-btn-default'>
+							<div class='wm-upload'></div>
+							<span>导入</span>
+						</div>
+						<div>
+							<Button  @click='exportData' type="default" icon='md-cloud-upload'>导出</Button>
+							<Button   @click='addStudent' icon='ios-add-circle'>新增学员</Button>
+						</div>
 					</div>
 					<div>
 						<Input v-model='keyword' placeholder="请输入学员姓名或者电话" class='wm-signup-search'/>
@@ -63,6 +72,7 @@
 				
 			</div>
 		</div>
+		<add-student :steps='addStudentSteps'  v-show='showAddStudent' :title='"学员报名管理"' ></add-student>
 	</div>
 </template>
 
@@ -70,6 +80,7 @@
 	import './index.css';
 	import sysbinVerification from '../lib/verification';
 	import Tab from '../commom/tab/index';
+	import AddStudent from '../commom/addstudent/index';
 	import symbinUtil from '../lib/util';
 	/**
 	 * 学员报名管理、
@@ -79,6 +90,18 @@
 		name:'zmitiindex',
 		data(){
 			return{
+				importModel:window.config.importModel,
+				showAddStudent:true,//
+				addStudentSteps:[
+					{
+						title:'录入电话号码',
+						content:""
+					},
+					{
+						title:'录入学员信息',
+						content:""
+					}
+				],
 				visible:false,
 				imgs:window.imgs,
 				showPassWord:false,
@@ -265,7 +288,8 @@
 			}
 		},
 		components:{
-			Tab
+			Tab,
+			'add-student':AddStudent
 		},
 
 		beforeCreate(){
@@ -277,6 +301,13 @@
 			
 			this.userinfo = symbinUtil.getUserInfo();
 			this.getsignupList();
+			this.upload({
+				accept:{
+						title: 'All',
+						extensions: 'xls,xlsx',
+						mimeTypes: '*/*'
+					}
+			});
 			
 		},
 		watch:{
@@ -293,8 +324,177 @@
 		
 		methods:{
 
-			addStudent(){//添加学员。
 
+			upload(option = {}){
+
+				window.ss = this;
+				var s = this;
+				 
+				var p = this.directoryList;
+				this.p = p;
+				if(s.uploader){
+					//s.uploader.destroy();
+				}
+
+				var params = {
+					// 选完文件后，是否自动上传。
+					auto: true,
+					// swf文件路径
+					swf: './webuploader-0.1.5/Uploader.swf',
+					// 文件接收服务端。
+					//server: 'http://api.zmiti.com/v2/fileupload',
+					server: window.config.baseUrl+'/wmshare/uploadfile/',
+					
+					pick:option.pick || '.wm-upload',
+					chunked: true, //开启分片上传
+					threads: 1, //上传并发数
+					method: 'POST',
+					compress:false,
+					prepareNextFile:true,//是否允许在文件传输时提前把下一个文件准备好。 对于一个文件的准备工作比较耗时，比如图片压缩，md5序列化。 如果能提前在当前文件传输期处理，可以节省总体耗时。
+					formData:p,
+					accept:option.appcet,
+					//dnd:'.wm-myreport-left',
+					disableGlobalDnd :true,//是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
+				};
+
+			
+				
+				var uploader = WebUploader.create(params);
+				/* uploader.on('dndAccept',(file,a)=>{
+					if(accepts[s.currentType].extensions.indexOf(file['0'].type.split('/')[1])<=-1){
+						s.$Message.error('目前不支持'+file['0'].type.split('/')[1]+'文件格式');
+					}
+				}) */
+
+				uploader.on("beforeFileQueued",function(file){
+					
+					if(option.accept.extensions.indexOf(file.name.split('.')[1])<=-1){
+						s.$Message.error('当前文件格式不支持');
+						
+						return;
+					}
+					
+					 
+				});
+
+				s.uploader = uploader;
+
+				// 当有文件添加进来的时候
+				var i = 0;
+				uploader.on('fileQueued', function (file) {
+					uploader.upload();
+					if(option.pick === '.news-encryptfile'){//加密文件上传
+						s.showEncryptfileBtn = false;
+					}else if(option.pick === '.wm-upload'){//附件上传
+						/* s.formNews.download.push({url:file.name});
+						s.formNews.download[s.formNews.download.length-1].isUploading = true;
+						console.log(file);
+						i++; */
+					}
+					 
+				});
+				// 文件上传过程中创建进度条实时显示。
+				uploader.on('uploadProgress', function (file, percentage) {
+					/* 	var index = -1;
+					var scale = (percentage * 100|0);
+					
+					if(option.pick === '.news-encryptfile'){//加密文件上传
+						s.percent = scale;
+
+					}else if(option.pick === '.wm-upload'){//附件上传
+						s.formNews.download.forEach((item)=>{
+							//console.log(item.url , file.name)
+							if(item.url === file.name){
+								item.percent = scale;
+							}
+						})
+						s.formNews.download = s.formNews.download.concat([]);
+					} */
+				
+				 
+				});
+
+				// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+				var iNow = 0;
+				uploader.on('uploadSuccess', function (file,data) {
+					console.log('success ....',data);
+					if(data.getret === 0){
+
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/importstudent',
+							data:{
+								filename:data.url,
+								adminuserid:s.userinfo.userid,
+								admintoken:s.userinfo.accesstoken,
+								meetid:s.$route.params.meetid,
+								companyid:'100000001',
+
+							},
+							success(data){
+								console.log(data);
+								if(data.getret === 0){
+									s.$Message.success("导入成功");
+								}
+								else {
+									var iNow = 0;
+									var t =  setInterval(()=>{
+										if(data.error[iNow]){
+											s.$Message.error(data.error[iNow]);
+										}else{
+											clearInterval(t);
+										}
+									},1000)
+								}
+							}
+						})
+						
+						/* s.formNews.download.splice(s.formNews.download.length-1,1,{url:data.fileurl});
+						s.formNews.download.forEach((item)=>{
+							if(item.url === file.name){
+								item.isUploading = false;
+							}
+						})
+						s.formNews.download = s.formNews.download.concat([]);
+						//s.formNews.download[s.formNews.download.length-1].isUploading = false;
+						iNow++;
+						if(iNow === i){
+							if(s.formNews.newsid){
+								s.newsAction();
+							}
+						} */
+						//s.formNews.bannerurl = data.fileurl;
+					}
+				//	$('#' + file.id).addClass('upload-state-done');
+				});
+
+				// 文件上传失败，显示上传出错。
+				uploader.on('uploadError', function (file) {
+				//	console.log('error')
+					//$('#' + file.id).find('p.state').text('上传出错');
+				});
+
+				// 完成上传完了，成功或者失败，先删除进度条。
+				
+
+				uploader.on('uploadComplete', function (file) {
+
+					
+					if(option.pick === '.wm-upload'){//上传附件
+						
+					}
+					//
+				
+				});
+				
+			},
+
+
+			exportExcelData(){
+				
+			},
+
+			addStudent(){//添加学员。
+				this.showAddStudent = true;
 			},
 			
 			exportData(){
@@ -306,6 +506,7 @@
 			refresh(){
 				this.getsignupList();
 				this.currentUserId =  -1;
+				this.showAddStudent = false;
 			},
 			entry(e){
 				this.currentUserId = e.userid;
