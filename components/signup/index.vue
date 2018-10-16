@@ -82,6 +82,7 @@
 	import Tab from '../commom/tab/index';
 	import AddStudent from '../commom/addstudent/index';
 	import symbinUtil from '../lib/util';
+	import Vue from 'vue';
 	/**
 	 * 学员报名管理、
 	 */
@@ -91,7 +92,7 @@
 		data(){
 			return{
 				importModel:window.config.importModel,
-				showAddStudent:true,//
+				showAddStudent:false,//
 				addStudentSteps:[
 					{
 						title:'录入电话号码',
@@ -309,6 +310,11 @@
 					}
 			});
 			
+			Vue.obserable.on('hideAddStudent',()=>{
+				this.showAddStudent = false;
+				this.getsignupList();
+			})
+
 		},
 		watch:{
 			keyword(val){

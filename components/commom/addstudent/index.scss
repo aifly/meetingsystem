@@ -65,6 +65,7 @@
                 @include pos(a);
                 width: 100px;
                 text-align: center;
+                
             }
             &.active1{
                 &:after {
@@ -144,6 +145,23 @@
                     padding:10px 20px 10px 10px;
                     @include br(4px);
                     @include pos(r);
+                    .msg{
+                        color:#f00;
+                        @include pos(a);
+                        top: 102%;
+                        left: 10px;
+                        &.success{
+                            color:green;
+                            font-weight: bold;
+                        }
+                    }
+                    .ivu-select-selection{
+                        background:transparent;
+                        border:none;
+                    }
+                    .ivu-select-single .ivu-select-selection{
+                        background:transparent;
+                    }
                     &.displayFlex{
                         @include displayFlex(row);
                         line-height: 30px;;

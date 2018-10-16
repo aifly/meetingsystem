@@ -17,11 +17,12 @@
 				<ol :style="{width:400*steps.length+'px',WebkitTransform:'translate3d('+-400*current+'px,0,0)',transform:'translate3d('+-400*current+'px,0,0)'}">
 					<li>
 						<div class='wm-addstudent-form-item'>
-							<label for="">手机：</label><input placeholder="请输入手机号" @blur.stop='checkMobile' type='text' v-model="formStudent.mobile"/>
+							<label for="">手机：</label><input placeholder="请输入手机号"  type='text' v-model="formStudent.mobile"/>
+							<span class="msg" :class='{"success":success}'>{{msg}}</span>
 						</div>
-						<div class='wm-next-step-btn' @click='current++'>下一步</div>
+						<div class='wm-next-step-btn' @click='next'>下一步</div>
 					</li>
-					<li>
+					<li v-show='current===1'>
 						<div class='wm-addstudent-form-item'>
 							<label for="">姓名：</label><input placeholder="请输入姓名" type='text' v-model="formStudent.username"/>
 						</div>
@@ -38,12 +39,18 @@
 							<label for="">邮箱：</label><input placeholder="请输入邮箱" type='text' v-model="formStudent.email"/>
 						</div>
 						<div class='wm-addstudent-form-item displayFlex'>
+							<div><label for="">所属小组：</label></div>
+							<Select v-model="formStudent.groupid" style="width:240px;background:transparent">
+						       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
+						    </Select>
+						</div>
+						<div class='wm-addstudent-form-item displayFlex'>
 							<div><label for="">所在城市：</label></div><Cascader v-model="formStudent.cityids"  :load-data="getCityById"  change-on-select :data='provinceList'></Cascader>
 						</div>
 						<div class='wm-addstudent-form-item'>
 							<label for="">详细地址：</label><textarea placeholder="请输入详细地址"  v-model="formStudent.detailaddress" ></textarea>
 						</div>
-						<div class='wm-next-step-btn'>{{current>=steps.length-1?'完成':'下一步'}}</div>
+						<div class='wm-next-step-btn' @click='insertStudent'>{{current>=steps.length-1?'完成':'下一步'}}</div>
 					</li>
 				</ol>
 			</div>
@@ -63,6 +70,7 @@
 		data(){
 			return{
 				userinfo:{},
+				groupList:[],
 				viewH:window.innerHeight,
 				current:0,
 				formStudent:{
@@ -70,6 +78,8 @@
 					userpwd:'123456',
 					cityids:[]
 				},
+				success:false,
+				msg:'',
 				provinceList:[]
 
 			}
@@ -85,11 +95,83 @@
 		mounted(){
 			 this.getCityData();
 			 this.userinfo = symbinUtil.getUserInfo();
+			 this.getGroupList();
 		},
 		
 		methods:{
+			insertStudent(){
+				var s = this;
+				if(this.current >= this.steps.length - 1){//添加
+					symbinUtil.ajax({
+						url:window.config.baseUrl+'/zmitiadmin/addstudent/',
+						data:{
+							adminuserid:s.userinfo.userid,
+							studentpwd:s.formStudent.userpwd,
+							admintoken:s.userinfo.accesstoken,
+							username:s.formStudent.mobile,
+							mobile:s.formStudent.mobile,
+							companyname:s.formStudent.companyname,
+							studentname:s.formStudent.studentname,
+							email:s.formStudent.email,
+							provinceid:s.formStudent.cityids[0],
+							meetid:s.$route.params.meetid,
+							job:s.formStudent.job,
+							groupid:s.formStudent.groupid,
+							cityid:s.formStudent.cityids[1],
+							areaid:s.formStudent.cityids[2],
+							detailaddress:s.formStudent.detailaddress
+						},
+						success(data){
+							if(data.getret === 0){
+								s.$Message.success(data.getmsg);
+								Vue.obserable.trigger({
+									type:"hideAddStudent"
+								});
+							}
+							else{
+								s.$Message.error(data.getmsg);
+							}
+						}
+	
+					})
+				}else{
+					this.current++;
+				}
+			},
+
+			getGroupList(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getusergrouplist',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+					},
+					success(data){
+						if(data.getret === 0){
+							s.groupList = data.list;
+						}
+					}
+				})
+			},
+			isPoneAvailable(val) {
+	            var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+	            return myreg.test(val);
+	        },
+			next(){
+				if(this.isPoneAvailable(this.formStudent.mobile)){
+					this.checkMobile();
+				}else{
+					this.msg = '手机号格式错误';
+					this.success = false;
+					setTimeout(()=>{
+						this.msg = '';
+					},2000)
+				}
+
+
+			},
 			checkMobile(e){
-				e.preventDefault();
 				
 				var s = this;
 				symbinUtil.ajax({
@@ -101,7 +183,20 @@
 						mobile:s.formStudent.mobile
 					},
 					success(data){
-						console.log(data);
+
+						if(data.getret === 0){
+							s.success = true;
+							setTimeout(()=>{
+								s.current++;
+							},1000);
+						}
+						s.msg = data.getmsg;
+
+						setTimeout(()=>{
+							s.msg = '';
+							s.success = '';
+						},2000)
+						
 					}
 				})
 			},
