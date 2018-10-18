@@ -13,6 +13,10 @@ import Teacher from './components/teacher/index';
 import Signup from './components/signup/index';
 import Report from './components/report/index';
 import Adminuser from './components/adminuser/index';
+import ScoreItem from './components/scoreitem/index';
+import Score from './components/score/index';
+import Feedback from './components/feedback/index';
+
 //import Collection from './components/collection/index';
 import iView from 'iview';
 import VueRouter from 'vue-router'
@@ -96,7 +100,25 @@ const router = new VueRouter({
 			name: 'meetingsignup',
 			component:Signup,
 			props: true
-		}
+		},
+		{
+			path: '/meetingscoreitem/:meetid/:meetname/',
+			name: 'meetingscoreitem',
+			component: ScoreItem,
+			props: true
+		}, {
+			path: '/meetingscrore/:meetid/:meetname/',
+			name: 'meetingscrore',
+			component: Score,
+			props: true
+	 
+		}, {
+			path: '/meetingfeedback/:meetid/:meetname/',
+			name: 'meetingfeedback',
+			component: Feedback,
+			props: true
+		},
+		
 	]
 });
 

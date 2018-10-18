@@ -1,0 +1,40 @@
+﻿@import "../css/base.scss";
+
+$baseColor: #fcffb4;
+$viewW: 750px;
+ .wm-feedback-main-ui {
+     box-sizing: border-box;
+     .wm-tab-content>div{
+         width: 100%;
+     }
+
+     .wm-feedback-table{
+         width: 98% !important;
+         margin: 0 auto;
+
+         background:#fff;
+
+         .wm-feedback-item{
+             width: 100%;
+
+             border:1px solid #e1e6eb;
+             text-indent: 2em;
+             
+             &>header{
+                border-bottom:1px solid #e1e6eb;
+                 width: 100%;
+                 height: 38px;
+                 line-height: 38px;
+                 background:#f5f6fa;
+                 border-left:4px solid #be0000;
+             }
+
+             div{
+                 margin: 10px 0;
+                 textarea{
+                     width: 80%;
+                 }
+             }
+         }
+     }
+ }

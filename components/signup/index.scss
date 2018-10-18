@@ -7,7 +7,9 @@ $color: #be0000;
 .wm-signup-ui,
 .wm-news-main-ui,
 .wm-course-main-ui,
-.wm-attendance-ui {
+.wm-attendance-ui,
+.wm-scoreitem-main-ui,
+.wm-feedback-main-ui{
 
     @include displayFlex(row);
     &>div{
@@ -88,7 +90,7 @@ $color: #be0000;
         &>div{
             width: 98%;
             margin: 10px auto 10px;
-            border-top:1px solid #ddd;
+            //border-top:1px solid #ddd;
             @include pos(r);
             flex:1;
             -webkit-flex:1;
