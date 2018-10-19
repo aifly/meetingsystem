@@ -247,6 +247,9 @@
 				if(p.scoreitemid>-1){
 					url = window.config.baseUrl+'/zmitiadmin/updaterateditems';
 					p.id = p.scoreitemid;
+				}else{
+					this.formScoreItem = {
+					}
 				}
 
 				symbinUtil.ajax({
@@ -254,7 +257,7 @@
 					data:p,
 					success(data){
 						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
-						s.showDetail = false;
+						//s.showDetail = false;
 						s.getScoreItemList();
 					}
 				})

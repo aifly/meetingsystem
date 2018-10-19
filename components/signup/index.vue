@@ -182,7 +182,35 @@
 									props:{ 
 										type:params.row.status===2?'ios-remove-circle':'ios-remove-circle-outline'
 									}
-								},'2')
+								},'2'),
+								 h('Poptip',{
+									props:{
+										confirm:true,
+										title:"确定要删除吗"
+									},
+									style:{
+										marginLeft:'20px'
+									},
+									on:{
+										'on-ok':()=>{
+											this.delMeetStudent(params.row.userid,params.index);
+										},
+										
+									}
+								},[
+									h('Button', {
+										props: {
+											type: 'error',
+											size: 'small'
+										},
+										on: {
+											click: () => {
+												
+												//this.remove(params.index,params.row.employeeid)
+											}
+										}
+									}, '删除')
+								])
 								
 							],'1')
 								
@@ -329,6 +357,27 @@
 		},
 		
 		methods:{
+
+			delMeetStudent(studentid,index){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/delmeetstudent',
+					data:{
+						adminuserid:s.userinfo.userid,
+						admintoken:s.userinfo.accesstoken,
+						meetid:s.$route.params.meetid,
+						studentid
+					},
+					success(data){
+						console.log(data);
+						if(data.getret === 0){
+							s.userList.splice(index,1);
+						}
+						s.$Message[data.getret ===0 ?'success':'error'](data.getmsg);
+					}
+				})
+				
+			},
 
 
 			upload(option = {}){

@@ -1,61 +1,17 @@
 <template>
-	<div class="wm-course-main-ui">
+	<div class="wm-score-main-ui">
 		<div>
 			<Tab :refresh='refresh'></Tab>
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
-				<div>课程管理</div>
+				<div>评分结果</div>
 				<div>
-					<Button type="primary" @click="addCourse">新增课程</Button>
 				</div>
 			</header>
-			<div class="wm-course-wrap" >
-				<Form v-show='showDetail' ref="formValidate" class="wm-meet-form wm-scroll" :style='{height:viewH - 64- 90+"px"}' :model="formClass" :rules="ruleValidate" :label-width="100">
-					<FormItem label="课程名称：" prop="title">
-						<Input v-model="formClass.title" placeholder="请填写标题"></Input>
-					</FormItem>
-					<FormItem label="上课老师：" prop="type">
-						<Select v-model="formClass.teacherid" placeholder="请选择上课老师">
-							<Option :value="ntype.teacherid" v-for='(ntype,i) in classTeacherList' :key="i">{{ntype.accounts}}</Option>
-						</Select>
-					</FormItem>
-					<FormItem label="教室位置：" prop="classroom">
-						<span>{{address}}</span> <Button style='margin-left:20px;' size='small' @click='showMap = true'>设置教室位置</Button>
-						<div class='wm-course-pos' v-show='showMap'>{{formClass.longitude}} &nbsp;&nbsp; {{formClass.latitude}}
-							<span class='wm-course-pos-close' @click="showMap = false">
-								<Icon type="ios-close-circle" />
-							</span>
-						</div>
-						<div v-if='showMap' class="wm-classroom-pos" id='wm-classroom-pos'>
-
-						</div>
-					</FormItem>
-					<FormItem label="课程说明：" prop="content">
-						<Input type='textarea' v-model="formClass.content" :rows='5' />
-					</FormItem>
-				
-					<FormItem label="上课时间：">
-						 <DatePicker type="datetime" placeholder="请选择上课时间" style="width:100%" v-model="formClass.lessonstarttime"></DatePicker>
-					</FormItem>
-
-					<FormItem label="下课时间：">
-						<DatePicker type="datetime" placeholder="请选择下课时间" style="width:100%" v-model="formClass.lessonendtime"></DatePicker>
-					</FormItem>
-
-					<FormItem label="上课教室：" prop="classroom">
-						<Input v-model="formClass.classroom" placeholder="请填写上课教室"></Input>
-					</FormItem>
-					<FormItem>
-						<Button type="primary" @click="classAction()" size='large'>添加课程</Button>
-					</FormItem>
-				</Form>
-				<div v-if='!showDetail' class="wm-course-list">
-					<Table :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='courseList' :columns='columns'   stripe></Table>
-				</div>
-
-			</div>
-
+			<div v-if='mainType === 0'></div>
+			<ScoreDetail :scoreObj="scoreObj" v-else-if='mainType === 1'></ScoreDetail>
+			<StudentDetail v-else-if='mainType === 2'></StudentDetail>
 		</div>
 	</div>
 </template>
@@ -65,26 +21,85 @@
 	import sysbinVerification from '../lib/verification';
 	import symbinUtil from '../lib/util';
 	import Vue from 'vue';
+	import ScoreDetail from './scoredetail';
+	import StudentDetail from './studentdetail'
 
 	import Tab from '../commom/tab/index';
-	import VueQuillEditor from 'vue-quill-editor';
-	import 'quill/dist/quill.core.css'
-	import 'quill/dist/quill.snow.css'
-	import 'quill/dist/quill.bubble.css'
-	Vue.use(VueQuillEditor)
+
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',
 		data(){
 			return{
-				editorOption:{
-					modules:{
-                        toolbar:[
-						       // toggled buttons
-						  //[{size:['small',false,'large','huge','12']}],//'12','14',false,'16','18','20','22','24'
-                        ]
-                    }
+
+				mainType:1,
+
+				scoreObj:{
+					totalscore:98,
+					title:"思想品德",
+					teachername:'张三',
+					partakenum:129,//参与人数。
+					date:'2018-10-10',
+					scoreList:[
+						{
+							groupname:'教学内容',
+							list:[
+								{
+									scoreitemname:'与培训目标一致性',
+									avgscore:9
+								},
+								{
+									scoreitemname:'科学性，前沿性',
+									avgscore:9
+								},
+								{
+									scoreitemname:'信息量',
+									avgscore:9
+								}
+							]
+						},
+						{
+							groupname:'教学方法',
+							list:[
+								{
+									scoreitemname:'多样性，有效性',
+									avgscore:9
+								}
+							]
+						},{
+							groupname:'教学水平',
+							list:[
+								{
+									scoreitemname:'教学态度',
+									avgscore:9
+								},
+								{
+									scoreitemname:'语言表达',
+									avgscore:9
+								},
+								{
+									scoreitemname:'调动学员参与度',
+									avgscore:9
+								}
+							]
+						},{
+							groupname:'教学效果',
+							list:[
+								{
+									scoreitemname:'推动工作帮助度',
+									avgscore:9
+								},
+								{
+									scoreitemname:'对个人成长帮助度',
+									avgscore:9
+								}
+							]
+						}
+					]
+
+
 				},
+				
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
@@ -210,7 +225,9 @@
 			}
 		},
 		components:{
-			Tab
+			Tab,
+			ScoreDetail,
+			StudentDetail
 		},
 
 		beforeCreate(){

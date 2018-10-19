@@ -12,13 +12,26 @@ $viewW: 750px;
          width: 98% !important;
          margin: 0 auto;
 
+         
+
          background:#fff;
+         overflow: visible;
 
          .wm-feedback-item{
-             width: 100%;
-
+             width: 96%;
+             margin: 10px auto;
              border:1px solid #e1e6eb;
              text-indent: 2em;
+
+             
+
+             &.fixed{
+                 @include pos(a);
+                 z-index: 100;
+                 width: 98%;
+                 left: 1%;
+                 bottom: 0;
+             }
              
              &>header{
                 border-bottom:1px solid #e1e6eb;
@@ -29,11 +42,26 @@ $viewW: 750px;
                  border-left:4px solid #be0000;
              }
 
+             .wm-feedback-reply{
+                @include pos(a);
+                left: 90%;
+                color: #000000;
+                cursor: pointer;
+
+             }
+
              div{
                  margin: 10px 0;
                  textarea{
-                     width: 80%;
+                    margin-left:-2em;
+                    width: 97%;
+                    height: 70px;
                  }
+             }
+
+             .wm-feedback-item{
+                 width: 94%;
+                 margin: 0 auto 20px;
              }
          }
      }

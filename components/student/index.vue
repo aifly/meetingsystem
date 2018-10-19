@@ -27,13 +27,13 @@
 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 				</FormItem>
 				
-				<FormItem label="所属培训：" prop="mobile">
+				<FormItem label="所属培训：" prop="mobile" v-if='!formAdmin.userid'>
 					 <Select v-model="formAdmin.meetid">
 				       <Option v-for="item in meetList" :value="item.meetid" :key="item.meetid">{{ item.meetname }}</Option>
 				    </Select>
 				</FormItem>	
 
-				<FormItem label="所属小组：" prop="mobile">
+				<FormItem label="所属小组：" prop="mobile" v-if='!formAdmin.userid'>
 					 <Select v-model="formAdmin.groupid">
 				       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
 				    </Select>
@@ -166,6 +166,9 @@
 									props:{
 										confirm:true,
 										title:"确定要删除吗"
+									},
+									style:{
+										display:'none'
 									},
 									on:{
 										'on-ok':()=>{

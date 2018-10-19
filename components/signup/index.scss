@@ -9,7 +9,8 @@ $color: #be0000;
 .wm-course-main-ui,
 .wm-attendance-ui,
 .wm-scoreitem-main-ui,
-.wm-feedback-main-ui{
+.wm-feedback-main-ui,
+.wm-score-main-ui {
 
     @include displayFlex(row);
     &>div{

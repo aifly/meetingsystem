@@ -10,7 +10,6 @@
 	import symbinUtil from '../lib/util';
 	import Vue from 'vue';
 
-	Vue.use(VueQuillEditor)
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',

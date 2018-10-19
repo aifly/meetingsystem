@@ -31,12 +31,7 @@ var imgs = {
 	reject1:'./assets/images/reject1.png',
 	user:'./assets/images/user.png',
 	media:'./assets/images/media.png',
-	shangbao:'./assets/images/shangbao.png',
-	doc:'./assets/images/word.png',
-	docx:'./assets/images/word.png',
-	pdf:'./assets/images/pdf.png',
-	zip: './assets/images/zip.png',
-	rar: './assets/images/zip.png',
+	
 	enable:'./assets/images/enable.png',
 	disable:'./assets/images/disabled.png',
 	createcode:'./assets/images/createcode.png',
@@ -44,12 +39,8 @@ var imgs = {
 
 	//smile:'./assets/images/smile.png',
 	titleBg:'./assets/images/title-bg.png',
-	ruleIco:'./assets/images/rule-ico.png',
-	imgIco:'./assets/images/img-ico.png',
-	h5Ico:'./assets/images/h5.png',
-	videoIco:'./assets/images/video-ico.png',
-	audioIco:'./assets/images/audio-ico.png',
-	dongmanIco:'./assets/images/dongman-ico.png',
+	
+	scoreBg:'./assets/images/score-bg.png'
 
 
 };

@@ -14,25 +14,28 @@
 			<div class='wm-feedback-table'>
 				<div v-if='showDetail'>
 					<div class='wm-feedback-item'>
-						<header>产品技术类工单问题</header>
+						<header>{{formFeedback.studentname}}</header>
 						<div>
-							<span>建议：</span><span>产品技术类工单问题</span>
+							<span>{{formFeedback.studentname}}建议：</span><span>{{formFeedback.opinion}}</span>
 						</div>
 						<div>
-							2018-11-12 12:12:12
+							{{formFeedback.createtime}} <span class='wm-feedback-reply' @click='getReplyInfo(formFeedback)'>回复</span>
+						</div>
+
+						<div id='wm-reply-component'></div>
+					</div>
+
+					<div class='wm-feedback-item fixed' v-if='showFirstReply'>
+						<header>回复给：{{currentObj.studentname}}</header>
+						<div>
+							<Input v-model='myopinion' type='textarea' placeholder="请输入回复内容"/>
+						</div>
+						<div>
+							<Button @click='reply(formFeedback.id)'>提交</Button>							
 						</div>
 					</div>
 
-
-					<div class='wm-feedback-item'>
-						<header>回复</header>
-						<div>
-							<Input type='textarea'/>
-						</div>
-						<div>
-							
-						</div>
-					</div>
+					
 				</div>
 				<Table :data='feedbackList' :columns='columns' v-else></Table>
 			</div>
@@ -46,22 +49,30 @@
 	import sysbinVerification from '../lib/verification';
 	import symbinUtil from '../lib/util';
 	import Vue from 'vue';
-
 	import Tab from '../commom/tab/index';
+
+
+	
+
+
 
 	export default {
 		props:['obserable'],
 		name:'zmitiindex',
 		data(){
 			return{
-			 
+				myopinion:'',
+				showFirstReply:false,
 				provinceList:[],
 				visible:false,
 				imgs:window.imgs,
 				isLoading:false,
-				showDetail:true,
+				showDetail:false,
 				currentClassId:-1, 
 				address:'',
+				currentObj:{
+
+				},
 				showPass:false,
 				showMap:false,
 				viewH:window.innerHeight,
@@ -104,11 +115,48 @@
                                     on: {
                                         click: () => {
 											var s = this;
-											s.showDetail = true;
-											s.formClass = params.row;
-											s.currentClassId = params.row.syllabusid;
-											s.formClass.lessonstarttime = new Date(s.formClass.lessonstarttime);
-											s.formClass.lessonendtime = new Date(s.formClass.lessonendtime);
+											//s.showDetail = true;
+											
+											symbinUtil.ajax({
+												url:window.config.baseUrl+'/zmitiadmin/getfeedbackinfo',
+												data:{
+													admintoken:s.userinfo.accesstoken,
+													adminuserid:s.userinfo.userid,
+													fid:params.row.id,
+												},
+												success(data){
+													console.log(data);
+													if(data.getret === 0){
+														
+													}
+												}
+											})
+
+
+											return;
+
+											s.formFeedback = params.row;
+										
+											var myReplyComponent = Vue.extend({
+												template:s.bindReply(s.formFeedback.children),
+												methods:{
+													reply(feed){
+														console.log(id);
+														Vue.obserable.trigger({
+															type:'reply',
+															data:id
+														})
+													}
+												}
+											});
+											 
+											var component= new myReplyComponent().$mount();
+
+											setTimeout(() => {
+												var c = document.getElementById('wm-reply-component');
+												c.innerHTML = '';
+												c.appendChild(component.$el);
+											}, 100);
                                         }
                                     }
                                 }, '详情'),
@@ -141,18 +189,8 @@
 						}
 					}
 				],
-				ruleValidate:{
-					title: [
-                        { required: true, message: '标题不能为空', trigger: 'blur' }
-                    ],
-                    teacherid: [
-                        { required: true, message: '上课老师不能为空', trigger: 'change' }
-                    ]
-				},
-				formClass:{
-					pdfurl:'',
-					longitude :'116.585856',
-					latitude :'40.364989'
+				formFeedback:{
+					
 				},
 				courseList:[],
 				 
@@ -178,6 +216,10 @@
 			this.userinfo = symbinUtil.getUserInfo();
 			
 			this.getFeedback();
+
+			Vue.obserable.on('reply',(id)=>{
+				this.reply(id);
+			})
 			
 
 		},
@@ -187,7 +229,60 @@
 		
 		methods:{
 
+			getReplyInfo(formFeedback){
+				this.showFirstReply = !this.showFirstReply;
+				this.currentObj = formFeedback;
+			},
 
+			bindReply(data){
+				var html =  '';
+				
+				if(data.children && data.children.length){
+					return this.bindReply(data.children);
+				}else{
+				
+					data.forEach((feed,i)=>{
+						html += `<div class='wm-feedback-item'>
+							<header>${feed.studentname||"管理员回复："}</header>
+							<div>
+								<span>管理员建议：</span><span>${feed.opinion}</span>
+							</div>
+							<div>
+								${feed.createtime} <span class='wm-feedback-reply' @click='reply("${feed.id}")' >回复</span>
+							</div>
+						</div>`
+					});
+					if(data.length<=0){
+						html = '<div></div>';
+					}
+					
+				}
+				
+				return html;
+
+			},
+
+			reply(id){
+				var s = this;
+				
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/replystudentopinion',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						id,
+						meetid:s.$route.params.meetid,
+						opinion:s.myopinion
+					},
+					success(data){
+						console.log(data);
+						if(data.getret === 0){
+							s.getFeedback();
+							s.showDetail = false;
+						}
+					}
+				})
+			},
 			refresh(){
 				this.showDetail = false;
 				this.currentClassId = -1;
@@ -213,12 +308,12 @@
 			},
 			classAction(){
 				var s = this;
-				var p = JSON.parse(JSON.stringify(this.formClass));
+				var p = JSON.parse(JSON.stringify(this.formFeedback));
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
 				p.meetid = s.$route.params.meetid;
-				p.lessonstarttime =  new Date(s.formClass.lessonstarttime).getTime()/1000;
-				p.lessonendtime =  new Date(s.formClass.lessonendtime).getTime()/1000;
+				p.lessonstarttime =  new Date(s.formFeedback.lessonstarttime).getTime()/1000;
+				p.lessonendtime =  new Date(s.formFeedback.lessonendtime).getTime()/1000;
 
 				var url = window.config.baseUrl+'/zmitiadmin/addcourse';
 				if(s.currentClassId>-1){
@@ -261,19 +356,11 @@
 
 
 			addadUser(){
-
 				 
-			},
-
-			 
-			 
-			onEditorBlur(){//失去焦点事件
-            },
-            onEditorFocus(){//获得焦点事件
-            },
-            onEditorChange(){//内容改变事件
-            },
+			}
 		}
 	}
+ 
+	
 </script>
  

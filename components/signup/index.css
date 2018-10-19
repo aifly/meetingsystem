@@ -54,7 +54,8 @@
 .wm-course-main-ui,
 .wm-attendance-ui,
 .wm-scoreitem-main-ui,
-.wm-feedback-main-ui {
+.wm-feedback-main-ui,
+.wm-score-main-ui {
   display: flex;
   display: -webkit-flex;
   flex-flow: row;
@@ -65,7 +66,8 @@
 .wm-course-main-ui > div:nth-of-type(1),
 .wm-attendance-ui > div:nth-of-type(1),
 .wm-scoreitem-main-ui > div:nth-of-type(1),
-.wm-feedback-main-ui > div:nth-of-type(1) {
+.wm-feedback-main-ui > div:nth-of-type(1),
+.wm-score-main-ui > div:nth-of-type(1) {
   width: 200px;
 }
 
@@ -78,7 +80,8 @@
 .wm-course-main-ui .wm-header-right-action,
 .wm-attendance-ui .wm-header-right-action,
 .wm-scoreitem-main-ui .wm-header-right-action,
-.wm-feedback-main-ui .wm-header-right-action {
+.wm-feedback-main-ui .wm-header-right-action,
+.wm-score-main-ui .wm-header-right-action {
   display: flex;
   display: -webkit-flex;
   flex-flow: row;
@@ -89,7 +92,8 @@
 .wm-course-main-ui .wm-header-right-action > div,
 .wm-attendance-ui .wm-header-right-action > div,
 .wm-scoreitem-main-ui .wm-header-right-action > div,
-.wm-feedback-main-ui .wm-header-right-action > div {
+.wm-feedback-main-ui .wm-header-right-action > div,
+.wm-score-main-ui .wm-header-right-action > div {
   display: flex;
   display: -webkit-flex;
   flex-flow: row;
@@ -101,7 +105,8 @@
 .wm-course-main-ui .wm-header-right-action > div:nth-of-type(2),
 .wm-attendance-ui .wm-header-right-action > div:nth-of-type(2),
 .wm-scoreitem-main-ui .wm-header-right-action > div:nth-of-type(2),
-.wm-feedback-main-ui .wm-header-right-action > div:nth-of-type(2) {
+.wm-feedback-main-ui .wm-header-right-action > div:nth-of-type(2),
+.wm-score-main-ui .wm-header-right-action > div:nth-of-type(2) {
   display: flex;
   display: -webkit-flex;
   flex-flow: row;
@@ -114,7 +119,8 @@
 .wm-course-main-ui .wm-header-right-action > div .wm-header-temp,
 .wm-attendance-ui .wm-header-right-action > div .wm-header-temp,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-header-temp,
-.wm-feedback-main-ui .wm-header-right-action > div .wm-header-temp {
+.wm-feedback-main-ui .wm-header-right-action > div .wm-header-temp,
+.wm-score-main-ui .wm-header-right-action > div .wm-header-temp {
   margin-right: 10px;
   font-size: 14px;
 }
@@ -124,7 +130,8 @@
 .wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
 .wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
-.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn {
+.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
+.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn {
   margin-right: 5px;
   position: relative;
   height: 32px;
@@ -153,7 +160,11 @@
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
-.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after {
+.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,
+.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,
+.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
+.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
+.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after {
   display: none;
 }
 
@@ -162,7 +173,8 @@
 .wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
 .wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
-.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {
+.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
+.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {
   left: 0;
   top: 0;
   width: 100%;
@@ -174,7 +186,8 @@
 .wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
 .wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn input,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
-.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn input {
+.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
+.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn input {
   position: absolute;
   left: 0;
   top: 0;
@@ -190,7 +203,8 @@
 .wm-course-main-ui .wm-header-right-action > div > div,
 .wm-attendance-ui .wm-header-right-action > div > div,
 .wm-scoreitem-main-ui .wm-header-right-action > div > div,
-.wm-feedback-main-ui .wm-header-right-action > div > div {
+.wm-feedback-main-ui .wm-header-right-action > div > div,
+.wm-score-main-ui .wm-header-right-action > div > div {
   height: 40px;
   position: relative;
 }
@@ -200,7 +214,8 @@
 .wm-course-main-ui .wm-header-right-action > div > div .wm-upload,
 .wm-attendance-ui .wm-header-right-action > div > div .wm-upload,
 .wm-scoreitem-main-ui .wm-header-right-action > div > div .wm-upload,
-.wm-feedback-main-ui .wm-header-right-action > div > div .wm-upload {
+.wm-feedback-main-ui .wm-header-right-action > div > div .wm-upload,
+.wm-score-main-ui .wm-header-right-action > div > div .wm-upload {
   position: absolute;
 }
 
@@ -209,7 +224,8 @@
 .wm-course-main-ui .wm-tab-content,
 .wm-attendance-ui .wm-tab-content,
 .wm-scoreitem-main-ui .wm-tab-content,
-.wm-feedback-main-ui .wm-tab-content {
+.wm-feedback-main-ui .wm-tab-content,
+.wm-score-main-ui .wm-tab-content {
   box-sizing: border-box;
   flex: 1;
   -webkit-flex: 1;
@@ -223,7 +239,8 @@
 .wm-course-main-ui .wm-tab-content > div,
 .wm-attendance-ui .wm-tab-content > div,
 .wm-scoreitem-main-ui .wm-tab-content > div,
-.wm-feedback-main-ui .wm-tab-content > div {
+.wm-feedback-main-ui .wm-tab-content > div,
+.wm-score-main-ui .wm-tab-content > div {
   width: 98%;
   margin: 10px auto 10px;
   position: relative;
@@ -237,7 +254,8 @@
 .wm-course-main-ui .wm-tab-content > div .wm-meet-form,
 .wm-attendance-ui .wm-tab-content > div .wm-meet-form,
 .wm-scoreitem-main-ui .wm-tab-content > div .wm-meet-form,
-.wm-feedback-main-ui .wm-tab-content > div .wm-meet-form {
+.wm-feedback-main-ui .wm-tab-content > div .wm-meet-form,
+.wm-score-main-ui .wm-tab-content > div .wm-meet-form {
   width: 100%;
   margin: 0px auto;
   padding: 20px 40px;
@@ -250,7 +268,8 @@
 .wm-course-main-ui .wm-tab-content .wm-tab-header,
 .wm-attendance-ui .wm-tab-content .wm-tab-header,
 .wm-scoreitem-main-ui .wm-tab-content .wm-tab-header,
-.wm-feedback-main-ui .wm-tab-content .wm-tab-header {
+.wm-feedback-main-ui .wm-tab-content .wm-tab-header,
+.wm-score-main-ui .wm-tab-content .wm-tab-header {
   width: 50px;
   display: flex;
   display: -webkit-flex;
@@ -268,7 +287,8 @@
 .wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
 .wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
 .wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
-.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {
+.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
+.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {
   position: relative;
   text-indent: .5em;
 }
@@ -278,7 +298,8 @@
 .wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
 .wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
 .wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
-.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {
+.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
+.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {
   content: '';
   width: 4px;
   height: 24px;
@@ -293,7 +314,8 @@
 .wm-course-main-ui .wm-tab-content .wm-signup-wrap,
 .wm-attendance-ui .wm-tab-content .wm-signup-wrap,
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-wrap,
-.wm-feedback-main-ui .wm-tab-content .wm-signup-wrap {
+.wm-feedback-main-ui .wm-tab-content .wm-signup-wrap,
+.wm-score-main-ui .wm-tab-content .wm-signup-wrap {
   margin: 50px auto;
   width: 500px;
 }
@@ -303,7 +325,8 @@
 .wm-course-main-ui .wm-tab-content .wm-signup-item,
 .wm-attendance-ui .wm-tab-content .wm-signup-item,
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-item,
-.wm-feedback-main-ui .wm-tab-content .wm-signup-item {
+.wm-feedback-main-ui .wm-tab-content .wm-signup-item,
+.wm-score-main-ui .wm-tab-content .wm-signup-item {
   line-height: 40px;
   display: flex;
   display: -webkit-flex;
@@ -316,7 +339,8 @@
 .wm-course-main-ui .wm-tab-content .wm-signup-item > div,
 .wm-attendance-ui .wm-tab-content .wm-signup-item > div,
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div,
-.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div {
+.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div,
+.wm-score-main-ui .wm-tab-content .wm-signup-item > div {
   margin-right: 10px;
 }
 
@@ -325,7 +349,8 @@
 .wm-course-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
 .wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
-.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {
+.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
+.wm-score-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {
   width: 80px;
   text-align: right;
 }

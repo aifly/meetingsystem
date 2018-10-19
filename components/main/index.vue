@@ -221,13 +221,17 @@
                         adminuserid:s.userinfo.userid,
 						admintoken:s.userinfo.accesstoken
                     },
-                    
+                    error(){
+                        symbinUtil.clearCookie('login');
+                        window.location.hash = '/login';
+                        window.sessionStorage.clear();
+                    },
                     success(data){
+                        symbinUtil.clearCookie('login');
+                        window.location.hash = '/login';
+                        window.sessionStorage.clear();
                         if(data.getret === 0){
                             s.$Message.success('注销成功');
-                            symbinUtil.clearCookie('login');
-                            window.location.hash = '/login';
-                            window.sessionStorage.clear();
                         }
                     }
                 });
