@@ -7,6 +7,7 @@
     background: #fff;
     @include br(4px);
     @include pos(r);
+    $color:#cc0000;
     .wm-scoredetail-scorebg{
         @include pos(a);
         width: 100px;
@@ -29,7 +30,7 @@
         text-align: center;
         line-height: 150px;
         height: 100px;
-        color:#cc0000;
+        color:$color;
         font-size:30px;
         font-weight: normal;
     }
@@ -45,7 +46,7 @@
         width: 96%;
         margin: 0 auto;
         line-height: 24px;
-        border-bottom: 2px solid #cc0000;
+        border-bottom: 2px solid $color;
         @include displayFlex(row);
         -webkit-justify-content: space-between;
         justify-content: space-between;
@@ -55,7 +56,82 @@
     .wm-score-table{
         width: 94%;
         margin: 20px auto;
-        border:1px solid red;
         min-height: 100px;
+        $cellH:40px;
+        ul{
+            border-left:1px solid #ccc;
+            border-top:1px solid #ccc;
+        }
+        li{
+            border-right:1px solid #ccc;
+            border-bottom:1px solid #ccc;
+            @include  displayFlex(row);
+            div{
+            }
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            &:nth-of-type(1){
+                background:#eee;
+                font-weight: bold;
+            }
+
+            .wm-scoreitem-groupname{
+                width: 150px;
+                @include displayFlex(row);
+                justify-content: center;
+                align-items: center;
+                -webkit-justify-content: center;
+                -webkit-align-items: center;
+
+
+
+            }
+            .wm-scoreitem-list{
+                flex:1;
+                -webkit-flex:1;
+
+            }
+            .wm-scoreitem{
+                flex:1;
+                -webkit-flex:1;
+
+                @include displayFlex(row);
+                -webkit-justify-content: space-between;
+                justify-content: space-between; 
+
+                div{
+                    height: $cellH;
+                    line-height: $cellH;
+                }
+                .wm-scoreitem-avgscore{
+                    width: 50px;
+                    text-align: center;
+                    font-weight: bold;
+                    color:$color;
+
+                }
+                &:nth-of-type(2n){
+                    .wm-scoreitem-name,.wm-scoreitem-avgscore{
+                        border-top:1px solid #ccc;
+                        border-bottom:1px solid #ccc;
+                        &.noborder{
+                            border-bottom:none;
+                        }
+                    }
+                }
+                .wm-scoreitem-name{
+                    flex:1;
+                    -webkit-flex:1;
+                    text-align: center;
+                    border-right:1px solid #ccc;
+                    border-left:1px solid #ccc;
+                    text-indent: 2em;
+
+                    text-align: left;
+
+                }
+            }
+        }
     }
 }
