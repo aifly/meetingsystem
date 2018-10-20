@@ -40,7 +40,7 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 .wm-scoredetail-main-ui {
-  width: 500px;
+  width: 600px;
   min-height: 400px;
   margin: 30px auto;
   background: #fff;
@@ -126,16 +126,20 @@
         .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem div {
           height: 40px;
           line-height: 40px; }
+          .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem div:last-of-type {
+            color: #cc0000; }
         .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem .wm-scoreitem-avgscore {
           width: 50px;
           text-align: center;
-          font-weight: bold;
-          color: #cc0000; }
+          font-weight: bold; }
         .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem:nth-of-type(2n) .wm-scoreitem-name, .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem:nth-of-type(2n) .wm-scoreitem-avgscore {
           border-top: 1px solid #ccc;
           border-bottom: 1px solid #ccc; }
           .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem:nth-of-type(2n) .wm-scoreitem-name.noborder, .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem:nth-of-type(2n) .wm-scoreitem-avgscore.noborder {
             border-bottom: none; }
+        .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem .wm-scoreitem-score {
+          border-right: 1px solid #ccc;
+          border-left: 1px solid #ccc; }
         .wm-scoredetail-main-ui .wm-score-table li .wm-scoreitem .wm-scoreitem-name {
           flex: 1;
           -webkit-flex: 1;
@@ -144,5 +148,17 @@
           border-left: 1px solid #ccc;
           text-indent: 2em;
           text-align: left; }
+  .wm-scoredetail-main-ui .wm-score-table-action {
+    border-top: 2px solid #cc0000;
+    position: relative;
+    height: 50px;
+    width: 96%;
+    margin: 20px auto; }
+    .wm-scoredetail-main-ui .wm-score-table-action > div {
+      position: absolute;
+      right: 30px;
+      top: 20px; }
+      .wm-scoredetail-main-ui .wm-score-table-action > div button {
+        margin: 0 10px; }
 
 /*# sourceMappingURL=scoredetail.css.map */

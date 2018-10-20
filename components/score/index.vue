@@ -46,15 +46,21 @@
 							list:[
 								{
 									scoreitemname:'与培训目标一致性',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								},
 								{
 									scoreitemname:'科学性，前沿性',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								},
 								{
 									scoreitemname:'信息量',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								}
 							]
 						},
@@ -63,7 +69,9 @@
 							list:[
 								{
 									scoreitemname:'多样性，有效性',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								}
 							]
 						},{
@@ -71,15 +79,21 @@
 							list:[
 								{
 									scoreitemname:'教学态度',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								},
 								{
 									scoreitemname:'语言表达',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								},
 								{
 									scoreitemname:'调动学员参与度',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								}
 							]
 						},{
@@ -87,11 +101,15 @@
 							list:[
 								{
 									scoreitemname:'推动工作帮助度',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								},
 								{
 									scoreitemname:'对个人成长帮助度',
-									avgscore:9
+									avgscore:9,
+									totalscore:180,
+									studentnum:20
 								}
 							]
 						}

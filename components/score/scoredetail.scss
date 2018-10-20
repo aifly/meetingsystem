@@ -1,7 +1,7 @@
 ﻿@import "../css/base.scss";
 
 .wm-scoredetail-main-ui{
-    width: 500px;
+    width: 600px;
     min-height: 400px;
     margin: 30px auto;
     background: #fff;
@@ -103,12 +103,14 @@
                 div{
                     height: $cellH;
                     line-height: $cellH;
+                    &:last-of-type{
+                        color:$color;
+                    }
                 }
                 .wm-scoreitem-avgscore{
                     width: 50px;
                     text-align: center;
                     font-weight: bold;
-                    color:$color;
 
                 }
                 &:nth-of-type(2n){
@@ -119,6 +121,10 @@
                             border-bottom:none;
                         }
                     }
+                }
+                .wm-scoreitem-score{
+                    border-right:1px solid #ccc;
+                    border-left:1px solid #ccc;
                 }
                 .wm-scoreitem-name{
                     flex:1;
@@ -131,6 +137,22 @@
                     text-align: left;
 
                 }
+            }
+        }
+    }
+
+    .wm-score-table-action{
+        border-top:2px solid $color;
+        @include pos(r);
+        height: 50px;
+        width: 96%;
+        margin: 20px auto;
+        &>div{
+            @include pos(a);
+            right: 30px;
+            top: 20px;
+            button{
+                margin: 0 10px;
             }
         }
     }
