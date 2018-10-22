@@ -69,6 +69,13 @@
   margin: 10px auto;
   border: 1px solid #e1e6eb;
   text-indent: 2em;
+  position: relative;
+}
+
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .delete {
+  color: #be0000;
+  font-weight: bold;
+  text-decoration: line-through;
 }
 
 .wm-feedback-main-ui .wm-feedback-table .wm-feedback-item.fixed {
@@ -87,21 +94,45 @@
   border-left: 4px solid #be0000;
 }
 
-.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply {
-  position: absolute;
-  left: 88%;
-  color: #000000;
-  cursor: pointer;
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .ivu-icon {
+  margin-left: -10px;
 }
 
-.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item div {
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .ivu-poptip-rel {
+  display: block;
+}
+
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply {
+  position: relative;
+  left: 0;
+  color: #000000;
+  cursor: pointer;
+  top: 0;
+  width: 100%;
+}
+
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply > span:nth-of-type(1) {
+  margin-left: 70%;
+}
+
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply .wm-feedback-del {
+  color: #be0000;
+}
+
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item div.wm-feedback-reply, .wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-replay {
   margin: 10px 0;
 }
 
-.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item div textarea {
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item textarea {
   margin-left: -2em;
   width: 97%;
   height: 70px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-submit {
+  margin: 0 0 10px 0;
 }
 
 .wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-item {

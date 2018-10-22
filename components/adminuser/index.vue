@@ -340,7 +340,7 @@
 							studentname:s.formAdmin.studentname,
 							userid:s.currentUserId,
 							realname:s.formAdmin.realname,
-							mobile:s.formAdmin.mobile,
+							usermobile:s.formAdmin.usermobile,
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
 						},success(data){

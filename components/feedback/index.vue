@@ -15,20 +15,35 @@
 				<div v-if='showDetail'>
 					<div class='wm-feedback-item'>
 						<header>{{formFeedback.studentname}}</header>
-						<div>
-							<span>{{formFeedback.studentname}}建议：</span><span>{{formFeedback.opinion}}</span>
+						<div class='wm-feedback-replay'>
+							<span>{{formFeedback.studentname}}建议：</span><span :class="{'delete':formFeedback.status === 2}">{{formFeedback.opinion}}</span>
 						</div>
-						<div>
-							{{formFeedback.createtime}} <span class='wm-feedback-reply' @click='getReplyInfo(formFeedback)'>回复</span>
+						<div class='wm-feedback-reply' >
+							{{formFeedback.createtime}} <span @click='getReplyInfo(formFeedback)'>回复</span>
+							<Poptip
+								confirm
+								title="确定要删除吗?"
+								@on-ok="delFeedBack(formFeedback)"
+								>
+								<span　class='wm-feedback-del'>删除</span>
+							</Poptip>
+							
 						</div>
 
 						<div class='wm-feedback-item' v-for='(item,i) in detailList' :key="i" >
 							<header>{{item.studentname === null ? "管理员":item.studentname}}</header>
-							<div>
-								<span>回复给{{item.userid?formFeedback.studentname:"管理员"}} ：</span><span>{{item.opinion}}</span>
+							<div class='wm-feedback-replay'>
+								<span>回复给{{item.userid?formFeedback.studentname:"管理员"}} ：</span><span :class="{'delete':item.status === 2}">{{item.opinion}}</span>
 							</div>
-							<div>
-								{{item.createtime}} <span class='wm-feedback-reply' @click='getReplyInfo(item)'>回复</span>
+							<div class='wm-feedback-reply' >
+								{{item.createtime}} <span @click='getReplyInfo(item)'>回复</span>
+								<Poptip
+									confirm
+									title="确定要删除吗?"
+									@on-ok="delFeedBack(item)"
+									>
+									<span　class='wm-feedback-del'>删除</span>
+								</Poptip>
 							</div>
 							
 						</div>
@@ -37,10 +52,10 @@
 
 					<div class='wm-feedback-item fixed' v-if='currentObj.fid'>
 						<header>回复给：{{currentObj.studentname === null ? "管理员":currentObj.studentname}}</header>
-						<div>
+						<div class=''>
 							<Input v-model='myopinion' type='textarea' placeholder="请输入回复内容"/>
 						</div>
-						<div>
+						<div class='wm-feedback-submit'>
 							<Button @click='reply(currentObj)'>提交</Button>							
 						</div>
 					</div>
@@ -248,6 +263,29 @@
 				
 				this.currentObj = formFeedback;
 				console.log(this.currentObj )
+			},
+			delFeedBack(obj){
+				var s = this;
+				
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/updatefeedback',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						id:obj.id,
+						meetid:s.$route.params.meetid,
+						opinion:"此信息已被管理员删除",
+						status:2
+					},
+					success(data){
+						console.log(data);
+						s.$Message[data.getret === 0? 'success':'error'](data.getmsg);
+						if(data.getret === 0){
+							s.currentObj = {};
+							s.myopinion = '';
+						}
+					}
+				})
 			},
 			reply(obj){
 				var s = this;

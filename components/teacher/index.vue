@@ -119,7 +119,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											this.delRater(params.row.raterid);
+											this.delTeacher(params.row.teacherid);
 										},
 										
 									}
@@ -212,18 +212,17 @@
 					}
 				})
 			},
-			delRater(raterid){
+			delTeacher(teacherid){
 				
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/wmadadmin/delreview/',
+					url:window.config.baseUrl+'/zmitiadmin/delteacher/',
 					validate:s.validate,
 					data:{
-						raterid,
-						deltype:0,
-						admintoken:s.userinfo.admintoken,
-						adminusername:s.userinfo.adminusername
+						teacherid,
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
 					},success(data){
 						if(data.getret === 0){
 							s.$Message.success(data.getmsg);
