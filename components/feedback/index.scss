@@ -17,18 +17,16 @@ $viewW: 750px;
          background:#fff;
          overflow: visible;
 
+
          .wm-feedback-item{
              width: 96%;
              margin: 10px auto;
              border:1px solid #e1e6eb;
              text-indent: 2em;
 
-             
-
              &.fixed{
                  @include pos(a);
                  z-index: 100;
-                 width: 98%;
                  left: 1%;
                  bottom: 0;
              }
@@ -44,7 +42,7 @@ $viewW: 750px;
 
              .wm-feedback-reply{
                 @include pos(a);
-                left: 90%;
+                left: 88%;
                 color: #000000;
                 cursor: pointer;
 

@@ -11,7 +11,7 @@
 				</div>
 			</header>
 			
-			<div class='wm-feedback-table'>
+			<div class='wm-feedback-table wm-scroll' :style="{height:viewH-180+'px'}">
 				<div v-if='showDetail'>
 					<div class='wm-feedback-item'>
 						<header>{{formFeedback.studentname}}</header>
@@ -22,18 +22,29 @@
 							{{formFeedback.createtime}} <span class='wm-feedback-reply' @click='getReplyInfo(formFeedback)'>回复</span>
 						</div>
 
-						<div id='wm-reply-component'></div>
+						<div class='wm-feedback-item' v-for='(item,i) in detailList' :key="i" >
+							<header>{{item.studentname === null ? "管理员":item.studentname}}</header>
+							<div>
+								<span>回复给{{item.userid?formFeedback.studentname:"管理员"}} ：</span><span>{{item.opinion}}</span>
+							</div>
+							<div>
+								{{item.createtime}} <span class='wm-feedback-reply' @click='getReplyInfo(item)'>回复</span>
+							</div>
+							
+						</div>
+						
 					</div>
 
-					<div class='wm-feedback-item fixed' v-if='showFirstReply'>
-						<header>回复给：{{currentObj.studentname}}</header>
+					<div class='wm-feedback-item fixed' v-if='currentObj.fid'>
+						<header>回复给：{{currentObj.studentname === null ? "管理员":currentObj.studentname}}</header>
 						<div>
 							<Input v-model='myopinion' type='textarea' placeholder="请输入回复内容"/>
 						</div>
 						<div>
-							<Button @click='reply(formFeedback.id)'>提交</Button>							
+							<Button @click='reply(currentObj)'>提交</Button>							
 						</div>
 					</div>
+					
 
 					
 				</div>
@@ -87,6 +98,10 @@
 						title:'用户反馈',
 						key:'opinion',
 						align:'center'
+					},{ 
+						title:'创建时间',
+						key:'createtime',
+						align:'center'
 					},
 					{
 						title:'操作',
@@ -115,7 +130,8 @@
                                     on: {
                                         click: () => {
 											var s = this;
-											//s.showDetail = true;
+											s.showDetail = true;
+											s.formFeedback = params.row;
 											
 											symbinUtil.ajax({
 												url:window.config.baseUrl+'/zmitiadmin/getfeedbackinfo',
@@ -127,7 +143,7 @@
 												success(data){
 													console.log(data);
 													if(data.getret === 0){
-														
+														s.detailList = data.list;
 													}
 												}
 											})
@@ -135,9 +151,8 @@
 
 											return;
 
-											s.formFeedback = params.row;
 										
-											var myReplyComponent = Vue.extend({
+											/* var myReplyComponent = Vue.extend({
 												template:s.bindReply(s.formFeedback.children),
 												methods:{
 													reply(feed){
@@ -156,7 +171,7 @@
 												var c = document.getElementById('wm-reply-component');
 												c.innerHTML = '';
 												c.appendChild(component.$el);
-											}, 100);
+											}, 100); */
                                         }
                                     }
                                 }, '详情'),
@@ -192,11 +207,9 @@
 				formFeedback:{
 					
 				},
-				courseList:[],
+				detailList:[],
 				 
-				directoryList:{
-
-				},
+				
 				
 				userinfo:{}
 			}
@@ -230,39 +243,13 @@
 		methods:{
 
 			getReplyInfo(formFeedback){
-				this.showFirstReply = !this.showFirstReply;
+
+				
+				
 				this.currentObj = formFeedback;
+				console.log(this.currentObj )
 			},
-
-			bindReply(data){
-				var html =  '';
-				
-				if(data.children && data.children.length){
-					return this.bindReply(data.children);
-				}else{
-				
-					data.forEach((feed,i)=>{
-						html += `<div class='wm-feedback-item'>
-							<header>${feed.studentname||"管理员回复："}</header>
-							<div>
-								<span>管理员建议：</span><span>${feed.opinion}</span>
-							</div>
-							<div>
-								${feed.createtime} <span class='wm-feedback-reply' @click='reply("${feed.id}")' >回复</span>
-							</div>
-						</div>`
-					});
-					if(data.length<=0){
-						html = '<div></div>';
-					}
-					
-				}
-				
-				return html;
-
-			},
-
-			reply(id){
+			reply(obj){
 				var s = this;
 				
 				symbinUtil.ajax({
@@ -270,14 +257,17 @@
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
-						id,
+						id:obj.id,
 						meetid:s.$route.params.meetid,
-						opinion:s.myopinion
+						opinion:s.myopinion,
+						fid:obj.fid
 					},
 					success(data){
 						console.log(data);
 						if(data.getret === 0){
 							s.getFeedback();
+							s.currentObj = {};
+							s.myopinion = '';
 							s.showDetail = false;
 						}
 					}
@@ -287,8 +277,6 @@
 				this.showDetail = false;
 				this.currentClassId = -1;
 			},
-
-			
 			delClass(syllabusid){
 				var s = this;
 				symbinUtil.ajax({
