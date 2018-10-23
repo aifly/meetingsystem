@@ -11,7 +11,7 @@
 						<span>应参会人数：<label>{{totalNum}}</label>人</span>
 						<span>已报到人数：<label>{{participantsNum}}</label>人</span>
 						<span>未报到人数：<label>{{unparticipantsNum}}</label>人</span>
-						<Button @click='exportData' size="small" type="primary" icon='md-cloud-upload'>导出</Button>
+						<Button @click='exportData' size="small" type="primary" icon='md-cloud-upload' style="height:26px;margin-top:14px;margin-left:5px">导出</Button>
 					</div>
 					<div>
 						<Input v-model='keyword' placeholder="请输入学员姓名或者电话" class='wm-signup-search'/>
