@@ -1,0 +1,142 @@
+@import "./base.scss";
+
+html,
+body,
+div,
+p,
+ul,
+li,
+ol,
+dl,
+dt,
+dd,
+header,
+footer,
+video,
+h1,
+h2,
+h3,
+h4,
+canvas,
+section,
+figure {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+html,
+body {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: "Helvetica Neue", 'Helvetica', "Microsoft YaHei", arial, sans-serif;
+    font-size: 14px;
+    background: #fff;
+    color: #333;
+
+    & > div {}
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+    width: 100%;
+    height: auto;
+}
+
+#app {
+    font-size: 30px;
+    width: 750px;
+    min-width: 750px;
+    min-height: 100px;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    @include pos(r);
+
+    .wm-banner {
+        width: 750px;
+        height: 380px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        background:#5793ec;
+        color:#fff;
+        @include displayFlex(column);
+        @include displayBox(vertical);
+        justify-content: center;
+        -webkit-justify-content: center;
+        -webkit-align-items: center;
+        align-items: center;
+        h2{
+            font-weight: normal;
+            font-size:50px;
+            margin: 20px 0;
+        }
+    }
+
+    .wm-form-item {
+
+        width: 720px;
+        margin: 20px auto 0; 
+        height: 70px;
+        font-size: 28px;
+        line-height: 70px;
+
+        &.require{
+            @include pos(r);
+            label:before{
+                content:'*';
+                color:#f00;
+                @include pos(a);
+                left: -10px;
+            }
+        }
+        
+        input {
+            vertical-align: middle;
+            height: 60px;
+            font-size:28px;
+            border:1px solid #ccc;
+            width: 600px;
+            padding-left: 20px;
+            box-sizing: border-box;
+            @include br(10px);
+            outline: none;
+            &::-webkit-input-placeholder{
+                color:#ddd;
+            }
+        }
+        .wm-submit-btn{
+            width: 720px;
+            height: 70px;
+            line-height: 70px;;
+            text-align: center;
+            @include br(10px);
+            color:#fff;
+            background: #f90;
+            margin: 50px auto;
+        }
+    }
+}
+
+@media all and (min-width: 752px) {
+    #app {
+        font-size: 14px;
+
+        .wm-form-item {
+            font-size: 14px;
+        }
+    }
+}

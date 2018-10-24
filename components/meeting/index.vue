@@ -431,7 +431,7 @@
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
 							status:s.formMeet.status|0,
-							bannerurl:s.formMeet.url,
+							bannerurl:s.formMeet.url||"",
 							meetremarks:s.formMeet.meetremarks,
 							startdate:new Date(s.formMeet.datetimes[0]).toLocaleDateString().replace(/\//ig,'-'),
 							enddate:new Date(s.formMeet.datetimes[1]).toLocaleDateString().replace(/\//ig,'-'),
