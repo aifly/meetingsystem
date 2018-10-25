@@ -43,8 +43,8 @@
 					<div>是否开启报名</div>
 					<div>
 						 <RadioGroup v-model="formMeet.issignup">
-							<Radio :value='1' label="是"></Radio>
-							<Radio :value='0' label="否"></Radio>
+							<Radio :value='1' :label="1">是</Radio>
+							<Radio :value='0' :label="0">否</Radio>
 						</RadioGroup>
 					</div>
 				</div>
@@ -52,8 +52,8 @@
 					<div>是否开启用户审核</div>
 					<div>
 						<RadioGroup v-model="formMeet.ischecked">
-							<Radio :value='1' label="是"></Radio>
-							<Radio :value='0' label="否"></Radio>
+							<Radio :value='1' :label="1">是</Radio>
+							<Radio :value='0' :label="0">否</Radio>
 						</RadioGroup>
 					</div>
 				</div>
@@ -61,8 +61,8 @@
 					<div>是否开启培训报道</div>
 					<div>
 						<RadioGroup v-model="formMeet.isreport">
-							<Radio :value='1' label="是"></Radio>
-							<Radio :value='0' label="否"></Radio>
+							<Radio :value='1' :label="1">是</Radio>
+							<Radio :value='0' :label="0">否</Radio>
 						</RadioGroup>
 					</div>
 				</div>

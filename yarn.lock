@@ -4501,6 +4501,10 @@ vue-html-loader@^1.2.4:
     loader-utils "^1.0.2"
     object-assign "^4.1.0"
 
+vue-js-tap@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/vue-js-tap/-/vue-js-tap-1.2.5.tgz#bade4e0bf3496e6496e33dac6f02b531d12342bf"
+
 vue-loader@^7.3.0:
   version "7.5.3"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-7.5.3.tgz#6e85449f98b177abb148e8c32c21ab19448fd424"

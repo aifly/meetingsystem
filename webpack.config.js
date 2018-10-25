@@ -3,7 +3,8 @@ var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 var port = 4048;
 var config = {
     entry: {
-        'index': "./index.js"
+        'index': "./index.js",
+        'reg': "./reg.js"
         ///endor: ['react','react-dom','iscroll','jquery']
     },
     output: {
