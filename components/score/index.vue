@@ -265,22 +265,33 @@
 			}
 			this.getClassList();
 			this.getTeacherList();
-			
+			this.getAvgScore();
 
-			this.initMap();
 		},
 
 		watch:{
-			showMap(val){
-				if(val){
-					setTimeout(() => {
-						this.initMap();
-					}, 100);
-				}
-			}
+			 
 		},
 		
 		methods:{
+
+			getAvgScore(syllabusid='1679644336'){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getallsyllabuavg',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						meetid:s.$route.params.meetid,
+					},
+					success(data){
+						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
+						if(data.getret === 0){
+							s.getClassList();
+						}
+					}
+				})
+			},
 
 			addCourse(){
 				this.showDetail = true;
@@ -294,46 +305,7 @@
 				this.showDetail = false;
 				this.currentClassId = -1;
 			},
-
-			initMap(){
-				var s = this;
-				var map = new AMap.Map('wm-classroom-pos', {
-					turboMode: false,
-					defaultCursor: 'pointer',
-					showBuildingBlock: false,
-					expandZoomRange: true,
-					zooms: [16, 40],
-					zoom: 4,
-					center:new AMap.LngLat(s.formClass.longitude,s.formClass.latitude),
-					forceVector: true,
-				});
-				//s.formClass.longitude,s.formClass.latitude
-				var g = new AMap.Geocoder({city: "010"});
-
-				  g.getAddress([s.formClass.longitude,s.formClass.latitude],function(status,result){
-					if (status === 'complete'&&result.regeocode) {
-						var address = result.regeocode.formattedAddress;
-						s.address = address;
-					}else{
-						//alert(JSON.stringify(result))
-					}
-				  })
-
-				var s = this;
-				var clickEventListener = map.on('click', function(e) {
-					s.formClass.longitude = e.lnglat.getLng();
-					s.formClass.latitude = e.lnglat.getLat();
-					
-					g.getAddress([s.formClass.longitude,s.formClass.latitude],function(status,result){
-						if (status === 'complete'&&result.regeocode) {
-							var address = result.regeocode.formattedAddress;
-							s.address = address;
-						}else{
-							//alert(JSON.stringify(result))
-						}
-					})
-				});
-			},
+ 
 
 
 			delencryptfile(){
