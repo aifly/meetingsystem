@@ -150,6 +150,7 @@
 						title:'审核状态',
 						key:'status',
 						align:'center',
+						width:180,
 						render:(h,params)=>{
 							
 							return h('div',[

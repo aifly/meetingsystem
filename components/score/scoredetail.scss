@@ -1,13 +1,17 @@
 ﻿@import "../css/base.scss";
 
 .wm-scoredetail-main-ui{
-    width: 600px;
-    min-height: 400px;
-    margin: 30px auto;
-    background: #fff;
+    width:100%;
+    &>div{
+        width: 600px;
+        margin: 30px auto;
+        min-height: 400px;
+        background: #fff;
+        @include pos(r);
+    }
     @include br(4px);
-    @include pos(r);
     $color:#cc0000;
+    overflow: auto;
     .wm-scoredetail-scorebg{
         @include pos(a);
         width: 100px;
@@ -23,6 +27,13 @@
             line-height: 44px;
             color:#fff;
         }
+    }
+
+    .wm-score-download{
+        @include pos(f);
+        z-index: -1;
+        opacity:0;
+        
     }
 
     .wm-course-title{

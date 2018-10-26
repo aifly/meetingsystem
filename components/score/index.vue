@@ -9,7 +9,9 @@
 				<div>
 				</div>
 			</header>
-			<div v-if='mainType === 0'></div>
+			<div v-if='mainType === 0'  :style="{height:viewH - 150+'px'}" class='wm-scroll'>
+				<Table @on-row-click='getScoreByCourse' :data='scoreList' :columns='columns'></Table>				
+			</div>
 			<ScoreDetail :scoreObj="scoreObj" v-else-if='mainType === 1'></ScoreDetail>
 			<StudentDetail v-else-if='mainType === 2'></StudentDetail>
 		</div>
@@ -32,14 +34,43 @@
 		data(){
 			return{
 
-				mainType:1,
+				mainType:0,
+				scoreList:[],
+				columns:[
+					{
+						title:"课程名称",
+						key:'title',
+						align:'center'
+					},
+					{
+						title:"老师",
+						key:'teachername',
+						align:'center'
+					},
+					{
+						title:"参评人数",
+						key:'totalperson',
+						align:'center'
+					},
+					{
+						title:"总分",
+						key:'totalscore',
+						align:'center'
+					},
+					{
+						title:"平均分",
+						key:'avgscore',
+						align:'center'
+					}
+				],
 
 				scoreObj:{
 					totalscore:98,
-					title:"思想品德",
+					syallabustitle:"思想品德",
 					teachername:'张三',
-					partakenum:129,//参与人数。
+					totalperson:129,//参与人数。
 					date:'2018-10-10',
+					syllabusid:'',
 					scoreList:[
 						{
 							groupname:'教学内容',
@@ -129,97 +160,7 @@
 				showMap:false,
 				viewH:window.innerHeight,
 				classTeacherList:[],
-				columns:[
-					{
-						title:"课程名称",
-						key:'title',
-						align:'center'
-						
-					},
-					{
-						type:'html',
-						title:'上课老师',
-						key:'accounts',
-						align:'center'
-					},
-					{
-						title:'上课教室',
-						key:'classroom',
-						align:'center'
-					},
-					{
-						title:'上课时间',
-						key:'lessonendtime',
-						align:'center',
-						width:300,
-						render:(h,params)=>{
-							return h('div',{},params.row.lessonstarttime+' - '+ params.row.lessonendtime)
-						}
-					}
-					,{
-						title:'操作',
-						key:'action',
-						align:'center',
-						render:(h,params)=>{
-
-
-							return h('div', [
-                               
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-										margin: '2px 5px',
-										border:'none',
-										background:'#fab82e',
-										color:'#fff',
-										padding: '3px 7px 2px',
-										fontSize: '12px',
-										borderRadius: '3px'
-
-                                    },
-                                    on: {
-                                        click: () => {
-											var s = this;
-											s.showDetail = true;
-											s.formClass = params.row;
-											s.currentClassId = params.row.syllabusid;
-											s.formClass.lessonstarttime = new Date(s.formClass.lessonstarttime);
-											s.formClass.lessonendtime = new Date(s.formClass.lessonendtime);
-                                        }
-                                    }
-                                }, '详情'),
-                                h('Poptip',{
-									props:{
-										confirm:true,
-										title:"确定要删除吗"
-									},
-									on:{
-										'on-ok':()=>{
-											this.delClass(params.row.syllabusid);
-										},
-										
-									}
-								},[
-									h('Button', {
-										props: {
-											type: 'error',
-											size: 'small'
-										},
-										on: {
-											click: () => {
-											}
-										}
-									}, '删除')
-								])
-                            ]);
-							
-							 
-						}
-					}
-				],
+			 
 				ruleValidate:{
 					title: [
                         { required: true, message: '标题不能为空', trigger: 'blur' }
@@ -265,7 +206,13 @@
 			}
 			this.getClassList();
 			this.getTeacherList();
-			this.getAvgScore();
+			this.getScoreList();
+
+			
+	
+			this.$root.eventHub.$on('setMainType',(index)=>{
+				this.mainType = index;
+			})
 
 		},
 
@@ -275,7 +222,15 @@
 		
 		methods:{
 
-			getAvgScore(syllabusid='1679644336'){
+
+			getScoreByCourse(row,index){
+				this.mainType = 1;
+				this.getAvgScore(row.syllabusid);
+				this.scoreObj.syllabusid = row.syllabusid;
+			},
+
+
+			getScoreList(){
 				var s = this;
 				symbinUtil.ajax({
 					url:window.config.baseUrl+'/zmitiadmin/getallsyllabuavg',
@@ -285,9 +240,32 @@
 						meetid:s.$route.params.meetid,
 					},
 					success(data){
-						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
+						///s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
 						if(data.getret === 0){
-							s.getClassList();
+							s.scoreList = data.list;
+						}
+					}
+				})
+			},
+
+			getAvgScore(syllabusid='1679644336'){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getavgscore',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						meetid:s.$route.params.meetid,
+						syllabusid
+					},
+					success(data){
+						if(data.getret === 0){
+							s.scoreObj.syallabustitle = data.syallabustitle;
+							s.scoreObj.teachername = data.teachername;
+							s.scoreObj.totalperson = data.totalperson;
+							s.scoreObj.totalscore = data.totalscore;
+							s.scoreObj.scoreList  = data.list;
+
 						}
 					}
 				})

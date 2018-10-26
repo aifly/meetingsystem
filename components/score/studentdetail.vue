@@ -1,6 +1,6 @@
 <template>
-	<div class="wm-course-main-ui">
-		
+	<div class="">
+			<Table  :data='scoreList' :columns='columns'></Table>	
 	</div>
 </template>
 
@@ -15,18 +15,41 @@
 		name:'zmitiindex',
 		data(){
 			return{
-				provinceList:[],
-				visible:false,
-				imgs:window.imgs,
-				isLoading:false,
-				showDetail:false,
-				currentClassId:-1, 
-				address:'',
-				showPass:false,
-				showMap:false,
+				scoreList:[],
 				viewH:window.innerHeight,
-				classTeacherList:[],
-				userinfo:{}
+				columns:[
+					{
+						title:"姓名",
+						key:'studentname',
+						align:'center'
+					},
+					{
+						title:"课程名称",
+						key:'syllabusname',
+						align:'center'
+					},
+					{
+						title:"组名",
+						key:'groupname',
+						align:'center'
+					},
+					{
+						title:"评估标准",
+						key:'totalscore',
+						align:'center'
+					},
+					{
+						title:"内容",
+						key:'avgscore',
+						align:'center'
+					},
+					{
+						title:"考评时间",
+						key:'createtime',
+						align:'center'
+					}
+				],
+				userinfo:{},
 			}
 		},
 		components:{
@@ -41,7 +64,7 @@
 		mounted(){
 			window.s = this;
 			this.userinfo = symbinUtil.getUserInfo();
-			
+			this.getScore();
 			
 		},
 
@@ -51,6 +74,27 @@
 		
 		methods:{
 
+			getScore(){
+				var syllabusid = '1679644336',// this.scoreObj.syllabusid,
+					s = this;
+					symbinUtil.ajax({
+						url:window.config.baseUrl+'/zmitiadmin/getavgscore',
+						data:{
+							admintoken:s.userinfo.accesstoken,
+							adminuserid:s.userinfo.userid,
+							meetid:s.$route.params.meetid,
+							syllabusid
+						},
+						success(data){
+							console.log(data);
+							if(data.getret === 0){
+								s.$root.eventHub.$emit('setMainType',2);
+
+							}
+						}
+					})
+
+			},
 			
 		}
 	}
