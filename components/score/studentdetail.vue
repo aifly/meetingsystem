@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div class="wm-scroll" :style="{height:viewH-150+'px'}">
 			<Table  :data='scoreList' :columns='columns'></Table>	
 	</div>
 </template>
@@ -35,12 +35,12 @@
 					},
 					{
 						title:"评估标准",
-						key:'totalscore',
+						key:'scoreitemname',
 						align:'center'
 					},
 					{
 						title:"内容",
-						key:'avgscore',
+						key:'scorecontent',
 						align:'center'
 					},
 					{
@@ -64,8 +64,10 @@
 		mounted(){
 			window.s = this;
 			this.userinfo = symbinUtil.getUserInfo();
-			this.getScore();
 			
+			this.$root.eventHub.$on('getScoreByStudent',(syllabusid,syallabustitle)=>{
+				this.getScore(syllabusid,syallabustitle);
+			})
 		},
 
 		watch:{
@@ -74,11 +76,10 @@
 		
 		methods:{
 
-			getScore(){
-				var syllabusid = '1679644336',// this.scoreObj.syllabusid,
-					s = this;
+			getScore(syllabusid,syallabustitle){
+				var s = this;
 					symbinUtil.ajax({
-						url:window.config.baseUrl+'/zmitiadmin/getavgscore',
+						url:window.config.baseUrl+'/zmitiadmin/getscoredetail',
 						data:{
 							admintoken:s.userinfo.accesstoken,
 							adminuserid:s.userinfo.userid,
@@ -88,7 +89,11 @@
 						success(data){
 							console.log(data);
 							if(data.getret === 0){
-								s.$root.eventHub.$emit('setMainType',2);
+								//s.$root.eventHub.$emit('setMainType',2);
+								s.scoreList = data.list;
+								s.scoreList.forEach((item,i)=>{
+									item.syllabusname = syallabustitle;
+								})
 
 							}
 						}

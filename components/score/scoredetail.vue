@@ -141,22 +141,12 @@
 
 			getScore(){
 				var syllabusid = this.scoreObj.syllabusid,
+					syallabustitle = this.scoreObj.syallabustitle,
 					s = this;
-					symbinUtil.ajax({
-						url:window.config.baseUrl+'/zmitiadmin/getscoredetail',
-						data:{
-							admintoken:s.userinfo.accesstoken,
-							adminuserid:s.userinfo.userid,
-							meetid:s.$route.params.meetid,
-							syllabusid
-						},
-						success(data){
-							if(data.getret === 0){
-								s.$root.eventHub.$emit('setMainType',2);
-
-							}
-						}
-					})
+				s.$root.eventHub.$emit('setMainType',2);
+				setTimeout(()=>{
+					s.$root.eventHub.$emit('getScoreByStudent',syllabusid,syallabustitle);
+				},100)
 
 			},
 			html2img(){
