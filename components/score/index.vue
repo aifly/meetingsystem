@@ -282,6 +282,7 @@
 			refresh(){
 				this.showDetail = false;
 				this.currentClassId = -1;
+				this.mainType = 0;
 			},
  
 

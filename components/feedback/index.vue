@@ -1,5 +1,5 @@
 <template>
-	<div class="wm-feedback-main-ui">
+	<div class="wm-feedback-main-ui" >
 		<div>
 			<Tab :refresh='refresh'></Tab>
 		</div>
@@ -102,12 +102,23 @@
 				showPass:false,
 				showMap:false,
 				viewH:window.innerHeight,
+				viewW:window.innerWidth,
 				feedbackList:[],
 				columns:[
 					{
 						title:'学员姓名',
 						key:'studentname',
-						align:'center'
+						align:'center',
+						render:(h,params)=>{
+							return h('div',{},[
+								h('span',{
+
+								},params.row.studentname),
+								h('span',{
+									
+								},'')
+							]);
+						}
 					},
 					{ 
 						title:'用户反馈',
@@ -156,12 +167,23 @@
 													fid:params.row.id,
 												},
 												success(data){
-													console.log(data);
 													if(data.getret === 0){
 														s.detailList = data.list;
 													}
 												}
-											})
+											});
+											symbinUtil.ajax({
+												url:window.config.baseUrl+'/zmitiadmin/updatereadstate',
+												data:{
+													admintoken:s.userinfo.accesstoken,
+													adminuserid:s.userinfo.userid,
+													id:params.row.id,
+												},
+												success(data){
+													
+												}
+											});
+
 
 
 											return;
@@ -197,7 +219,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											this.delClass(params.row.syllabusid);
+											this.delClass(params.row.id);
 										},
 										
 									}
@@ -315,19 +337,19 @@
 				this.showDetail = false;
 				this.currentClassId = -1;
 			},
-			delClass(syllabusid){
+			delClass(id){
 				var s = this;
 				symbinUtil.ajax({
-					url:window.config.baseUrl+'/zmitiadmin/delcourse',
+					url:window.config.baseUrl+'/zmitiadmin/delfeedback',
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
-						syllabusid
+						id
 					},
 					success(data){
 						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
 						if(data.getret === 0){
-							s.getClassList();
+							s.getFeedback();
 						}
 					}
 				})

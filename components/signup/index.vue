@@ -64,15 +64,22 @@
 
 				<div class="wm-signup-item">
 					<div>状态：</div><div>{{formUser.status?'已审核':'未审核'}}</div>
-				</div>
-
-				
-
-
-				
+				</div> 
 			</div>
 		</div>
 		<add-student :steps='addStudentSteps'  v-show='showAddStudent' :title='"学员报名管理"' ></add-student>
+		<Modal v-model="showErr" width="360">
+			<p slot="header" style="color:#f60;text-align:center">
+				<Icon type="ios-close-circle" />
+				<span>导入信息</span>
+			</p>
+			<div v-for="(item,i) in errList" :key='i'>
+				{{item}}
+			</div>
+			<div slot="footer">
+				<Button type="error" size="large" long  @click="showErr = false;errList = []">关闭</Button>
+			</div>
+		</Modal>
 	</div>
 </template>
 
@@ -103,6 +110,8 @@
 						content:""
 					}
 				],
+				errList:[],
+				showErr:false,
 				visible:false,
 				imgs:window.imgs,
 				showPassWord:false,
@@ -493,12 +502,18 @@
 								}
 								else {
 									var iNow = 0;
+									s.errList = data.error;
+									if(s.errList.length){
+										s.showErr = true;
+									}
+									return;
 									var t =  setInterval(()=>{
 										if(data.error[iNow]){
 											s.$Message.error(data.error[iNow]);
 										}else{
 											clearInterval(t);
 										}
+										iNow++;
 									},1000)
 								}
 							}
