@@ -112,11 +112,20 @@
 						render:(h,params)=>{
 							return h('div',{},[
 								h('span',{
+									style:{
+
+										width:'8px',
+										height:'8px',
+										display:params.row.status*1 === 1 ? 'inline-block' : 'none',
+										borderRadius:'50%',
+										background:"#f00",
+										position:'relative',
+										top:'-4px',
+									}
+								},''),
+								h('span',{
 
 								},params.row.studentname),
-								h('span',{
-									
-								},'')
 							]);
 						}
 					},
