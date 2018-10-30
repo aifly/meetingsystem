@@ -56,7 +56,7 @@
 			<div class='wm-score-table-action'>
 				<div>
 					<Button size='small' @click='html2img()'>下载</Button>
-					<Button size='small' @click='printPage'>打印</Button>
+					<Button v-if='false' size='small' @click='printPage'>打印</Button>
 				</div>
 			</div>
 			

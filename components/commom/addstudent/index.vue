@@ -18,13 +18,13 @@
 					<li>
 						<div class='wm-addstudent-form-item'>
 							<label for="">手机：</label><input placeholder="请输入手机号"  type='text' v-model="formStudent.mobile"/>
-							<span class="msg" :class='{"success":success}'>{{msg}}</span>
+							<span v-if='false' class="msg" :class='{"success":success}'>{{msg}}</span>
 						</div>
 						<div class='wm-next-step-btn' @click='next'>下一步</div>
 					</li>
 					<li v-show='current===1'>
 						<div class='wm-addstudent-form-item'>
-							<label for="">姓名：</label><input placeholder="请输入姓名" type='text' v-model="formStudent.username"/>
+							<label for="">姓名：</label><input placeholder="请输入姓名" type='text' v-model="formStudent.studentname"/>
 						</div>
 						<div class='wm-addstudent-form-item'>
 							<label for="">密码：</label><input disabled placeholder="请输入密码" type='text' v-model="formStudent.userpwd"/>
@@ -73,6 +73,7 @@
 				groupList:[],
 				viewH:window.innerHeight,
 				current:0,
+				isEdit:false,
 				formStudent:{
 					mobile:"",
 					userpwd:'123456',
@@ -102,9 +103,17 @@
 			insertStudent(){
 				var s = this;
 				if(this.current >= this.steps.length - 1){//添加
+					if(!this.formStudent.studentname){
+						s.$Message.error('学员姓名不能为空');
+						return;
+					}
+					if(!this.formStudent.groupid){
+						s.formStudent.groupid = s.groupList[0].groupid;
+					}
 					symbinUtil.ajax({
-						url:window.config.baseUrl+'/zmitiadmin/addstudent/',
+						url:window.config.baseUrl+'/zmitiadmin/'+(s.isEdit?'updatestudentinfo':'addstudent'),
 						data:{
+							userid:s.formStudent.userid,
 							adminuserid:s.userinfo.userid,
 							studentpwd:s.formStudent.userpwd,
 							admintoken:s.userinfo.accesstoken,
@@ -136,6 +145,8 @@
 					})
 				}else{
 					this.current++;
+					 
+					 
 				}
 			},
 
@@ -150,6 +161,7 @@
 					success(data){
 						if(data.getret === 0){
 							s.groupList = data.list;
+							 
 						}
 					}
 				})
@@ -186,9 +198,15 @@
 
 						if(data.getret === 0){
 							s.success = true;
+							s.formStudent = data.list;
+							if(s.formStudent.userid){
+								s.isEdit = true;
+								s.formStudent.studentpwd = '******';
+							}
 							setTimeout(()=>{
 								s.current++;
-							},1000);
+								s.formStudent.groupid = s.groupList[0].groupid;
+							},50);
 						}
 						s.msg = data.getmsg;
 

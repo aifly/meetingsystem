@@ -38,9 +38,6 @@
 						name:'考勤管理',
 						to:'meetingattendance'
 					},{
-						name:'评分项管理',
-						to:'meetingscoreitem'
-					},{
 						name:'评分结果',
 						to:'meetingscrore'
 					},{

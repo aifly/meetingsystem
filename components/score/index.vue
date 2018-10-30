@@ -6,7 +6,8 @@
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
 				<div>评分结果</div>
-				<div>
+				<div style="font-size:14px;">
+					<a :href='"#/meetingscoreitem/"+$route.params.meetid+"/"+$route.params.meetname'>评分项管理</a>
 				</div>
 			</header>
 			<div v-if='mainType === 0'  :style="{height:viewH - 150+'px'}" class='wm-scroll'>
