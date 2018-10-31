@@ -78,7 +78,7 @@
 						<div class='wm-meet-item-header-left'>
 							<div class='wm-meet-item-name'>{{meet.meetname}}</div>
 							<div class='wm-meet-item-info'>时间：{{meet.startdate}} - {{meet.enddate}}</div>
-							<div class='wm-meet-item-info'>报名地址：<a v-if='meet.issignup' target="_blank" :href='"./register.html?meetid="+meet.meetid'>{{"./register.html?meetid="+meet.meetid}}</a><span v-else>关闭</span></div>
+							<div class='wm-meet-item-info'>报名地址：<a v-if='meet.issignup' target="_blank" :href='"./register.html?meetid="+meet.meetid'>{{"register.html?meetid="+meet.meetid}}</a><span v-else>关闭</span></div>
 						</div>
 						<div class='wm-meet-item-header-right'>
 							<div class='wm-meet-item-actions'>
