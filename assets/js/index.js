@@ -30014,6 +30014,7 @@
 	// 						<div class='wm-meet-item-header-left'>
 	// 							<div class='wm-meet-item-name'>{{meet.meetname}}</div>
 	// 							<div class='wm-meet-item-info'>时间：{{meet.startdate}} - {{meet.enddate}}</div>
+	// 							<div class='wm-meet-item-info'>报名地址：<a v-if='meet.issignup' target="_blank" :href='"./register.html?meetid="+meet.meetid'>{{"./register.html?meetid="+meet.meetid}}</a><span v-else>关闭</span></div>
 	// 						</div>
 	// 						<div class='wm-meet-item-header-right'>
 	// 							<div class='wm-meet-item-actions'>
@@ -30446,7 +30447,7 @@
 /* 77 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-meeting-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>培训管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' v-if='!showDetail' @click=\"addNewAduser\">新增培训</Button>\r\n\t\t\t\t<Button type=\"primary\" icon='ios-checkmark-circle-outline' v-else @click=\"meetAction\">{{formMeet.meetid?'修改':'保存'}}</Button>\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table v-if='false' ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='meetList' :columns='columns'   stripe></Table>\r\n\t\t\r\n\t\t<div v-if='showDetail' class='wm-meet-form' :style=\"{height:viewH-64-50+'px'}\">\r\n\t\t\t<section>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div><label for=\"\">名称：</label><input v-model='formMeet.meetname' type=\"text\"></div>\r\n\t\t\t\t\t<div class='wm-meet-form-error' v-if='meetnameErr'>{{meetnameErr}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<label for=\"\">培训时间：</label>\r\n\t\t\t\t\t\t<DatePicker style=\"width:80%\" v-model=\"formMeet.datetimes\" :value=\"formMeet.datetimes\" format=\"yyyy/MM/dd\" type=\"daterange\" placement=\"bottom-end\" placeholder=\"请选择开始和结束日期\"></DatePicker>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-form-error'></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class='wm-meet-form-item wm-meet-form-muli'>\r\n\t\t\t\t\t<div><label for=\"\">说明：</label><textarea v-model='formMeet.meetremarks' type=\"textarea\"></textarea></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-banner-C'>\r\n\t\t\t\t\t<div>上传培训banner图（750*380）</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-upload'>\r\n\t\t\t\t\t\t<div id=\"wm-upload\" class=\"wm-upload\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<Icon type=\"md-add-circle\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-img' @click='formMeet.bannerurl = \"\"'>\r\n\t\t\t\t\t\t<img v-if='formMeet.bannerurl' :src=\"formMeet.bannerurl\" alt=\"\">\r\n\t\t\t\t\t\t<span v-if='formMeet.bannerurl' class='wm-close'></span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启报名</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t <RadioGroup v-model=\"formMeet.issignup\">\r\n\t\t\t\t\t\t\t<Radio :value='1' :label=\"1\">是</Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' :label=\"0\">否</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启用户审核</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.ischecked\">\r\n\t\t\t\t\t\t\t<Radio :value='1' :label=\"1\">是</Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' :label=\"0\">否</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启培训报道</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.isreport\">\r\n\t\t\t\t\t\t\t<Radio :value='1' :label=\"1\">是</Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' :label=\"0\">否</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</section>\r\n\t\t</div>\r\n\t\t<div v-else class='wm-meet-list wm-scroll' :style=\"{height:viewH-64-50+'px'}\" >\r\n\t\t\t<ul>\r\n\t\t\t\t<li v-for='(meet,i) in meetList' :key=\"i\">\r\n\t\t\t\t\t<span class='wm-meet-item-status'>\r\n\t\t\t\t\t\t<img :src=\"imgs[meet.status === 1||meet.status ? 'enable':'disable']\" alt=\"\">\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<div class='wm-meet-item-header'>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-left'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-name'>{{meet.meetname}}</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>时间：{{meet.startdate}} - {{meet.enddate}}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-right'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-actions'>\r\n\t\t\t\t\t\t\t\t<div @click=\"entry(meet,i)\">详情</div>\r\n\t\t\t\t\t\t\t\t<div @click='editMeet(meet,i)'>编辑</div>\r\n\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t<Poptip\r\n\t\t\t\t\t\t\t\t\t\tconfirm\r\n\t\t\t\t\t\t\t\t\t\ttitle=\"确定要删除吗？\"\r\n\t\t\t\t\t\t\t\t\t\t@on-ok=\"delMeet(meet.meetid)\"\r\n\t\t\t\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t\t\t<div>删除</div>\r\n\t\t\t\t\t\t\t\t\t</Poptip>\r\n\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>报名人数：{{meet.personnum|| '--' }}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-remark'>\r\n\t\t\t\t\t\t<div>培训说明：</div>\r\n\t\t\t\t\t\t<div>{{meet.meetremarks}}</div>\r\n\t\t\t\t\t\t<div :title=\"meet.qrcode?'点击下载':'点击生成二维码'\" @click=\"createQrcode(meet)\"> \r\n\t\t\t\t\t\t\t<a target='_blank' :href='meet.qrcode' v-if='meet.qrcode'>\r\n\t\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\">\r\n\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\" v-else />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\r\n\t\t \r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-meeting-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>培训管理 {{showDetail?formMeet.meetid?'>编辑':'>新增':''}}</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' v-if='!showDetail' @click=\"addNewAduser\">新增培训</Button>\r\n\t\t\t\t<Button type=\"primary\" icon='ios-checkmark-circle-outline' v-else @click=\"meetAction\">{{formMeet.meetid?'修改':'保存'}}</Button>\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table v-if='false' ref='scorelist' @on-row-dblclick='entry' :height='viewH - 64- 70 ' :data='meetList' :columns='columns'   stripe></Table>\r\n\t\t\r\n\t\t<div v-if='showDetail' class='wm-meet-form' :style=\"{height:viewH-64-50+'px'}\">\r\n\t\t\t<section>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div><label for=\"\">名称：</label><input v-model='formMeet.meetname' type=\"text\"></div>\r\n\t\t\t\t\t<div class='wm-meet-form-error' v-if='meetnameErr'>{{meetnameErr}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-item wm-require'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<label for=\"\">培训时间：</label>\r\n\t\t\t\t\t\t<DatePicker style=\"width:80%\" v-model=\"formMeet.datetimes\" :value=\"formMeet.datetimes\" format=\"yyyy/MM/dd\" type=\"daterange\" placement=\"bottom-end\" placeholder=\"请选择开始和结束日期\"></DatePicker>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-form-error'></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class='wm-meet-form-item wm-meet-form-muli'>\r\n\t\t\t\t\t<div><label for=\"\">说明：</label><textarea v-model='formMeet.meetremarks' type=\"textarea\"></textarea></div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-banner-C'>\r\n\t\t\t\t\t<div>上传培训banner图（750*380）</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-upload'>\r\n\t\t\t\t\t\t<div id=\"wm-upload\" class=\"wm-upload\">\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<Icon type=\"md-add-circle\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-banner-img' @click='formMeet.bannerurl = \"\"'>\r\n\t\t\t\t\t\t<img v-if='formMeet.bannerurl' :src=\"formMeet.bannerurl\" alt=\"\">\r\n\t\t\t\t\t\t<span v-if='formMeet.bannerurl' class='wm-close'></span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启报名</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t <RadioGroup v-model=\"formMeet.issignup\">\r\n\t\t\t\t\t\t\t<Radio :value='1' :label=\"1\">是</Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' :label=\"0\">否</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启用户审核</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.ischecked\">\r\n\t\t\t\t\t\t\t<Radio :value='1' :label=\"1\">是</Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' :label=\"0\">否</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class='wm-meet-form-radio'>\r\n\t\t\t\t\t<div>是否开启培训报道</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formMeet.isreport\">\r\n\t\t\t\t\t\t\t<Radio :value='1' :label=\"1\">是</Radio>\r\n\t\t\t\t\t\t\t<Radio :value='0' :label=\"0\">否</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</section>\r\n\t\t</div>\r\n\t\t<div v-else class='wm-meet-list wm-scroll' :style=\"{height:viewH-64-50+'px'}\" >\r\n\t\t\t<ul>\r\n\t\t\t\t<li v-for='(meet,i) in meetList' :key=\"i\">\r\n\t\t\t\t\t<span class='wm-meet-item-status'>\r\n\t\t\t\t\t\t<img :src=\"imgs[meet.status === 1||meet.status ? 'enable':'disable']\" alt=\"\">\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<div class='wm-meet-item-header'>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-left'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-name'>{{meet.meetname}}</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>时间：{{meet.startdate}} - {{meet.enddate}}</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>报名地址：<a v-if='meet.issignup' target=\"_blank\" :href='\"./register.html?meetid=\"+meet.meetid'>{{\"./register.html?meetid=\"+meet.meetid}}</a><span v-else>关闭</span></div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-meet-item-header-right'>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-actions'>\r\n\t\t\t\t\t\t\t\t<div @click=\"entry(meet,i)\">详情</div>\r\n\t\t\t\t\t\t\t\t<div @click='editMeet(meet,i)'>编辑</div>\r\n\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t<Poptip\r\n\t\t\t\t\t\t\t\t\t\tconfirm\r\n\t\t\t\t\t\t\t\t\t\ttitle=\"确定要删除吗？\"\r\n\t\t\t\t\t\t\t\t\t\t@on-ok=\"delMeet(meet.meetid)\"\r\n\t\t\t\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t\t\t<div>删除</div>\r\n\t\t\t\t\t\t\t\t\t</Poptip>\r\n\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class='wm-meet-item-info'>报名人数：{{meet.personnum|| '--' }}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-meet-remark'>\r\n\t\t\t\t\t\t<div>培训说明：</div>\r\n\t\t\t\t\t\t<div>{{meet.meetremarks}}</div>\r\n\t\t\t\t\t\t<div :title=\"meet.qrcode?'点击下载':'点击生成二维码'\" @click=\"createQrcode(meet)\"> \r\n\t\t\t\t\t\t\t<a target='_blank' :href='meet.qrcode' v-if='meet.qrcode'>\r\n\t\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\">\r\n\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t<img :src=\"meet.qrcode||imgs.createcode\" alt=\"\" v-else />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\r\n\t\t \r\n\t</div>\r\n";
 
 /***/ }),
 /* 78 */
@@ -31020,6 +31021,16 @@
 					align: 'center'
 
 				}, {
+					title: "所属小组",
+					key: 'groupname',
+					align: 'center',
+					filters: [],
+					filterMultiple: false,
+					filterMethod: function filterMethod(value, row) {
+						return row.groupid === value;
+					}
+
+				}, {
 					title: "公司",
 					key: 'companyname',
 					align: 'center'
@@ -31044,6 +31055,11 @@
 							},
 							props: {
 								type: params.row.status === 0 ? 'ios-alert' : 'ios-alert-outline'
+							},
+							on: {
+								click: function click() {
+									_this.updateStatus(0, params.row.status, params.row.id);
+								}
 							}
 						}, 1), h('Icon', {
 							style: {
@@ -31053,8 +31069,14 @@
 							},
 							props: {
 								type: params.row.status === 1 ? 'ios-checkmark-circle' : 'ios-checkmark-circle-outline'
+							},
+							on: {
+								click: function click() {
+									_this.updateStatus(1, params.row.status, params.row.id);
+								}
 							}
 						}, '3'), h('Icon', {
+							props: {},
 							style: {
 								cursor: 'pointer',
 								fontSize: '20px',
@@ -31062,6 +31084,11 @@
 							},
 							props: {
 								type: params.row.status === 2 ? 'ios-remove-circle' : 'ios-remove-circle-outline'
+							},
+							on: {
+								click: function click() {
+									_this.updateStatus(2, params.row.status, params.row.id);
+								}
 							}
 						}, '2'), h('Poptip', {
 							props: {
@@ -31197,6 +31224,7 @@
 
 			this.userinfo = _libUtil2['default'].getUserInfo();
 			this.getsignupList();
+			this.getGroupList();
 			this.upload({
 				accept: {
 					title: 'All',
@@ -31223,6 +31251,51 @@
 		},
 
 		methods: {
+
+			updateStatus: function updateStatus(status, status1, id) {
+				if (status === status1) {
+					return;
+				}
+				var s = this;
+				_libUtil2['default'].ajax({
+					url: window.config.baseUrl + '/zmitiadmin/updatemeetstudent',
+					data: {
+						admintoken: s.userinfo.accesstoken,
+						adminuserid: s.userinfo.userid,
+						id: id,
+						status: status
+					},
+					success: function success(data) {
+						s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
+						if (data.getret === 0) {
+							s.getsignupList();
+						}
+					}
+				});
+			},
+
+			getGroupList: function getGroupList() {
+				var s = this;
+				_libUtil2['default'].ajax({
+					url: window.config.baseUrl + '/zmitiadmin/getusergrouplist',
+					data: {
+						admintoken: s.userinfo.accesstoken,
+						adminuserid: s.userinfo.userid
+					},
+					success: function success(data) {
+						if (data.getret === 0) {
+							s.groupList = data.list;
+							data.list.forEach(function (item, i) {
+								s.columns[3].filters = s.columns[3].filters || [];
+								s.columns[3].filters.push({
+									value: item.groupid,
+									label: item.groupname
+								});
+							});
+						}
+					}
+				});
+			},
 
 			delMeetStudent: function delMeetStudent(studentid, index) {
 				var s = this;
@@ -31419,6 +31492,9 @@
 				this.getsignupList();
 				this.currentUserId = -1;
 				this.showAddStudent = false;
+				_vue2['default'].obserable.trigger({
+					type: 'initAddStudentUI'
+				});
 			},
 			entry: function entry(e) {
 				this.currentUserId = e.userid;
@@ -31623,9 +31699,17 @@
 		watch: {},
 		beforeCreate: function beforeCreate() {},
 		mounted: function mounted() {
+			var _this = this;
+
 			this.getCityData();
 			this.userinfo = _libUtil2['default'].getUserInfo();
 			this.getGroupList();
+			_vue2['default'].obserable.on('initAddStudentUI', function () {
+				_this.current = 0;
+				_this.formStudent = {
+					cityids: []
+				};
+			});
 		},
 
 		methods: {
@@ -31666,6 +31750,9 @@
 								_vue2['default'].obserable.trigger({
 									type: "hideAddStudent"
 								});
+							} else if (data.getret === 1001) {
+								s.$Message.success('学员信息修改成功');
+								s.current = 0;
 							} else {
 								s.$Message.error(data.getmsg);
 							}
@@ -31697,7 +31784,7 @@
 				return myreg.test(val);
 			},
 			next: function next() {
-				var _this = this;
+				var _this2 = this;
 
 				if (this.isPoneAvailable(this.formStudent.mobile)) {
 					this.checkMobile();
@@ -31705,7 +31792,7 @@
 					this.msg = '手机号格式错误';
 					this.success = false;
 					setTimeout(function () {
-						_this.msg = '';
+						_this2.msg = '';
 					}, 2000);
 				}
 			},
@@ -31724,10 +31811,29 @@
 
 						if (data.getret === 0) {
 							s.success = true;
-							s.formStudent = data.list;
+							s.formStudent = data.list[0] || {};
 							if (s.formStudent.userid) {
 								s.isEdit = true;
-								s.formStudent.studentpwd = '******';
+								s.formStudent.userpwd = '******';
+							}
+							if (s.formStudent.provinceid) {
+								s.formStudent.provinceid *= 1;
+							}
+							if (s.formStudent.cityid) {
+								s.formStudent.cityid *= 1;
+							}
+							if (s.formStudent.areaid) {
+								s.formStudent.areaid *= 1;
+							}
+							s.formStudent.cityids = [];
+							if (!isNaN(s.formStudent.provinceid)) {
+								s.formStudent.cityids.push(s.formStudent.provinceid);
+								if (!isNaN(s.formStudent.cityid)) {
+									s.formStudent.cityids.push(s.formStudent.cityid);
+									if (!isNaN(s.formStudent.areaid)) {
+										s.formStudent.cityids.push(s.formStudent.areaid);
+									}
+								}
 							}
 							setTimeout(function () {
 								s.current++;
@@ -32019,6 +32125,16 @@
 					align: 'center'
 
 				}, {
+					title: "所属小组",
+					key: 'groupname',
+					align: 'center',
+					filters: [],
+					filterMultiple: false,
+					filterMethod: function filterMethod(value, row) {
+						return row.groupid === value;
+					}
+
+				}, {
 					title: '报到时间',
 					key: 'createtime',
 					align: 'center'
@@ -32101,9 +32217,32 @@
 			console.log(this.userinfo);
 
 			this.getReportList();
+			this.getGroupList();
 		},
 
 		methods: {
+			getGroupList: function getGroupList() {
+				var s = this;
+				_libUtil2['default'].ajax({
+					url: window.config.baseUrl + '/zmitiadmin/getusergrouplist',
+					data: {
+						admintoken: s.userinfo.accesstoken,
+						adminuserid: s.userinfo.userid
+					},
+					success: function success(data) {
+						if (data.getret === 0) {
+							s.groupList = data.list;
+							data.list.forEach(function (item, i) {
+								s.columns[2].filters = s.columns[2].filters || [];
+								s.columns[2].filters.push({
+									value: item.groupid,
+									label: item.groupname
+								});
+							});
+						}
+					}
+				});
+			},
 			exportData: function exportData() {
 				this.$refs.scorelist.exportCsv({
 					filename: '培训报到管理'

@@ -97,6 +97,12 @@
 			 this.getCityData();
 			 this.userinfo = symbinUtil.getUserInfo();
 			 this.getGroupList();
+			 Vue.obserable.on('initAddStudentUI',()=>{
+				 this.current = 0;
+				 this.formStudent = {
+					 cityids:[]
+				 };
+			 });
 		},
 		
 		methods:{
@@ -136,6 +142,10 @@
 								Vue.obserable.trigger({
 									type:"hideAddStudent"
 								});
+							}
+							else if(data.getret === 1001){
+								s.$Message.success('学员信息修改成功');
+								s.current = 0;
 							}
 							else{
 								s.$Message.error(data.getmsg);
@@ -198,10 +208,29 @@
 
 						if(data.getret === 0){
 							s.success = true;
-							s.formStudent = data.list;
+							s.formStudent = data.list[0]||{};
 							if(s.formStudent.userid){
 								s.isEdit = true;
-								s.formStudent.studentpwd = '******';
+								s.formStudent.userpwd = '******';
+							}
+							if(s.formStudent.provinceid){
+								s.formStudent.provinceid *=1;
+							}
+							if(s.formStudent.cityid){
+								s.formStudent.cityid *=1;
+							}
+							if(s.formStudent.areaid){
+								s.formStudent.areaid *=1;
+							}
+							s.formStudent.cityids = [];
+							if(!isNaN(s.formStudent.provinceid)){
+								s.formStudent.cityids.push(s.formStudent.provinceid);
+								if(!isNaN(s.formStudent.cityid)){
+									s.formStudent.cityids.push(s.formStudent.cityid);
+									if(!isNaN(s.formStudent.areaid)){
+										s.formStudent.cityids.push(s.formStudent.areaid);
+									}
+								}
 							}
 							setTimeout(()=>{
 								s.current++;

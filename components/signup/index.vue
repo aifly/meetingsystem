@@ -143,6 +143,18 @@
 						key:'provincename',
 						align:'center'
 						
+					},{
+						title:"所属小组",
+						key:'groupname',
+						align:'center',
+						filters:[
+
+						] ,
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+							return row.groupid  === value;
+                        },
+						
 					},
 					{
 						title:"公司",
@@ -171,6 +183,11 @@
 									},
 									props:{
 										type:params.row.status===0?'ios-alert':'ios-alert-outline'
+									},
+									on:{
+										click:()=>{
+											this.updateStatus(0,params.row.status,params.row.id);
+										}
 									}
 								},1),
 								h('Icon',{
@@ -181,9 +198,16 @@
 									},
 									props:{
 										type:params.row.status===1?'ios-checkmark-circle':'ios-checkmark-circle-outline'
+									},
+									on:{
+										click:()=>{
+											this.updateStatus(1,params.row.status,params.row.id);
+										}
 									}
 								},'3'),
 								h('Icon',{
+									props:{
+									},
 									style:{
 										cursor:'pointer',
 										fontSize:'20px',
@@ -191,6 +215,11 @@
 									},
 									props:{ 
 										type:params.row.status===2?'ios-remove-circle':'ios-remove-circle-outline'
+									},
+									on:{
+										click:()=>{
+											this.updateStatus(2,params.row.status,params.row.id);
+										}
 									}
 								},'2'),
 								 h('Poptip',{
@@ -340,6 +369,7 @@
 			
 			this.userinfo = symbinUtil.getUserInfo();
 			this.getsignupList();
+			this.getGroupList();
 			this.upload({
 				accept:{
 						title: 'All',
@@ -367,6 +397,52 @@
 		},
 		
 		methods:{
+
+			updateStatus(status,status1,id){
+				if(status === status1){
+					return;
+				}
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/updatemeetstudent',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						id,
+						status
+					},
+					success(data){
+						s.$Message[data.getret === 0?'success':'error'](data.getmsg);
+						if(data.getret === 0){
+							s.getsignupList();
+						}
+					}
+				})
+
+			},
+
+			getGroupList(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getusergrouplist',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+					},
+					success(data){
+						if(data.getret === 0){
+							s.groupList = data.list;
+							data.list.forEach((item,i)=>{
+								s.columns[3].filters = s.columns[3].filters || [];
+								s.columns[3].filters.push({
+									value:item.groupid,
+									label:item.groupname
+								})
+							});
+						}
+					}
+				})
+			},
 
 			delMeetStudent(studentid,index){
 				var s = this;
@@ -578,6 +654,9 @@
 				this.getsignupList();
 				this.currentUserId =  -1;
 				this.showAddStudent = false;
+				Vue.obserable.trigger({
+					type:'initAddStudentUI'
+				})
 			},
 			entry(e){
 				this.currentUserId = e.userid;

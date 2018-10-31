@@ -104,6 +104,18 @@
 						key:'mobile',
 						align:'center'
 						
+					},{
+						title:"所属小组",
+						key:'groupname',
+						align:'center',
+						filters:[
+
+						] ,
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+							return row.groupid  === value;
+                        },
+						
 					},
 					{
 						title:'报到时间',
@@ -203,10 +215,33 @@
 			console.log(this.userinfo);
 
 			this.getReportList();
+			this.getGroupList();
 			
 		},
 		
 		methods:{
+			getGroupList(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getusergrouplist',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+					},
+					success(data){
+						if(data.getret === 0){
+							s.groupList = data.list;
+							data.list.forEach((item,i)=>{
+								s.columns[2].filters = s.columns[2].filters || [];
+								s.columns[2].filters.push({
+									value:item.groupid,
+									label:item.groupname
+								})
+							});
+						}
+					}
+				})
+			},
 			exportData(){
 				this.$refs.scorelist.exportCsv({
 					filename: '培训报到管理'
