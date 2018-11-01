@@ -26,14 +26,14 @@
 						<div class='wm-addstudent-form-item'>
 							<label for="">姓名：</label><input placeholder="请输入姓名" type='text' v-model="formStudent.studentname"/>
 						</div>
-						<div class='wm-addstudent-form-item'>
-							<label for="">密码：</label><input disabled placeholder="请输入密码" type='text' v-model="formStudent.userpwd"/>
+						<div class='wm-addstudent-form-item' >
+							<label for="">密码：</label><input :disabled='isEdit' placeholder="请输入密码" type='text' v-model="formStudent.userpwd"/>
 						</div>
 						<div class='wm-addstudent-form-item'>
 							<label for="">职务：</label><input placeholder="请输入职务" type='text' v-model="formStudent.job"/>
 						</div>
 						<div class='wm-addstudent-form-item'>
-							<label for="">公司名称：</label><input placeholder="请输入公司名称" type='text' v-model="formStudent.companyname"/>
+							<label for="">单位名称：</label><input placeholder="请输入单位名称" type='text' v-model="formStudent.companyname"/>
 						</div>
 						<div class='wm-addstudent-form-item'>
 							<label for="">邮箱：</label><input placeholder="请输入邮箱" type='text' v-model="formStudent.email"/>
@@ -116,6 +116,7 @@
 					if(!this.formStudent.groupid){
 						s.formStudent.groupid = s.groupList[0].groupid;
 					}
+				
 					symbinUtil.ajax({
 						url:window.config.baseUrl+'/zmitiadmin/'+(s.isEdit?'updatestudentinfo':'addstudent'),
 						data:{
@@ -186,6 +187,7 @@
 				}else{
 					this.msg = '手机号格式错误';
 					this.success = false;
+					this.$Message.error('手机号格式错误');
 					setTimeout(()=>{
 						this.msg = '';
 					},2000)
@@ -208,7 +210,11 @@
 
 						if(data.getret === 0){
 							s.success = true;
+							var mobile = s.formStudent.mobile;
 							s.formStudent = data.list[0]||{};
+							s.formStudent.mobile = mobile;
+							s.formStudent.userpwd = '123456';
+							
 							if(s.formStudent.userid){
 								s.isEdit = true;
 								s.formStudent.userpwd = '******';
@@ -234,6 +240,7 @@
 							}
 							setTimeout(()=>{
 								s.current++;
+								
 								s.formStudent.groupid = s.groupList[0].groupid;
 							},50);
 						}

@@ -92,6 +92,12 @@
   left: -10px;
 }
 
+.wm-student-main-ui .wm-student-form {
+  width: 96%;
+  margin: 14px auto;
+  overflow: auto;
+}
+
 .wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {
   left: 30px;
 }

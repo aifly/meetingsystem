@@ -7,10 +7,60 @@
 				<Input v-model="keyword" placeholder="请输入关键字搜索" />
 			</section>
 		</header>
-		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
+		<Form v-if='visible' class='wm-student-form wm-scroll' ref="formAdmin" :style="{height:viewH-150+'px'}"  :model="formAdmin" :label-width="82" >
+				<FormItem label="手机号：" prop="mobile">
+					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
+				</FormItem>
+				
+				<FormItem label="姓名：" prop="studentname">
+					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
+				</FormItem>
+				<FormItem label="密码：" prop="userpwd">
+					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
+					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
+				</FormItem>
+				
+				<FormItem label="所属培训：" prop="mobile" v-if='!formAdmin.userid'>
+					 <Select v-model="formAdmin.meetid">
+				       <Option v-for="item in meetList" :value="item.meetid" :key="item.meetid">{{ item.meetname }}</Option>
+				    </Select>
+				</FormItem>	
+
+				<FormItem label="所属小组：" prop="mobile" v-if='!formAdmin.userid'>
+					 <Select v-model="formAdmin.groupid">
+				       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
+				    </Select>
+				</FormItem>				
+
+			
+				<FormItem label="职务：" prop="job">
+					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
+				</FormItem>
+
+				<FormItem label="单位名称：" prop="companyname">
+					<Input v-model="formAdmin.companyname" placeholder="单位名称" autocomplete="off" />
+				</FormItem>
+				
+				<FormItem label="邮箱：" prop="email">
+					<Input v-model="formAdmin.email" placeholder="邮箱" autocomplete="off" />
+				</FormItem>
+				<FormItem label="地址：" prop="cityids">
+					<Cascader v-model="formAdmin.cityids"  :load-data="getCityById"  change-on-select :data='provinceList'></Cascader>
+				</FormItem>
+
+				<FormItem label="详细地址：" prop="studentname">
+					<Input type="textarea" v-model="formAdmin.detailaddress"></Input>
+				</FormItem>
+
+				<FormItem label="" prop="studentname" style="text-align:right">
+					<Button type="default" @click="visible=false">返回</Button>
+					<Button type="primary" @click="ok">确定</Button>
+				</FormItem>
+			</Form>
+		<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 
 		<Modal
-			v-model="visible"
+			
 			:title="currentUserId === -1? '新增用户':'编辑用户'"
 			@on-ok="ok"
 			@on-cancel="cancel">
@@ -44,8 +94,8 @@
 					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
 				</FormItem>
 
-				<FormItem label="公司名称：" prop="companyname">
-					<Input v-model="formAdmin.companyname" placeholder="公司名称" autocomplete="off" />
+				<FormItem label="单位名称：" prop="companyname">
+					<Input v-model="formAdmin.companyname" placeholder="单位名称" autocomplete="off" />
 				</FormItem>
 				
 				<FormItem label="邮箱：" prop="email">
@@ -112,26 +162,12 @@
 						title:"手机号",
 						key:'mobile',
 						align:'center'
-					}
-					,{
-						title:"所属会议",
-						key:'meetname',
-						align:'center'
-						
-					}
-					,{
-						title:"所属小组",
-						key:'groupname',
-						align:'center',
-						filters:[
-
-						] ,
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-							return row.groupid  === value;
-                        },
-						
 					},{
+						title:"单位",
+						key:'companyname',
+						align:'center'
+					}
+					,{
 						title:'操作',
 						key:"action",
 						align:'center',
@@ -159,6 +195,18 @@
 											this.formAdmin = params.row;
 											this.formAdmin.cityids = [params.row.provinceid*1,params.row.cityid*1,params.row.areaid*1];
 											this.visible = true;
+											var s = this;
+											symbinUtil.ajax({
+												url:window.config.baseUrl+'/zmitiadmin/getstudentinfo',
+												data:{
+													admintoken:s.userinfo.accesstoken,
+													adminuserid:s.userinfo.userid,
+													userid:params.row.userid,
+												},
+												success(data){
+													console.log(data);
+												}
+											})
                                         }
                                     }
                                 }, '编辑'),
@@ -268,13 +316,6 @@
 					success(data){
 						if(data.getret === 0){
 							s.groupList = data.list;
-							data.list.forEach((item,i)=>{
-								s.columns[6].filters = s.columns[6].filters || [];
-								s.columns[6].filters.push({
-									value:item.groupid,
-									label:item.groupname
-								})
-							});
 						}
 					}
 				})
@@ -457,6 +498,7 @@
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
+						//meetid:'2072951143',
 						pagenum:1000,
 						status:-1,//查询全部
 					},
@@ -542,6 +584,11 @@
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
+								s.visible = false;
+								s.getstudentlist();
+							}
+							else if(data.getret === 1001){
+								s.$Message.success('学员信息修改成功');
 							}
 							else{
 								s.$Message.error(data.getmsg);

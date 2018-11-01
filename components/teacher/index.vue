@@ -28,8 +28,8 @@
 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.teacherpwd" placeholder="密码" autocomplete="off" />
 					<Button :disabled='teacherid === -1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 				</FormItem>
-				<FormItem label="昵称：" prop="nickname">
-					<Input v-model="formAdmin.nickname" placeholder="昵称" autocomplete="off" />
+				<FormItem label="姓名：" prop="realname">
+					<Input v-model="formAdmin.realname" placeholder="姓名" autocomplete="off" />
 				</FormItem>
 				<FormItem label="电话：" prop="mobile">
 					<Input v-model="formAdmin.mobile" placeholder="电话" autocomplete="off" />
@@ -69,8 +69,8 @@
 					},
 					
 					{
-						title:"昵称",
-						key:'nickname',
+						title:"姓名",
+						key:'realname',
 						align:'center'
 					},{
 						title :'手机号',

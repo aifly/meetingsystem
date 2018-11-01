@@ -157,7 +157,7 @@
 						
 					},
 					{
-						title:"公司",
+						title:"单位",
 						key:'companyname',
 						align:'center'
 						
@@ -575,6 +575,7 @@
 								console.log(data);
 								if(data.getret === 0){
 									s.$Message.success("导入成功");
+									s.getsignupList();
 								}
 								else {
 									var iNow = 0;

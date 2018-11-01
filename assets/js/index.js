@@ -12412,10 +12412,60 @@
 	// 				<Input v-model="keyword" placeholder="请输入关键字搜索" />
 	// 			</section>
 	// 		</header>
-	// 		<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
+	// 		<Form v-if='visible' class='wm-student-form wm-scroll' ref="formAdmin" :style="{height:viewH-150+'px'}"  :model="formAdmin" :label-width="82" >
+	// 				<FormItem label="手机号：" prop="mobile">
+	// 					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
+	// 				</FormItem>
+	//
+	// 				<FormItem label="姓名：" prop="studentname">
+	// 					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
+	// 				</FormItem>
+	// 				<FormItem label="密码：" prop="userpwd">
+	// 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
+	// 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
+	// 				</FormItem>
+	//
+	// 				<FormItem label="所属培训：" prop="mobile" v-if='!formAdmin.userid'>
+	// 					 <Select v-model="formAdmin.meetid">
+	// 				       <Option v-for="item in meetList" :value="item.meetid" :key="item.meetid">{{ item.meetname }}</Option>
+	// 				    </Select>
+	// 				</FormItem>	
+	//
+	// 				<FormItem label="所属小组：" prop="mobile" v-if='!formAdmin.userid'>
+	// 					 <Select v-model="formAdmin.groupid">
+	// 				       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
+	// 				    </Select>
+	// 				</FormItem>				
+	//
+	//
+	// 				<FormItem label="职务：" prop="job">
+	// 					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
+	// 				</FormItem>
+	//
+	// 				<FormItem label="单位名称：" prop="companyname">
+	// 					<Input v-model="formAdmin.companyname" placeholder="单位名称" autocomplete="off" />
+	// 				</FormItem>
+	//
+	// 				<FormItem label="邮箱：" prop="email">
+	// 					<Input v-model="formAdmin.email" placeholder="邮箱" autocomplete="off" />
+	// 				</FormItem>
+	// 				<FormItem label="地址：" prop="cityids">
+	// 					<Cascader v-model="formAdmin.cityids"  :load-data="getCityById"  change-on-select :data='provinceList'></Cascader>
+	// 				</FormItem>
+	//
+	// 				<FormItem label="详细地址：" prop="studentname">
+	// 					<Input type="textarea" v-model="formAdmin.detailaddress"></Input>
+	// 				</FormItem>
+	//
+	// 				<FormItem label="" prop="studentname" style="text-align:right">
+	// 					<Button type="default" @click="visible=false">返回</Button>
+	// 					<Button type="primary" @click="ok">确定</Button>
+	// 				</FormItem>
+	// 			</Form>
+	// 		<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 	//
 	// 		<Modal
-	// 			v-model="visible"
+	//
 	// 			:title="currentUserId === -1? '新增用户':'编辑用户'"
 	// 			@on-ok="ok"
 	// 			@on-cancel="cancel">
@@ -12449,8 +12499,8 @@
 	// 					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
 	// 				</FormItem>
 	//
-	// 				<FormItem label="公司名称：" prop="companyname">
-	// 					<Input v-model="formAdmin.companyname" placeholder="公司名称" autocomplete="off" />
+	// 				<FormItem label="单位名称：" prop="companyname">
+	// 					<Input v-model="formAdmin.companyname" placeholder="单位名称" autocomplete="off" />
 	// 				</FormItem>
 	//
 	// 				<FormItem label="邮箱：" prop="email">
@@ -12535,20 +12585,9 @@
 					key: 'mobile',
 					align: 'center'
 				}, {
-					title: "所属会议",
-					key: 'meetname',
+					title: "单位",
+					key: 'companyname',
 					align: 'center'
-
-				}, {
-					title: "所属小组",
-					key: 'groupname',
-					align: 'center',
-					filters: [],
-					filterMultiple: false,
-					filterMethod: function filterMethod(value, row) {
-						return row.groupid === value;
-					}
-
 				}, {
 					title: '操作',
 					key: "action",
@@ -12575,6 +12614,18 @@
 									_this.formAdmin = params.row;
 									_this.formAdmin.cityids = [params.row.provinceid * 1, params.row.cityid * 1, params.row.areaid * 1];
 									_this.visible = true;
+									var s = _this;
+									_libUtil2['default'].ajax({
+										url: window.config.baseUrl + '/zmitiadmin/getstudentinfo',
+										data: {
+											admintoken: s.userinfo.accesstoken,
+											adminuserid: s.userinfo.userid,
+											userid: params.row.userid
+										},
+										success: function success(data) {
+											console.log(data);
+										}
+									});
 								}
 							}
 						}, '编辑'), h('Poptip', {
@@ -12673,13 +12724,6 @@
 					success: function success(data) {
 						if (data.getret === 0) {
 							s.groupList = data.list;
-							data.list.forEach(function (item, i) {
-								s.columns[6].filters = s.columns[6].filters || [];
-								s.columns[6].filters.push({
-									value: item.groupid,
-									label: item.groupname
-								});
-							});
 						}
 					}
 				});
@@ -12854,6 +12898,7 @@
 					data: {
 						admintoken: s.userinfo.accesstoken,
 						adminuserid: s.userinfo.userid,
+						//meetid:'2072951143',
 						pagenum: 1000,
 						status: -1 },
 					//查询全部
@@ -12932,6 +12977,10 @@
 						}, success: function success(data) {
 							if (data.getret === 0) {
 								s.$Message.success(data.getmsg);
+								s.visible = false;
+								s.getstudentlist();
+							} else if (data.getret === 1001) {
+								s.$Message.success('学员信息修改成功');
 							} else {
 								s.$Message.error(data.getmsg);
 							}
@@ -12985,7 +13034,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-student-main-ui > header {\n  background: #fff;\n  height: 50px;\n  width: 100%;\n  line-height: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n}\n\n.wm-student-main-ui > header > section {\n  margin-right: 30px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  -webkit-align-items: center;\n  align-items: center;\n}\n\n.wm-student-main-ui > header > section button {\n  display: block;\n  height: 30px;\n  margin-right: 20px;\n}\n\n.wm-student-main-ui > header > div {\n  font-size: 20px;\n  margin-left: 40px;\n  position: relative;\n}\n\n.wm-student-main-ui > header > div:before {\n  content: \"\";\n  position: absolute;\n  width: 2px;\n  height: 20px;\n  background: #cc0000;\n  top: 15px;\n  left: -10px;\n}\n\n.wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\n  left: 30px;\n}\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-student-main-ui > header {\n  background: #fff;\n  height: 50px;\n  width: 100%;\n  line-height: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n}\n\n.wm-student-main-ui > header > section {\n  margin-right: 30px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  -webkit-align-items: center;\n  align-items: center;\n}\n\n.wm-student-main-ui > header > section button {\n  display: block;\n  height: 30px;\n  margin-right: 20px;\n}\n\n.wm-student-main-ui > header > div {\n  font-size: 20px;\n  margin-left: 40px;\n  position: relative;\n}\n\n.wm-student-main-ui > header > div:before {\n  content: \"\";\n  position: absolute;\n  width: 2px;\n  height: 20px;\n  background: #cc0000;\n  top: 15px;\n  left: -10px;\n}\n\n.wm-student-main-ui .wm-student-form {\n  width: 96%;\n  margin: 14px auto;\n  overflow: auto;\n}\n\n.wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\n  left: 30px;\n}\n", ""]);
 
 	// exports
 
@@ -12994,7 +13043,7 @@
 /* 21 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-student-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>学员管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addNewAduser\">新增学员</Button>\r\n\t\t\t\t<Input v-model=\"keyword\" placeholder=\"请输入关键字搜索\" />\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>\r\n\r\n\t\t<Modal\r\n\t\t\tv-model=\"visible\"\r\n\t\t\t:title=\"currentUserId === -1? '新增用户':'编辑用户'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"公司名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"公司名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\r\n\t\t \r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-student-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>学员管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addNewAduser\">新增学员</Button>\r\n\t\t\t\t<Input v-model=\"keyword\" placeholder=\"请输入关键字搜索\" />\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Form v-if='visible' class='wm-student-form wm-scroll' ref=\"formAdmin\" :style=\"{height:viewH-150+'px'}\"  :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"单位名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"单位名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"\" prop=\"studentname\" style=\"text-align:right\">\r\n\t\t\t\t\t<Button type=\"default\" @click=\"visible=false\">返回</Button>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"ok\">确定</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>\r\n\r\n\t\t<Modal\r\n\t\t\t\r\n\t\t\t:title=\"currentUserId === -1? '新增用户':'编辑用户'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"单位名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"单位名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\r\n\t\t \r\n\t</div>\r\n";
 
 /***/ }),
 /* 22 */
@@ -30505,8 +30554,8 @@
 	// 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.teacherpwd" placeholder="密码" autocomplete="off" />
 	// 					<Button :disabled='teacherid === -1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 	// 				</FormItem>
-	// 				<FormItem label="昵称：" prop="nickname">
-	// 					<Input v-model="formAdmin.nickname" placeholder="昵称" autocomplete="off" />
+	// 				<FormItem label="姓名：" prop="realname">
+	// 					<Input v-model="formAdmin.realname" placeholder="姓名" autocomplete="off" />
 	// 				</FormItem>
 	// 				<FormItem label="电话：" prop="mobile">
 	// 					<Input v-model="formAdmin.mobile" placeholder="电话" autocomplete="off" />
@@ -30560,8 +30609,8 @@
 					key: 'accounts',
 					align: 'center'
 				}, {
-					title: "昵称",
-					key: 'nickname',
+					title: "姓名",
+					key: 'realname',
 					align: 'center'
 				}, {
 					title: '手机号',
@@ -30825,7 +30874,7 @@
 /* 82 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-rater-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>教师管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addRater\">新增教师</Button>\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='teacherList' :columns='columns'   stripe></Table>\r\n\t\t<Modal\r\n\t\t\tv-model=\"visible\"\r\n\t\t\t:title=\"teacherid === -1? '新增教师':'编辑教师'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"72\" >\r\n\t\t\t\t<FormItem label=\"账号：\" prop=\"accounts\">\r\n\t\t\t\t\t<Input style=\"width:310px;\" v-model=\"formAdmin.accounts\" placeholder=\"账号\" autocomplete=\"off\" />\r\n\t\t\t\t\t<RadioGroup v-model=\"formAdmin.sex\">\r\n\t\t\t\t\t\t<Radio :label=\"1\">\r\n\t\t\t\t\t\t\t<span>男</span>\r\n\t\t\t\t\t\t</Radio>\r\n\t\t\t\t\t\t<Radio :label=\"0\">\r\n\t\t\t\t\t\t\t<span>女</span>\r\n\t\t\t\t\t\t</Radio>\r\n\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"teacherpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.teacherpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='teacherid === -1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"昵称：\" prop=\"nickname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.nickname\" placeholder=\"昵称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"电话：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"电话\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-rater-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>教师管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addRater\">新增教师</Button>\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Table ref='scorelist'  :height='viewH - 64- 70 ' :data='teacherList' :columns='columns'   stripe></Table>\r\n\t\t<Modal\r\n\t\t\tv-model=\"visible\"\r\n\t\t\t:title=\"teacherid === -1? '新增教师':'编辑教师'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"72\" >\r\n\t\t\t\t<FormItem label=\"账号：\" prop=\"accounts\">\r\n\t\t\t\t\t<Input style=\"width:310px;\" v-model=\"formAdmin.accounts\" placeholder=\"账号\" autocomplete=\"off\" />\r\n\t\t\t\t\t<RadioGroup v-model=\"formAdmin.sex\">\r\n\t\t\t\t\t\t<Radio :label=\"1\">\r\n\t\t\t\t\t\t\t<span>男</span>\r\n\t\t\t\t\t\t</Radio>\r\n\t\t\t\t\t\t<Radio :label=\"0\">\r\n\t\t\t\t\t\t\t<span>女</span>\r\n\t\t\t\t\t\t</Radio>\r\n\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"teacherpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.teacherpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='teacherid === -1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"realname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.realname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"电话：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"电话\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 83 */
@@ -31031,7 +31080,7 @@
 					}
 
 				}, {
-					title: "公司",
+					title: "单位",
 					key: 'companyname',
 					align: 'center'
 
@@ -31421,6 +31470,7 @@
 								console.log(data);
 								if (data.getret === 0) {
 									s.$Message.success("导入成功");
+									s.getsignupList();
 								} else {
 									var iNow = 0;
 									s.errList = data.error;
@@ -31621,14 +31671,14 @@
 	// 						<div class='wm-addstudent-form-item'>
 	// 							<label for="">姓名：</label><input placeholder="请输入姓名" type='text' v-model="formStudent.studentname"/>
 	// 						</div>
-	// 						<div class='wm-addstudent-form-item'>
-	// 							<label for="">密码：</label><input disabled placeholder="请输入密码" type='text' v-model="formStudent.userpwd"/>
+	// 						<div class='wm-addstudent-form-item' >
+	// 							<label for="">密码：</label><input :disabled='isEdit' placeholder="请输入密码" type='text' v-model="formStudent.userpwd"/>
 	// 						</div>
 	// 						<div class='wm-addstudent-form-item'>
 	// 							<label for="">职务：</label><input placeholder="请输入职务" type='text' v-model="formStudent.job"/>
 	// 						</div>
 	// 						<div class='wm-addstudent-form-item'>
-	// 							<label for="">公司名称：</label><input placeholder="请输入公司名称" type='text' v-model="formStudent.companyname"/>
+	// 							<label for="">单位名称：</label><input placeholder="请输入单位名称" type='text' v-model="formStudent.companyname"/>
 	// 						</div>
 	// 						<div class='wm-addstudent-form-item'>
 	// 							<label for="">邮箱：</label><input placeholder="请输入邮箱" type='text' v-model="formStudent.email"/>
@@ -31724,6 +31774,7 @@
 					if (!this.formStudent.groupid) {
 						s.formStudent.groupid = s.groupList[0].groupid;
 					}
+
 					_libUtil2['default'].ajax({
 						url: window.config.baseUrl + '/zmitiadmin/' + (s.isEdit ? 'updatestudentinfo' : 'addstudent'),
 						data: {
@@ -31791,6 +31842,7 @@
 				} else {
 					this.msg = '手机号格式错误';
 					this.success = false;
+					this.$Message.error('手机号格式错误');
 					setTimeout(function () {
 						_this2.msg = '';
 					}, 2000);
@@ -31811,7 +31863,11 @@
 
 						if (data.getret === 0) {
 							s.success = true;
+							var mobile = s.formStudent.mobile;
 							s.formStudent = data.list[0] || {};
+							s.formStudent.mobile = mobile;
+							s.formStudent.userpwd = '123456';
+
 							if (s.formStudent.userid) {
 								s.isEdit = true;
 								s.formStudent.userpwd = '******';
@@ -31837,6 +31893,7 @@
 							}
 							setTimeout(function () {
 								s.current++;
+
 								s.formStudent.groupid = s.groupList[0].groupid;
 							}, 50);
 						}
@@ -31967,7 +32024,7 @@
 /* 91 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n    <div class=\"wm-addstudent-ui\">\r\n        <header class=\"wm-addstudent-header\">\r\n\t\t\t<div>{{title}} > 新增学员</div>\r\n\t\t</header>\r\n\t\t<div class='wm-addstudent-main' :style=\"{height:viewH- 64 - 64+'px'}\">\r\n\t\t\t<ul class='wm-addstudent-step'>\r\n\t\t\t\t<li v-for=\"(step,i) in steps\" :key='i' :class=\"{'active':current>=i,' active1':current>i}\" :title=\"step.title\" :content=\"step.content\">\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<div class='wm-step-index' ><span>{{i+1}}</span></div>\r\n\t\t\t\t\t\t<section>{{step.title}}</section>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\r\n\t\t\t<div class='wm-step-content-wrap'>\r\n\t\t\t\t<ol :style=\"{width:400*steps.length+'px',WebkitTransform:'translate3d('+-400*current+'px,0,0)',transform:'translate3d('+-400*current+'px,0,0)'}\">\r\n\t\t\t\t\t<li>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">手机：</label><input placeholder=\"请输入手机号\"  type='text' v-model=\"formStudent.mobile\"/>\r\n\t\t\t\t\t\t\t<span v-if='false' class=\"msg\" :class='{\"success\":success}'>{{msg}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-next-step-btn' @click='next'>下一步</div>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t\t<li v-show='current===1'>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">姓名：</label><input placeholder=\"请输入姓名\" type='text' v-model=\"formStudent.studentname\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">密码：</label><input disabled placeholder=\"请输入密码\" type='text' v-model=\"formStudent.userpwd\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">职务：</label><input placeholder=\"请输入职务\" type='text' v-model=\"formStudent.job\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">公司名称：</label><input placeholder=\"请输入公司名称\" type='text' v-model=\"formStudent.companyname\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">邮箱：</label><input placeholder=\"请输入邮箱\" type='text' v-model=\"formStudent.email\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item displayFlex'>\r\n\t\t\t\t\t\t\t<div><label for=\"\">所属小组：</label></div>\r\n\t\t\t\t\t\t\t<Select v-model=\"formStudent.groupid\" style=\"width:240px;background:transparent\">\r\n\t\t\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t\t\t    </Select>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item displayFlex'>\r\n\t\t\t\t\t\t\t<div><label for=\"\">所在城市：</label></div><Cascader v-model=\"formStudent.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">详细地址：</label><textarea placeholder=\"请输入详细地址\"  v-model=\"formStudent.detailaddress\" ></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-next-step-btn' @click='insertStudent'>{{current>=steps.length-1?'完成':'下一步'}}</div>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t</ol>\r\n\t\t\t</div>\r\n\r\n\t\t</div>\r\n    </div>\r\n";
+	module.exports = "\r\n    <div class=\"wm-addstudent-ui\">\r\n        <header class=\"wm-addstudent-header\">\r\n\t\t\t<div>{{title}} > 新增学员</div>\r\n\t\t</header>\r\n\t\t<div class='wm-addstudent-main' :style=\"{height:viewH- 64 - 64+'px'}\">\r\n\t\t\t<ul class='wm-addstudent-step'>\r\n\t\t\t\t<li v-for=\"(step,i) in steps\" :key='i' :class=\"{'active':current>=i,' active1':current>i}\" :title=\"step.title\" :content=\"step.content\">\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<div class='wm-step-index' ><span>{{i+1}}</span></div>\r\n\t\t\t\t\t\t<section>{{step.title}}</section>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\r\n\t\t\t<div class='wm-step-content-wrap'>\r\n\t\t\t\t<ol :style=\"{width:400*steps.length+'px',WebkitTransform:'translate3d('+-400*current+'px,0,0)',transform:'translate3d('+-400*current+'px,0,0)'}\">\r\n\t\t\t\t\t<li>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">手机：</label><input placeholder=\"请输入手机号\"  type='text' v-model=\"formStudent.mobile\"/>\r\n\t\t\t\t\t\t\t<span v-if='false' class=\"msg\" :class='{\"success\":success}'>{{msg}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-next-step-btn' @click='next'>下一步</div>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t\t<li v-show='current===1'>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">姓名：</label><input placeholder=\"请输入姓名\" type='text' v-model=\"formStudent.studentname\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item' >\r\n\t\t\t\t\t\t\t<label for=\"\">密码：</label><input :disabled='isEdit' placeholder=\"请输入密码\" type='text' v-model=\"formStudent.userpwd\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">职务：</label><input placeholder=\"请输入职务\" type='text' v-model=\"formStudent.job\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">单位名称：</label><input placeholder=\"请输入单位名称\" type='text' v-model=\"formStudent.companyname\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">邮箱：</label><input placeholder=\"请输入邮箱\" type='text' v-model=\"formStudent.email\"/>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item displayFlex'>\r\n\t\t\t\t\t\t\t<div><label for=\"\">所属小组：</label></div>\r\n\t\t\t\t\t\t\t<Select v-model=\"formStudent.groupid\" style=\"width:240px;background:transparent\">\r\n\t\t\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t\t\t    </Select>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item displayFlex'>\r\n\t\t\t\t\t\t\t<div><label for=\"\">所在城市：</label></div><Cascader v-model=\"formStudent.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-addstudent-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">详细地址：</label><textarea placeholder=\"请输入详细地址\"  v-model=\"formStudent.detailaddress\" ></textarea>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-next-step-btn' @click='insertStudent'>{{current>=steps.length-1?'完成':'下一步'}}</div>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t</ol>\r\n\t\t\t</div>\r\n\r\n\t\t</div>\r\n    </div>\r\n";
 
 /***/ }),
 /* 92 */
