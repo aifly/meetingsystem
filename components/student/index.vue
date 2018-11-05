@@ -147,7 +147,7 @@
 				userList:[],
 				columns:[
 					{
-						title:"昵称",
+						title:"姓名",
 						key:'studentname',
 						align:'center'
 					},{

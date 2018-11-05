@@ -37,6 +37,12 @@
 				<FormItem label="邮箱：" prop="email">
 					<Input v-model="formAdmin.email" placeholder="邮箱" autocomplete="off" />
 				</FormItem>
+				<FormItem label="单位：" prop="companyname">
+					<Input v-model="formAdmin.companyname" placeholder="单位" autocomplete="off" />
+				</FormItem>
+				<FormItem label="职务：" prop="job">
+					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
+				</FormItem>
 			</Form>
 		</Modal>
 	</div>
@@ -61,13 +67,7 @@
 				formAdmin:{
 					teacherpwd:'111111'
 				},
-				columns:[
-					{
-						title:"用户名",
-						key:'accounts',
-						align:'center',
-					},
-					
+				columns:[					
 					{
 						title:"姓名",
 						key:'realname',
@@ -77,12 +77,20 @@
 						key:'mobile',
 						align:'center'
 					},{
-						title:'姓别',
+						title:'性别',
 						key:'sex',
 						align:'center',
 						render:(h,params)=>{
 							return h('div',{},params.row.sex === 1 ? '男':'女')
 						}
+					},{
+						title:'所在单位',
+						key:'companyname',
+						align:'center'
+					},{
+						title:'职务',
+						key:'job',
+						align:'center'
 					},{
 						title:'操作',
 						key:"action",
@@ -202,7 +210,6 @@
 						admintoken:s.userinfo.accesstoken,
 					    adminuserid:s.userinfo.userid,
 					},success(data){
-						console.log(data)
 						if(data.getret === 0){
 							s.teacherList = data.list;
 						}
@@ -253,6 +260,8 @@
 							nickname:s.formAdmin.nickname,
 							mobile:s.formAdmin.mobile,
 							realname:s.formAdmin.realname,
+							companyname:s.formAdmin.companyname,
+							job:s.formAdmin.job,
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
@@ -280,6 +289,8 @@
 							mobile:s.formAdmin.mobile,
 							realname:s.formAdmin.realname,
 							teacherid:s.teacherid,
+							companyname:s.formAdmin.companyname,
+							job:s.formAdmin.job,
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
