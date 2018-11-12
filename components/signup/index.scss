@@ -12,6 +12,12 @@ $color: #be0000;
 .wm-feedback-main-ui,
 .wm-score-main-ui {
 
+    .ivu-table-wrapper{
+        border-top: none;
+        border-bottom: none;
+        border-right: none;
+    }
+
     @include displayFlex(row);
     &>div{
         &:nth-of-type(1){

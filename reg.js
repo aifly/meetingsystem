@@ -21,6 +21,10 @@ new Vue({
 		count:0,
 		meetInfo:{},
 		showVerifycode:false,
+		cacheFormStudent:{
+			userpwd: '',
+			cityids: []
+		},
 		formStudent: {
 			userpwd: '',
 			cityids: []
@@ -39,9 +43,9 @@ new Vue({
             <label for="">手机号：</label><input v-model='formStudent.mobile' @blur="checkUser" placeholder="请输入手机号" />
 		</div>
 		 <div class='wm-form-item require' v-if='showVerifycode'>
-            <label for="">验证码：</label><input  v-model='formStudent.verifycode' type='text' placeholder="验证码：" /><div class='wm-getcode' v-tap='[getCode]'>{{count?count+"s后重新获取":"获取验证码"}}</div>
+            <label for="">验证码：</label><input ref='code' @blur='checkCode'  v-model='formStudent.verifycode' type='text' placeholder="验证码：" /><div class='wm-getcode' v-tap='[getCode]'>{{count?count+"s后重新获取":"获取验证码"}}</div>
         </div>
-        <div class='wm-form-item require'>
+        <div class='wm-form-item require' v-if='!showVerifycode'>
             <label for="">密<span style="opacity:0">机</span>码：</label><input v-model='formStudent.userpwd' type='password' placeholder="请输入密码" />
         </div>
         <div class='wm-form-item require'>
@@ -103,8 +107,7 @@ new Vue({
 				this.$Message.error('手机号格式不正确');
 				return;
 			}
-			if(!s.formStudent.userpwd){
-				
+			if(!s.formStudent.userpwd && !s.showVerifycode){
 				this.$Message.error('密码不能为空');
 				return;
 			}
@@ -136,6 +139,8 @@ new Vue({
 					s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
 					if(data.getret === 0){
 						s.formStudent = {};
+						s.showVerifycode = false;
+						s.count = 0;
 					}
 				}
 			})
@@ -163,6 +168,31 @@ new Vue({
 				}
 			})
 		},
+		checkCode(){
+			var s = this;
+			if (!s.formStudent.verifycode){
+				return;
+			}
+			symbinUtil.ajax({
+				url: window.baseUrl + "/zmitistudent/mobile_validation",
+				data: {
+					mobile: s.formStudent.mobile,
+					verifycode: s.formStudent.verifycode //短信类型：0,注册；1,登陆；
+				},
+				success(data) {
+					if(data.getret === 0){
+						var mobile = s.formStudent.mobile,
+							code = s.formStudent.verifycode;
+						s.formStudent = s.cacheFormStudent;
+						s.formStudent.mobile = mobile;
+						s.formStudent.verifycode = code;
+						s.isEdit = true;
+
+					}
+					s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
+				}
+			})
+		},
 		checkUser(){
 			
 			var s = this;
@@ -175,20 +205,22 @@ new Vue({
 						mobile
 					},
 					success(data) {
+						
 						s.showVerifycode = data.getret === 0;
 						if (data.getret === 0) {
-							s.formStudent = data.list;
+							//s.formStudent = data.list;
+							s.cacheFormStudent = data.list;
 							
-							if (s.formStudent.provinceid) {
-								s.getCity(s.formStudent.provinceid);
+							if (s.cacheFormStudent.provinceid) {
+								s.getCity(s.cacheFormStudent.provinceid);
 								
 							}
-							if(s.formStudent.cityid){
-								s.getCityById(s.formStudent.cityid);
+							if (s.cacheFormStudent.cityid) {
+								s.getCityById(s.cacheFormStudent.cityid);
 							}
 						}else{
-							s.formStudent ={};
-							s.formStudent.mobile = mobile;
+							s.cacheFormStudent = {};
+							s.cacheFormStudent.mobile = mobile;
 						}
 					}
 

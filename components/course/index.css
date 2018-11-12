@@ -54,6 +54,47 @@
   height: 500px;
 }
 
+.wm-course-main-ui .wm-course-list-action {
+  margin-top: 10px;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+}
+
+.wm-course-main-ui .wm-course-list-action > div, .wm-course-main-ui .wm-course-list-action > ul {
+  flex: 1;
+  -webkit-flex: 1;
+}
+
+.wm-course-main-ui .wm-course-list-action > div span {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.wm-course-main-ui .wm-course-list-action > div span.wm-go-top1, .wm-course-main-ui .wm-course-list-action > div span.wm-go-down {
+  position: relative;
+}
+
+.wm-course-main-ui .wm-course-list-action > div span.wm-go-top1:before, .wm-course-main-ui .wm-course-list-action > div span.wm-go-down:before {
+  content: '';
+  width: 90%;
+  left: 5%;
+  height: 2px;
+  background: #515a6e;
+  top: 0;
+  position: absolute;
+  border-radius: 2px;
+}
+
+.wm-course-main-ui .wm-course-list-action > div span.wm-go-down:before {
+  bottom: -1px;
+  top: auto;
+}
+
+.wm-course-main-ui .wm-course-list-action > div i {
+  font-size: 20px;
+}
+
 .wm-course-main-ui .wm-course-pos {
   position: absolute;
   z-index: 10;

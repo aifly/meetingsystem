@@ -10,6 +10,44 @@ $color: #be0000;
        height:500px;
    }
 
+   .wm-course-list-action{
+       margin-top: 10px;
+       @include displayFlex(row);
+       &>div,&>ul{
+           flex:1;
+           -webkit-flex:1;
+       }
+       &>div{
+           span{
+               cursor: pointer;
+               margin-right: 10px;
+
+               &.wm-go-top1,&.wm-go-down{
+                   @include pos(r);
+                   &:before{
+                       content:'';
+                       width: 90%;
+                       left: 5%;
+                       height: 2px;
+                       background: #515a6e;
+                       top: 0;
+                       @include pos(a);
+                       @include br(2px);
+                   }
+               }
+               &.wm-go-down{
+                   &:before{
+                       bottom: -1px;
+                       top: auto;
+                   }
+               }
+           }
+           i{
+               font-size:20px;
+           }
+       }
+   }
+
 
    .wm-course-pos{
        @include pos(a);

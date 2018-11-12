@@ -61,6 +61,18 @@
   flex-flow: row;
 }
 
+.wm-signup-ui .ivu-table-wrapper,
+.wm-news-main-ui .ivu-table-wrapper,
+.wm-course-main-ui .ivu-table-wrapper,
+.wm-attendance-ui .ivu-table-wrapper,
+.wm-scoreitem-main-ui .ivu-table-wrapper,
+.wm-feedback-main-ui .ivu-table-wrapper,
+.wm-score-main-ui .ivu-table-wrapper {
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
+}
+
 .wm-signup-ui > div:nth-of-type(1),
 .wm-news-main-ui > div:nth-of-type(1),
 .wm-course-main-ui > div:nth-of-type(1),

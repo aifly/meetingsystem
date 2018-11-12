@@ -107,9 +107,26 @@
 					</FormItem>
 				</Form>
 				<div v-if='!showDetail' class="wm-news-list">
-					<Table  :loading="loading" :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns'   stripe>
+					<Table :row-class-name="rowClassName" highlight-row   :loading="loading" @on-row-click='getRow' :disabled-hover='true' ref='scorelist' :border='false'  :data='newsList' :columns='columns'>
 						<div slot='loading' class='wm-table-loading'>加载中<span>.</span><span>.</span><span>.</span></div>
 					</Table>
+					<div class='wm-news-list-action'>
+						<div>
+							<span title='上移一位' @click='changePos(1)' v-show='currentNews.newsid'>
+								<Icon type="md-arrow-round-up" />
+							</span>
+							<span title='下移一位' @click='changePos(2)' v-show='currentNews.newsid'>
+								<Icon type="md-arrow-round-down" />
+							</span>
+							<span v-if='false' title='上移至第一位' class='wm-go-top1' @click='changePos(3)'>
+								<Icon type="md-arrow-round-up" />
+							</span>
+							<span v-if='false' title='上移至最后一位' class='wm-go-down' @click='changePos(4)'>
+								<Icon type="md-arrow-round-down" />
+							</span>
+						</div>
+						<Page @on-change='pageChange' :total="total" size="small" :page-size='pagenum'   />
+					</div>
 				</div>
 			</div>
 
@@ -157,9 +174,12 @@
 				showDetail:false,
 				showPass:false,
 				percent:0,
+				page:1,
+				pagenum:(window.innerHeight - 200) / 50 | 0,
 				showEncryptfileBtn:true,
 				viewH:window.innerHeight,
 				newsTypeList:[],
+				currentNews:{},
 				ruleValidate:{
 					title: [
                         { required: true, message: '标题不能为空', trigger: 'blur' }
@@ -184,9 +204,9 @@
 						title:"类型",
 						key:'newstype',
 						align:'left',
-						width:60,
+						width:120,
 						render:(h,params)=>{
-							return h('div',{},params.row.type*1 === -1 ? '系统公告':params.row.newstype);
+							return h('div',{},params.row.type*1 === -1 ? '系统公告-'+params.row.sort:params.row.newstype+"-"+params.row.sort);
 						}
 					},{
 						title:"是否推荐",
@@ -293,6 +313,7 @@
 				directoryList:{
 
 				},
+				total:0,
 				
 				userinfo:{}
 			}
@@ -363,6 +384,133 @@
 		},
 		
 		methods:{
+
+			rowClassName (row, index) {
+				if(row.newsid === this.currentNews.newsid){
+					return 'active';
+				}
+                return '';
+            },
+
+			changePos(index){
+
+				var s = this;
+				var sort = 0;
+				switch (index) {
+					case 1://上移一个
+					if(s.currentRowIndex-1 >= 0){
+						var tempSort = s.newsList[s.currentRowIndex-1].sort;
+						var currentSort = s.newsList[s.currentRowIndex].sort;
+
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatenews',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								newsid:s.currentNews.newsid,
+								sort:tempSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getNewsList();
+								}
+							}
+						});
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatenews',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								newsid:s.newsList[s.currentRowIndex-1].newsid,
+								sort:currentSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getNewsList();
+								}
+							}
+						});
+					//	this.currentNews = this.newsList[this.currentRowIndex];
+						this.currentRowIndex = this.currentRowIndex -1;
+					}
+					break;
+					case 2://下移一个
+					if(s.currentRowIndex+1<=s.newsList.length-1){
+						var tempSort = s.newsList[s.currentRowIndex+1].sort;
+						var currentSort = s.newsList[s.currentRowIndex].sort;
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatenews',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								newsid:s.currentNews.newsid,
+								sort:tempSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getNewsList();
+								}
+							}
+						});
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatenews',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								newsid:s.newsList[s.currentRowIndex+1].newsid,
+								sort:currentSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getNewsList();
+								}
+							}
+						});
+						
+						this.currentRowIndex = this.currentRowIndex + 1;
+					}
+					break;
+					case 3://移到第一个
+						sort = s.total;
+						this.currentRowIndex = 0;
+					break;
+					case 4://移到最一个。
+						sort = 0;
+						this.currentRowIndex = this.newsList.length -1;
+					break;
+				
+					default:
+						break;
+				}
+				if(index === 1 && s.currentRowIndex === 0){
+					return;//移动第一行。
+				}
+				if(index === 4 && s.currentRowIndex === s.newsList.length-1){
+					return;//移动最后一行。
+				}
+				
+				
+
+			},
+
+			pageChange(page){
+				this.page = page;
+				this.getNewsList();
+			},
+
+			getRow(row,i){
+				if(i === this.lastIndex && this.lastIndex>-1){
+					this.currentNews = {};
+					this.currentRowIndex = -1;
+					this.lastIndex = -1;
+				}
+				else{
+					this.currentNews = row;
+					this.currentRowIndex = i;
+					this.lastIndex = i;
+				}
+				//this.rowClassName(row,i);
+			},
 
 			refresh(){
 				this.showDetail = false;
@@ -742,17 +890,20 @@
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
-						pagenum:1000,
+						pagenum:s.pagenum,
+						page:s.page,
 						meetid:s.$route.params.meetid,
 						//status:-1,//查询全部
 					},
 					success(data){
 					//	console.log(data);
 						if(data.getret === 0){
+							s.total =  data.totalnum.num;
 							data.list.forEach((item=>{
 								item.iscommend = !!item.iscommend;
 								item.encrypsign = !!item.encrypsign;
 								var download = [];
+								
 								(item.download||"").split(',').map((d)=>{
 									if(d){
 										download.push({
@@ -807,5 +958,8 @@
         50%  { transform: rotate(180deg);}
         to   { transform: rotate(360deg);}
     }
-
+	 .ivu-table .active td{
+        background-color: #ff6600;
+        color: #fff;
+    }
  </style>

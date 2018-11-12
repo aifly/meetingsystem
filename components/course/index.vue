@@ -50,8 +50,25 @@
 						<Button type="primary" @click="classAction()" size='large'>添加课程</Button>
 					</FormItem>
 				</Form>
-				<div v-if='!showDetail' class="wm-course-list">
-					<Table :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='courseList' :columns='columns'   stripe></Table>
+				<div v-if='!showDetail' class="wm-course-list wm-scroll">
+					<Table :row-class-name="rowClassName" highlight-row  @on-row-click='getRow' :disabled-hover='true' ref='scorelist' :border='false' :data='courseList' :columns='columns'  ></Table>
+					<div class='wm-course-list-action'>
+						<div>
+							<span title='上移一位' @click='changePos(1)' v-show='currentCourse.syllabusid '>
+								<Icon type="md-arrow-round-up" />
+							</span>
+							<span title='下移一位' @click='changePos(2)' v-show='currentCourse.syllabusid'>
+								<Icon type="md-arrow-round-down" />
+							</span>
+							<span v-if='false' title='上移至第一位' class='wm-go-top1'>
+								<Icon type="md-arrow-round-up" />
+							</span>
+							<span v-if='false' title='上移至最后一位' class='wm-go-down'>
+								<Icon type="md-arrow-round-down" />
+							</span>
+						</div>
+						<Page :total="total"  @on-change='pageChange'  size="small" :page-size='pagenum' />
+					</div>
 				</div>
 
 			</div>
@@ -77,6 +94,7 @@
 		name:'zmitiindex',
 		data(){
 			return{
+				currentCourse:{},
 				editorOption:{
 					modules:{
                         toolbar:[
@@ -92,6 +110,10 @@
 				showDetail:false,
 				currentClassId:-1, 
 				address:'',
+				currentRowIndex:0,
+				page:1,
+				pagenum:(window.innerHeight - 200) / 50 | 0,
+				total:0,
 				showPass:false,
 				showMap:false,
 				viewH:window.innerHeight,
@@ -247,6 +269,120 @@
 		
 		methods:{
 
+			changePos(index){
+
+				var s = this;
+				var sort = 0;
+				switch (index) {
+					case 1://上移一个
+					if(s.currentRowIndex-1 >= 0){
+						var tempSort = s.courseList[s.currentRowIndex-1].sort;
+						var currentSort = s.courseList[s.currentRowIndex].sort;
+
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatecourse',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								syllabusid:s.currentCourse.syllabusid,
+								sort:tempSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getClassList();
+								}
+							}
+						});
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatecourse',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								syllabusid:s.courseList[s.currentRowIndex-1].syllabusid,
+								sort:currentSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getClassList();
+								}
+							}
+						});
+					//	this.currentCourse = this.courseList[this.currentRowIndex];
+						this.currentRowIndex = this.currentRowIndex -1;
+					}
+					break;
+					case 2://下移一个
+					if(s.currentRowIndex+1<=s.courseList.length-1){
+						var tempSort = s.courseList[s.currentRowIndex+1].sort;
+						var currentSort = s.courseList[s.currentRowIndex].sort;
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatecourse',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								syllabusid:s.currentCourse.syllabusid,
+								sort:tempSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getClassList();
+								}
+							}
+						});
+						symbinUtil.ajax({
+							url:window.config.baseUrl+'/zmitiadmin/updatecourse',
+							data:{
+								admintoken : s.userinfo.accesstoken,
+								adminuserid: s.userinfo.userid,
+								syllabusid:s.courseList[s.currentRowIndex+1].syllabusid,
+								sort:currentSort
+							},
+							success(data){
+								if(data.getret === 0 ){
+									s.getClassList();
+								}
+							}
+						});
+						
+						this.currentRowIndex = this.currentRowIndex + 1;
+					}
+					break;
+					case 3://移到第一个
+						sort = s.total;
+						this.currentRowIndex = 0;
+					break;
+					case 4://移到最一个。
+						sort = 0;
+						this.currentRowIndex = this.courseList.length -1;
+					break;
+				
+					default:
+						break;
+				}
+				if(index === 1 && s.currentRowIndex === 0){
+					return;//移动第一行。
+				}
+				if(index === 4 && s.currentRowIndex === s.courseList.length-1){
+					return;//移动最后一行。
+				}
+				
+				
+
+			},
+
+			getRow(row,i){
+				if(i === this.lastIndex && this.lastIndex>-1){
+					this.currentCourse = {};
+					this.currentRowIndex = -1;
+					this.lastIndex  = -1;
+				}else{
+					this.currentCourse = row;
+					this.currentRowIndex = i;
+					this.lastIndex = i;
+				}
+				
+			},
+
 			addCourse(){
 				this.showDetail = true;
 				this.currentClassId = -1;
@@ -367,7 +503,10 @@
 					}
 				});
 			},
-
+			pageChange(page){
+				this.page = page;
+				this.getClassList();
+			},
 			 
 			getClassList(){
 				var s = this;
@@ -379,12 +518,14 @@
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
 						meetid:s.$route.params.meetid,
-						pagenum:1000,
+						pagenum:s.pagenum,
+						page:s.page,
 						status:-1,//查询全部
 					},
 					success(data){
 						if(data.getret === 0){
 							s.courseList = data.list;
+							s.total = data.totalnum.num;
 						}
 						else{
 							s.$Message.error(data.getmsg);
@@ -407,8 +548,20 @@
             onEditorFocus(){//获得焦点事件
             },
             onEditorChange(){//内容改变事件
+			},
+			rowClassName(row, index) {
+				if(row.syllabusid === this.currentCourse.syllabusid){
+					return 'active';
+				}
+                return '';
             },
 		}
 	}
 </script>
  
+<style>
+	 .ivu-table .active td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+</style>

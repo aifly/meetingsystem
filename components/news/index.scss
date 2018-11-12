@@ -4,34 +4,52 @@ $baseColor: #fcffb4;
 $viewW: 750px;
 $color: #be0000;
 
-.wm-student-main-ui {
-    &>header {
-        background: #fff;
-        height: 50px;
-        width: 100%;
-        line-height: 50px;
-        @include displayFlex(row);
-        justify-content: space-between;
-        -webkit-justify-content: space-between;
-        &>section {
-            margin-right: 30px;
-            ;
-        }
-        &>div {
-            font-size: 20px;
-            margin-left: 40px;
-            @include pos(r);
-            &:before {
-                content: "";
-                @include pos(a);
-                width: 2px;
-                height: 20px;
-                background: #cc0000;
-                top: 15px;
-                left: -10px;
-            }
-        }
-    }
+.wm-news-main-ui {
+
+     .wm-news-list-action {
+         margin-top: 10px;
+         @include displayFlex(row);
+
+         &>div,
+         &>ul {
+             flex: 1;
+             -webkit-flex: 1;
+         }
+
+         &>div {
+             span {
+                 cursor: pointer;
+                 margin-right: 10px;
+
+                 &.wm-go-top1,
+                 &.wm-go-down {
+                     @include pos(r);
+
+                     &:before {
+                         content: '';
+                         width: 90%;
+                         left: 5%;
+                         height: 2px;
+                         background: #515a6e;
+                         top: 0;
+                         @include pos(a);
+                         @include br(2px);
+                     }
+                 }
+
+                 &.wm-go-down {
+                     &:before {
+                         bottom: -1px;
+                         top: auto;
+                     }
+                 }
+             }
+
+             i {
+                 font-size: 20px;
+             }
+         }
+     }
 
    
     
