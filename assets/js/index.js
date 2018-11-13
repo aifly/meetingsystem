@@ -14184,7 +14184,7 @@
 					align: 'left',
 					width: 120,
 					render: function render(h, params) {
-						return h('div', {}, params.row.type * 1 === -1 ? '系统公告-' + params.row.sort : params.row.newstype + "-" + params.row.sort);
+						return h('div', {}, params.row.type * 1 === -1 ? '系统公告' : params.row.newstype);
 					}
 				}, {
 					title: "是否推荐",
@@ -29183,6 +29183,10 @@
 					longitude: '116.585856',
 					latitude: '40.364989'
 				},
+				defaultClass: {
+					longitude: '116.585856',
+					latitude: '40.364989'
+				},
 				courseList: [],
 
 				directoryList: {},
@@ -29356,6 +29360,7 @@
 
 			initMap: function initMap() {
 				var s = this;
+
 				var map = new AMap.Map('wm-classroom-pos', {
 					turboMode: false,
 					defaultCursor: 'pointer',
@@ -29363,9 +29368,10 @@
 					expandZoomRange: true,
 					zooms: [16, 40],
 					zoom: 4,
-					center: new AMap.LngLat(s.formClass.longitude, s.formClass.latitude),
+					center: new AMap.LngLat(s.defaultClass.longitude, s.defaultClass.latitude),
 					forceVector: true
 				});
+
 				//s.formClass.longitude,s.formClass.latitude
 				var g = new AMap.Geocoder({ city: "010" });
 

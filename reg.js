@@ -170,7 +170,7 @@ new Vue({
 		},
 		checkCode(){
 			var s = this;
-			if (!s.formStudent.verifycode){
+			if (!s.formStudent.verifycode || s.isEdit){
 				return;
 			}
 			symbinUtil.ajax({

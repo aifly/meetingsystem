@@ -175,7 +175,7 @@
 			},
 			checkCode: function checkCode() {
 				var s = this;
-				if (!s.formStudent.verifycode) {
+				if (!s.formStudent.verifycode || s.isEdit) {
 					return;
 				}
 				_componentsLibUtil2['default'].ajax({

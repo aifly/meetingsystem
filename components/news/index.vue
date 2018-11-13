@@ -206,7 +206,7 @@
 						align:'left',
 						width:120,
 						render:(h,params)=>{
-							return h('div',{},params.row.type*1 === -1 ? '系统公告-'+params.row.sort:params.row.newstype+"-"+params.row.sort);
+							return h('div',{},params.row.type*1 === -1 ? '系统公告':params.row.newstype);
 						}
 					},{
 						title:"是否推荐",
