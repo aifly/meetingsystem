@@ -105,6 +105,13 @@
 						align:'center'
 						
 					},{
+						title:"性别",
+						key:'sex',
+						align:'center',
+						render:(h,params)=>{
+							return h('div',{},params.row.sex === 1? '男':'女');
+						}
+					},{
 						title:"所属小组",
 						key:'groupname',
 						align:'center',
@@ -232,8 +239,8 @@
 						if(data.getret === 0){
 							s.groupList = data.list;
 							data.list.forEach((item,i)=>{
-								s.columns[2].filters = s.columns[2].filters || [];
-								s.columns[2].filters.push({
+								s.columns[3].filters = s.columns[3].filters || [];
+								s.columns[3].filters.push({
 									value:item.groupid,
 									label:item.groupname
 								})

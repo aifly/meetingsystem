@@ -11942,7 +11942,7 @@
 	// <template>
 	//     <div class="layout">
 	//         <Layout v-if='$route.name !== "login" && $route.name !== "register"'>
-	//             <Header>
+	//             <Header style='position:relative;z-index:10000'>
 	//                <div>
 	//                     <div class="wm-title">
 	//                         <img :src="imgs.adminLoginTitle" alt="">
@@ -12375,7 +12375,7 @@
 /* 16 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n    <div class=\"layout\">\r\n        <Layout v-if='$route.name !== \"login\" && $route.name !== \"register\"'>\r\n            <Header>\r\n               <div>\r\n                    <div class=\"wm-title\">\r\n                        <img :src=\"imgs.adminLoginTitle\" alt=\"\">\r\n                    </div>\r\n               </div>\r\n               <div>\r\n                   <div v-if='false'>\r\n                       <span><img :src=\"imgs.search\" alt=\"\"></span><input type=\"text\" placeholder=\"查询我的上报\" />\r\n                   </div>\r\n               </div>\r\n               <div class=\"wm-user-info\">\r\n                   <span><img :src='imgs.man' /></span>\r\n                   <span class=\"zmiti-text-overflow\">{{userinfo.realname}}</span>\r\n                   <div @click=\"logout\">\r\n                       <img :src=\"imgs.logout\" alt=\"\">\r\n                   </div>\r\n               </div>\r\n            </Header>\r\n            <Layout class=\"wm-main-layout\">\r\n                <div class=\"wm-tab-C\" :style='{height:(viewH - 64)+\"px\"}'>\r\n                    <Menu width='200'   theme='dark'>\r\n                        \r\n                        <Submenu name=\"1\">\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                人员管理\r\n                            </template>\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem name='student' to='/student/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"student\"}'>\r\n                                学员管理\r\n                            </MenuItem>\r\n                          <!--   <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"class\"}'>\r\n                                班级管理\r\n                            </MenuItem> -->\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem to='/teacher/' name='teacher' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"teacher\"}'>\r\n                                教师管理\r\n                            </MenuItem>\r\n                            <MenuItem to='/adminuser/' name='adminuser' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"adminuser\"}'>\r\n                                管理员管理\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                         <Submenu name='4'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper-plane\" />\r\n                                培训设置\r\n                            </template>\r\n                            <MenuItem name='meeting' to='/meeting/' class='wm-meeing-mgr' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"meeting\")>-1}'>\r\n                               <span style='opacity:0'>培训管理</span>\r\n                               <span class='wm-meeting-span' @click='entyMeeting'>培训管理</span> \r\n                            </MenuItem>\r\n                           <!--  <MenuItem name='news' to='/news/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"news\")>-1}'>\r\n                                新闻管理\r\n                                1、签到报名管理\r\n                                2、新闻信息管理\r\n                                3、考勤管理（请假管理）\r\n                                4、课程管理\r\n                                5、外出活动表（管理员新建外出活动，然后选择活动人员、活动地址、活动时间等。）\r\n                                6、作业管理。\r\n                                7、考评管理\r\n                            </MenuItem>\r\n                            <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"class\")>-1}'>\r\n                                课程管理\r\n                            </MenuItem>\r\n                            <MenuItem name='attendance' to='/attendance/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"attendance\")>-1}'>\r\n                                考勤管理\r\n                            </MenuItem> -->\r\n                            <!-- <MenuItem v-for='(resource,i) in resourceList' :key=\"i\" :name='\"collection\"+i' :to='\"/collection/\"+resource.resourceid+\"/0\"' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"collection\"}'>\r\n                                {{resource.resourcecnname}}\r\n                            </MenuItem> -->\r\n                        </Submenu>\r\n                        <Submenu name='2'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                我的\r\n                            </template>\r\n                            <MenuItem name='user' to='/user/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"user\"}'>\r\n                                个人中心\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                    </Menu>\r\n                </div>\r\n                <Layout :style=\"{maxWidth:viewW-200+'px'}\">\r\n                   <router-view></router-view>\r\n                </Layout>\r\n            </Layout>\r\n        </Layout>\r\n        <div v-else>\r\n            <router-view></router-view>\r\n        </div>\r\n    </div>\r\n";
+	module.exports = "\r\n    <div class=\"layout\">\r\n        <Layout v-if='$route.name !== \"login\" && $route.name !== \"register\"'>\r\n            <Header style='position:relative;z-index:10000'>\r\n               <div>\r\n                    <div class=\"wm-title\">\r\n                        <img :src=\"imgs.adminLoginTitle\" alt=\"\">\r\n                    </div>\r\n               </div>\r\n               <div>\r\n                   <div v-if='false'>\r\n                       <span><img :src=\"imgs.search\" alt=\"\"></span><input type=\"text\" placeholder=\"查询我的上报\" />\r\n                   </div>\r\n               </div>\r\n               <div class=\"wm-user-info\">\r\n                   <span><img :src='imgs.man' /></span>\r\n                   <span class=\"zmiti-text-overflow\">{{userinfo.realname}}</span>\r\n                   <div @click=\"logout\">\r\n                       <img :src=\"imgs.logout\" alt=\"\">\r\n                   </div>\r\n               </div>\r\n            </Header>\r\n            <Layout class=\"wm-main-layout\">\r\n                <div class=\"wm-tab-C\" :style='{height:(viewH - 64)+\"px\"}'>\r\n                    <Menu width='200'   theme='dark'>\r\n                        \r\n                        <Submenu name=\"1\">\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                人员管理\r\n                            </template>\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem name='student' to='/student/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"student\"}'>\r\n                                学员管理\r\n                            </MenuItem>\r\n                          <!--   <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"class\"}'>\r\n                                班级管理\r\n                            </MenuItem> -->\r\n                            <!--  <MenuItem :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"rate\"}' :key='i' v-for=\"(item,i) in sourceList\" :name=\"item.resourceid\">{{item.resourcecnname}}\r\n                            </MenuItem> -->\r\n                            <MenuItem to='/teacher/' name='teacher' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"teacher\"}'>\r\n                                教师管理\r\n                            </MenuItem>\r\n                            <MenuItem to='/adminuser/' name='adminuser' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"adminuser\"}'>\r\n                                管理员管理\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                         <Submenu name='4'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper-plane\" />\r\n                                培训设置\r\n                            </template>\r\n                            <MenuItem name='meeting' to='/meeting/' class='wm-meeing-mgr' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"meeting\")>-1}'>\r\n                               <span style='opacity:0'>培训管理</span>\r\n                               <span class='wm-meeting-span' @click='entyMeeting'>培训管理</span> \r\n                            </MenuItem>\r\n                           <!--  <MenuItem name='news' to='/news/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"news\")>-1}'>\r\n                                新闻管理\r\n                                1、签到报名管理\r\n                                2、新闻信息管理\r\n                                3、考勤管理（请假管理）\r\n                                4、课程管理\r\n                                5、外出活动表（管理员新建外出活动，然后选择活动人员、活动地址、活动时间等。）\r\n                                6、作业管理。\r\n                                7、考评管理\r\n                            </MenuItem>\r\n                            <MenuItem name='class' to='/class/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"class\")>-1}'>\r\n                                课程管理\r\n                            </MenuItem>\r\n                            <MenuItem name='attendance' to='/attendance/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name.indexOf(\"attendance\")>-1}'>\r\n                                考勤管理\r\n                            </MenuItem> -->\r\n                            <!-- <MenuItem v-for='(resource,i) in resourceList' :key=\"i\" :name='\"collection\"+i' :to='\"/collection/\"+resource.resourceid+\"/0\"' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"collection\"}'>\r\n                                {{resource.resourcecnname}}\r\n                            </MenuItem> -->\r\n                        </Submenu>\r\n                        <Submenu name='2'>\r\n                            <template slot=\"title\">\r\n                                <Icon type=\"ios-paper\" />\r\n                                我的\r\n                            </template>\r\n                            <MenuItem name='user' to='/user/' :class='{\"ivu-menu-item-active ivu-menu-item-selected\":$route.name === \"user\"}'>\r\n                                个人中心\r\n                            </MenuItem>\r\n                        </Submenu>\r\n                    </Menu>\r\n                </div>\r\n                <Layout :style=\"{maxWidth:viewW-200+'px'}\">\r\n                   <router-view></router-view>\r\n                </Layout>\r\n            </Layout>\r\n        </Layout>\r\n        <div v-else>\r\n            <router-view></router-view>\r\n        </div>\r\n    </div>\r\n";
 
 /***/ }),
 /* 17 */
@@ -12420,6 +12420,12 @@
 	// 				<FormItem label="姓名：" prop="studentname">
 	// 					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
 	// 				</FormItem>
+	// 				<FormItem label="性别：" prop="sex">
+	// 					<RadioGroup v-model="formAdmin.sex">
+	// 						<Radio :label="1">男</Radio>
+	// 						<Radio :label="0">女</Radio>
+	// 					</RadioGroup>
+	// 				</FormItem>
 	// 				<FormItem label="密码：" prop="userpwd">
 	// 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
 	// 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
@@ -12437,13 +12443,12 @@
 	// 				    </Select>
 	// 				</FormItem>				
 	//
-	//
-	// 				<FormItem label="职务：" prop="job">
+	// 				<FormItem label="职务：" prop="job" v-if='false'>
 	// 					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
 	// 				</FormItem>
 	//
-	// 				<FormItem label="单位名称：" prop="companyname">
-	// 					<Input v-model="formAdmin.companyname" placeholder="单位名称" autocomplete="off" />
+	// 				<FormItem label="单位及职务：" prop="companyname">
+	// 					<Input v-model="formAdmin.companyname" placeholder="单位及职务" autocomplete="off" />
 	// 				</FormItem>
 	//
 	// 				<FormItem label="邮箱：" prop="email">
@@ -12461,6 +12466,20 @@
 	// 					<Button type="default" @click="visible=false">返回</Button>
 	// 					<Button type="primary" @click="ok">确定</Button>
 	// 				</FormItem>
+	//
+	//
+	// 				<FormItem label="" prop="studentname">
+	// 					<Card>
+	// 						<p slot="title">所属会议</p>
+	// 						<p v-for="(stu,u) in studentObj.info" :key="u">
+	// 							{{stu.meetname}}
+	// 						</p>
+	// 					</Card>
+	//
+	// 				</FormItem>
+	//
+	//
+	//
 	// 			</Form>
 	// 		<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 	//
@@ -12477,6 +12496,8 @@
 	// 				<FormItem label="姓名：" prop="studentname">
 	// 					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
 	// 				</FormItem>
+	//
+	//
 	// 				<FormItem label="密码：" prop="userpwd">
 	// 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
 	// 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
@@ -12561,6 +12582,9 @@
 				showPass: false,
 				groupList: [],
 				viewH: window.innerHeight,
+				studentObj: {
+					info: []
+				},
 
 				formAdmin: {
 					userpwd: '111111',
@@ -12573,9 +12597,12 @@
 					key: 'studentname',
 					align: 'center'
 				}, {
-					title: "职务",
-					key: 'job',
-					align: 'center'
+					title: "性别",
+					key: 'sex',
+					align: 'center',
+					render: function render(h, params) {
+						return h('div', {}, params.row.sex === 1 ? '男' : '女');
+					}
 				}, {
 					title: "省份",
 					key: 'provincename',
@@ -12624,6 +12651,9 @@
 										},
 										success: function success(data) {
 											console.log(data);
+											if (data.getret === 0) {
+												s.studentObj = data.list[0];
+											}
 										}
 									});
 								}
@@ -12938,6 +12968,7 @@
 							provinceid: s.formAdmin.cityids[0],
 							meetid: s.formAdmin.meetid,
 							job: s.formAdmin.job,
+							sex: s.formAdmin.sex,
 							groupid: s.formAdmin.groupid,
 							cityid: s.formAdmin.cityids[1],
 							areaid: s.formAdmin.cityids[2],
@@ -13034,7 +13065,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-student-main-ui > header {\n  background: #fff;\n  height: 50px;\n  width: 100%;\n  line-height: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n}\n\n.wm-student-main-ui > header > section {\n  margin-right: 30px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  -webkit-align-items: center;\n  align-items: center;\n}\n\n.wm-student-main-ui > header > section button {\n  display: block;\n  height: 30px;\n  margin-right: 20px;\n}\n\n.wm-student-main-ui > header > div {\n  font-size: 20px;\n  margin-left: 40px;\n  position: relative;\n}\n\n.wm-student-main-ui > header > div:before {\n  content: \"\";\n  position: absolute;\n  width: 2px;\n  height: 20px;\n  background: #cc0000;\n  top: 15px;\n  left: -10px;\n}\n\n.wm-student-main-ui .wm-student-form {\n  width: 96%;\n  margin: 14px auto;\n  overflow: auto;\n}\n\n.wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\n  left: 30px;\n}\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-student-main-ui > header {\n  background: #fff;\n  height: 50px;\n  width: 100%;\n  line-height: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n}\n\n.wm-student-main-ui > header > section {\n  margin-right: 30px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  -webkit-align-items: center;\n  align-items: center;\n}\n\n.wm-student-main-ui > header > section button {\n  display: block;\n  height: 30px;\n  margin-right: 20px;\n}\n\n.wm-student-main-ui > header > div {\n  font-size: 20px;\n  margin-left: 40px;\n  position: relative;\n}\n\n.wm-student-main-ui > header > div:before {\n  content: \"\";\n  position: absolute;\n  width: 2px;\n  height: 20px;\n  background: #cc0000;\n  top: 15px;\n  left: -10px;\n}\n\n.wm-student-main-ui .wm-student-form {\n  width: 96%;\n  margin: 14px auto;\n  overflow: auto;\n  padding: 0 20px;\n}\n\n.wm-student-main-ui .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {\n  left: 30px;\n}\n", ""]);
 
 	// exports
 
@@ -13043,7 +13074,7 @@
 /* 21 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-student-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>学员管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addNewAduser\">新增学员</Button>\r\n\t\t\t\t<Input v-model=\"keyword\" placeholder=\"请输入关键字搜索\" />\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Form v-if='visible' class='wm-student-form wm-scroll' ref=\"formAdmin\" :style=\"{height:viewH-150+'px'}\"  :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"单位名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"单位名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"\" prop=\"studentname\" style=\"text-align:right\">\r\n\t\t\t\t\t<Button type=\"default\" @click=\"visible=false\">返回</Button>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"ok\">确定</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>\r\n\r\n\t\t<Modal\r\n\t\t\t\r\n\t\t\t:title=\"currentUserId === -1? '新增用户':'编辑用户'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"单位名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"单位名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\r\n\t\t \r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-student-main-ui\">\r\n\t\t<header>\r\n\t\t\t<div>学员管理</div>\r\n\t\t\t<section>\r\n\t\t\t\t<Button type=\"primary\" icon='md-add-circle' @click=\"addNewAduser\">新增学员</Button>\r\n\t\t\t\t<Input v-model=\"keyword\" placeholder=\"请输入关键字搜索\" />\r\n\t\t\t</section>\r\n\t\t</header>\r\n\t\t<Form v-if='visible' class='wm-student-form wm-scroll' ref=\"formAdmin\" :style=\"{height:viewH-150+'px'}\"  :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"性别：\" prop=\"sex\">\r\n\t\t\t\t\t<RadioGroup v-model=\"formAdmin.sex\">\r\n\t\t\t\t\t\t<Radio :label=\"1\">男</Radio>\r\n\t\t\t\t\t\t<Radio :label=\"0\">女</Radio>\r\n\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\" v-if='false'>\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"单位及职务：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"单位及职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"\" prop=\"studentname\" style=\"text-align:right\">\r\n\t\t\t\t\t<Button type=\"default\" @click=\"visible=false\">返回</Button>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"ok\">确定</Button>\r\n\t\t\t\t</FormItem>\r\n\r\n\r\n\t\t\t\t<FormItem label=\"\" prop=\"studentname\">\r\n\t\t\t\t\t<Card>\r\n\t\t\t\t\t\t<p slot=\"title\">所属会议</p>\r\n\t\t\t\t\t\t<p v-for=\"(stu,u) in studentObj.info\" :key=\"u\">\r\n\t\t\t\t\t\t\t{{stu.meetname}}\r\n\t\t\t\t\t\t</p>\r\n\t\t\t\t\t</Card>\r\n\r\n\t\t\t\t</FormItem>\r\n\r\n\r\n\r\n\t\t\t</Form>\r\n\t\t<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>\r\n\r\n\t\t<Modal\r\n\t\t\t\r\n\t\t\t:title=\"currentUserId === -1? '新增用户':'编辑用户'\"\r\n\t\t\t@on-ok=\"ok\"\r\n\t\t\t@on-cancel=\"cancel\">\r\n\t\t\t<Form ref=\"formAdmin\" :model=\"formAdmin\" :label-width=\"82\" >\r\n\t\t\t\t<FormItem label=\"手机号：\" prop=\"mobile\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.mobile\" placeholder=\"手机号\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"姓名：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.studentname\" placeholder=\"姓名\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"密码：\" prop=\"userpwd\">\r\n\t\t\t\t\t<Input ref='pass' :disabled='!showPass' v-model=\"formAdmin.userpwd\" placeholder=\"密码\" autocomplete=\"off\" />\r\n\t\t\t\t\t<Button :disabled='currentUserId ===-1' type=\"primary\" style=\"margin-top:10px\" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"所属培训：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.meetid\">\r\n\t\t\t\t       <Option v-for=\"item in meetList\" :value=\"item.meetid\" :key=\"item.meetid\">{{ item.meetname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\r\n\r\n\t\t\t\t<FormItem label=\"所属小组：\" prop=\"mobile\" v-if='!formAdmin.userid'>\r\n\t\t\t\t\t <Select v-model=\"formAdmin.groupid\">\r\n\t\t\t\t       <Option v-for=\"item in groupList\" :value=\"item.groupid+''\" :key=\"item.groupid\">{{ item.groupname }}</Option>\r\n\t\t\t\t    </Select>\r\n\t\t\t\t</FormItem>\t\t\t\t\r\n\r\n\t\t\t\r\n\t\t\t\t<FormItem label=\"职务：\" prop=\"job\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.job\" placeholder=\"职务\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"单位名称：\" prop=\"companyname\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.companyname\" placeholder=\"单位名称\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t<FormItem label=\"邮箱：\" prop=\"email\">\r\n\t\t\t\t\t<Input v-model=\"formAdmin.email\" placeholder=\"邮箱\" autocomplete=\"off\" />\r\n\t\t\t\t</FormItem>\r\n\t\t\t\t<FormItem label=\"地址：\" prop=\"cityids\">\r\n\t\t\t\t\t<Cascader v-model=\"formAdmin.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t<FormItem label=\"详细地址：\" prop=\"studentname\">\r\n\t\t\t\t\t<Input type=\"textarea\" v-model=\"formAdmin.detailaddress\"></Input>\r\n\t\t\t\t</FormItem>\r\n\t\t\t</Form>\r\n\t\t</Modal>\r\n\r\n\t\t \r\n\t</div>\r\n";
 
 /***/ }),
 /* 22 */
@@ -13079,7 +13110,7 @@
 	// 		<div class="wm-user-center">
 	// 			<div>
 	// 				<div class="wm-user-form-item">
-	// 					<label for="">用户名：</label><input type="text"  v-model='userinfo.adminusername'>
+	// 					<label for="">用户名：</label><input type="text"  v-model='userinfo.username'>
 	// 					<div class="wm-user-error" v-if='userError'>{{userError}}</div>
 	// 				</div>
 	// 				<div class="wm-user-form-item">
@@ -13092,11 +13123,11 @@
 	// 					<div class="wm-user-error" v-if='repassError'>{{repassError}}</div>
 	// 				</div>
 	// 				<div class="wm-user-form-item">
-	// 					<label for="">姓名：</label><input type="text" v-model="userinfo.nickname">
+	// 					<label for="">姓名：</label><input type="text" v-model="userinfo.realname">
 	// 					<div class="wm-user-error" v-if='usernameError'>{{usernameError}}</div>
 	// 				</div>
 	// 				<div class="wm-user-form-item">
-	// 					<label for="">手机：</label><input type="text" v-model="userinfo.adminmobile">
+	// 					<label for="">手机：</label><input type="text" v-model="userinfo.usermobile">
 	// 					<div class="wm-user-error" v-if='mobileError'>{{mobileError}}</div>
 	// 				</div>
 	// 				<div class="wm-user-form-item ">
@@ -13113,7 +13144,7 @@
 	// 					<label for="">详细地址：</label><input type="text" v-model="userinfo.detailaddress">
 	// 				</div>
 	// 				<div class="wm-user-form-item ">
-	// 					<label for="">邮箱：</label><input type="text"  v-model="userinfo.email">
+	// 					<label for="">邮箱：</label><input type="text"  v-model="userinfo.useremail">
 	// 				</div>
 	// 				<div class="wm-user-form-item wx-reg-btn" @click="modifyUser">
 	// 					确 定
@@ -13181,6 +13212,7 @@
 		mounted: function mounted() {
 			this.userinfo = _libUtil2['default'].getUserInfo();
 			console.log(this.userinfo);
+
 			this.getCityData();
 			if (this.userinfo.isadmin) {
 				//window.location.hash = '/periods';
@@ -13214,11 +13246,11 @@
 
 					_libUtil2['default'].ajax({
 						_this: s,
-						url: window.config.baseUrl + '/wmadadmin/updateadminpwd/',
+						url: window.config.baseUrl + '/zmitiadmin/updateadminpwd/',
 						data: {
-							adminusername: s.userinfo.adminusername,
-							admintoken: s.userinfo.admintoken,
-							adminpwd: s.userinfo.password
+							adminuserid: s.userinfo.userid,
+							admintoken: s.userinfo.accesstoken,
+							userpwd: s.userinfo.password
 						},
 						success: function success(data) {
 							console.log(data);
@@ -13226,7 +13258,7 @@
 								s.$Message.success('修改密码成功,请重新登录');
 								setTimeout(function () {
 									window.location.hash = '#/login';
-								}, 400);
+								}, 1000);
 							} else {
 								s.$Message.error(data.getmsg);
 							}
@@ -13307,13 +13339,16 @@
 				var s = this;
 				_libUtil2['default'].ajax({
 					_this: s,
-					url: window.config.baseUrl + '/wmadadmin/updateadmininfo',
+					url: window.config.baseUrl + '/zmitiadmin/updateadmininfo',
 					validate: s.validate,
 					data: {
-						adminusername: s.userinfo.adminusername,
-						admintoken: s.userinfo.admintoken,
-						nickname: s.userinfo.nickname,
-						adminmobile: s.userinfo.adminmobile,
+						adminuserid: s.userinfo.userid,
+						userid: s.userinfo.userid,
+						admintoken: s.userinfo.accesstoken,
+						realname: s.userinfo.realname,
+						usermobile: s.userinfo.usermobile,
+						useremail: s.userinfo.useremail,
+						sex: s.userinfo.sex,
 						detailaddress: s.userinfo.detailaddress,
 						email: s.userinfo.email,
 						/* 	provinceid:s.userinfo.cityids[0],
@@ -13324,12 +13359,13 @@
 						console.log(data);
 						if (data.getret === 0) {
 							s.$Message.success(data.getmsg);
-							data.list.admintoken = s.userinfo.admintoken;
-							data.list.accesstoken = s.userinfo.accesstoken;
-							window.localStorage.setItem('login', JSON.stringify(data.list));
+							/* 
+	      data.list.admintoken = s.userinfo.admintoken;
+	      data.list.accesstoken = s.userinfo.accesstoken;
+	      window.localStorage.setItem('login',JSON.stringify(data.list)); */
 							///window.location.hash =  '/login';
 						} else {
-								s.$Message.error('修改密码失败');
+								//s.$Message.error('修改密码失败');
 							}
 					}
 
@@ -13416,7 +13452,7 @@
 /* 26 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-user-ui\">\r\n\t\t<header>\r\n\t\t\t<div>个人中心</div>\r\n\t\t</header>\r\n\t\t<div class=\"wm-user-center\">\r\n\t\t\t<div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">用户名：</label><input type=\"text\"  v-model='userinfo.adminusername'>\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='userError'>{{userError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">密码：</label><input type=\"password\" :disabled='!showPassWord' v-model=\"userinfo.password\">\r\n\t\t\t\t\t<Button type='primary'  @click='modifyPwd'>{{showPassWord?'确定':'修改密码'}}</Button>\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='passError'>{{passError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\" v-if='showPassWord'>\r\n\t\t\t\t\t<label for=\"\">确认密码：</label><input type=\"password\" v-model=\"userinfo.repassword\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='repassError'>{{repassError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">姓名：</label><input type=\"text\" v-model=\"userinfo.nickname\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='usernameError'>{{usernameError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">手机：</label><input type=\"text\" v-model=\"userinfo.adminmobile\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='mobileError'>{{mobileError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item \">\r\n\t\t\t\t\t<label for=\"\">单位：</label><input type=\"text\" v-model=\"userinfo.company\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='companyError'>{{companyError}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-user-form-item \"  v-if='false'>\r\n\t\t\t\t\t<label for=\"\">地址：</label>\r\n\t\t\t\t\t<Cascader v-model=\"userinfo.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-user-form-item \">\r\n\t\t\t\t\t<label for=\"\">详细地址：</label><input type=\"text\" v-model=\"userinfo.detailaddress\">\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item \">\r\n\t\t\t\t\t<label for=\"\">邮箱：</label><input type=\"text\"  v-model=\"userinfo.email\">\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item wx-reg-btn\" @click=\"modifyUser\">\r\n\t\t\t\t\t确 定\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\r\n\t\t\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-user-ui\">\r\n\t\t<header>\r\n\t\t\t<div>个人中心</div>\r\n\t\t</header>\r\n\t\t<div class=\"wm-user-center\">\r\n\t\t\t<div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">用户名：</label><input type=\"text\"  v-model='userinfo.username'>\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='userError'>{{userError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">密码：</label><input type=\"password\" :disabled='!showPassWord' v-model=\"userinfo.password\">\r\n\t\t\t\t\t<Button type='primary'  @click='modifyPwd'>{{showPassWord?'确定':'修改密码'}}</Button>\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='passError'>{{passError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\" v-if='showPassWord'>\r\n\t\t\t\t\t<label for=\"\">确认密码：</label><input type=\"password\" v-model=\"userinfo.repassword\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='repassError'>{{repassError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">姓名：</label><input type=\"text\" v-model=\"userinfo.realname\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='usernameError'>{{usernameError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item\">\r\n\t\t\t\t\t<label for=\"\">手机：</label><input type=\"text\" v-model=\"userinfo.usermobile\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='mobileError'>{{mobileError}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item \">\r\n\t\t\t\t\t<label for=\"\">单位：</label><input type=\"text\" v-model=\"userinfo.company\">\r\n\t\t\t\t\t<div class=\"wm-user-error\" v-if='companyError'>{{companyError}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-user-form-item \"  v-if='false'>\r\n\t\t\t\t\t<label for=\"\">地址：</label>\r\n\t\t\t\t\t<Cascader v-model=\"userinfo.cityids\"  :load-data=\"getCityById\"  change-on-select :data='provinceList'></Cascader>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-user-form-item \">\r\n\t\t\t\t\t<label for=\"\">详细地址：</label><input type=\"text\" v-model=\"userinfo.detailaddress\">\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item \">\r\n\t\t\t\t\t<label for=\"\">邮箱：</label><input type=\"text\"  v-model=\"userinfo.useremail\">\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-user-form-item wx-reg-btn\" @click=\"modifyUser\">\r\n\t\t\t\t\t确 定\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\r\n\t\t\r\n\t</div>\r\n";
 
 /***/ }),
 /* 27 */
@@ -31434,9 +31470,22 @@
 					align: 'center'
 
 				}, {
+					title: "性别",
+					key: 'sex',
+					align: 'center',
+					render: function render(h, params) {
+						return h('div', {}, params.row.sex === 1 ? '男' : '女');
+					}
+
+				}, {
 					title: "省/市",
 					key: 'provincename',
-					align: 'center'
+					align: 'center',
+					filters: [],
+					filterMultiple: false,
+					filterMethod: function filterMethod(value, row) {
+						return row.provinceid === value;
+					}
 
 				}, {
 					title: "所属小组",
@@ -31449,13 +31498,8 @@
 					}
 
 				}, {
-					title: "单位",
+					title: "单位及职务",
 					key: 'companyname',
-					align: 'center'
-
-				}, {
-					title: "职务",
-					key: 'job',
 					align: 'center'
 
 				}, {
@@ -31535,93 +31579,7 @@
 							}
 						}, '删除')])], '1');
 					}
-				}
-				/* ,{
-	   	title:'操作',
-	   	key:'action',
-	   	width:200,
-	   	align:'center',
-	   	render(h,params){
-	   		return h('div', {
-	   			
-	   		},[
-	                             
-	                              h('Button', {
-	                                  props: {
-	                                      type: 'primary',
-	                                      size: 'small'
-	                                  },
-	                                  style: {
-	   					margin: '2px 5px',
-	   					border:'none',
-	   					background:'#fab82e',
-	   					color:'#fff',
-	   					padding: '3px 7px 2px',
-	   					fontSize: '12px',
-	   					borderRadius: '3px'
-	                                   },
-	                                  on: {
-	                                      click: () => {
-	   						//this.currentUserId = params.row.userid;
-	   						//this.formAdmin = params.row;
-	   						//this.formAdmin.cityids = [params.row.provinceid*1,params.row.cityid*1,params.row.areaid*1];
-	   						//this.visible = true;
-	                                      }
-	                                  }
-	                              }, '编辑'),
-	                              h('Poptip',{
-	   				props:{
-	   					confirm:true,
-	   					title:"确定要删除吗"
-	   				},
-	   				on:{
-	   					'on-ok':()=>{
-	   						this.delAdUser(params.row.userid);
-	   					},
-	   					
-	   				}
-	   			},[
-	   				h('Button', {
-	   					props: {
-	   						type: 'error',
-	   						size: 'small'
-	   					},
-	   					on: {
-	   						click: () => {
-	   							
-	   							//this.remove(params.index,params.row.employeeid)
-	   						}
-	   					}
-	   				}, '删除')
-	   			]), 
-	   			h('Button', {
-	                                  props: {
-	                                      type: 'primary',
-	                                      size: 'small'
-	                                  },
-	                                  style: {
-	   					margin: '2px 5px',
-	   					border:'none',
-	   					background:params.row.status*1 === 0 ? 'rgb(2, 29, 236)':'#b20000',
-	   					color:'#fff',
-	   					padding: '3px 7px 2px',
-	   					fontSize: '12px',
-	   					borderRadius: '3px'
-	                                   },
-	                                  on: {
-	                                      click: () => {
-	   						//this.currentUserId = params.row.userid;
-	   						//this.formAdmin = params.row;
-	   						//this.visible = true;
-	   							//this.checkUser(params);
-	   							
-	                                      }
-	                                  }
-	                              }, '详情'),
-	   		]);
-	   	}
-	   } */
-				],
+				}],
 
 				userList: [],
 				formUser: {},
@@ -31643,6 +31601,7 @@
 			this.userinfo = _libUtil2['default'].getUserInfo();
 			this.getsignupList();
 			this.getGroupList();
+			this.getProvinceList();
 			this.upload({
 				accept: {
 					title: 'All',
@@ -31660,7 +31619,7 @@
 			keyword: function keyword(val) {
 				if (val) {
 					this.userList = this.defaultUserList.filter(function (item) {
-						return item.mobile.indexOf(val) > -1 || item.studentname.indexOf(val) > -1;
+						return item.mobile.indexOf(val) > -1 || item.studentname.indexOf(val) > -1 || item.companyname.indexOf(val) > -1;
 					});
 				} else {
 					this.userList = this.defaultUserList.concat([]);
@@ -31704,10 +31663,30 @@
 						if (data.getret === 0) {
 							s.groupList = data.list;
 							data.list.forEach(function (item, i) {
-								s.columns[3].filters = s.columns[3].filters || [];
-								s.columns[3].filters.push({
+								s.columns[4].filters = s.columns[4].filters || [];
+								s.columns[4].filters.push({
 									value: item.groupid,
 									label: item.groupname
+								});
+							});
+						}
+					}
+				});
+			},
+
+			getProvinceList: function getProvinceList() {
+				var s = this;
+				_libUtil2['default'].ajax({
+					url: window.config.baseUrl + '/share/getcitylist/',
+					data: {},
+					success: function success(data) {
+						if (data.getret === 0) {
+							data.list.map(function (item, i) {
+
+								s.columns[3].filters = s.columns[3].filters || [];
+								s.columns[3].filters.push({
+									value: item.cityid,
+									label: item.name
 								});
 							});
 						}
@@ -31981,7 +31960,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-signup-ui,\n.wm-news-main-ui,\n.wm-course-main-ui,\n.wm-attendance-ui,\n.wm-scoreitem-main-ui,\n.wm-feedback-main-ui,\n.wm-score-main-ui {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .ivu-table-wrapper,\n.wm-news-main-ui .ivu-table-wrapper,\n.wm-course-main-ui .ivu-table-wrapper,\n.wm-attendance-ui .ivu-table-wrapper,\n.wm-scoreitem-main-ui .ivu-table-wrapper,\n.wm-feedback-main-ui .ivu-table-wrapper,\n.wm-score-main-ui .ivu-table-wrapper {\n  border-top: none;\n  border-bottom: none;\n  border-right: none;\n}\n\n.wm-signup-ui > div:nth-of-type(1),\n.wm-news-main-ui > div:nth-of-type(1),\n.wm-course-main-ui > div:nth-of-type(1),\n.wm-attendance-ui > div:nth-of-type(1),\n.wm-scoreitem-main-ui > div:nth-of-type(1),\n.wm-feedback-main-ui > div:nth-of-type(1),\n.wm-score-main-ui > div:nth-of-type(1) {\n  width: 200px;\n}\n\n.wm-signup-search {\n  width: 300px;\n}\n\n.wm-signup-ui .wm-header-right-action,\n.wm-news-main-ui .wm-header-right-action,\n.wm-course-main-ui .wm-header-right-action,\n.wm-attendance-ui .wm-header-right-action,\n.wm-scoreitem-main-ui .wm-header-right-action,\n.wm-feedback-main-ui .wm-header-right-action,\n.wm-score-main-ui .wm-header-right-action {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .wm-header-right-action > div,\n.wm-news-main-ui .wm-header-right-action > div,\n.wm-course-main-ui .wm-header-right-action > div,\n.wm-attendance-ui .wm-header-right-action > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div,\n.wm-feedback-main-ui .wm-header-right-action > div,\n.wm-score-main-ui .wm-header-right-action > div {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin-right: 20px;\n}\n\n.wm-signup-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-news-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-course-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-attendance-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-scoreitem-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-feedback-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-score-main-ui .wm-header-right-action > div:nth-of-type(2) {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  align-items: flex-end;\n  font-size: 12px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-header-temp,\n.wm-news-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-course-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-attendance-ui .wm-header-right-action > div .wm-header-temp,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-score-main-ui .wm-header-right-action > div .wm-header-temp {\n  margin-right: 10px;\n  font-size: 14px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn {\n  margin-right: 5px;\n  position: relative;\n  height: 32px;\n  border-radius: 4px;\n  border: 1px solid #dcdee2;\n  top: 10px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after {\n  display: none;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn input {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  opacity: 0;\n  cursor: pointer;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div,\n.wm-news-main-ui .wm-header-right-action > div > div,\n.wm-course-main-ui .wm-header-right-action > div > div,\n.wm-attendance-ui .wm-header-right-action > div > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div,\n.wm-feedback-main-ui .wm-header-right-action > div > div,\n.wm-score-main-ui .wm-header-right-action > div > div {\n  height: 40px;\n  position: relative;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div > div .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div > div .wm-upload {\n  position: absolute;\n}\n\n.wm-signup-ui .wm-tab-content,\n.wm-news-main-ui .wm-tab-content,\n.wm-course-main-ui .wm-tab-content,\n.wm-attendance-ui .wm-tab-content,\n.wm-scoreitem-main-ui .wm-tab-content,\n.wm-feedback-main-ui .wm-tab-content,\n.wm-score-main-ui .wm-tab-content {\n  box-sizing: border-box;\n  flex: 1;\n  -webkit-flex: 1;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: column;\n}\n\n.wm-signup-ui .wm-tab-content > div,\n.wm-news-main-ui .wm-tab-content > div,\n.wm-course-main-ui .wm-tab-content > div,\n.wm-attendance-ui .wm-tab-content > div,\n.wm-scoreitem-main-ui .wm-tab-content > div,\n.wm-feedback-main-ui .wm-tab-content > div,\n.wm-score-main-ui .wm-tab-content > div {\n  width: 98%;\n  margin: 10px auto 10px;\n  position: relative;\n  flex: 1;\n  -webkit-flex: 1;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content > div .wm-meet-form,\n.wm-news-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-course-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-attendance-ui .wm-tab-content > div .wm-meet-form,\n.wm-scoreitem-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-feedback-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-score-main-ui .wm-tab-content > div .wm-meet-form {\n  width: 100%;\n  margin: 0px auto;\n  padding: 20px 40px;\n  height: 600px;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header,\n.wm-news-main-ui .wm-tab-content .wm-tab-header,\n.wm-course-main-ui .wm-tab-content .wm-tab-header,\n.wm-attendance-ui .wm-tab-content .wm-tab-header,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header,\n.wm-score-main-ui .wm-tab-content .wm-tab-header {\n  width: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  width: 100%;\n  padding: 0 20px;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n  line-height: 50px;\n  font-size: 20px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {\n  position: relative;\n  text-indent: .5em;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {\n  content: '';\n  width: 4px;\n  height: 24px;\n  background: #be0000;\n  left: -4px;\n  position: absolute;\n  top: 12px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-wrap,\n.wm-news-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-course-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-attendance-ui .wm-tab-content .wm-signup-wrap,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-score-main-ui .wm-tab-content .wm-signup-wrap {\n  margin: 50px auto;\n  width: 500px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item,\n.wm-news-main-ui .wm-tab-content .wm-signup-item,\n.wm-course-main-ui .wm-tab-content .wm-signup-item,\n.wm-attendance-ui .wm-tab-content .wm-signup-item,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item,\n.wm-score-main-ui .wm-tab-content .wm-signup-item {\n  line-height: 40px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin: 10px 0;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div,\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div {\n  margin-right: 10px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {\n  width: 80px;\n  text-align: right;\n}\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-signup-ui,\n.wm-news-main-ui,\n.wm-course-main-ui,\n.wm-attendance-ui,\n.wm-scoreitem-main-ui,\n.wm-feedback-main-ui,\n.wm-score-main-ui {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .ivu-table-wrapper,\n.wm-news-main-ui .ivu-table-wrapper,\n.wm-course-main-ui .ivu-table-wrapper,\n.wm-attendance-ui .ivu-table-wrapper,\n.wm-scoreitem-main-ui .ivu-table-wrapper,\n.wm-feedback-main-ui .ivu-table-wrapper,\n.wm-score-main-ui .ivu-table-wrapper {\n  border-top: none;\n  border-bottom: none;\n  border-right: none;\n}\n\n.wm-signup-ui > div:nth-of-type(1),\n.wm-news-main-ui > div:nth-of-type(1),\n.wm-course-main-ui > div:nth-of-type(1),\n.wm-attendance-ui > div:nth-of-type(1),\n.wm-scoreitem-main-ui > div:nth-of-type(1),\n.wm-feedback-main-ui > div:nth-of-type(1),\n.wm-score-main-ui > div:nth-of-type(1) {\n  width: 200px;\n}\n\n.wm-signup-search {\n  width: 300px;\n}\n\n.wm-signup-ui .wm-header-right-action,\n.wm-news-main-ui .wm-header-right-action,\n.wm-course-main-ui .wm-header-right-action,\n.wm-attendance-ui .wm-header-right-action,\n.wm-scoreitem-main-ui .wm-header-right-action,\n.wm-feedback-main-ui .wm-header-right-action,\n.wm-score-main-ui .wm-header-right-action {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .wm-header-right-action > div,\n.wm-news-main-ui .wm-header-right-action > div,\n.wm-course-main-ui .wm-header-right-action > div,\n.wm-attendance-ui .wm-header-right-action > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div,\n.wm-feedback-main-ui .wm-header-right-action > div,\n.wm-score-main-ui .wm-header-right-action > div {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin-right: 20px;\n}\n\n.wm-signup-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-news-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-course-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-attendance-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-scoreitem-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-feedback-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-score-main-ui .wm-header-right-action > div:nth-of-type(2) {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  align-items: flex-end;\n  font-size: 12px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-header-temp,\n.wm-news-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-course-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-attendance-ui .wm-header-right-action > div .wm-header-temp,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-score-main-ui .wm-header-right-action > div .wm-header-temp {\n  margin-right: 10px;\n  font-size: 14px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn {\n  margin-right: 5px;\n  position: relative;\n  height: 32px;\n  border-radius: 4px;\n  border: 1px solid #dcdee2;\n  top: 10px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after {\n  display: none;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn input {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  opacity: 0;\n  cursor: pointer;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div,\n.wm-news-main-ui .wm-header-right-action > div > div,\n.wm-course-main-ui .wm-header-right-action > div > div,\n.wm-attendance-ui .wm-header-right-action > div > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div,\n.wm-feedback-main-ui .wm-header-right-action > div > div,\n.wm-score-main-ui .wm-header-right-action > div > div {\n  height: 40px;\n  position: relative;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div > div .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div > div .wm-upload {\n  position: absolute;\n}\n\n.wm-signup-ui .wm-tab-content,\n.wm-news-main-ui .wm-tab-content,\n.wm-course-main-ui .wm-tab-content,\n.wm-attendance-ui .wm-tab-content,\n.wm-scoreitem-main-ui .wm-tab-content,\n.wm-feedback-main-ui .wm-tab-content,\n.wm-score-main-ui .wm-tab-content {\n  box-sizing: border-box;\n  flex: 1;\n  -webkit-flex: 1;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: column;\n}\n\n.wm-signup-ui .wm-tab-content > div,\n.wm-news-main-ui .wm-tab-content > div,\n.wm-course-main-ui .wm-tab-content > div,\n.wm-attendance-ui .wm-tab-content > div,\n.wm-scoreitem-main-ui .wm-tab-content > div,\n.wm-feedback-main-ui .wm-tab-content > div,\n.wm-score-main-ui .wm-tab-content > div {\n  width: 98%;\n  margin: 10px auto 10px;\n  position: relative;\n  flex: 1;\n  -webkit-flex: 1;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content > div .wm-meet-form,\n.wm-news-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-course-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-attendance-ui .wm-tab-content > div .wm-meet-form,\n.wm-scoreitem-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-feedback-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-score-main-ui .wm-tab-content > div .wm-meet-form {\n  width: 100%;\n  margin: 0px auto;\n  padding: 20px 40px;\n  height: 600px;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header,\n.wm-news-main-ui .wm-tab-content .wm-tab-header,\n.wm-course-main-ui .wm-tab-content .wm-tab-header,\n.wm-attendance-ui .wm-tab-content .wm-tab-header,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header,\n.wm-score-main-ui .wm-tab-content .wm-tab-header {\n  width: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  width: 100%;\n  padding: 0 20px;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n  line-height: 50px;\n  font-size: 20px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {\n  position: relative;\n  text-indent: .5em;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {\n  content: '';\n  width: 4px;\n  height: 24px;\n  background: #be0000;\n  left: -4px;\n  position: absolute;\n  top: 12px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-wrap,\n.wm-news-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-course-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-attendance-ui .wm-tab-content .wm-signup-wrap,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-score-main-ui .wm-tab-content .wm-signup-wrap {\n  margin: 50px auto;\n  width: 500px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item,\n.wm-news-main-ui .wm-tab-content .wm-signup-item,\n.wm-course-main-ui .wm-tab-content .wm-signup-item,\n.wm-attendance-ui .wm-tab-content .wm-signup-item,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item,\n.wm-score-main-ui .wm-tab-content .wm-signup-item {\n  line-height: 40px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin: 10px 0;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div,\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div {\n  margin-right: 10px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {\n  width: 80px;\n  text-align: right;\n}\n\n.ivu-poptip-body {\n  max-height: 500px;\n  overflow: auto;\n}\n", ""]);
 
 	// exports
 
@@ -32551,6 +32530,13 @@
 					align: 'center'
 
 				}, {
+					title: "性别",
+					key: 'sex',
+					align: 'center',
+					render: function render(h, params) {
+						return h('div', {}, params.row.sex === 1 ? '男' : '女');
+					}
+				}, {
 					title: "所属小组",
 					key: 'groupname',
 					align: 'center',
@@ -32659,8 +32645,8 @@
 						if (data.getret === 0) {
 							s.groupList = data.list;
 							data.list.forEach(function (item, i) {
-								s.columns[2].filters = s.columns[2].filters || [];
-								s.columns[2].filters.push({
+								s.columns[3].filters = s.columns[3].filters || [];
+								s.columns[3].filters.push({
 									value: item.groupid,
 									label: item.groupname
 								});

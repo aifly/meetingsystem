@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
         <Layout v-if='$route.name !== "login" && $route.name !== "register"'>
-            <Header>
+            <Header style='position:relative;z-index:10000'>
                <div>
                     <div class="wm-title">
                         <img :src="imgs.adminLoginTitle" alt="">

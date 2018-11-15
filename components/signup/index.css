@@ -366,3 +366,8 @@
   width: 80px;
   text-align: right;
 }
+
+.ivu-poptip-body {
+  max-height: 500px;
+  overflow: auto;
+}

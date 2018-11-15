@@ -6,7 +6,7 @@
 		<div class="wm-user-center">
 			<div>
 				<div class="wm-user-form-item">
-					<label for="">用户名：</label><input type="text"  v-model='userinfo.adminusername'>
+					<label for="">用户名：</label><input type="text"  v-model='userinfo.username'>
 					<div class="wm-user-error" v-if='userError'>{{userError}}</div>
 				</div>
 				<div class="wm-user-form-item">
@@ -19,11 +19,11 @@
 					<div class="wm-user-error" v-if='repassError'>{{repassError}}</div>
 				</div>
 				<div class="wm-user-form-item">
-					<label for="">姓名：</label><input type="text" v-model="userinfo.nickname">
+					<label for="">姓名：</label><input type="text" v-model="userinfo.realname">
 					<div class="wm-user-error" v-if='usernameError'>{{usernameError}}</div>
 				</div>
 				<div class="wm-user-form-item">
-					<label for="">手机：</label><input type="text" v-model="userinfo.adminmobile">
+					<label for="">手机：</label><input type="text" v-model="userinfo.usermobile">
 					<div class="wm-user-error" v-if='mobileError'>{{mobileError}}</div>
 				</div>
 				<div class="wm-user-form-item ">
@@ -40,7 +40,7 @@
 					<label for="">详细地址：</label><input type="text" v-model="userinfo.detailaddress">
 				</div>
 				<div class="wm-user-form-item ">
-					<label for="">邮箱：</label><input type="text"  v-model="userinfo.email">
+					<label for="">邮箱：</label><input type="text"  v-model="userinfo.useremail">
 				</div>
 				<div class="wm-user-form-item wx-reg-btn" @click="modifyUser">
 					确 定
@@ -94,6 +94,7 @@
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
 			console.log(this.userinfo)
+			
 			this.getCityData();
 			if(this.userinfo.isadmin){
 				//window.location.hash = '/periods';
@@ -126,11 +127,11 @@
 
 					symbinUtil.ajax({
 						_this:s,
-						url:window.config.baseUrl+'/wmadadmin/updateadminpwd/',
+						url:window.config.baseUrl+'/zmitiadmin/updateadminpwd/',
 						data:{
-							adminusername:s.userinfo.adminusername,
-							admintoken:s.userinfo.admintoken,
-							adminpwd:s.userinfo.password
+							adminuserid:s.userinfo.userid,
+							admintoken:s.userinfo.accesstoken,
+							userpwd:s.userinfo.password
 						},
 						success(data){
 							console.log(data);
@@ -138,7 +139,7 @@
 								s.$Message.success('修改密码成功,请重新登录');
 								setTimeout(() => {
 									window.location.hash = '#/login';
-								}, 400);
+								}, 1000);
 							}
 							else{
 								s.$Message.error(data.getmsg);
@@ -226,13 +227,16 @@
 				var s = this;
 				symbinUtil.ajax({
 					_this:s,
-					url:window.config.baseUrl+'/wmadadmin/updateadmininfo',
+					url:window.config.baseUrl+'/zmitiadmin/updateadmininfo',
 					validate:s.validate,
 					data:{
-						adminusername:s.userinfo.adminusername,
-						admintoken:s.userinfo.admintoken,
-						nickname:s.userinfo.nickname,
-						adminmobile:s.userinfo.adminmobile,
+						adminuserid:s.userinfo.userid,
+						userid:s.userinfo.userid,
+						admintoken:s.userinfo.accesstoken,
+						realname:s.userinfo.realname,
+						usermobile:s.userinfo.usermobile,
+						useremail:s.userinfo.useremail,
+						sex:s.userinfo.sex,
 						detailaddress:s.userinfo.detailaddress,
 						email:s.userinfo.email,
 					/* 	provinceid:s.userinfo.cityids[0],
@@ -242,13 +246,14 @@
 					},success(data){
 						console.log(data);
 						 if(data.getret === 0){
-							s.$Message.success(data.getmsg);
+							 s.$Message.success(data.getmsg);
+							/* 
 							data.list.admintoken = s.userinfo.admintoken;
 							data.list.accesstoken = s.userinfo.accesstoken;
-							window.localStorage.setItem('login',JSON.stringify(data.list));
+							window.localStorage.setItem('login',JSON.stringify(data.list)); */
 							///window.location.hash =  '/login';
 						}else{
-							s.$Message.error('修改密码失败');
+							//s.$Message.error('修改密码失败');
 						} 
 					}
 

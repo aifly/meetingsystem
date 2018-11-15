@@ -139,9 +139,24 @@
 						align:'center'
 						
 					},{
+						title:"性别",
+						key:'sex',
+						align:'center',
+						render:(h,params)=>{
+							return h('div',{},params.row.sex === 1? '男':'女');
+						}
+						
+					},{
 						title:"省/市",
 						key:'provincename',
-						align:'center'
+						align:'center',
+						filters:[
+
+						] ,
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+							return row.provinceid  === value;
+                        },
 						
 					},{
 						title:"所属小组",
@@ -157,13 +172,8 @@
 						
 					},
 					{
-						title:"单位",
+						title:"单位及职务",
 						key:'companyname',
-						align:'center'
-						
-					},{
-						title:"职务",
-						key:'job',
 						align:'center'
 						
 					},
@@ -255,95 +265,7 @@
 								
 						},
 					}
-					/* ,{
-						title:'操作',
-						key:'action',
-						width:200,
-						align:'center',
-						render(h,params){
-							return h('div', {
-								
-							},[
-                               
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-										margin: '2px 5px',
-										border:'none',
-										background:'#fab82e',
-										color:'#fff',
-										padding: '3px 7px 2px',
-										fontSize: '12px',
-										borderRadius: '3px'
-
-                                    },
-                                    on: {
-                                        click: () => {
-											//this.currentUserId = params.row.userid;
-											//this.formAdmin = params.row;
-											//this.formAdmin.cityids = [params.row.provinceid*1,params.row.cityid*1,params.row.areaid*1];
-											//this.visible = true;
-                                        }
-                                    }
-                                }, '编辑'),
-                                h('Poptip',{
-									props:{
-										confirm:true,
-										title:"确定要删除吗"
-									},
-									on:{
-										'on-ok':()=>{
-											this.delAdUser(params.row.userid);
-										},
-										
-									}
-								},[
-									h('Button', {
-										props: {
-											type: 'error',
-											size: 'small'
-										},
-										on: {
-											click: () => {
-												
-												//this.remove(params.index,params.row.employeeid)
-											}
-										}
-									}, '删除')
-								]), 
-								h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-										margin: '2px 5px',
-										border:'none',
-										background:params.row.status*1 === 0 ? 'rgb(2, 29, 236)':'#b20000',
-										color:'#fff',
-										padding: '3px 7px 2px',
-										fontSize: '12px',
-										borderRadius: '3px'
-
-                                    },
-                                    on: {
-                                        click: () => {
-											//this.currentUserId = params.row.userid;
-											//this.formAdmin = params.row;
-											//this.visible = true;
-
-											//this.checkUser(params);
-
-											
-                                        }
-                                    }
-                                }, '详情'),
-							]);
-						}
-					} */
+					 
 				],
 
 				userList:[
@@ -370,6 +292,7 @@
 			this.userinfo = symbinUtil.getUserInfo();
 			this.getsignupList();
 			this.getGroupList();
+			this.getProvinceList();
 			this.upload({
 				accept:{
 						title: 'All',
@@ -388,7 +311,7 @@
 			keyword(val){
 				if(val){
 					this.userList = this.defaultUserList.filter((item)=>{
-						return item.mobile.indexOf(val)>-1 || item.studentname.indexOf(val)>-1;
+						return item.mobile.indexOf(val)>-1 || item.studentname.indexOf(val)>-1 ||item.companyname.indexOf(val)>-1;
 					})
 				}else{
 					this.userList = this.defaultUserList.concat([]);
@@ -433,12 +356,34 @@
 						if(data.getret === 0){
 							s.groupList = data.list;
 							data.list.forEach((item,i)=>{
-								s.columns[3].filters = s.columns[3].filters || [];
-								s.columns[3].filters.push({
+								s.columns[4].filters = s.columns[4].filters || [];
+								s.columns[4].filters.push({
 									value:item.groupid,
 									label:item.groupname
 								})
 							});
+						}
+					}
+				})
+			},
+
+			getProvinceList(){
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/share/getcitylist/',
+					data:{},
+					success(data){
+						if(data.getret === 0){
+							data.list.map((item,i)=>{
+
+								s.columns[3].filters = s.columns[3].filters || [];
+								s.columns[3].filters.push({
+									value:item.cityid,
+									label:item.name
+								})
+								
+								 
+							})
 						}
 					}
 				})

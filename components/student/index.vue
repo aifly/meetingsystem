@@ -15,6 +15,12 @@
 				<FormItem label="姓名：" prop="studentname">
 					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
 				</FormItem>
+				<FormItem label="性别：" prop="sex">
+					<RadioGroup v-model="formAdmin.sex">
+						<Radio :label="1">男</Radio>
+						<Radio :label="0">女</Radio>
+					</RadioGroup>
+				</FormItem>
 				<FormItem label="密码：" prop="userpwd">
 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
@@ -31,14 +37,13 @@
 				       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
 				    </Select>
 				</FormItem>				
-
 			
-				<FormItem label="职务：" prop="job">
+				<FormItem label="职务：" prop="job" v-if='false'>
 					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
 				</FormItem>
 
-				<FormItem label="单位名称：" prop="companyname">
-					<Input v-model="formAdmin.companyname" placeholder="单位名称" autocomplete="off" />
+				<FormItem label="单位及职务：" prop="companyname">
+					<Input v-model="formAdmin.companyname" placeholder="单位及职务" autocomplete="off" />
 				</FormItem>
 				
 				<FormItem label="邮箱：" prop="email">
@@ -56,6 +61,20 @@
 					<Button type="default" @click="visible=false">返回</Button>
 					<Button type="primary" @click="ok">确定</Button>
 				</FormItem>
+
+
+				<FormItem label="" prop="studentname">
+					<Card>
+						<p slot="title">所属会议</p>
+						<p v-for="(stu,u) in studentObj.info" :key="u">
+							{{stu.meetname}}
+						</p>
+					</Card>
+
+				</FormItem>
+
+
+
 			</Form>
 		<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 
@@ -72,6 +91,8 @@
 				<FormItem label="姓名：" prop="studentname">
 					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
 				</FormItem>
+
+			
 				<FormItem label="密码：" prop="userpwd">
 					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
@@ -138,6 +159,9 @@
 				showPass:false,
 				groupList:[],
 				viewH:window.innerHeight,
+				studentObj:{
+					info:[]
+				},
 
 				formAdmin:{
 					userpwd:'111111',
@@ -151,9 +175,12 @@
 						key:'studentname',
 						align:'center'
 					},{
-						title:"职务",
-						key:'job',
-						align:'center'
+						title:"性别",
+						key:'sex',
+						align:'center',
+						render:(h,params)=>{
+							return h('div',{},params.row.sex === 1? '男':'女');
+						}
 					},{
 						title:"省份",
 						key:'provincename',
@@ -205,6 +232,9 @@
 												},
 												success(data){
 													console.log(data);
+													if(data.getret === 0){
+														s.studentObj = data.list[0];
+													}
 												}
 											})
                                         }
@@ -544,6 +574,7 @@
 							provinceid:s.formAdmin.cityids[0],
 							meetid:s.formAdmin.meetid,
 							job:s.formAdmin.job,
+							sex:s.formAdmin.sex,
 							groupid:s.formAdmin.groupid,
 							cityid:s.formAdmin.cityids[1],
 							areaid:s.formAdmin.cityids[2],
