@@ -8,6 +8,7 @@ import News from './components/news/index';
 import Login from './components/login/index';
 import Course from './components/course/index';
 import Attendance from './components/attendance/index';
+import OutAttendance from './components/outattendance/index';
 import Meeting from './components/meeting/index';
 import Teacher from './components/teacher/index';
 import Signup from './components/signup/index';
@@ -116,6 +117,11 @@ const router = new VueRouter({
 			path: '/meetingfeedback/:meetid/:meetname/',
 			name: 'meetingfeedback',
 			component: Feedback,
+			props: true 
+		}, {
+			path: '/meetingoutattendance/:meetid/:meetname/',
+			name: 'meetingoutattendance',
+			component: OutAttendance,
 			props: true
 		},
 		

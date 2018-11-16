@@ -76,7 +76,7 @@
 				isEdit:false,
 				formStudent:{
 					mobile:"",
-					userpwd:'123456',
+					userpwd:'111111',
 					cityids:[]
 				},
 				success:false,

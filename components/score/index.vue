@@ -5,7 +5,7 @@
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
-				<div>评分结果</div>
+				<div>评分结果 {{scoreObj.title?">"+scoreObj.title:''}}</div>
 				<div style="font-size:14px;">
 					<a :href='"#/meetingscoreitem/"+$route.params.meetid+"/"+$route.params.meetname'>评分项管理</a>
 				</div>
@@ -208,8 +208,6 @@
 			this.getClassList();
 			this.getTeacherList();
 			this.getScoreList();
-
-			
 	
 			this.$root.eventHub.$on('setMainType',(index)=>{
 				this.mainType = index;
@@ -228,6 +226,7 @@
 				this.mainType = 1;
 				this.getAvgScore(row.syllabusid);
 				this.scoreObj.syllabusid = row.syllabusid;
+				this.scoreObj.title = row.title;
 			},
 
 
@@ -284,6 +283,7 @@
 				this.showDetail = false;
 				this.currentClassId = -1;
 				this.mainType = 0;
+				this.scoreObj.title =  '';
 			},
  
 

@@ -43,7 +43,10 @@
 					},{
 						name:'意见反馈',
 						to:'meetingfeedback'
-					}
+					}/* ,{
+						name:'外出考勤',
+						to:'meetingoutattendance'
+					} */
 				],
 				formUser:{
 					studentmame:'',

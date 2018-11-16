@@ -247,6 +247,7 @@
 .wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-name {
   font-size: 16px;
   font-weight: bold;
+  max-width: 80%;
 }
 
 .wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-info,
@@ -256,11 +257,14 @@
 }
 
 .wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-left {
-  padding: 0 10px;
+  flex: 2;
+  -webkit-flex: 2;
 }
 
 .wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right {
   text-align: right;
+  flex: 1;
+  -webkit-flex: 1;
 }
 
 .wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-item-header .wm-meet-item-header-right .wm-meet-item-actions {

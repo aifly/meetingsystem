@@ -143,9 +143,8 @@
 						key:'sex',
 						align:'center',
 						render:(h,params)=>{
-							return h('div',{},params.row.sex === 1? '男':'女');
+							return h('div',{},params.row.sex === 0? '男':'女');
 						}
-						
 					},{
 						title:"省/市",
 						key:'provincename',

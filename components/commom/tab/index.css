@@ -64,10 +64,11 @@
 
 .wm-tab-ui .wm-tab-list li:nth-of-type(1) {
   height: 100px;
-  line-height: 100px;
+  line-height: 20px;
   text-align: center;
   font-weight: bold;
   text-indent: 0;
+  padding: 40px 10px;
 }
 
 .wm-tab-ui .wm-tab-list li a {

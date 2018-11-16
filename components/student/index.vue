@@ -7,7 +7,7 @@
 				<Input v-model="keyword" placeholder="请输入关键字搜索" />
 			</section>
 		</header>
-		<Form v-if='visible' class='wm-student-form wm-scroll' ref="formAdmin" :style="{height:viewH-150+'px'}"  :model="formAdmin" :label-width="82" >
+		<Form v-if='visible' class='wm-student-form wm-scroll' ref="formAdmin" :style="{height:viewH-150+'px'}"  :model="formAdmin" :label-width="86" >
 				<FormItem label="手机号：" prop="mobile">
 					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
 				</FormItem>
@@ -38,8 +38,19 @@
 				    </Select>
 				</FormItem>				
 			
-				<FormItem label="职务：" prop="job" v-if='false'>
-					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
+				<FormItem label="民族：" prop="nation">
+					<Input v-model="formAdmin.nation" placeholder="民族" autocomplete="off" />
+				</FormItem>
+				<FormItem label="出生年月：" prop="birthdate">
+					<!-- <DatePicker v-model="formAdmin.birthdate" type="month" placeholder="出生年月" style="width:100%;"></DatePicker> -->
+					<Input v-model="formAdmin.birthdate" placeholder="出生年月" autocomplete="off" />
+				</FormItem>
+				<FormItem label="文化程度：" prop="education">
+					<Input v-model="formAdmin.education" placeholder="文化程度" autocomplete="off" />
+				</FormItem>
+				<FormItem label="任职时间：" prop="tenuretime">
+					<!-- <DatePicker v-model="formAdmin.tenuretime" type="date" placeholder="任职时间" style="width:100%;"></DatePicker> -->
+					<Input v-model="formAdmin.tenuretime" placeholder="任职时间" autocomplete="off" />
 				</FormItem>
 
 				<FormItem label="单位及职务：" prop="companyname">
@@ -63,7 +74,7 @@
 				</FormItem>
 
 
-				<FormItem label="" prop="studentname">
+				<FormItem label="" prop="studentname" >
 					<Card>
 						<p slot="title">所属会议</p>
 						<p v-for="(stu,u) in studentObj.info" :key="u">
@@ -78,61 +89,6 @@
 			</Form>
 		<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 
-		<Modal
-			
-			:title="currentUserId === -1? '新增用户':'编辑用户'"
-			@on-ok="ok"
-			@on-cancel="cancel">
-			<Form ref="formAdmin" :model="formAdmin" :label-width="82" >
-				<FormItem label="手机号：" prop="mobile">
-					<Input v-model="formAdmin.mobile" placeholder="手机号" autocomplete="off" />
-				</FormItem>
-				
-				<FormItem label="姓名：" prop="studentname">
-					<Input v-model="formAdmin.studentname" placeholder="姓名" autocomplete="off" />
-				</FormItem>
-
-			
-				<FormItem label="密码：" prop="userpwd">
-					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
-					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
-				</FormItem>
-				
-				<FormItem label="所属培训：" prop="mobile" v-if='!formAdmin.userid'>
-					 <Select v-model="formAdmin.meetid">
-				       <Option v-for="item in meetList" :value="item.meetid" :key="item.meetid">{{ item.meetname }}</Option>
-				    </Select>
-				</FormItem>	
-
-				<FormItem label="所属小组：" prop="mobile" v-if='!formAdmin.userid'>
-					 <Select v-model="formAdmin.groupid">
-				       <Option v-for="item in groupList" :value="item.groupid+''" :key="item.groupid">{{ item.groupname }}</Option>
-				    </Select>
-				</FormItem>				
-
-			
-				<FormItem label="职务：" prop="job">
-					<Input v-model="formAdmin.job" placeholder="职务" autocomplete="off" />
-				</FormItem>
-
-				<FormItem label="单位名称：" prop="companyname">
-					<Input v-model="formAdmin.companyname" placeholder="单位名称" autocomplete="off" />
-				</FormItem>
-				
-				<FormItem label="邮箱：" prop="email">
-					<Input v-model="formAdmin.email" placeholder="邮箱" autocomplete="off" />
-				</FormItem>
-				<FormItem label="地址：" prop="cityids">
-					<Cascader v-model="formAdmin.cityids"  :load-data="getCityById"  change-on-select :data='provinceList'></Cascader>
-				</FormItem>
-
-				<FormItem label="详细地址：" prop="studentname">
-					<Input type="textarea" v-model="formAdmin.detailaddress"></Input>
-				</FormItem>
-			</Form>
-		</Modal>
-
-		 
 	</div>
 </template>
 
@@ -186,6 +142,10 @@
 						key:'provincename',
 						align:'center'
 					},{
+						title:"民族",
+						key:'nation',
+						align:'center'
+					},{
 						title:"手机号",
 						key:'mobile',
 						align:'center'
@@ -218,6 +178,9 @@
                                     },
                                     on: {
                                         click: () => {
+											this.studentObj = {
+												info:[]
+											};
 											this.currentUserId = params.row.userid;
 											this.formAdmin = params.row;
 											this.formAdmin.cityids = [params.row.provinceid*1,params.row.cityid*1,params.row.areaid*1];
@@ -231,9 +194,9 @@
 													userid:params.row.userid,
 												},
 												success(data){
-													console.log(data);
+													
 													if(data.getret === 0){
-														s.studentObj = data.list[0];
+														s.studentObj = data.list;
 													}
 												}
 											})
@@ -326,7 +289,7 @@
 			keyword(val){
 				if(val){
 					this.userList = this.defaultUserList.filter((item,i)=>{
-						return item.studentname.indexOf(val)>-1 || item.meetname.indexOf(val)>-1;
+						return item.studentname.indexOf(val)>-1;
 					})
 				}else{
 					this.userList = this.defaultUserList.concat([]);
@@ -548,10 +511,7 @@
 
 
 			addadUser(){
-
-				 
 			},
-
 			 
 			ok(){
 				var s = this;
@@ -559,7 +519,6 @@
 				if(s.currentUserId<=-1){
 
 					symbinUtil.ajax({
-						_this:s,
 						url:window.config.baseUrl+'/zmitiadmin/addstudent/',
 						validate:s.validate,
 						data:{
@@ -578,7 +537,12 @@
 							groupid:s.formAdmin.groupid,
 							cityid:s.formAdmin.cityids[1],
 							areaid:s.formAdmin.cityids[2],
-							detailaddress:s.formAdmin.detailaddress
+							detailaddress:s.formAdmin.detailaddress,
+							nation:s.formAdmin.nation,
+							birthdate:s.formAdmin.birthdate,
+							education:s.formAdmin.education,
+							tenuretime:s.formAdmin.tenuretime,
+
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
@@ -592,7 +556,6 @@
 					})
 				}else{
 					symbinUtil.ajax({
-						_this:s,
 						url:window.config.baseUrl+'/zmitiadmin/updatestudentinfo/',
 						//validate:s.validate,
 						data:{
@@ -600,6 +563,7 @@
 							studentname:s.formAdmin.studentname,
 							meetid:s.formAdmin.meetid,
 							job:s.formAdmin.job,
+							sex:s.formAdmin.sex,
 							userid:s.currentUserId,
 							adminuserid:s.userinfo.userid,
 							admintoken:s.userinfo.accesstoken,
@@ -611,12 +575,16 @@
 							mobile:s.formAdmin.mobile,
 							email:s.formAdmin.email,
 							companyname:s.formAdmin.companyname,
+							nation:s.formAdmin.nation,
+							birthdate:s.formAdmin.birthdate,
+							education:s.formAdmin.education,
+							tenuretime:s.formAdmin.tenuretime,
 							 
 						},success(data){
 							if(data.getret === 0){
 								s.$Message.success(data.getmsg);
+								
 								s.visible = false;
-								s.getstudentlist();
 							}
 							else if(data.getret === 1001){
 								s.$Message.success('学员信息修改成功');
