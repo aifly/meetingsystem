@@ -10,6 +10,7 @@ $color: #be0000;
 .wm-attendance-ui,
 .wm-scoreitem-main-ui,
 .wm-feedback-main-ui,
+.wm-outattendance-main-ui,
 .wm-score-main-ui {
 
     .ivu-table-wrapper{
@@ -173,4 +174,12 @@ $color: #be0000;
 .ivu-poptip-body{
     max-height: 500px;
     overflow: auto;
+}
+
+			
+.ivu-radio-inner:after{
+    width: 7px !important;
+    height: 7px !important;;
+    left: 3px !important;
+    top: 3px !important;
 }

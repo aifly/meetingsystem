@@ -49,31 +49,39 @@
   }
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main {
+.ivu-message {
+  z-index: 100001 !important;
+}
+
+.wm-outattendance-main-ui .wm-outattendance-main {
   width: 100%;
   display: flex;
   display: -webkit-flex;
   flex-flow: row;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main > div {
+.wm-outattendance-main-ui .wm-outattendance-main .ivu-table-wrapper {
+  border-top: 1px solid #e8eaec;
+}
+
+.wm-outattendance-main-ui .wm-outattendance-main > div {
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-table {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table {
   width: 100%;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-table .ivu-table-wrapper {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table .ivu-table-wrapper {
   margin-top: 10px;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-table.active {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table.active {
   width: 70%;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form {
   margin-top: 10px;
   margin-left: 2%;
   width: 28%;
@@ -81,17 +89,17 @@
   right: 0;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-enter-active, .wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-leave-active {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter-active, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-active {
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-enter, .wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-leave-to {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-to {
   width: 0;
   overflow: hidden;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form > header {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form > header {
   line-height: 40px;
   height: 40px;
   font-weight: bold;
@@ -100,24 +108,25 @@
   background: #f8f8f9;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item {
   line-height: 50px;
   height: 50px;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item.wm-scoreitem-btns {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns {
   text-align: center;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item.wm-scoreitem-btns button {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns button {
   margin: 0 20px;
   padding: 2px 20px;
 }
 
-.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item input {
+.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item input.wm-outattendance-input {
   padding-left: 6px;
-  height: 26px;
+  height: 30px;
   width: 70%;
   border: 1px solid #d8d8d8;
   outline: none;
+  border-radius: 6px;
 }

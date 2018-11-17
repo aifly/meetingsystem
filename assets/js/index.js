@@ -13814,7 +13814,7 @@
 					name: '课程管理',
 					to: 'meetingcourse'
 				}, {
-					name: '考勤管理',
+					name: '投稿管理',
 					to: 'meetingattendance'
 				}, {
 					name: '评分结果',
@@ -13822,11 +13822,10 @@
 				}, {
 					name: '意见反馈',
 					to: 'meetingfeedback'
-				} /* ,{
-	     name:'外出考勤',
-	     to:'meetingoutattendance'
-	     } */
-				],
+				}, {
+					name: '外出考勤',
+					to: 'meetingoutattendance'
+				}],
 				formUser: {
 					studentmame: '',
 					nickname: '',
@@ -30360,42 +30359,39 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	// <template>
-	// 	<div class="wm-scoreitem-main-ui">
+	// 	<div class="wm-outattendance-main-ui">
 	// 		<div>
 	// 			<Tab :refresh='refresh'></Tab>
 	// 		</div>
 	// 		<div class="wm-tab-content">
 	// 			<header class="wm-tab-header">
-	// 				<div>评分项设置</div>
+	// 				<div>外出考勤</div>
 	// 				<div>
-	// 					<Button type="primary" @click="addCourse">新增评分项</Button>
+	// 					<Button type="primary" @click="addCourse">新增外出考勤</Button>
 	// 				</div>
 	// 			</header>
-	// 			<div class='wm-scoreitem-main'>
-	// 				<div class='wm-scoreitem-table' :class="{'active':showDetail}">
-	// 					<Table :data='scoreItemList' :columns='columns'></Table>
+	// 			<div class='wm-outattendance-main'>
+	// 				<div class='wm-outattendance-table' :class="{'active':showDetail}">
+	// 					<Table :data='outattendanceList' :columns='columns'></Table>
 	// 				</div>
 	// 				<transition name='detail'>
-	// 					<div class='wm-scoreitem-form' v-if='showDetail'>
+	// 					<div class='wm-outattendance-form' v-if='showDetail'>
 	// 						<header>
-	// 							{{formScoreItem.scoreitemid?'编辑评分项':'新增评分项'}}
+	// 							{{formOutAttendance.activityid?'编辑评分项':'新增外出考勤'}}
 	// 						</header>
-	// 						<div class='wm-scoreitem-form-item'>
-	// 							<label for="">评估内容：</label><input placeholder="请输入评估内容" v-model="formScoreItem.scoreitemname" />
+	// 						<div class='wm-outattendance-form-item'>
+	// 							<label for="">地址名称：</label><input class='wm-outattendance-input' placeholder="请输入地址名称" v-model="formOutAttendance.title" />
 	// 						</div>
-	// 						<div class='wm-scoreitem-form-item'>
-	// 							<label for="">所属分组：</label><input placeholder="请输入所属分组" v-model="formScoreItem.groupname" />
+	// 						<div class='wm-outattendance-form-item'>
+	// 							<label for="">内<span style='opacity:0'>每位</span>容 ：</label><input class='wm-outattendance-input' placeholder="请输入内容 " v-model="formOutAttendance.content" />
 	// 						</div>
-	// 						<div class='wm-scoreitem-form-item'>
-	// 							<label for="">类<span style='opacity:0'>属分</span> 别：</label>
-	// 							 <RadioGroup v-model="formScoreItem.scoretype">
-	// 								<Radio :label="1">打分</Radio>
-	// 								<Radio :label="2">录入</Radio>
-	// 							</RadioGroup>
+	// 						<div class='wm-outattendance-form-item'>
+	// 							<label for="">出行时间：</label>
+	// 							 <DatePicker v-model="formOutAttendance.setouttime" type="date" placeholder="任职时间" style="width:70%;" ></DatePicker>
 	// 						</div>
-	// 						<div class='wm-scoreitem-form-item wm-scoreitem-btns'>
+	// 						<div class='wm-outattendance-form-item wm-outattendance-btns'>
 	// 							<Button @click='showDetail = false' size ='small' type='default'>返回</Button>
-	// 							<Button size ='small' type='primary' @click='scoreItemAction'>{{formScoreItem.scoreitemid?'保存':'确定'}}</Button>
+	// 							<Button size ='small' type='primary' @click='outattendanceAction'>{{formOutAttendance.activityid?'保存':'确定'}}</Button>
 	// 						</div>
 	// 					</div>
 	// 				</transition>
@@ -30449,29 +30445,26 @@
 				showMap: false,
 				viewH: window.innerHeight,
 				viewW: window.innerWidth,
-				scoreItemList: [],
+				outattendanceList: [],
 				columns: [{
-					title: "评估指标",
-					key: 'scoreitemname',
+					title: "外出名称",
+					key: 'title',
 					align: 'center'
 
 				}, {
-					title: '所属分组',
-					key: 'groupname',
+					title: '内容',
+					key: 'content',
 					align: 'center'
 				}, {
-					title: '类别',
-					key: 'scoretype',
-					align: 'center',
-					render: function render(h, params) {
-						return h('div', {}, params.row.scoretype === 1 ? '评分' : "意见建议");
-					}
+					title: '外出时间',
+					key: 'setouttime',
+					align: 'center'
+
 				}, {
 					title: '操作',
 					key: 'action',
 					align: 'center',
 					render: function render(h, params) {
-
 						return h('div', [h('Button', {
 							props: {
 								type: 'primary',
@@ -30491,7 +30484,7 @@
 								click: function click() {
 									var s = _this;
 									s.showDetail = true;
-									s.formScoreItem = params.row;
+									s.formOutAttendance = params.row;
 								}
 							}
 						}, '详情'), h('Poptip', {
@@ -30501,7 +30494,7 @@
 							},
 							on: {
 								'on-ok': function onOk() {
-									_this.delScoreItem(params.row.scoreitemid);
+									_this.delOutAttendance(params.row.activityid);
 								}
 
 							}
@@ -30517,7 +30510,7 @@
 					}
 				}],
 
-				formScoreItem: {
+				formOutAttendance: {
 					pdfurl: '',
 					longitude: '116.585856',
 					latitude: '40.364989'
@@ -30542,8 +30535,7 @@
 		mounted: function mounted() {
 			window.s = this;
 			this.userinfo = _libUtil2['default'].getUserInfo();
-
-			this.getScoreItemList();
+			this.getOutattendanceList();
 		},
 
 		watch: {},
@@ -30553,7 +30545,7 @@
 			addCourse: function addCourse() {
 				this.showDetail = true;
 				this.currentClassId = -1;
-				this.formScoreItem = {};
+				this.formOutAttendance = {};
 			},
 
 			refresh: function refresh() {
@@ -30561,51 +30553,54 @@
 				this.currentClassId = -1;
 			},
 
-			getScoreItemList: function getScoreItemList() {
+			getOutattendanceList: function getOutattendanceList() {
 				var s = this;
 				_libUtil2['default'].ajax({
-					url: window.config.baseUrl + '/zmitiadmin/getrateditemslist',
+					url: window.config.baseUrl + '/zmitiadmin/getmeetactivitylist',
 					data: {
 						admintoken: s.userinfo.accesstoken,
-						adminuserid: s.userinfo.userid
+						adminuserid: s.userinfo.userid,
+						meetid: s.$route.params.meetid
 					},
 					success: function success(data) {
 						console.log(data);
 						if (data.getret === 0) {
-							s.scoreItemList = data.list;
+							s.outattendanceList = data.list;
 						}
 					}
 				});
 			},
 
-			delScoreItem: function delScoreItem(id) {
+			delOutAttendance: function delOutAttendance(activityid) {
 				var s = this;
 				_libUtil2['default'].ajax({
-					url: window.config.baseUrl + '/zmitiadmin/delrateditems',
+					url: window.config.baseUrl + '/zmitiadmin/deletemeetactivity',
 					data: {
 						admintoken: s.userinfo.accesstoken,
 						adminuserid: s.userinfo.userid,
-						id: id
+						activityid: activityid
 					},
 					success: function success(data) {
 						s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
 						if (data.getret === 0) {
-							s.getScoreItemList();
+							s.getOutattendanceList();
 						}
 					}
 				});
 			},
-			scoreItemAction: function scoreItemAction() {
+			outattendanceAction: function outattendanceAction() {
 				var s = this;
-				var p = JSON.parse(JSON.stringify(this.formScoreItem));
+				var p = JSON.parse(JSON.stringify(this.formOutAttendance));
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
-				var url = window.config.baseUrl + '/zmitiadmin/addrateditems';
-				if (p.scoreitemid > -1) {
-					url = window.config.baseUrl + '/zmitiadmin/updaterateditems';
-					p.id = p.scoreitemid;
+				p.meetid = s.$route.params.meetid;
+				p.setouttime = new Date(p.setouttime).toLocaleDateString();
+				var url = window.config.baseUrl + '/zmitiadmin/addmeetactivity';
+				if (p.activityid > -1) {
+					url = window.config.baseUrl + '/zmitiadmin/updatemeetactivity';
+					p.id = p.activityid;
 				} else {
-					this.formScoreItem = {};
+					this.formOutAttendance = {};
 				}
 
 				_libUtil2['default'].ajax({
@@ -30613,8 +30608,8 @@
 					data: p,
 					success: function success(data) {
 						s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
-						//s.showDetail = false;
-						s.getScoreItemList();
+
+						s.getOutattendanceList();
 					}
 				});
 			}
@@ -30660,7 +30655,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main {\n  width: 100%;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main > div {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-table {\n  width: 100%;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-table .ivu-table-wrapper {\n  margin-top: 10px;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-table.active {\n  width: 70%;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form {\n  margin-top: 10px;\n  margin-left: 2%;\n  width: 28%;\n  position: absolute;\n  right: 0;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-enter-active, .wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-leave-active {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-enter, .wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form.detail-leave-to {\n  width: 0;\n  overflow: hidden;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form > header {\n  line-height: 40px;\n  height: 40px;\n  font-weight: bold;\n  color: #515a6e;\n  text-indent: 2em;\n  background: #f8f8f9;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item {\n  line-height: 50px;\n  height: 50px;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item.wm-scoreitem-btns {\n  text-align: center;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item.wm-scoreitem-btns button {\n  margin: 0 20px;\n  padding: 2px 20px;\n}\n\n.wm-scoreitem-main-ui .wm-scoreitem-main .wm-scoreitem-form .wm-scoreitem-form-item input {\n  padding-left: 6px;\n  height: 26px;\n  width: 70%;\n  border: 1px solid #d8d8d8;\n  outline: none;\n}\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.ivu-message {\n  z-index: 100001 !important;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main {\n  width: 100%;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .ivu-table-wrapper {\n  border-top: 1px solid #e8eaec;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main > div {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table {\n  width: 100%;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table .ivu-table-wrapper {\n  margin-top: 10px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table.active {\n  width: 70%;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form {\n  margin-top: 10px;\n  margin-left: 2%;\n  width: 28%;\n  position: absolute;\n  right: 0;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter-active, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-active {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-to {\n  width: 0;\n  overflow: hidden;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form > header {\n  line-height: 40px;\n  height: 40px;\n  font-weight: bold;\n  color: #515a6e;\n  text-indent: 2em;\n  background: #f8f8f9;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item {\n  line-height: 50px;\n  height: 50px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns {\n  text-align: center;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns button {\n  margin: 0 20px;\n  padding: 2px 20px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item input.wm-outattendance-input {\n  padding-left: 6px;\n  height: 30px;\n  width: 70%;\n  border: 1px solid #d8d8d8;\n  outline: none;\n  border-radius: 6px;\n}\n", ""]);
 
 	// exports
 
@@ -30669,7 +30664,7 @@
 /* 79 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-scoreitem-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>评分项设置</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"addCourse\">新增评分项</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class='wm-scoreitem-main'>\r\n\t\t\t\t<div class='wm-scoreitem-table' :class=\"{'active':showDetail}\">\r\n\t\t\t\t\t<Table :data='scoreItemList' :columns='columns'></Table>\r\n\t\t\t\t</div>\r\n\t\t\t\t<transition name='detail'>\r\n\t\t\t\t\t<div class='wm-scoreitem-form' v-if='showDetail'>\r\n\t\t\t\t\t\t<header>\r\n\t\t\t\t\t\t\t{{formScoreItem.scoreitemid?'编辑评分项':'新增评分项'}}\r\n\t\t\t\t\t\t</header>\r\n\t\t\t\t\t\t<div class='wm-scoreitem-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">评估内容：</label><input placeholder=\"请输入评估内容\" v-model=\"formScoreItem.scoreitemname\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-scoreitem-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">所属分组：</label><input placeholder=\"请输入所属分组\" v-model=\"formScoreItem.groupname\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-scoreitem-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">类<span style='opacity:0'>属分</span> 别：</label>\r\n\t\t\t\t\t\t\t <RadioGroup v-model=\"formScoreItem.scoretype\">\r\n\t\t\t\t\t\t\t\t<Radio :label=\"1\">打分</Radio>\r\n\t\t\t\t\t\t\t\t<Radio :label=\"2\">录入</Radio>\r\n\t\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-scoreitem-form-item wm-scoreitem-btns'>\r\n\t\t\t\t\t\t\t<Button @click='showDetail = false' size ='small' type='default'>返回</Button>\r\n\t\t\t\t\t\t\t<Button size ='small' type='primary' @click='scoreItemAction'>{{formScoreItem.scoreitemid?'保存':'确定'}}</Button>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</transition>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-outattendance-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>外出考勤</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"addCourse\">新增外出考勤</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class='wm-outattendance-main'>\r\n\t\t\t\t<div class='wm-outattendance-table' :class=\"{'active':showDetail}\">\r\n\t\t\t\t\t<Table :data='outattendanceList' :columns='columns'></Table>\r\n\t\t\t\t</div>\r\n\t\t\t\t<transition name='detail'>\r\n\t\t\t\t\t<div class='wm-outattendance-form' v-if='showDetail'>\r\n\t\t\t\t\t\t<header>\r\n\t\t\t\t\t\t\t{{formOutAttendance.activityid?'编辑评分项':'新增外出考勤'}}\r\n\t\t\t\t\t\t</header>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">地址名称：</label><input class='wm-outattendance-input' placeholder=\"请输入地址名称\" v-model=\"formOutAttendance.title\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">内<span style='opacity:0'>每位</span>容 ：</label><input class='wm-outattendance-input' placeholder=\"请输入内容 \" v-model=\"formOutAttendance.content\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">出行时间：</label>\r\n\t\t\t\t\t\t\t <DatePicker v-model=\"formOutAttendance.setouttime\" type=\"date\" placeholder=\"任职时间\" style=\"width:70%;\" ></DatePicker>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item wm-outattendance-btns'>\r\n\t\t\t\t\t\t\t<Button @click='showDetail = false' size ='small' type='default'>返回</Button>\r\n\t\t\t\t\t\t\t<Button size ='small' type='primary' @click='outattendanceAction'>{{formOutAttendance.activityid?'保存':'确定'}}</Button>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</transition>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 80 */
@@ -31711,6 +31706,14 @@
 	// 				<Button type="error" size="large" long  @click="showErr = false;errList = []">关闭</Button>
 	// 			</div>
 	// 		</Modal>
+	// 		<Modal @on-ok="modifyGroup" @on-cancel='cancelGroup' :title='"修改"+(userList[currentUserIndex]?userList[currentUserIndex].studentname:"")+"的分组"' v-model="showGroupModal" width="320">
+	// 			<RadioGroup v-model="currentGroupId">
+	// 				<Radio :style="{marginLeft:'5px',lineHeight:'30px'}" :label="group.groupid" v-for='(group,i) in groupList' :key="i">
+	// 					<span>{{group.groupname}}</span>
+	// 				</Radio>
+	// 			</RadioGroup>
+	//
+	// 		</Modal>
 	// 	</div>
 	// </template>
 	//
@@ -31780,7 +31783,7 @@
 				mobileError: "",
 				currentUserId: -1,
 				keyword: "",
-
+				groupList: [],
 				columns: [{
 					title: "姓名",
 					key: 'studentname',
@@ -31816,6 +31819,39 @@
 					filterMultiple: false,
 					filterMethod: function filterMethod(value, row) {
 						return row.groupid === value;
+					},
+					render: function render(h, params) {
+						return h('div', {
+							/* on:{
+	      	mouseover:()=>{
+	      		this.userList[params.index].opacity = 1;
+	      		this.userList = this.userList.concat([]);
+	      	},
+	      	mouseout:()=>{
+	      		this.userList[params.index].opacity = 0;
+	      		this.userList = this.userList.concat([]);
+	      	}
+	      } */
+						}, [h('span', {}, params.row.groupname), h('span', {
+							style: {
+								marginLeft: '10px',
+								cursor: 'pointer',
+								color: '#00f',
+								fontSize: '12px',
+								display: 'inline-block',
+								transform: 'scale(.9)'
+							},
+							on: {
+								click: function click() {
+									_this.currentUserIndex = params.index;
+									_this.showGroupModal = true;
+									_this.currentGroupId = params.row.groupid;
+									_this.defaultGrouopId = params.row.groupid;
+									_this.defaultGroupUserId = params.row.userid;
+								}
+							}
+
+						}, '修改')]);
 					}
 
 				}, {
@@ -31904,13 +31940,19 @@
 
 				userList: [],
 				formUser: {},
-				userinfo: {}
+				userinfo: {},
+				currentUserIndex: -1,
+				currentGroupId: -1,
+				showGroupModal: false
+
 			};
 		},
 		components: {
 			Tab: _commomTabIndex2['default'],
 			'add-student': _commomAddstudentIndex2['default']
 		},
+
+		computed: {},
 
 		beforeCreate: function beforeCreate() {
 			var validate = _libVerification2['default'].validate(this);
@@ -31949,6 +31991,36 @@
 		},
 
 		methods: {
+
+			modifyGroup: function modifyGroup() {
+				//
+				if (this.defaultGrouopId === this.currentGroupId) {
+					return;
+				}
+
+				var s = this;
+				_libUtil2['default'].ajax({
+					url: window.config.baseUrl + '/zmitiadmin/updatestudentgroup', //接口待做。
+					data: {
+						admintoken: s.userinfo.accesstoken,
+						adminuserid: s.userinfo.userid,
+						userid: s.defaultGroupUserId,
+						groupid: s.currentGroupId,
+						meetid: s.$route.params.meetid
+					},
+					success: function success(data) {
+						s.$Message[data.getret === 0 ? 'success' : 'error'](data.getmsg);
+						if (data.getret === 0) {
+							s.getsignupList();
+						}
+					}
+				});
+			},
+
+			cancelGroup: function cancelGroup() {
+				this.currentUserIndex = -1;
+				this.showGroupModal = false;
+			},
 
 			updateStatus: function updateStatus(status, status1, id) {
 				if (status === status1) {
@@ -32281,7 +32353,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-signup-ui,\n.wm-news-main-ui,\n.wm-course-main-ui,\n.wm-attendance-ui,\n.wm-scoreitem-main-ui,\n.wm-feedback-main-ui,\n.wm-score-main-ui {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .ivu-table-wrapper,\n.wm-news-main-ui .ivu-table-wrapper,\n.wm-course-main-ui .ivu-table-wrapper,\n.wm-attendance-ui .ivu-table-wrapper,\n.wm-scoreitem-main-ui .ivu-table-wrapper,\n.wm-feedback-main-ui .ivu-table-wrapper,\n.wm-score-main-ui .ivu-table-wrapper {\n  border-top: none;\n  border-bottom: none;\n  border-right: none;\n}\n\n.wm-signup-ui > div:nth-of-type(1),\n.wm-news-main-ui > div:nth-of-type(1),\n.wm-course-main-ui > div:nth-of-type(1),\n.wm-attendance-ui > div:nth-of-type(1),\n.wm-scoreitem-main-ui > div:nth-of-type(1),\n.wm-feedback-main-ui > div:nth-of-type(1),\n.wm-score-main-ui > div:nth-of-type(1) {\n  width: 200px;\n}\n\n.wm-signup-search {\n  width: 300px;\n}\n\n.wm-signup-ui .wm-header-right-action,\n.wm-news-main-ui .wm-header-right-action,\n.wm-course-main-ui .wm-header-right-action,\n.wm-attendance-ui .wm-header-right-action,\n.wm-scoreitem-main-ui .wm-header-right-action,\n.wm-feedback-main-ui .wm-header-right-action,\n.wm-score-main-ui .wm-header-right-action {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .wm-header-right-action > div,\n.wm-news-main-ui .wm-header-right-action > div,\n.wm-course-main-ui .wm-header-right-action > div,\n.wm-attendance-ui .wm-header-right-action > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div,\n.wm-feedback-main-ui .wm-header-right-action > div,\n.wm-score-main-ui .wm-header-right-action > div {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin-right: 20px;\n}\n\n.wm-signup-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-news-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-course-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-attendance-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-scoreitem-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-feedback-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-score-main-ui .wm-header-right-action > div:nth-of-type(2) {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  align-items: flex-end;\n  font-size: 12px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-header-temp,\n.wm-news-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-course-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-attendance-ui .wm-header-right-action > div .wm-header-temp,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-score-main-ui .wm-header-right-action > div .wm-header-temp {\n  margin-right: 10px;\n  font-size: 14px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn {\n  margin-right: 5px;\n  position: relative;\n  height: 32px;\n  border-radius: 4px;\n  border: 1px solid #dcdee2;\n  top: 10px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after {\n  display: none;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn input {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  opacity: 0;\n  cursor: pointer;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div,\n.wm-news-main-ui .wm-header-right-action > div > div,\n.wm-course-main-ui .wm-header-right-action > div > div,\n.wm-attendance-ui .wm-header-right-action > div > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div,\n.wm-feedback-main-ui .wm-header-right-action > div > div,\n.wm-score-main-ui .wm-header-right-action > div > div {\n  height: 40px;\n  position: relative;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div > div .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div > div .wm-upload {\n  position: absolute;\n}\n\n.wm-signup-ui .wm-tab-content,\n.wm-news-main-ui .wm-tab-content,\n.wm-course-main-ui .wm-tab-content,\n.wm-attendance-ui .wm-tab-content,\n.wm-scoreitem-main-ui .wm-tab-content,\n.wm-feedback-main-ui .wm-tab-content,\n.wm-score-main-ui .wm-tab-content {\n  box-sizing: border-box;\n  flex: 1;\n  -webkit-flex: 1;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: column;\n}\n\n.wm-signup-ui .wm-tab-content > div,\n.wm-news-main-ui .wm-tab-content > div,\n.wm-course-main-ui .wm-tab-content > div,\n.wm-attendance-ui .wm-tab-content > div,\n.wm-scoreitem-main-ui .wm-tab-content > div,\n.wm-feedback-main-ui .wm-tab-content > div,\n.wm-score-main-ui .wm-tab-content > div {\n  width: 98%;\n  margin: 10px auto 10px;\n  position: relative;\n  flex: 1;\n  -webkit-flex: 1;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content > div .wm-meet-form,\n.wm-news-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-course-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-attendance-ui .wm-tab-content > div .wm-meet-form,\n.wm-scoreitem-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-feedback-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-score-main-ui .wm-tab-content > div .wm-meet-form {\n  width: 100%;\n  margin: 0px auto;\n  padding: 20px 40px;\n  height: 600px;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header,\n.wm-news-main-ui .wm-tab-content .wm-tab-header,\n.wm-course-main-ui .wm-tab-content .wm-tab-header,\n.wm-attendance-ui .wm-tab-content .wm-tab-header,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header,\n.wm-score-main-ui .wm-tab-content .wm-tab-header {\n  width: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  width: 100%;\n  padding: 0 20px;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n  line-height: 50px;\n  font-size: 20px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {\n  position: relative;\n  text-indent: .5em;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {\n  content: '';\n  width: 4px;\n  height: 24px;\n  background: #be0000;\n  left: -4px;\n  position: absolute;\n  top: 12px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-wrap,\n.wm-news-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-course-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-attendance-ui .wm-tab-content .wm-signup-wrap,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-score-main-ui .wm-tab-content .wm-signup-wrap {\n  margin: 50px auto;\n  width: 500px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item,\n.wm-news-main-ui .wm-tab-content .wm-signup-item,\n.wm-course-main-ui .wm-tab-content .wm-signup-item,\n.wm-attendance-ui .wm-tab-content .wm-signup-item,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item,\n.wm-score-main-ui .wm-tab-content .wm-signup-item {\n  line-height: 40px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin: 10px 0;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div,\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div {\n  margin-right: 10px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {\n  width: 80px;\n  text-align: right;\n}\n\n.ivu-poptip-body {\n  max-height: 500px;\n  overflow: auto;\n}\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-signup-ui,\n.wm-news-main-ui,\n.wm-course-main-ui,\n.wm-attendance-ui,\n.wm-scoreitem-main-ui,\n.wm-feedback-main-ui,\n.wm-outattendance-main-ui,\n.wm-score-main-ui {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .ivu-table-wrapper,\n.wm-news-main-ui .ivu-table-wrapper,\n.wm-course-main-ui .ivu-table-wrapper,\n.wm-attendance-ui .ivu-table-wrapper,\n.wm-scoreitem-main-ui .ivu-table-wrapper,\n.wm-feedback-main-ui .ivu-table-wrapper,\n.wm-outattendance-main-ui .ivu-table-wrapper,\n.wm-score-main-ui .ivu-table-wrapper {\n  border-top: none;\n  border-bottom: none;\n  border-right: none;\n}\n\n.wm-signup-ui > div:nth-of-type(1),\n.wm-news-main-ui > div:nth-of-type(1),\n.wm-course-main-ui > div:nth-of-type(1),\n.wm-attendance-ui > div:nth-of-type(1),\n.wm-scoreitem-main-ui > div:nth-of-type(1),\n.wm-feedback-main-ui > div:nth-of-type(1),\n.wm-outattendance-main-ui > div:nth-of-type(1),\n.wm-score-main-ui > div:nth-of-type(1) {\n  width: 200px;\n}\n\n.wm-signup-search {\n  width: 300px;\n}\n\n.wm-signup-ui .wm-header-right-action,\n.wm-news-main-ui .wm-header-right-action,\n.wm-course-main-ui .wm-header-right-action,\n.wm-attendance-ui .wm-header-right-action,\n.wm-scoreitem-main-ui .wm-header-right-action,\n.wm-feedback-main-ui .wm-header-right-action,\n.wm-outattendance-main-ui .wm-header-right-action,\n.wm-score-main-ui .wm-header-right-action {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-signup-ui .wm-header-right-action > div,\n.wm-news-main-ui .wm-header-right-action > div,\n.wm-course-main-ui .wm-header-right-action > div,\n.wm-attendance-ui .wm-header-right-action > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div,\n.wm-feedback-main-ui .wm-header-right-action > div,\n.wm-outattendance-main-ui .wm-header-right-action > div,\n.wm-score-main-ui .wm-header-right-action > div {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin-right: 20px;\n}\n\n.wm-signup-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-news-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-course-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-attendance-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-scoreitem-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-feedback-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-outattendance-main-ui .wm-header-right-action > div:nth-of-type(2),\n.wm-score-main-ui .wm-header-right-action > div:nth-of-type(2) {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  align-items: flex-end;\n  font-size: 12px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-header-temp,\n.wm-news-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-course-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-attendance-ui .wm-header-right-action > div .wm-header-temp,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-header-temp,\n.wm-score-main-ui .wm-header-right-action > div .wm-header-temp {\n  margin-right: 10px;\n  font-size: 14px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn {\n  margin-right: 5px;\n  position: relative;\n  height: 32px;\n  border-radius: 4px;\n  border: 1px solid #dcdee2;\n  top: 10px;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:before, .wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after {\n  display: none;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.wm-signup-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-news-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-course-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,\n.wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn input {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  opacity: 0;\n  cursor: pointer;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div,\n.wm-news-main-ui .wm-header-right-action > div > div,\n.wm-course-main-ui .wm-header-right-action > div > div,\n.wm-attendance-ui .wm-header-right-action > div > div,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div,\n.wm-feedback-main-ui .wm-header-right-action > div > div,\n.wm-outattendance-main-ui .wm-header-right-action > div > div,\n.wm-score-main-ui .wm-header-right-action > div > div {\n  height: 40px;\n  position: relative;\n}\n\n.wm-signup-ui .wm-header-right-action > div > div .wm-upload,\n.wm-news-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-course-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-attendance-ui .wm-header-right-action > div > div .wm-upload,\n.wm-scoreitem-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-feedback-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-outattendance-main-ui .wm-header-right-action > div > div .wm-upload,\n.wm-score-main-ui .wm-header-right-action > div > div .wm-upload {\n  position: absolute;\n}\n\n.wm-signup-ui .wm-tab-content,\n.wm-news-main-ui .wm-tab-content,\n.wm-course-main-ui .wm-tab-content,\n.wm-attendance-ui .wm-tab-content,\n.wm-scoreitem-main-ui .wm-tab-content,\n.wm-feedback-main-ui .wm-tab-content,\n.wm-outattendance-main-ui .wm-tab-content,\n.wm-score-main-ui .wm-tab-content {\n  box-sizing: border-box;\n  flex: 1;\n  -webkit-flex: 1;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: column;\n}\n\n.wm-signup-ui .wm-tab-content > div,\n.wm-news-main-ui .wm-tab-content > div,\n.wm-course-main-ui .wm-tab-content > div,\n.wm-attendance-ui .wm-tab-content > div,\n.wm-scoreitem-main-ui .wm-tab-content > div,\n.wm-feedback-main-ui .wm-tab-content > div,\n.wm-outattendance-main-ui .wm-tab-content > div,\n.wm-score-main-ui .wm-tab-content > div {\n  width: 98%;\n  margin: 10px auto 10px;\n  position: relative;\n  flex: 1;\n  -webkit-flex: 1;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content > div .wm-meet-form,\n.wm-news-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-course-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-attendance-ui .wm-tab-content > div .wm-meet-form,\n.wm-scoreitem-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-feedback-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-outattendance-main-ui .wm-tab-content > div .wm-meet-form,\n.wm-score-main-ui .wm-tab-content > div .wm-meet-form {\n  width: 100%;\n  margin: 0px auto;\n  padding: 20px 40px;\n  height: 600px;\n  overflow: auto;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header,\n.wm-news-main-ui .wm-tab-content .wm-tab-header,\n.wm-course-main-ui .wm-tab-content .wm-tab-header,\n.wm-attendance-ui .wm-tab-content .wm-tab-header,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header,\n.wm-outattendance-main-ui .wm-tab-content .wm-tab-header,\n.wm-score-main-ui .wm-tab-content .wm-tab-header {\n  width: 50px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  width: 100%;\n  padding: 0 20px;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n  line-height: 50px;\n  font-size: 20px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-outattendance-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {\n  position: relative;\n  text-indent: .5em;\n}\n\n.wm-signup-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-news-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-course-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-outattendance-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,\n.wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {\n  content: '';\n  width: 4px;\n  height: 24px;\n  background: #be0000;\n  left: -4px;\n  position: absolute;\n  top: 12px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-wrap,\n.wm-news-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-course-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-attendance-ui .wm-tab-content .wm-signup-wrap,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-outattendance-main-ui .wm-tab-content .wm-signup-wrap,\n.wm-score-main-ui .wm-tab-content .wm-signup-wrap {\n  margin: 50px auto;\n  width: 500px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item,\n.wm-news-main-ui .wm-tab-content .wm-signup-item,\n.wm-course-main-ui .wm-tab-content .wm-signup-item,\n.wm-attendance-ui .wm-tab-content .wm-signup-item,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item,\n.wm-outattendance-main-ui .wm-tab-content .wm-signup-item,\n.wm-score-main-ui .wm-tab-content .wm-signup-item {\n  line-height: 40px;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  margin: 10px 0;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div,\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div,\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-outattendance-main-ui .wm-tab-content .wm-signup-item > div,\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div {\n  margin-right: 10px;\n}\n\n.wm-signup-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-news-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-course-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-feedback-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-outattendance-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),\n.wm-score-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {\n  width: 80px;\n  text-align: right;\n}\n\n.ivu-poptip-body {\n  max-height: 500px;\n  overflow: auto;\n}\n\n.ivu-radio-inner:after {\n  width: 7px !important;\n  height: 7px !important;\n  left: 3px !important;\n  top: 3px !important;\n}\n", ""]);
 
 	// exports
 
@@ -32699,7 +32771,7 @@
 /* 99 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-signup-ui lt-full\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\" v-show='!showAddStudent'>\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>学员报名管理</div>\r\n\t\t\t\t<div class='wm-header-right-action'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<div class='wm-header-temp'>\r\n\t\t\t\t\t\t\t<a :href='importModel' target='_blank' download=\"templet\">导入模板下载</a>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-exportexcel-btn ivu-btn ivu-btn-default'>\r\n\t\t\t\t\t\t\t<div class='wm-upload'></div>\r\n\t\t\t\t\t\t\t<span>导入</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t<Button  @click='exportData' type=\"default\" icon='md-cloud-upload'>导出</Button>\r\n\t\t\t\t\t\t\t<Button   @click='addStudent' icon='ios-add-circle'>新增学员</Button>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Input v-model='keyword' placeholder=\"请输入学员姓名或者电话\" class='wm-signup-search'/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div v-if='currentUserId<=-1'>\r\n\t\t\t\t\r\n\t\t\t\t<Table ref='scorelist'   :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>\r\n\t\t\t</div>\r\n\t\t\t<div v-else class=\"wm-signup-wrap\">\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>用户名：</div> <div>{{formUser.username}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>昵称：</div> <div>{{formUser.nickname}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>省份：</div><div>{{formUser.provinceid[0].name}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>手机号：</div><div>{{formUser.mobile}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>职位：</div><div>{{formUser.job}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>座机号：</div><div>{{formUser.telphone}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>邮箱：</div><div>{{formUser.email}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>性别：</div><div>{{formUser.sex?'女':'男'}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>是否签到：</div><div>{{formUser.issign?'是':'否'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>状态：</div><div>{{formUser.status?'已审核':'未审核'}}</div>\r\n\t\t\t\t</div> \r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<add-student :steps='addStudentSteps'  v-show='showAddStudent' :title='\"学员报名管理\"' ></add-student>\r\n\t\t<Modal v-model=\"showErr\" width=\"360\">\r\n\t\t\t<p slot=\"header\" style=\"color:#f60;text-align:center\">\r\n\t\t\t\t<Icon type=\"ios-close-circle\" />\r\n\t\t\t\t<span>导入信息</span>\r\n\t\t\t</p>\r\n\t\t\t<div v-for=\"(item,i) in errList\" :key='i'>\r\n\t\t\t\t{{item}}\r\n\t\t\t</div>\r\n\t\t\t<div slot=\"footer\">\r\n\t\t\t\t<Button type=\"error\" size=\"large\" long  @click=\"showErr = false;errList = []\">关闭</Button>\r\n\t\t\t</div>\r\n\t\t</Modal>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-signup-ui lt-full\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\" v-show='!showAddStudent'>\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>学员报名管理</div>\r\n\t\t\t\t<div class='wm-header-right-action'>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<div class='wm-header-temp'>\r\n\t\t\t\t\t\t\t<a :href='importModel' target='_blank' download=\"templet\">导入模板下载</a>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-exportexcel-btn ivu-btn ivu-btn-default'>\r\n\t\t\t\t\t\t\t<div class='wm-upload'></div>\r\n\t\t\t\t\t\t\t<span>导入</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t<Button  @click='exportData' type=\"default\" icon='md-cloud-upload'>导出</Button>\r\n\t\t\t\t\t\t\t<Button   @click='addStudent' icon='ios-add-circle'>新增学员</Button>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Input v-model='keyword' placeholder=\"请输入学员姓名或者电话\" class='wm-signup-search'/>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div v-if='currentUserId<=-1'>\r\n\t\t\t\t\r\n\t\t\t\t<Table ref='scorelist'   :height='viewH - 64- 72 ' :data='userList' :columns='columns'   stripe></Table>\r\n\t\t\t</div>\r\n\t\t\t<div v-else class=\"wm-signup-wrap\">\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>用户名：</div> <div>{{formUser.username}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>昵称：</div> <div>{{formUser.nickname}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>省份：</div><div>{{formUser.provinceid[0].name}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>手机号：</div><div>{{formUser.mobile}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>职位：</div><div>{{formUser.job}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>座机号：</div><div>{{formUser.telphone}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>邮箱：</div><div>{{formUser.email}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>性别：</div><div>{{formUser.sex?'女':'男'}}</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>是否签到：</div><div>{{formUser.issign?'是':'否'}}</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"wm-signup-item\">\r\n\t\t\t\t\t<div>状态：</div><div>{{formUser.status?'已审核':'未审核'}}</div>\r\n\t\t\t\t</div> \r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<add-student :steps='addStudentSteps'  v-show='showAddStudent' :title='\"学员报名管理\"' ></add-student>\r\n\t\t<Modal v-model=\"showErr\" width=\"360\">\r\n\t\t\t<p slot=\"header\" style=\"color:#f60;text-align:center\">\r\n\t\t\t\t<Icon type=\"ios-close-circle\" />\r\n\t\t\t\t<span>导入信息</span>\r\n\t\t\t</p>\r\n\t\t\t<div v-for=\"(item,i) in errList\" :key='i'>\r\n\t\t\t\t{{item}}\r\n\t\t\t</div>\r\n\t\t\t<div slot=\"footer\">\r\n\t\t\t\t<Button type=\"error\" size=\"large\" long  @click=\"showErr = false;errList = []\">关闭</Button>\r\n\t\t\t</div>\r\n\t\t</Modal>\r\n\t\t<Modal @on-ok=\"modifyGroup\" @on-cancel='cancelGroup' :title='\"修改\"+(userList[currentUserIndex]?userList[currentUserIndex].studentname:\"\")+\"的分组\"' v-model=\"showGroupModal\" width=\"320\">\r\n\t\t\t<RadioGroup v-model=\"currentGroupId\">\r\n\t\t\t\t<Radio :style=\"{marginLeft:'5px',lineHeight:'30px'}\" :label=\"group.groupid\" v-for='(group,i) in groupList' :key=\"i\">\r\n\t\t\t\t\t<span>{{group.groupname}}</span>\r\n\t\t\t\t</Radio>\r\n\t\t\t</RadioGroup>\r\n\t\t\t\r\n\t\t</Modal>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 100 */
@@ -35085,6 +35157,10 @@
 					key: 'opinion',
 					align: 'center'
 				}, {
+					title: '意见分类',
+					key: 'opinionname',
+					align: 'center'
+				}, {
 					title: '创建时间',
 					key: 'createtime',
 					align: 'center'
@@ -35219,7 +35295,6 @@
 			getReplyInfo: function getReplyInfo(formFeedback) {
 
 				this.currentObj = formFeedback;
-				console.log(this.currentObj);
 			},
 			delFeedBack: function delFeedBack(obj) {
 				var s = this;
@@ -35255,7 +35330,8 @@
 						id: obj.id,
 						meetid: s.$route.params.meetid,
 						opinion: s.myopinion,
-						fid: obj.fid
+						fid: obj.fid,
+						opinionclassid: obj.opinionclassid
 					},
 					success: function success(data) {
 						console.log(data);
@@ -35380,7 +35456,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-feedback-main-ui {\n  box-sizing: border-box;\n}\n\n.wm-feedback-main-ui .wm-tab-content > div {\n  width: 100%;\n}\n\n.wm-feedback-main-ui .wm-feedback-table {\n  width: 98% !important;\n  margin: 0 auto;\n  background: #fff;\n  overflow: visible;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item {\n  width: 96%;\n  margin: 10px auto;\n  border: 1px solid #e1e6eb;\n  text-indent: 2em;\n  position: relative;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .delete {\n  color: #be0000;\n  font-weight: bold;\n  text-decoration: line-through;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item.fixed {\n  position: absolute;\n  z-index: 100;\n  left: 1%;\n  bottom: 0;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item > header {\n  border-bottom: 1px solid #e1e6eb;\n  width: 100%;\n  height: 38px;\n  line-height: 38px;\n  background: #f5f6fa;\n  border-left: 4px solid #be0000;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .ivu-icon {\n  margin-left: -10px;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .ivu-poptip-rel {\n  display: block;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply {\n  position: relative;\n  left: 0;\n  color: #000000;\n  cursor: pointer;\n  top: 0;\n  width: 100%;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply > span:nth-of-type(1) {\n  margin-left: 70%;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply .wm-feedback-del {\n  color: #be0000;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item div.wm-feedback-reply, .wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-replay {\n  margin: 10px 0;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item textarea {\n  margin-left: -2em;\n  width: 97%;\n  height: 70px;\n  margin-top: 20px;\n  margin-bottom: 20px;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-submit {\n  margin: 0 0 10px 0;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-item {\n  width: 94%;\n  margin: 0 auto 20px;\n}\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.wm-feedback-main-ui {\n  box-sizing: border-box;\n}\n\n.wm-feedback-main-ui .wm-tab-content > div {\n  width: 100%;\n}\n\n.wm-feedback-main-ui .ivu-table-wrapper {\n  border-top: 1px solid #e8eaec;\n}\n\n.wm-feedback-main-ui .wm-feedback-table {\n  width: 98% !important;\n  margin: 0 auto;\n  background: #fff;\n  overflow: visible;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item {\n  width: 96%;\n  margin: 10px auto;\n  border: 1px solid #e1e6eb;\n  text-indent: 2em;\n  position: relative;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .delete {\n  color: #be0000;\n  font-weight: bold;\n  text-decoration: line-through;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item.fixed {\n  position: absolute;\n  z-index: 100;\n  left: 1%;\n  bottom: 0;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item > header {\n  border-bottom: 1px solid #e1e6eb;\n  width: 100%;\n  height: 38px;\n  line-height: 38px;\n  background: #f5f6fa;\n  border-left: 4px solid #be0000;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .ivu-icon {\n  margin-left: -10px;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .ivu-poptip-rel {\n  display: block;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply {\n  position: relative;\n  left: 0;\n  color: #000000;\n  cursor: pointer;\n  top: 0;\n  width: 100%;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply > span:nth-of-type(1) {\n  margin-left: 70%;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-reply .wm-feedback-del {\n  color: #be0000;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item div.wm-feedback-reply, .wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-replay {\n  margin: 10px 0;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item textarea {\n  margin-left: -2em;\n  width: 97%;\n  height: 70px;\n  margin-top: 20px;\n  margin-bottom: 20px;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-submit {\n  margin: 0 0 10px 0;\n}\n\n.wm-feedback-main-ui .wm-feedback-table .wm-feedback-item .wm-feedback-item {\n  width: 94%;\n  margin: 0 auto 20px;\n}\n", ""]);
 
 	// exports
 

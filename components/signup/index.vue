@@ -80,6 +80,14 @@
 				<Button type="error" size="large" long  @click="showErr = false;errList = []">关闭</Button>
 			</div>
 		</Modal>
+		<Modal @on-ok="modifyGroup" @on-cancel='cancelGroup' :title='"修改"+(userList[currentUserIndex]?userList[currentUserIndex].studentname:"")+"的分组"' v-model="showGroupModal" width="320">
+			<RadioGroup v-model="currentGroupId">
+				<Radio :style="{marginLeft:'5px',lineHeight:'30px'}" :label="group.groupid" v-for='(group,i) in groupList' :key="i">
+					<span>{{group.groupname}}</span>
+				</Radio>
+			</RadioGroup>
+			
+		</Modal>
 	</div>
 </template>
 
@@ -126,7 +134,7 @@
 				mobileError:"",
 				currentUserId:-1,
 				keyword:"",
-
+				groupList:[],
 				columns:[
 					{
 						title:"姓名",
@@ -155,7 +163,8 @@
                         filterMultiple: false,
                         filterMethod (value, row) {
 							return row.provinceid  === value;
-                        },
+						},
+						
 						
 					},{
 						title:"所属小组",
@@ -167,7 +176,43 @@
                         filterMultiple: false,
                         filterMethod (value, row) {
 							return row.groupid  === value;
-                        },
+						},
+						render:(h,params)=>{
+							return h('div',{
+								/* on:{
+									mouseover:()=>{
+										this.userList[params.index].opacity = 1;
+										this.userList = this.userList.concat([]);
+									},
+									mouseout:()=>{
+										this.userList[params.index].opacity = 0;
+										this.userList = this.userList.concat([]);
+									}
+								} */
+							},[
+								h('span',{},params.row.groupname),
+								h('span',{
+									style:{
+										marginLeft:'10px',
+										cursor:'pointer',
+										color:'#00f',
+										fontSize:'12px',
+										display:'inline-block',
+										transform:'scale(.9)'
+									},
+									on:{
+										click:()=>{
+											this.currentUserIndex = params.index;
+											this.showGroupModal = true;
+											this.currentGroupId = params.row.groupid;
+											this.defaultGrouopId = params.row.groupid;
+											this.defaultGroupUserId = params.row.userid;
+										}
+									}
+									
+								},'修改')
+							]);
+						}
 						
 					},
 					{
@@ -273,12 +318,21 @@
 				formUser:{
 				 
 				},
-				userinfo:{}
+				userinfo:{},
+				currentUserIndex:-1,
+				currentGroupId:-1,
+				showGroupModal:false,
+				
+				
 			}
 		},
 		components:{
 			Tab,
 			'add-student':AddStudent
+		},
+
+		computed:{
+			
 		},
 
 		beforeCreate(){
@@ -319,6 +373,35 @@
 		},
 		
 		methods:{
+
+			modifyGroup(){//
+				if(this.defaultGrouopId === this.currentGroupId){
+					return;
+				}
+			
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/updatestudentgroup',//接口待做。
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						userid:s.defaultGroupUserId,
+						groupid:s.currentGroupId,
+						meetid:s.$route.params.meetid,
+					},
+					success(data){
+						s.$Message[data.getret === 0?'success':'error'](data.getmsg);
+						if(data.getret === 0){
+							s.getsignupList();
+						}
+					}
+				})
+			},
+
+			cancelGroup(){
+				this.currentUserIndex = -1;
+				this.showGroupModal = false;
+			},
 
 			updateStatus(status,status1,id){
 				if(status === status1){

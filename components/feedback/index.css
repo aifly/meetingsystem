@@ -57,6 +57,10 @@
   width: 100%;
 }
 
+.wm-feedback-main-ui .ivu-table-wrapper {
+  border-top: 1px solid #e8eaec;
+}
+
 .wm-feedback-main-ui .wm-feedback-table {
   width: 98% !important;
   margin: 0 auto;

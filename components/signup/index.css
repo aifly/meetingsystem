@@ -55,6 +55,7 @@
 .wm-attendance-ui,
 .wm-scoreitem-main-ui,
 .wm-feedback-main-ui,
+.wm-outattendance-main-ui,
 .wm-score-main-ui {
   display: flex;
   display: -webkit-flex;
@@ -67,6 +68,7 @@
 .wm-attendance-ui .ivu-table-wrapper,
 .wm-scoreitem-main-ui .ivu-table-wrapper,
 .wm-feedback-main-ui .ivu-table-wrapper,
+.wm-outattendance-main-ui .ivu-table-wrapper,
 .wm-score-main-ui .ivu-table-wrapper {
   border-top: none;
   border-bottom: none;
@@ -79,6 +81,7 @@
 .wm-attendance-ui > div:nth-of-type(1),
 .wm-scoreitem-main-ui > div:nth-of-type(1),
 .wm-feedback-main-ui > div:nth-of-type(1),
+.wm-outattendance-main-ui > div:nth-of-type(1),
 .wm-score-main-ui > div:nth-of-type(1) {
   width: 200px;
 }
@@ -93,6 +96,7 @@
 .wm-attendance-ui .wm-header-right-action,
 .wm-scoreitem-main-ui .wm-header-right-action,
 .wm-feedback-main-ui .wm-header-right-action,
+.wm-outattendance-main-ui .wm-header-right-action,
 .wm-score-main-ui .wm-header-right-action {
   display: flex;
   display: -webkit-flex;
@@ -105,6 +109,7 @@
 .wm-attendance-ui .wm-header-right-action > div,
 .wm-scoreitem-main-ui .wm-header-right-action > div,
 .wm-feedback-main-ui .wm-header-right-action > div,
+.wm-outattendance-main-ui .wm-header-right-action > div,
 .wm-score-main-ui .wm-header-right-action > div {
   display: flex;
   display: -webkit-flex;
@@ -118,6 +123,7 @@
 .wm-attendance-ui .wm-header-right-action > div:nth-of-type(2),
 .wm-scoreitem-main-ui .wm-header-right-action > div:nth-of-type(2),
 .wm-feedback-main-ui .wm-header-right-action > div:nth-of-type(2),
+.wm-outattendance-main-ui .wm-header-right-action > div:nth-of-type(2),
 .wm-score-main-ui .wm-header-right-action > div:nth-of-type(2) {
   display: flex;
   display: -webkit-flex;
@@ -132,6 +138,7 @@
 .wm-attendance-ui .wm-header-right-action > div .wm-header-temp,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-header-temp,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-header-temp,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-header-temp,
 .wm-score-main-ui .wm-header-right-action > div .wm-header-temp {
   margin-right: 10px;
   font-size: 14px;
@@ -143,6 +150,7 @@
 .wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn,
 .wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn {
   margin-right: 5px;
   position: relative;
@@ -173,6 +181,10 @@
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:after,
 .wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:before,
 .wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .webuploader-pick:after,
 .wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn div:before,
@@ -186,6 +198,7 @@
 .wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload,
 .wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn .wm-upload {
   left: 0;
   top: 0;
@@ -199,6 +212,7 @@
 .wm-attendance-ui .wm-header-right-action > div .wm-exportexcel-btn input,
 .wm-scoreitem-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
 .wm-feedback-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
+.wm-outattendance-main-ui .wm-header-right-action > div .wm-exportexcel-btn input,
 .wm-score-main-ui .wm-header-right-action > div .wm-exportexcel-btn input {
   position: absolute;
   left: 0;
@@ -216,6 +230,7 @@
 .wm-attendance-ui .wm-header-right-action > div > div,
 .wm-scoreitem-main-ui .wm-header-right-action > div > div,
 .wm-feedback-main-ui .wm-header-right-action > div > div,
+.wm-outattendance-main-ui .wm-header-right-action > div > div,
 .wm-score-main-ui .wm-header-right-action > div > div {
   height: 40px;
   position: relative;
@@ -227,6 +242,7 @@
 .wm-attendance-ui .wm-header-right-action > div > div .wm-upload,
 .wm-scoreitem-main-ui .wm-header-right-action > div > div .wm-upload,
 .wm-feedback-main-ui .wm-header-right-action > div > div .wm-upload,
+.wm-outattendance-main-ui .wm-header-right-action > div > div .wm-upload,
 .wm-score-main-ui .wm-header-right-action > div > div .wm-upload {
   position: absolute;
 }
@@ -237,6 +253,7 @@
 .wm-attendance-ui .wm-tab-content,
 .wm-scoreitem-main-ui .wm-tab-content,
 .wm-feedback-main-ui .wm-tab-content,
+.wm-outattendance-main-ui .wm-tab-content,
 .wm-score-main-ui .wm-tab-content {
   box-sizing: border-box;
   flex: 1;
@@ -252,6 +269,7 @@
 .wm-attendance-ui .wm-tab-content > div,
 .wm-scoreitem-main-ui .wm-tab-content > div,
 .wm-feedback-main-ui .wm-tab-content > div,
+.wm-outattendance-main-ui .wm-tab-content > div,
 .wm-score-main-ui .wm-tab-content > div {
   width: 98%;
   margin: 10px auto 10px;
@@ -267,6 +285,7 @@
 .wm-attendance-ui .wm-tab-content > div .wm-meet-form,
 .wm-scoreitem-main-ui .wm-tab-content > div .wm-meet-form,
 .wm-feedback-main-ui .wm-tab-content > div .wm-meet-form,
+.wm-outattendance-main-ui .wm-tab-content > div .wm-meet-form,
 .wm-score-main-ui .wm-tab-content > div .wm-meet-form {
   width: 100%;
   margin: 0px auto;
@@ -281,6 +300,7 @@
 .wm-attendance-ui .wm-tab-content .wm-tab-header,
 .wm-scoreitem-main-ui .wm-tab-content .wm-tab-header,
 .wm-feedback-main-ui .wm-tab-content .wm-tab-header,
+.wm-outattendance-main-ui .wm-tab-content .wm-tab-header,
 .wm-score-main-ui .wm-tab-content .wm-tab-header {
   width: 50px;
   display: flex;
@@ -300,6 +320,7 @@
 .wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
 .wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
 .wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
+.wm-outattendance-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1),
 .wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1) {
   position: relative;
   text-indent: .5em;
@@ -311,6 +332,7 @@
 .wm-attendance-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
 .wm-scoreitem-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
 .wm-feedback-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
+.wm-outattendance-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before,
 .wm-score-main-ui .wm-tab-content .wm-tab-header > div:nth-of-type(1):before {
   content: '';
   width: 4px;
@@ -327,6 +349,7 @@
 .wm-attendance-ui .wm-tab-content .wm-signup-wrap,
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-wrap,
 .wm-feedback-main-ui .wm-tab-content .wm-signup-wrap,
+.wm-outattendance-main-ui .wm-tab-content .wm-signup-wrap,
 .wm-score-main-ui .wm-tab-content .wm-signup-wrap {
   margin: 50px auto;
   width: 500px;
@@ -338,6 +361,7 @@
 .wm-attendance-ui .wm-tab-content .wm-signup-item,
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-item,
 .wm-feedback-main-ui .wm-tab-content .wm-signup-item,
+.wm-outattendance-main-ui .wm-tab-content .wm-signup-item,
 .wm-score-main-ui .wm-tab-content .wm-signup-item {
   line-height: 40px;
   display: flex;
@@ -352,6 +376,7 @@
 .wm-attendance-ui .wm-tab-content .wm-signup-item > div,
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div,
 .wm-feedback-main-ui .wm-tab-content .wm-signup-item > div,
+.wm-outattendance-main-ui .wm-tab-content .wm-signup-item > div,
 .wm-score-main-ui .wm-tab-content .wm-signup-item > div {
   margin-right: 10px;
 }
@@ -362,6 +387,7 @@
 .wm-attendance-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
 .wm-scoreitem-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
 .wm-feedback-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
+.wm-outattendance-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1),
 .wm-score-main-ui .wm-tab-content .wm-signup-item > div:nth-of-type(1) {
   width: 80px;
   text-align: right;
@@ -370,4 +396,11 @@
 .ivu-poptip-body {
   max-height: 500px;
   overflow: auto;
+}
+
+.ivu-radio-inner:after {
+  width: 7px !important;
+  height: 7px !important;
+  left: 3px !important;
+  top: 3px !important;
 }

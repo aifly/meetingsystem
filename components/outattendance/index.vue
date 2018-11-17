@@ -1,40 +1,37 @@
 <template>
-	<div class="wm-scoreitem-main-ui">
+	<div class="wm-outattendance-main-ui">
 		<div>
 			<Tab :refresh='refresh'></Tab>
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
-				<div>评分项设置</div>
+				<div>外出考勤</div>
 				<div>
-					<Button type="primary" @click="addCourse">新增评分项</Button>
+					<Button type="primary" @click="addCourse">新增外出考勤</Button>
 				</div>
 			</header>
-			<div class='wm-scoreitem-main'>
-				<div class='wm-scoreitem-table' :class="{'active':showDetail}">
-					<Table :data='scoreItemList' :columns='columns'></Table>
+			<div class='wm-outattendance-main'>
+				<div class='wm-outattendance-table' :class="{'active':showDetail}">
+					<Table :data='outattendanceList' :columns='columns'></Table>
 				</div>
 				<transition name='detail'>
-					<div class='wm-scoreitem-form' v-if='showDetail'>
+					<div class='wm-outattendance-form' v-if='showDetail'>
 						<header>
-							{{formScoreItem.scoreitemid?'编辑评分项':'新增评分项'}}
+							{{formOutAttendance.activityid?'编辑评分项':'新增外出考勤'}}
 						</header>
-						<div class='wm-scoreitem-form-item'>
-							<label for="">评估内容：</label><input placeholder="请输入评估内容" v-model="formScoreItem.scoreitemname" />
+						<div class='wm-outattendance-form-item'>
+							<label for="">地址名称：</label><input class='wm-outattendance-input' placeholder="请输入地址名称" v-model="formOutAttendance.title" />
 						</div>
-						<div class='wm-scoreitem-form-item'>
-							<label for="">所属分组：</label><input placeholder="请输入所属分组" v-model="formScoreItem.groupname" />
+						<div class='wm-outattendance-form-item'>
+							<label for="">内<span style='opacity:0'>每位</span>容 ：</label><input class='wm-outattendance-input' placeholder="请输入内容 " v-model="formOutAttendance.content" />
 						</div>
-						<div class='wm-scoreitem-form-item'>
-							<label for="">类<span style='opacity:0'>属分</span> 别：</label>
-							 <RadioGroup v-model="formScoreItem.scoretype">
-								<Radio :label="1">打分</Radio>
-								<Radio :label="2">录入</Radio>
-							</RadioGroup>
+						<div class='wm-outattendance-form-item'>
+							<label for="">出行时间：</label>
+							 <DatePicker v-model="formOutAttendance.setouttime" type="date" placeholder="任职时间" style="width:70%;" ></DatePicker>
 						</div>
-						<div class='wm-scoreitem-form-item wm-scoreitem-btns'>
+						<div class='wm-outattendance-form-item wm-outattendance-btns'>
 							<Button @click='showDetail = false' size ='small' type='default'>返回</Button>
-							<Button size ='small' type='primary' @click='scoreItemAction'>{{formScoreItem.scoreitemid?'保存':'确定'}}</Button>
+							<Button size ='small' type='primary' @click='outattendanceAction'>{{formOutAttendance.activityid?'保存':'确定'}}</Button>
 						</div>
 					</div>
 				</transition>
@@ -65,35 +62,31 @@
 				showMap:false,
 				viewH:window.innerHeight,
 				viewW:window.innerWidth,
-				scoreItemList:[],
+				outattendanceList:[],
 				columns:[
 					{
-						title:"评估指标",
-						key:'scoreitemname',
+						title:"外出名称",
+						key:'title',
 						align:'center'
 						
 					},
 					{
-						title:'所属分组',
-						key:'groupname',
+						title:'内容',
+						key:'content',
 						align:'center'
 					},
 					{
-						title:'类别',
-						key:'scoretype',
+						title:'外出时间',
+						key:'setouttime',
 						align:'center',
-						render:(h,params)=>{
-							return h('div',{},params.row.scoretype === 1 ? '评分':"意见建议")
-						}
+						
 					},
 					{
 						title:'操作',
 						key:'action',
 						align:'center',
 						render:(h,params)=>{
-
 							return h('div', [
-                               
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -113,7 +106,7 @@
                                         click: () => {
 											var s = this;
 											s.showDetail = true;
-											s.formScoreItem = params.row;
+											s.formOutAttendance = params.row;
                                         }
                                     }
                                 }, '详情'),
@@ -124,7 +117,7 @@
 									},
 									on:{
 										'on-ok':()=>{
-											this.delScoreItem(params.row.scoreitemid);
+											this.delOutAttendance(params.row.activityid);
 										},
 										
 									}
@@ -147,7 +140,7 @@
 					}
 				],
 				
-				formScoreItem:{
+				formOutAttendance:{
 					pdfurl:'',
 					longitude :'116.585856',
 					latitude :'40.364989'
@@ -174,11 +167,7 @@
 		mounted(){
 			window.s = this;
 			this.userinfo = symbinUtil.getUserInfo();
-			
-			this.getScoreItemList();
-			
-
-			
+			this.getOutattendanceList();
 		},
 
 		watch:{
@@ -190,7 +179,7 @@
 			addCourse(){
 				this.showDetail = true;
 				this.currentClassId = -1;
-				this.formScoreItem = {
+				this.formOutAttendance = {
 				}
 			},
 
@@ -200,18 +189,19 @@
 				this.currentClassId = -1;
 			},
 
-			getScoreItemList(){
+			getOutattendanceList(){
 				var s = this;
 				symbinUtil.ajax({
-					url:window.config.baseUrl+'/zmitiadmin/getrateditemslist',
+					url:window.config.baseUrl+'/zmitiadmin/getmeetactivitylist',
 					data:{
 						admintoken:s.userinfo.accesstoken,
-						adminuserid:s.userinfo.userid
+						adminuserid:s.userinfo.userid,
+						meetid:s.$route.params.meetid
 					},
 					success(data){
 						console.log(data);
 						if(data.getret === 0){
-							s.scoreItemList = data.list;
+							s.outattendanceList = data.list;
 							
 						}
 					}
@@ -221,34 +211,36 @@
 			
 
 		
-			delScoreItem(id){
+			delOutAttendance(activityid){
 				var s = this;
 				symbinUtil.ajax({
-					url:window.config.baseUrl+'/zmitiadmin/delrateditems',
+					url:window.config.baseUrl+'/zmitiadmin/deletemeetactivity',
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
-						id
+						activityid
 					},
 					success(data){
 						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
 						if(data.getret === 0){
-							s.getScoreItemList();
+							s.getOutattendanceList();
 						}
 					}
 				})
 			},
-			scoreItemAction(){
+			outattendanceAction(){
 				var s = this;
-				var p = JSON.parse(JSON.stringify(this.formScoreItem));
+				var p = JSON.parse(JSON.stringify(this.formOutAttendance));
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
-				var url = window.config.baseUrl+'/zmitiadmin/addrateditems';
-				if(p.scoreitemid>-1){
-					url = window.config.baseUrl+'/zmitiadmin/updaterateditems';
-					p.id = p.scoreitemid;
+				p.meetid = s.$route.params.meetid;
+				p.setouttime =  new Date(p.setouttime).toLocaleDateString();
+				var url = window.config.baseUrl+'/zmitiadmin/addmeetactivity';
+				if(p.activityid>-1){
+					url = window.config.baseUrl+'/zmitiadmin/updatemeetactivity';
+					p.id = p.activityid;
 				}else{
-					this.formScoreItem = {
+					this.formOutAttendance = {
 					}
 				}
 
@@ -257,8 +249,8 @@
 					data:p,
 					success(data){
 						s.$Message[data.getret === 0 ? 'success':'error'](data.getmsg);
-						//s.showDetail = false;
-						s.getScoreItemList();
+						
+						s.getOutattendanceList();
 					}
 				})
 			},

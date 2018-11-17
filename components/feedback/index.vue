@@ -133,6 +133,11 @@
 						title:'用户反馈',
 						key:'opinion',
 						align:'center'
+					},
+					{ 
+						title:'意见分类',
+						key:'opinionname',
+						align:'center'
 					},{ 
 						title:'创建时间',
 						key:'createtime',
@@ -289,11 +294,8 @@
 		methods:{
 
 			getReplyInfo(formFeedback){
-
-				
 				
 				this.currentObj = formFeedback;
-				console.log(this.currentObj )
 			},
 			delFeedBack(obj){
 				var s = this;
@@ -329,7 +331,8 @@
 						id:obj.id,
 						meetid:s.$route.params.meetid,
 						opinion:s.myopinion,
-						fid:obj.fid
+						fid:obj.fid,
+						opinionclassid:obj.opinionclassid
 					},
 					success(data){
 						console.log(data);

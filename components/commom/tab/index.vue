@@ -35,7 +35,7 @@
 						name:'课程管理',
 						to:'meetingcourse'
 					},{
-						name:'考勤管理',
+						name:'投稿管理',
 						to:'meetingattendance'
 					},{
 						name:'评分结果',
@@ -43,10 +43,10 @@
 					},{
 						name:'意见反馈',
 						to:'meetingfeedback'
-					}/* ,{
+					},{
 						name:'外出考勤',
 						to:'meetingoutattendance'
-					} */
+					}
 				],
 				formUser:{
 					studentmame:'',

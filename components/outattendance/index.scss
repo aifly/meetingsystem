@@ -4,15 +4,23 @@ $baseColor: #fcffb4;
 $viewW: 750px;
 $color: #be0000;
 
-.wm-scoreitem-main-ui {
+.ivu-message{
+    z-index: 100001 !important;
+}
+
+.wm-outattendance-main-ui {
     
-    .wm-scoreitem-main{
+    .wm-outattendance-main{
+
+        .ivu-table-wrapper{
+            border-top:1px solid #e8eaec;
+        }
         width: 100%;
         @include displayFlex(row);
         &>div{
             @include transition(.3s);
         }
-        .wm-scoreitem-table {
+        .wm-outattendance-table {
             width: 100%;
            .ivu-table-wrapper{
                margin-top: 10px;;
@@ -21,7 +29,7 @@ $color: #be0000;
                 width: 70%;
             }
         }
-        .wm-scoreitem-form{
+        .wm-outattendance-form{
             //border:1px solid #dcdee2;
             margin-top: 10px;
             margin-left: 2%;
@@ -45,23 +53,24 @@ $color: #be0000;
                 text-indent: 2em;
                 background:#f8f8f9;
             }
-            .wm-scoreitem-form-item{
+            .wm-outattendance-form-item{
                 line-height: 50px;
                 
                 height: 50px;;
-                &.wm-scoreitem-btns{
+                &.wm-outattendance-btns{
                     text-align: center;
                     button{
                         margin: 0 20px;
                         padding:2px 20px;
                     }
                 }
-                input{
+                input.wm-outattendance-input {
                     padding-left: 6px;
-                    height: 26px;
+                    height: 30px;
                     width: 70%;
                     border:1px solid#d8d8d8;
                     outline: none;
+                    @include br(6px);
                 }
             }
         }
