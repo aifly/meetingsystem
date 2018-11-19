@@ -4,73 +4,179 @@ $baseColor: #fcffb4;
 $viewW: 750px;
 $color: #be0000;
 
-.ivu-message{
+.ivu-message {
     z-index: 100001 !important;
 }
 
 .wm-outattendance-main-ui {
-    
-    .wm-outattendance-main{
+    .wm-outattendance-main {
+        .ivu-table-wrapper {
+            border-top: 1px solid #e8eaec;
+        }
 
-        .ivu-table-wrapper{
-            border-top:1px solid #e8eaec;
-        }
         width: 100%;
+
         @include displayFlex(row);
-        &>div{
-            @include transition(.3s);
+
+        & > div {
+            @include transition(0.3s);
         }
+
         .wm-outattendance-table {
             width: 100%;
-           .ivu-table-wrapper{
-               margin-top: 10px;;
-           }
+
+            .ivu-table-wrapper {
+                margin-top: 10px;
+            }
+
             &.active {
                 width: 70%;
             }
         }
-        .wm-outattendance-form{
+
+        .wm-outattendance-form {
             //border:1px solid #dcdee2;
             margin-top: 10px;
             margin-left: 2%;
             width: 28%;
+
             @include pos(a);
+
             right: 0;
+
             &.detail-enter-active,
             &.detail-leave-active {
-                @include transition(.3s);
+                @include transition(0.3s);
             }
+
             &.detail-enter,
             &.detail-leave-to {
-               width: 0;
-               overflow: hidden;
+                width: 0;
+                overflow: hidden;
             }
-            &>header{
+
+            & > header {
                 line-height: 40px;
                 height: 40px;
                 font-weight: bold;
-                color:#515a6e;
+                color: #515a6e;
                 text-indent: 2em;
-                background:#f8f8f9;
+                background: #f8f8f9;
             }
-            .wm-outattendance-form-item{
+
+            .wm-outattendance-form-item {
                 line-height: 50px;
-                
-                height: 50px;;
-                &.wm-outattendance-btns{
+                height: 50px;
+
+                &.wm-outattendance-btns {
                     text-align: center;
-                    button{
+
+                    button {
                         margin: 0 20px;
-                        padding:2px 20px;
+                        padding: 2px 20px;
                     }
                 }
+
                 input.wm-outattendance-input {
                     padding-left: 6px;
                     height: 30px;
                     width: 70%;
-                    border:1px solid#d8d8d8;
+                    border: 1px solid #d8d8d8;
                     outline: none;
+
                     @include br(6px);
+                }
+            }
+        }
+    }
+
+    .wm-outattendance-group-list {}
+
+    .wm-outattendance-detail-main {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .ivu-table-overflowX{
+        overflow: hidden;
+    }
+
+    .wm-outattendance-title {
+        line-height: 20px;
+
+        span {
+            margin-right: 40px;
+        }
+    }
+
+    .wm-outattendance-group {
+        margin: 10px 0;
+        border: 1px solid #e4e4e4;
+        @include br(4px);
+        padding: 10px;
+
+        .wm-outattendance-group-item {
+            margin: 10px 0;
+        }
+    }
+
+    .wm-outattendance-detail {
+        overflow: auto;
+    }
+
+    .wm-outattendance-user-item {
+        @include displayFlex(row);
+
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        margin: 5px 0;
+        line-height: 30px;
+        border-bottom: 1px solid #e4e4e4;
+        height: 30px;
+
+        & > .username {
+            color: #000;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .wm-outattendance-err {
+            font-size:12px;
+            i {
+                font-size: 16px;
+                color: #be0000;
+            }
+        }
+        
+        .wm-outattendance-success {
+            font-size:12px;
+            i {
+                font-size: 16px;
+                color: #62f500;
+            }
+        }
+
+        & > div {
+            &:nth-of-type(2) {
+                span {
+                    margin: 0 10px;
+                    font-size:12px;
+
+                    &:nth-of-type(1) {
+                        @include pos(r);
+
+                        &:before {
+                            content: "";
+                            width: 1px;
+                            height: 14px;
+
+                            @include pos(a);
+
+                            right: -10px;
+                            top: 0;
+                            background: #d8d8d8;
+                        }
+                    }
                 }
             }
         }

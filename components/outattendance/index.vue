@@ -10,7 +10,62 @@
 					<Button type="primary" @click="addCourse">新增外出考勤</Button>
 				</div>
 			</header>
-			<div class='wm-outattendance-main'>
+			
+			<div  v-if='(activeDetail.title && activeDetail.list.length)' class='wm-scroll wm-outattendance-detail' :style='{height:viewH-150+"px"}'>
+
+				<div class='wm-outattendance-detail-main'>
+					<h3>活动名称：{{activeDetail.title}}</h3>
+					<div class='wm-outattendance-title'>出发签到：</div>
+					<div class='wm-outattendance-title'>
+						<span>应该到人数：{{activePersonNum}}</span>
+						<span>未到人数：{{outActivePersonNum}}</span>
+					</div>
+					<div class='wm-outattendance-title'>返回签到：</div>
+					<div class='wm-outattendance-title'>
+						<span>应该到人数：{{activePersonNum}}</span>
+						<span>未到人数：{{backActivePersonNum}}</span>
+					</div>
+
+					<ul class='wm-outattendance-group-list'>
+						<li v-for='(list,i) in activeDetail.list' :key='i' class='wm-outattendance-group'>
+							<h4>{{list.groupname}}</h4>
+							<div class='wm-outattendance-group-item'>
+								<div>出发签到：</div>
+								<div>
+									<span>应该到人数：{{list.outAllNum}}</span>
+									<span>未到人数：{{list.outUnsiginNum}}</span>
+								</div>
+							</div>
+							<div class='wm-outattendance-group-item'>
+								<div>返回签到：</div>
+								<div>
+									<span>应该到人数：{{list.backallNum}}</span>
+									<span>未到人数：{{list.backUnsiginNum}}</span>
+								</div>
+							</div>
+							<div v-for="(user,k) in list.grouplist" :key='k' class='wm-outattendance-user-item'>
+								<div class='username'>{{user.studentname}}</div>
+								<div>
+									<span :class='user.startcheckin === 0?"wm-outattendance-err":"wm-outattendance-success"'>出发：
+										<Icon type="md-close-circle" v-if='user.startcheckin === 0' />
+										<Icon type="md-checkmark-circle" v-else/>
+										{{user.startcheckintime}}
+									</span>
+									<span :class='user.backsignin === 0?"wm-outattendance-err":"wm-outattendance-success"'>
+										返回：
+										<Icon type="md-close-circle" v-if='user.backsignin === 0' />
+										<Icon type="md-checkmark-circle" v-else/>
+										{{user.backsignintime}}
+									</span>
+									
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+			<div class='wm-outattendance-main' v-else>
 				<div class='wm-outattendance-table' :class="{'active':showDetail}">
 					<Table :data='outattendanceList' :columns='columns'></Table>
 				</div>
@@ -36,6 +91,7 @@
 					</div>
 				</transition>
 			</div>
+			
 		</div>
 	</div>
 </template>
@@ -58,11 +114,18 @@
 				showDetail:false,
 				currentClassId:-1, 
 				address:'',
+				activePersonNum:0,
+				outActivePersonNum:0,
+				backActivePersonNum:0,
 				showPass:false,
 				showMap:false,
 				viewH:window.innerHeight,
 				viewW:window.innerWidth,
 				outattendanceList:[],
+				activeDetail:{
+					title:'',
+					list:[]
+				},
 				columns:[
 					{
 						title:"外出名称",
@@ -84,10 +147,33 @@
 					{
 						title:'操作',
 						key:'action',
+						width:200,
 						align:'center',
 						render:(h,params)=>{
 							return h('div', [
                                 h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+										//margin: '2px 5px',
+										border:'none',
+										background:'#fab82e',
+										color:'#fff',
+										padding: '3px 7px 2px',
+										fontSize: '12px',
+										borderRadius: '3px'
+
+                                    },
+                                    on: {
+                                        click: () => {
+											var s = this;
+											s.getmeetactivityinfo(params.row.activityid);
+                                        }
+                                    }
+                                }, '详情'),
+								 h('Button', {
                                     props: {
                                         type: 'primary',
                                         size: 'small'
@@ -109,7 +195,7 @@
 											s.formOutAttendance = params.row;
                                         }
                                     }
-                                }, '详情'),
+                                }, '编辑'),
                                 h('Poptip',{
 									props:{
 										confirm:true,
@@ -168,6 +254,7 @@
 			window.s = this;
 			this.userinfo = symbinUtil.getUserInfo();
 			this.getOutattendanceList();
+			
 		},
 
 		watch:{
@@ -175,6 +262,47 @@
 		},
 		
 		methods:{
+
+			getmeetactivityinfo(activityid='1904614349'){
+
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getmeetactivityinfo',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						activityid
+					},
+					success(data){
+						
+						if(data.getret === 0){
+							s.activeDetail = data.list;
+							s.activePersonNum = 0;
+							s.outActivePersonNum = 0;
+							s.backActivePersonNum = 0;
+							data.list.list.forEach((ls)=>{
+								s.activePersonNum += ls.grouplist.length;
+								ls.outAllNum = ls.grouplist.length;
+								ls.backallNum = ls.grouplist.length;
+								ls.backUnsiginNum = 0;
+								ls.outUnsiginNum = 0;
+								ls.grouplist.forEach((item)=>{
+
+									if(item.startcheckin === 0){
+										s.outActivePersonNum++;
+										ls.outUnsiginNum++;
+									}
+									if(item.backsignin === 0){
+										ls.backUnsiginNum++;
+										s.backActivePersonNum++;
+									}
+								})
+							});
+						}
+					}
+				})
+
+			},
 
 			addCourse(){
 				this.showDetail = true;
@@ -187,6 +315,10 @@
 			refresh(){
 				this.showDetail = false;
 				this.currentClassId = -1;
+				this.activeDetail = {
+					list:[],
+					title:''
+				};
 			},
 
 			getOutattendanceList(){

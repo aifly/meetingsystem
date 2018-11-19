@@ -29618,7 +29618,7 @@
 	// 		</div>
 	// 		<div class="wm-tab-content">
 	// 			<header class="wm-tab-header">
-	// 				<div>考勤管理  <span v-if='name'>>{{name}}</span> </div>
+	// 				<div>投稿管理  <span v-if='name'>>{{name}}</span> </div>
 	// 				<div class='wm-header-tabs'>
 	// 					<h2 style='height:10px;'></h2>
 	//
@@ -29626,7 +29626,7 @@
 	// 				<div>
 	// 					<!-- <Input v-model="keyword" placeholder="请输入学员姓名"/> -->
 	// 					<div>
-	// 						<Button type="primary"　@click='addNews'>新增考勤</Button>
+	// 						<Button type="primary"　@click='addNews'>新增投稿</Button>
 	// 					</div>
 	// 				</div>
 	// 			</header>
@@ -29712,7 +29712,7 @@
 		label: '请假已批',
 		value: 3
 	}, {
-		label: '考勤异常',
+		label: '投稿异常',
 		value: 4
 	}, {
 		label: '请假驳回',
@@ -29856,7 +29856,7 @@
 					align: 'left',
 					width: 60,
 					render: function render(h, params) {
-						return h('div', {}, '考勤');
+						return h('div', {}, '投稿');
 					}
 				}, {
 					title: "是否推荐",
@@ -30042,7 +30042,7 @@
 			newsAction: function newsAction(type) {
 				var s = this;
 
-				s.formNews.type = -2; //类型为-1的时候表示为考勤。
+				s.formNews.type = -2; //类型为-1的时候表示为投稿。
 				if (!s.formNews.title) {
 					this.$Message.error('新闻标题不能为空');
 					return;
@@ -30176,11 +30176,11 @@
 				if (val === 2 || val === 3 || val === 4 || val === 5) {
 					//this.cacheColumns =  this.cacheColumns || this.columns1.concat([]);
 					if (val === 4) {
-						//考勤异常
+						//投稿异常
 						if (this.columns1[4].key === 'excuse') {
 							this.columns1.splice(4, 1);
 							this.columns1.splice(4, 0, {
-								title: '考勤地址',
+								title: '投稿地址',
 								key: 'addressname',
 								align: 'center'
 
@@ -30330,7 +30330,7 @@
 /* 74 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-attendance-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh=\"refresh\"></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>考勤管理  <span v-if='name'>>{{name}}</span> </div>\r\n\t\t\t\t<div class='wm-header-tabs'>\r\n\t\t\t\t\t<h2 style='height:10px;'></h2>\r\n\t\t\t\t\t\r\n\t\t\t\t</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<!-- <Input v-model=\"keyword\" placeholder=\"请输入学员姓名\"/> -->\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Button type=\"primary\"　@click='addNews'>新增考勤</Button>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class=\"wm-news-wrap\">\r\n\t\t\t\t<Form ref=\"formValidate\" v-show='showDetail' class=\"wm-meet-form wm-scroll\" :style='{height:viewH - 64- 90+\"px\"}' :model=\"formNews\" :rules=\"ruleValidate\" :label-width=\"100\">\r\n\t\t\t\t \r\n\t\t\t\t\t \r\n\t\t\t\t\t<FormItem label=\"标题：\" prop=\"title\"  v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<Input v-model=\"formNews.title\" placeholder=\"请填写标题\"></Input>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t\r\n\t\t\t\t\t<FormItem label=\"内容：\" prop=\"content\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t <quill-editor \r\n\t\t\t\t\t\t\tv-model=\"formNews.content\" \r\n\t\t\t\t\t\t\tref=\"myQuillEditor\" \r\n\t\t\t\t\t\t\taria-placeholder=\"123\"\r\n\t\t\t\t\t\t\t:options=\"editorOption\" \r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t</quill-editor>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\r\n\t\t\t\t\t<FormItem label=\"新闻状态：\" prop=\"encrypsign\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formNews.state\">\r\n\t\t\t\t\t\t\t<Radio :label=\"0\">待发</Radio>\r\n\t\t\t\t\t\t\t<Radio :label=\"1\">签发</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem>\r\n\t\t\t\t\t\t<Button :disabled='isDisabledBtn' type=\"primary\" @click=\"newsAction('click')\" size='large'>{{currentNewsId>-1?'保存':'添加'}}</Button>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t</Form>\r\n\t\t\t\t<div class=\"wm-news-list\" v-if='!showDetail'>\r\n\t\t\t\t\t<Table  :loading=\"loading\" :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns1'   stripe>\r\n\t\t\t\t\t\t<div slot='loading' class='wm-table-loading'>加载中<span>.</span><span>.</span><span>.</span></div>\r\n\t\t\t\t\t</Table>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-attendance-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh=\"refresh\"></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>投稿管理  <span v-if='name'>>{{name}}</span> </div>\r\n\t\t\t\t<div class='wm-header-tabs'>\r\n\t\t\t\t\t<h2 style='height:10px;'></h2>\r\n\t\t\t\t\t\r\n\t\t\t\t</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<!-- <Input v-model=\"keyword\" placeholder=\"请输入学员姓名\"/> -->\r\n\t\t\t\t\t<div>\r\n\t\t\t\t\t\t<Button type=\"primary\"　@click='addNews'>新增投稿</Button>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class=\"wm-news-wrap\">\r\n\t\t\t\t<Form ref=\"formValidate\" v-show='showDetail' class=\"wm-meet-form wm-scroll\" :style='{height:viewH - 64- 90+\"px\"}' :model=\"formNews\" :rules=\"ruleValidate\" :label-width=\"100\">\r\n\t\t\t\t \r\n\t\t\t\t\t \r\n\t\t\t\t\t<FormItem label=\"标题：\" prop=\"title\"  v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<Input v-model=\"formNews.title\" placeholder=\"请填写标题\"></Input>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t\r\n\t\t\t\t\t<FormItem label=\"内容：\" prop=\"content\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t <quill-editor \r\n\t\t\t\t\t\t\tv-model=\"formNews.content\" \r\n\t\t\t\t\t\t\tref=\"myQuillEditor\" \r\n\t\t\t\t\t\t\taria-placeholder=\"123\"\r\n\t\t\t\t\t\t\t:options=\"editorOption\" \r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t</quill-editor>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\r\n\t\t\t\t\t<FormItem label=\"新闻状态：\" prop=\"encrypsign\" v-if='!formNews.isNotice'>\r\n\t\t\t\t\t\t<RadioGroup v-model=\"formNews.state\">\r\n\t\t\t\t\t\t\t<Radio :label=\"0\">待发</Radio>\r\n\t\t\t\t\t\t\t<Radio :label=\"1\">签发</Radio>\r\n\t\t\t\t\t\t</RadioGroup>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem>\r\n\t\t\t\t\t\t<Button :disabled='isDisabledBtn' type=\"primary\" @click=\"newsAction('click')\" size='large'>{{currentNewsId>-1?'保存':'添加'}}</Button>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t</Form>\r\n\t\t\t\t<div class=\"wm-news-list\" v-if='!showDetail'>\r\n\t\t\t\t\t<Table  :loading=\"loading\" :disabled-hover='true' ref='scorelist' :border='false'  :height='viewH - 64- 72 ' :data='newsList' :columns='columns1'   stripe>\r\n\t\t\t\t\t\t<div slot='loading' class='wm-table-loading'>加载中<span>.</span><span>.</span><span>.</span></div>\r\n\t\t\t\t\t</Table>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t\t\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 75 */
@@ -30370,7 +30370,62 @@
 	// 					<Button type="primary" @click="addCourse">新增外出考勤</Button>
 	// 				</div>
 	// 			</header>
-	// 			<div class='wm-outattendance-main'>
+	//
+	// 			<div  v-if='(activeDetail.title && activeDetail.list.length)' class='wm-scroll wm-outattendance-detail' :style='{height:viewH-150+"px"}'>
+	//
+	// 				<div class='wm-outattendance-detail-main'>
+	// 					<h3>活动名称：{{activeDetail.title}}</h3>
+	// 					<div class='wm-outattendance-title'>出发签到：</div>
+	// 					<div class='wm-outattendance-title'>
+	// 						<span>应该到人数：{{activePersonNum}}</span>
+	// 						<span>未到人数：{{outActivePersonNum}}</span>
+	// 					</div>
+	// 					<div class='wm-outattendance-title'>返回签到：</div>
+	// 					<div class='wm-outattendance-title'>
+	// 						<span>应该到人数：{{activePersonNum}}</span>
+	// 						<span>未到人数：{{backActivePersonNum}}</span>
+	// 					</div>
+	//
+	// 					<ul class='wm-outattendance-group-list'>
+	// 						<li v-for='(list,i) in activeDetail.list' :key='i' class='wm-outattendance-group'>
+	// 							<h4>{{list.groupname}}</h4>
+	// 							<div class='wm-outattendance-group-item'>
+	// 								<div>出发签到：</div>
+	// 								<div>
+	// 									<span>应该到人数：{{list.outAllNum}}</span>
+	// 									<span>未到人数：{{list.outUnsiginNum}}</span>
+	// 								</div>
+	// 							</div>
+	// 							<div class='wm-outattendance-group-item'>
+	// 								<div>返回签到：</div>
+	// 								<div>
+	// 									<span>应该到人数：{{list.backallNum}}</span>
+	// 									<span>未到人数：{{list.backUnsiginNum}}</span>
+	// 								</div>
+	// 							</div>
+	// 							<div v-for="(user,k) in list.grouplist" :key='k' class='wm-outattendance-user-item'>
+	// 								<div class='username'>{{user.studentname}}</div>
+	// 								<div>
+	// 									<span :class='user.startcheckin === 0?"wm-outattendance-err":"wm-outattendance-success"'>出发：
+	// 										<Icon type="md-close-circle" v-if='user.startcheckin === 0' />
+	// 										<Icon type="md-checkmark-circle" v-else/>
+	// 										{{user.startcheckintime}}
+	// 									</span>
+	// 									<span :class='user.backsignin === 0?"wm-outattendance-err":"wm-outattendance-success"'>
+	// 										返回：
+	// 										<Icon type="md-close-circle" v-if='user.backsignin === 0' />
+	// 										<Icon type="md-checkmark-circle" v-else/>
+	// 										{{user.backsignintime}}
+	// 									</span>
+	//
+	// 								</div>
+	// 							</div>
+	// 						</li>
+	// 					</ul>
+	// 				</div>
+	//
+	// 			</div>
+	// 			<div class='wm-outattendance-main' v-else>
 	// 				<div class='wm-outattendance-table' :class="{'active':showDetail}">
 	// 					<Table :data='outattendanceList' :columns='columns'></Table>
 	// 				</div>
@@ -30396,6 +30451,7 @@
 	// 					</div>
 	// 				</transition>
 	// 			</div>
+	//
 	// 		</div>
 	// 	</div>
 	// </template>
@@ -30441,11 +30497,18 @@
 				showDetail: false,
 				currentClassId: -1,
 				address: '',
+				activePersonNum: 0,
+				outActivePersonNum: 0,
+				backActivePersonNum: 0,
 				showPass: false,
 				showMap: false,
 				viewH: window.innerHeight,
 				viewW: window.innerWidth,
 				outattendanceList: [],
+				activeDetail: {
+					title: '',
+					list: []
+				},
 				columns: [{
 					title: "外出名称",
 					key: 'title',
@@ -30463,9 +30526,31 @@
 				}, {
 					title: '操作',
 					key: 'action',
+					width: 200,
 					align: 'center',
 					render: function render(h, params) {
 						return h('div', [h('Button', {
+							props: {
+								type: 'primary',
+								size: 'small'
+							},
+							style: {
+								//margin: '2px 5px',
+								border: 'none',
+								background: '#fab82e',
+								color: '#fff',
+								padding: '3px 7px 2px',
+								fontSize: '12px',
+								borderRadius: '3px'
+
+							},
+							on: {
+								click: function click() {
+									var s = _this;
+									s.getmeetactivityinfo(params.row.activityid);
+								}
+							}
+						}, '详情'), h('Button', {
 							props: {
 								type: 'primary',
 								size: 'small'
@@ -30487,7 +30572,7 @@
 									s.formOutAttendance = params.row;
 								}
 							}
-						}, '详情'), h('Poptip', {
+						}, '编辑'), h('Poptip', {
 							props: {
 								confirm: true,
 								title: "确定要删除吗"
@@ -30542,6 +30627,47 @@
 
 		methods: {
 
+			getmeetactivityinfo: function getmeetactivityinfo() {
+				var activityid = arguments.length <= 0 || arguments[0] === undefined ? '1904614349' : arguments[0];
+
+				var s = this;
+				_libUtil2['default'].ajax({
+					url: window.config.baseUrl + '/zmitiadmin/getmeetactivityinfo',
+					data: {
+						admintoken: s.userinfo.accesstoken,
+						adminuserid: s.userinfo.userid,
+						activityid: activityid
+					},
+					success: function success(data) {
+
+						if (data.getret === 0) {
+							s.activeDetail = data.list;
+							s.activePersonNum = 0;
+							s.outActivePersonNum = 0;
+							s.backActivePersonNum = 0;
+							data.list.list.forEach(function (ls) {
+								s.activePersonNum += ls.grouplist.length;
+								ls.outAllNum = ls.grouplist.length;
+								ls.backallNum = ls.grouplist.length;
+								ls.backUnsiginNum = 0;
+								ls.outUnsiginNum = 0;
+								ls.grouplist.forEach(function (item) {
+
+									if (item.startcheckin === 0) {
+										s.outActivePersonNum++;
+										ls.outUnsiginNum++;
+									}
+									if (item.backsignin === 0) {
+										ls.backUnsiginNum++;
+										s.backActivePersonNum++;
+									}
+								});
+							});
+						}
+					}
+				});
+			},
+
 			addCourse: function addCourse() {
 				this.showDetail = true;
 				this.currentClassId = -1;
@@ -30551,6 +30677,10 @@
 			refresh: function refresh() {
 				this.showDetail = false;
 				this.currentClassId = -1;
+				this.activeDetail = {
+					list: [],
+					title: ''
+				};
 			},
 
 			getOutattendanceList: function getOutattendanceList() {
@@ -30655,7 +30785,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.ivu-message {\n  z-index: 100001 !important;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main {\n  width: 100%;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .ivu-table-wrapper {\n  border-top: 1px solid #e8eaec;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main > div {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table {\n  width: 100%;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table .ivu-table-wrapper {\n  margin-top: 10px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table.active {\n  width: 70%;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form {\n  margin-top: 10px;\n  margin-left: 2%;\n  width: 28%;\n  position: absolute;\n  right: 0;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter-active, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-active {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-to {\n  width: 0;\n  overflow: hidden;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form > header {\n  line-height: 40px;\n  height: 40px;\n  font-weight: bold;\n  color: #515a6e;\n  text-indent: 2em;\n  background: #f8f8f9;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item {\n  line-height: 50px;\n  height: 50px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns {\n  text-align: center;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns button {\n  margin: 0 20px;\n  padding: 2px 20px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item input.wm-outattendance-input {\n  padding-left: 6px;\n  height: 30px;\n  width: 70%;\n  border: 1px solid #d8d8d8;\n  outline: none;\n  border-radius: 6px;\n}\n", ""]);
+	exports.push([module.id, "/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {\r\n    background-color: #fff;\r\n    border-color: #bf1616;\r\n    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);\r\n}*/\n.lt-full {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n\n.zmiti-text-overflow {\n  overflow: hidden;\n  white-space: nowrap;\n  word-break: break-all;\n  text-overflow: ellipsis;\n  -webkit-text-overflow: ellipsis;\n}\n\n.zmiti-play {\n  width: .8rem;\n  height: .8rem;\n  border-radius: 50%;\n  position: fixed;\n  z-index: 1000;\n  right: .5rem;\n  top: .5rem;\n}\n\n.zmiti-play.rotate {\n  -webkit-animation: rotate 5s linear infinite;\n  animation: rotate 5s linear infinite;\n}\n\n.symbin-left {\n  float: left !important;\n}\n\n.symbin-right {\n  float: right !important;\n}\n\n@-webkit-keyframes rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n.ivu-message {\n  z-index: 100001 !important;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main {\n  width: 100%;\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .ivu-table-wrapper {\n  border-top: 1px solid #e8eaec;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main > div {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table {\n  width: 100%;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table .ivu-table-wrapper {\n  margin-top: 10px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table.active {\n  width: 70%;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form {\n  margin-top: 10px;\n  margin-left: 2%;\n  width: 28%;\n  position: absolute;\n  right: 0;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter-active, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-active {\n  -webkit-transition: 0.3s;\n  transition: 0.3s;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-to {\n  width: 0;\n  overflow: hidden;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form > header {\n  line-height: 40px;\n  height: 40px;\n  font-weight: bold;\n  color: #515a6e;\n  text-indent: 2em;\n  background: #f8f8f9;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item {\n  line-height: 50px;\n  height: 50px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns {\n  text-align: center;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns button {\n  margin: 0 20px;\n  padding: 2px 20px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item input.wm-outattendance-input {\n  padding-left: 6px;\n  height: 30px;\n  width: 70%;\n  border: 1px solid #d8d8d8;\n  outline: none;\n  border-radius: 6px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-detail-main {\n  max-width: 500px;\n  margin: 0 auto;\n}\n\n.wm-outattendance-main-ui .ivu-table-overflowX {\n  overflow: hidden;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-title {\n  line-height: 20px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-title span {\n  margin-right: 40px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-group {\n  margin: 10px 0;\n  border: 1px solid #e4e4e4;\n  border-radius: 4px;\n  padding: 10px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-group .wm-outattendance-group-item {\n  margin: 10px 0;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-detail {\n  overflow: auto;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item {\n  display: flex;\n  display: -webkit-flex;\n  flex-flow: row;\n  justify-content: space-between;\n  -webkit-justify-content: space-between;\n  margin: 5px 0;\n  line-height: 30px;\n  border-bottom: 1px solid #e4e4e4;\n  height: 30px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item > .username {\n  color: #000;\n  font-size: 14px;\n  font-weight: bold;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-err {\n  font-size: 12px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-err i {\n  font-size: 16px;\n  color: #be0000;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-success {\n  font-size: 12px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-success i {\n  font-size: 16px;\n  color: #62f500;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span {\n  margin: 0 10px;\n  font-size: 12px;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span:nth-of-type(1) {\n  position: relative;\n}\n\n.wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span:nth-of-type(1):before {\n  content: \"\";\n  width: 1px;\n  height: 14px;\n  position: absolute;\n  right: -10px;\n  top: 0;\n  background: #d8d8d8;\n}\n", ""]);
 
 	// exports
 
@@ -30664,7 +30794,7 @@
 /* 79 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-outattendance-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>外出考勤</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"addCourse\">新增外出考勤</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class='wm-outattendance-main'>\r\n\t\t\t\t<div class='wm-outattendance-table' :class=\"{'active':showDetail}\">\r\n\t\t\t\t\t<Table :data='outattendanceList' :columns='columns'></Table>\r\n\t\t\t\t</div>\r\n\t\t\t\t<transition name='detail'>\r\n\t\t\t\t\t<div class='wm-outattendance-form' v-if='showDetail'>\r\n\t\t\t\t\t\t<header>\r\n\t\t\t\t\t\t\t{{formOutAttendance.activityid?'编辑评分项':'新增外出考勤'}}\r\n\t\t\t\t\t\t</header>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">地址名称：</label><input class='wm-outattendance-input' placeholder=\"请输入地址名称\" v-model=\"formOutAttendance.title\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">内<span style='opacity:0'>每位</span>容 ：</label><input class='wm-outattendance-input' placeholder=\"请输入内容 \" v-model=\"formOutAttendance.content\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">出行时间：</label>\r\n\t\t\t\t\t\t\t <DatePicker v-model=\"formOutAttendance.setouttime\" type=\"date\" placeholder=\"任职时间\" style=\"width:70%;\" ></DatePicker>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item wm-outattendance-btns'>\r\n\t\t\t\t\t\t\t<Button @click='showDetail = false' size ='small' type='default'>返回</Button>\r\n\t\t\t\t\t\t\t<Button size ='small' type='primary' @click='outattendanceAction'>{{formOutAttendance.activityid?'保存':'确定'}}</Button>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</transition>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-outattendance-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>外出考勤</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"addCourse\">新增外出考勤</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t\r\n\t\t\t<div  v-if='(activeDetail.title && activeDetail.list.length)' class='wm-scroll wm-outattendance-detail' :style='{height:viewH-150+\"px\"}'>\r\n\r\n\t\t\t\t<div class='wm-outattendance-detail-main'>\r\n\t\t\t\t\t<h3>活动名称：{{activeDetail.title}}</h3>\r\n\t\t\t\t\t<div class='wm-outattendance-title'>出发签到：</div>\r\n\t\t\t\t\t<div class='wm-outattendance-title'>\r\n\t\t\t\t\t\t<span>应该到人数：{{activePersonNum}}</span>\r\n\t\t\t\t\t\t<span>未到人数：{{outActivePersonNum}}</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class='wm-outattendance-title'>返回签到：</div>\r\n\t\t\t\t\t<div class='wm-outattendance-title'>\r\n\t\t\t\t\t\t<span>应该到人数：{{activePersonNum}}</span>\r\n\t\t\t\t\t\t<span>未到人数：{{backActivePersonNum}}</span>\r\n\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t<ul class='wm-outattendance-group-list'>\r\n\t\t\t\t\t\t<li v-for='(list,i) in activeDetail.list' :key='i' class='wm-outattendance-group'>\r\n\t\t\t\t\t\t\t<h4>{{list.groupname}}</h4>\r\n\t\t\t\t\t\t\t<div class='wm-outattendance-group-item'>\r\n\t\t\t\t\t\t\t\t<div>出发签到：</div>\r\n\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t<span>应该到人数：{{list.outAllNum}}</span>\r\n\t\t\t\t\t\t\t\t\t<span>未到人数：{{list.outUnsiginNum}}</span>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class='wm-outattendance-group-item'>\r\n\t\t\t\t\t\t\t\t<div>返回签到：</div>\r\n\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t<span>应该到人数：{{list.backallNum}}</span>\r\n\t\t\t\t\t\t\t\t\t<span>未到人数：{{list.backUnsiginNum}}</span>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div v-for=\"(user,k) in list.grouplist\" :key='k' class='wm-outattendance-user-item'>\r\n\t\t\t\t\t\t\t\t<div class='username'>{{user.studentname}}</div>\r\n\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t<span :class='user.startcheckin === 0?\"wm-outattendance-err\":\"wm-outattendance-success\"'>出发：\r\n\t\t\t\t\t\t\t\t\t\t<Icon type=\"md-close-circle\" v-if='user.startcheckin === 0' />\r\n\t\t\t\t\t\t\t\t\t\t<Icon type=\"md-checkmark-circle\" v-else/>\r\n\t\t\t\t\t\t\t\t\t\t{{user.startcheckintime}}\r\n\t\t\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t\t\t<span :class='user.backsignin === 0?\"wm-outattendance-err\":\"wm-outattendance-success\"'>\r\n\t\t\t\t\t\t\t\t\t\t返回：\r\n\t\t\t\t\t\t\t\t\t\t<Icon type=\"md-close-circle\" v-if='user.backsignin === 0' />\r\n\t\t\t\t\t\t\t\t\t\t<Icon type=\"md-checkmark-circle\" v-else/>\r\n\t\t\t\t\t\t\t\t\t\t{{user.backsignintime}}\r\n\t\t\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t</div>\r\n\t\t\t\t\r\n\t\t\t</div>\r\n\t\t\t<div class='wm-outattendance-main' v-else>\r\n\t\t\t\t<div class='wm-outattendance-table' :class=\"{'active':showDetail}\">\r\n\t\t\t\t\t<Table :data='outattendanceList' :columns='columns'></Table>\r\n\t\t\t\t</div>\r\n\t\t\t\t<transition name='detail'>\r\n\t\t\t\t\t<div class='wm-outattendance-form' v-if='showDetail'>\r\n\t\t\t\t\t\t<header>\r\n\t\t\t\t\t\t\t{{formOutAttendance.activityid?'编辑评分项':'新增外出考勤'}}\r\n\t\t\t\t\t\t</header>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">地址名称：</label><input class='wm-outattendance-input' placeholder=\"请输入地址名称\" v-model=\"formOutAttendance.title\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">内<span style='opacity:0'>每位</span>容 ：</label><input class='wm-outattendance-input' placeholder=\"请输入内容 \" v-model=\"formOutAttendance.content\" />\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item'>\r\n\t\t\t\t\t\t\t<label for=\"\">出行时间：</label>\r\n\t\t\t\t\t\t\t <DatePicker v-model=\"formOutAttendance.setouttime\" type=\"date\" placeholder=\"任职时间\" style=\"width:70%;\" ></DatePicker>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class='wm-outattendance-form-item wm-outattendance-btns'>\r\n\t\t\t\t\t\t\t<Button @click='showDetail = false' size ='small' type='default'>返回</Button>\r\n\t\t\t\t\t\t\t<Button size ='small' type='primary' @click='outattendanceAction'>{{formOutAttendance.activityid?'保存':'确定'}}</Button>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</transition>\r\n\t\t\t</div>\r\n\t\t\t\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 80 */
@@ -31341,6 +31471,10 @@
 				}, {
 					title: '职务',
 					key: 'job',
+					align: 'center'
+				}, {
+					title: '备注',
+					key: 'remark',
 					align: 'center'
 				}, {
 					title: '操作',

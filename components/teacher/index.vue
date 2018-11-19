@@ -92,6 +92,10 @@
 						key:'job',
 						align:'center'
 					},{
+						title:'备注',
+						key:'remark',
+						align:'center'
+					},{
 						title:'操作',
 						key:"action",
 						align:'center',

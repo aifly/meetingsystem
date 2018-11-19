@@ -5,7 +5,7 @@
 		</div>
 		<div class="wm-tab-content">
 			<header class="wm-tab-header">
-				<div>考勤管理  <span v-if='name'>>{{name}}</span> </div>
+				<div>投稿管理  <span v-if='name'>>{{name}}</span> </div>
 				<div class='wm-header-tabs'>
 					<h2 style='height:10px;'></h2>
 					
@@ -13,7 +13,7 @@
 				<div>
 					<!-- <Input v-model="keyword" placeholder="请输入学员姓名"/> -->
 					<div>
-						<Button type="primary"　@click='addNews'>新增考勤</Button>
+						<Button type="primary"　@click='addNews'>新增投稿</Button>
 					</div>
 				</div>
 			</header>
@@ -92,7 +92,7 @@
 			value:3
 		},
 		{
-			label: '考勤异常',
+			label: '投稿异常',
 			value:4
 		},
 		{
@@ -253,7 +253,7 @@
 						align:'left',
 						width:60,
 						render:(h,params)=>{
-							return h('div',{}, '考勤');
+							return h('div',{}, '投稿');
 						}
 					},{
 						title:"是否推荐",
@@ -460,7 +460,7 @@
 			newsAction(type){
 				var s = this;
 
-				s.formNews.type = -2;//类型为-1的时候表示为考勤。
+				s.formNews.type = -2;//类型为-1的时候表示为投稿。
 				if(!s.formNews.title){
 					this.$Message.error('新闻标题不能为空');
 					return;
@@ -597,11 +597,11 @@
 				this.name = name;
 				if(val === 2 || val === 3 || val === 4 || val === 5){
 					//this.cacheColumns =  this.cacheColumns || this.columns1.concat([]);
-					if(val === 4){//考勤异常
+					if(val === 4){//投稿异常
 						if(this.columns1[4].key === 'excuse'){
 							this.columns1.splice(4,1);
 							this.columns1.splice(4,0,{
-								title:'考勤地址',
+								title:'投稿地址',
 								key:'addressname',
 								align:'center',
 
