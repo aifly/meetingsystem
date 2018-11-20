@@ -12566,7 +12566,7 @@
 					key: 'sex',
 					align: 'center',
 					render: function render(h, params) {
-						return h('div', {}, params.row.sex === 1 ? '男' : '女');
+						return h('div', {}, params.row.sex === 0 ? '男' : '女');
 					}
 				}, {
 					title: "省份",
@@ -12990,6 +12990,7 @@
 								s.$Message.success(data.getmsg);
 
 								s.visible = false;
+								s.getstudentlist();
 							} else if (data.getret === 1001) {
 								s.$Message.success('学员信息修改成功');
 							} else {
@@ -14178,6 +14179,7 @@
 				showPass: false,
 				percent: 0,
 				page: 1,
+				defaultPagenum: (window.innerHeight - 200) / 50 | 0,
 				pagenum: (window.innerHeight - 200) / 50 | 0,
 				showEncryptfileBtn: true,
 				viewH: window.innerHeight,
@@ -14415,6 +14417,16 @@
 							});
 							//	this.currentNews = this.newsList[this.currentRowIndex];
 							this.currentRowIndex = this.currentRowIndex - 1;
+						} else {
+
+							if (this.page - 1 <= 0) {
+								return;
+							}
+							var pagenum = this.pagenum;
+							this.pagenum += this.pagenum;
+							this.page = this.page - 1;
+							this.currentNews = {};
+							this.getNewsList();
 						}
 						break;
 					case 2:
@@ -14452,6 +14464,12 @@
 							});
 
 							this.currentRowIndex = this.currentRowIndex + 1;
+						} else {
+							if (this.total <= this.newsList.length) {
+								return;
+							}
+							this.pagenum += this.pagenum;
+							this.getNewsList();
 						}
 						break;
 					case 3:
@@ -14496,6 +14514,8 @@
 
 			refresh: function refresh() {
 				this.showDetail = false;
+				this.pagenum = this.defaultPagenum;
+				this.page = 1;
 				this.getNewsList();
 				this.formNews = {
 					download: []
@@ -29022,7 +29042,7 @@
 	// 						<Button type="primary" @click="classAction()" size='large'>添加课程</Button>
 	// 					</FormItem>
 	// 				</Form>
-	// 				<div v-if='!showDetail' class="wm-course-list wm-scroll">
+	// 				<div v-if='!showDetail' class="wm-course-list wm-scroll" :style="{maxHeight:viewH - 140+'px',overflow:'auto'}">
 	// 					<Table :row-class-name="rowClassName" highlight-row  @on-row-click='getRow' :disabled-hover='true' ref='scorelist' :border='false' :data='courseList' :columns='columns'  ></Table>
 	// 					<div class='wm-course-list-action'>
 	// 						<div>
@@ -29112,6 +29132,7 @@
 				address: '',
 				currentRowIndex: 0,
 				page: 1,
+				defaultPagenum: (window.innerHeight - 200) / 50 | 0,
 				pagenum: (window.innerHeight - 200) / 50 | 0,
 				total: 0,
 				showPass: false,
@@ -29259,6 +29280,7 @@
 				switch (index) {
 					case 1:
 						//上移一个
+
 						if (s.currentRowIndex - 1 >= 0) {
 							var tempSort = s.courseList[s.currentRowIndex - 1].sort;
 							var currentSort = s.courseList[s.currentRowIndex].sort;
@@ -29293,10 +29315,20 @@
 							});
 							//	this.currentCourse = this.courseList[this.currentRowIndex];
 							this.currentRowIndex = this.currentRowIndex - 1;
+						} else {
+							if (this.page - 1 <= 0) {
+								return;
+							}
+							var pagenum = this.pagenum;
+							this.pagenum += this.pagenum;
+							this.page = this.page - 1;
+							this.currentCourse = {};
+							this.getClassList();
 						}
 						break;
 					case 2:
 						//下移一个
+
 						if (s.currentRowIndex + 1 <= s.courseList.length - 1) {
 							var tempSort = s.courseList[s.currentRowIndex + 1].sort;
 							var currentSort = s.courseList[s.currentRowIndex].sort;
@@ -29330,6 +29362,12 @@
 							});
 
 							this.currentRowIndex = this.currentRowIndex + 1;
+						} else {
+							if (this.total <= this.courseList.length) {
+								return;
+							}
+							this.pagenum += this.pagenum;
+							this.getClassList();
 						}
 						break;
 					case 3:
@@ -29375,6 +29413,9 @@
 			refresh: function refresh() {
 				this.showDetail = false;
 				this.currentClassId = -1;
+				this.page = 1;
+				this.pagenum = this.defaultPagenum;
+				this.getClassList();
 			},
 
 			initMap: function initMap() {
@@ -29583,7 +29624,7 @@
 /* 69 */
 /***/ (function(module, exports) {
 
-	module.exports = "\r\n\t<div class=\"wm-course-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>课程管理</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"addCourse\">新增课程</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class=\"wm-course-wrap\" >\r\n\t\t\t\t<Form v-show='showDetail' ref=\"formValidate\" class=\"wm-meet-form wm-scroll\" :style='{height:viewH - 64- 90+\"px\"}' :model=\"formClass\" :rules=\"ruleValidate\" :label-width=\"100\">\r\n\t\t\t\t\t<FormItem label=\"课程名称：\" prop=\"title\">\r\n\t\t\t\t\t\t<Input v-model=\"formClass.title\" placeholder=\"请填写标题\"></Input>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"上课老师：\" prop=\"type\">\r\n\t\t\t\t\t\t<Select v-model=\"formClass.teacherid\" placeholder=\"请选择上课老师\">\r\n\t\t\t\t\t\t\t<Option :value=\"ntype.teacherid\" v-for='(ntype,i) in classTeacherList' :key=\"i\">{{ntype.accounts}}</Option>\r\n\t\t\t\t\t\t</Select>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"教室位置：\" prop=\"classroom\">\r\n\t\t\t\t\t\t<span>{{address}}</span> <Button style='margin-left:20px;' size='small' @click='showMap = true'>设置教室位置</Button>\r\n\t\t\t\t\t\t<div class='wm-course-pos' v-show='showMap'>{{formClass.longitude}} &nbsp;&nbsp; {{formClass.latitude}}\r\n\t\t\t\t\t\t\t<span class='wm-course-pos-close' @click=\"showMap = false\">\r\n\t\t\t\t\t\t\t\t<Icon type=\"ios-close-circle\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div v-if='showMap' class=\"wm-classroom-pos\" id='wm-classroom-pos'>\r\n\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"课程说明：\" prop=\"content\">\r\n\t\t\t\t\t\t<Input type='textarea' v-model=\"formClass.content\" :rows='5' />\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t\t<FormItem label=\"上课时间：\">\r\n\t\t\t\t\t\t <DatePicker type=\"datetime\" placeholder=\"请选择上课时间\" style=\"width:100%\" v-model=\"formClass.lessonstarttime\"></DatePicker>\r\n\t\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t\t<FormItem label=\"下课时间：\">\r\n\t\t\t\t\t\t<DatePicker type=\"datetime\" placeholder=\"请选择下课时间\" style=\"width:100%\" v-model=\"formClass.lessonendtime\"></DatePicker>\r\n\t\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t\t<FormItem label=\"上课教室：\" prop=\"classroom\">\r\n\t\t\t\t\t\t<Input v-model=\"formClass.classroom\" placeholder=\"请填写上课教室\"></Input>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem>\r\n\t\t\t\t\t\t<Button type=\"primary\" @click=\"classAction()\" size='large'>添加课程</Button>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t</Form>\r\n\t\t\t\t<div v-if='!showDetail' class=\"wm-course-list wm-scroll\">\r\n\t\t\t\t\t<Table :row-class-name=\"rowClassName\" highlight-row  @on-row-click='getRow' :disabled-hover='true' ref='scorelist' :border='false' :data='courseList' :columns='columns'  ></Table>\r\n\t\t\t\t\t<div class='wm-course-list-action'>\r\n\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t<span title='上移一位' @click='changePos(1)' v-show='currentCourse.syllabusid '>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-up\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span title='下移一位' @click='changePos(2)' v-show='currentCourse.syllabusid'>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-down\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span v-if='false' title='上移至第一位' class='wm-go-top1'>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-up\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span v-if='false' title='上移至最后一位' class='wm-go-down'>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-down\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<Page :total=\"total\"  @on-change='pageChange'  size=\"small\" :page-size='pagenum' />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\r\n\t\t</div>\r\n\t</div>\r\n";
+	module.exports = "\r\n\t<div class=\"wm-course-main-ui\">\r\n\t\t<div>\r\n\t\t\t<Tab :refresh='refresh'></Tab>\r\n\t\t</div>\r\n\t\t<div class=\"wm-tab-content\">\r\n\t\t\t<header class=\"wm-tab-header\">\r\n\t\t\t\t<div>课程管理</div>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<Button type=\"primary\" @click=\"addCourse\">新增课程</Button>\r\n\t\t\t\t</div>\r\n\t\t\t</header>\r\n\t\t\t<div class=\"wm-course-wrap\" >\r\n\t\t\t\t<Form v-show='showDetail' ref=\"formValidate\" class=\"wm-meet-form wm-scroll\" :style='{height:viewH - 64- 90+\"px\"}' :model=\"formClass\" :rules=\"ruleValidate\" :label-width=\"100\">\r\n\t\t\t\t\t<FormItem label=\"课程名称：\" prop=\"title\">\r\n\t\t\t\t\t\t<Input v-model=\"formClass.title\" placeholder=\"请填写标题\"></Input>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"上课老师：\" prop=\"type\">\r\n\t\t\t\t\t\t<Select v-model=\"formClass.teacherid\" placeholder=\"请选择上课老师\">\r\n\t\t\t\t\t\t\t<Option :value=\"ntype.teacherid\" v-for='(ntype,i) in classTeacherList' :key=\"i\">{{ntype.accounts}}</Option>\r\n\t\t\t\t\t\t</Select>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"教室位置：\" prop=\"classroom\">\r\n\t\t\t\t\t\t<span>{{address}}</span> <Button style='margin-left:20px;' size='small' @click='showMap = true'>设置教室位置</Button>\r\n\t\t\t\t\t\t<div class='wm-course-pos' v-show='showMap'>{{formClass.longitude}} &nbsp;&nbsp; {{formClass.latitude}}\r\n\t\t\t\t\t\t\t<span class='wm-course-pos-close' @click=\"showMap = false\">\r\n\t\t\t\t\t\t\t\t<Icon type=\"ios-close-circle\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div v-if='showMap' class=\"wm-classroom-pos\" id='wm-classroom-pos'>\r\n\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem label=\"课程说明：\" prop=\"content\">\r\n\t\t\t\t\t\t<Input type='textarea' v-model=\"formClass.content\" :rows='5' />\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\r\n\t\t\t\t\t<FormItem label=\"上课时间：\">\r\n\t\t\t\t\t\t <DatePicker type=\"datetime\" placeholder=\"请选择上课时间\" style=\"width:100%\" v-model=\"formClass.lessonstarttime\"></DatePicker>\r\n\t\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t\t<FormItem label=\"下课时间：\">\r\n\t\t\t\t\t\t<DatePicker type=\"datetime\" placeholder=\"请选择下课时间\" style=\"width:100%\" v-model=\"formClass.lessonendtime\"></DatePicker>\r\n\t\t\t\t\t</FormItem>\r\n\r\n\t\t\t\t\t<FormItem label=\"上课教室：\" prop=\"classroom\">\r\n\t\t\t\t\t\t<Input v-model=\"formClass.classroom\" placeholder=\"请填写上课教室\"></Input>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t\t<FormItem>\r\n\t\t\t\t\t\t<Button type=\"primary\" @click=\"classAction()\" size='large'>添加课程</Button>\r\n\t\t\t\t\t</FormItem>\r\n\t\t\t\t</Form>\r\n\t\t\t\t<div v-if='!showDetail' class=\"wm-course-list wm-scroll\" :style=\"{maxHeight:viewH - 140+'px',overflow:'auto'}\">\r\n\t\t\t\t\t<Table :row-class-name=\"rowClassName\" highlight-row  @on-row-click='getRow' :disabled-hover='true' ref='scorelist' :border='false' :data='courseList' :columns='columns'  ></Table>\r\n\t\t\t\t\t<div class='wm-course-list-action'>\r\n\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t<span title='上移一位' @click='changePos(1)' v-show='currentCourse.syllabusid '>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-up\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span title='下移一位' @click='changePos(2)' v-show='currentCourse.syllabusid'>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-down\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span v-if='false' title='上移至第一位' class='wm-go-top1'>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-up\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<span v-if='false' title='上移至最后一位' class='wm-go-down'>\r\n\t\t\t\t\t\t\t\t<Icon type=\"md-arrow-round-down\" />\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<Page :total=\"total\"  @on-change='pageChange'  size=\"small\" :page-size='pagenum' />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\r\n\t\t</div>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 70 */

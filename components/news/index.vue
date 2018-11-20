@@ -175,6 +175,7 @@
 				showPass:false,
 				percent:0,
 				page:1,
+				defaultPagenum:(window.innerHeight - 200) / 50 | 0,
 				pagenum:(window.innerHeight - 200) / 50 | 0,
 				showEncryptfileBtn:true,
 				viewH:window.innerHeight,
@@ -432,6 +433,16 @@
 						});
 					//	this.currentNews = this.newsList[this.currentRowIndex];
 						this.currentRowIndex = this.currentRowIndex -1;
+					}else{
+						
+						if(this.page - 1<=0){
+							return;
+						}
+						var pagenum = this.pagenum;
+						this.pagenum += this.pagenum;
+						this.page = this.page - 1;
+						this.currentNews = {};
+						this.getNewsList();
 					}
 					break;
 					case 2://下移一个
@@ -468,6 +479,12 @@
 						});
 						
 						this.currentRowIndex = this.currentRowIndex + 1;
+					}else{
+						if(this.total<= this.newsList.length){
+							return;
+						}
+						this.pagenum += this.pagenum;
+						this.getNewsList();
 					}
 					break;
 					case 3://移到第一个
@@ -514,6 +531,8 @@
 
 			refresh(){
 				this.showDetail = false;
+				this.pagenum = this.defaultPagenum;
+				this.page = 1;
 				this.getNewsList();
 				this.formNews = {
 					download:[]

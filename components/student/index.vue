@@ -135,7 +135,7 @@
 						key:'sex',
 						align:'center',
 						render:(h,params)=>{
-							return h('div',{},params.row.sex === 1? '男':'女');
+							return h('div',{},params.row.sex === 0? '男':'女');
 						}
 					},{
 						title:"省份",
@@ -585,6 +585,7 @@
 								s.$Message.success(data.getmsg);
 								
 								s.visible = false;
+								s.getstudentlist();
 							}
 							else if(data.getret === 1001){
 								s.$Message.success('学员信息修改成功');

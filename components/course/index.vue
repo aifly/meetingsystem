@@ -50,7 +50,7 @@
 						<Button type="primary" @click="classAction()" size='large'>添加课程</Button>
 					</FormItem>
 				</Form>
-				<div v-if='!showDetail' class="wm-course-list wm-scroll">
+				<div v-if='!showDetail' class="wm-course-list wm-scroll" :style="{maxHeight:viewH - 140+'px',overflow:'auto'}">
 					<Table :row-class-name="rowClassName" highlight-row  @on-row-click='getRow' :disabled-hover='true' ref='scorelist' :border='false' :data='courseList' :columns='columns'  ></Table>
 					<div class='wm-course-list-action'>
 						<div>
@@ -112,6 +112,7 @@
 				address:'',
 				currentRowIndex:0,
 				page:1,
+				defaultPagenum:(window.innerHeight - 200) / 50 | 0,
 				pagenum:(window.innerHeight - 200) / 50 | 0,
 				total:0,
 				showPass:false,
@@ -279,6 +280,7 @@
 				var sort = 0;
 				switch (index) {
 					case 1://上移一个
+
 					if(s.currentRowIndex-1 >= 0){
 						var tempSort = s.courseList[s.currentRowIndex-1].sort;
 						var currentSort = s.courseList[s.currentRowIndex].sort;
@@ -314,8 +316,19 @@
 					//	this.currentCourse = this.courseList[this.currentRowIndex];
 						this.currentRowIndex = this.currentRowIndex -1;
 					}
+					else{
+						if(this.page - 1<=0){
+							return;
+						}
+						var pagenum = this.pagenum;
+						this.pagenum += this.pagenum;
+						this.page = this.page - 1;
+						this.currentCourse = {};
+						this.getClassList();
+					}
 					break;
 					case 2://下移一个
+
 					if(s.currentRowIndex+1<=s.courseList.length-1){
 						var tempSort = s.courseList[s.currentRowIndex+1].sort;
 						var currentSort = s.courseList[s.currentRowIndex].sort;
@@ -349,6 +362,13 @@
 						});
 						
 						this.currentRowIndex = this.currentRowIndex + 1;
+					}
+					else{
+						if(this.total<= this.courseList.length){
+							return;
+						}
+						this.pagenum += this.pagenum;
+						this.getClassList();
 					}
 					break;
 					case 3://移到第一个
@@ -398,6 +418,9 @@
 			refresh(){
 				this.showDetail = false;
 				this.currentClassId = -1;
+				this.page = 1;
+				this.pagenum = this.defaultPagenum;
+				this.getClassList();
 			},
 
 			initMap(){
@@ -534,6 +557,8 @@
 						if(data.getret === 0){
 							s.courseList = data.list;
 							s.total = data.totalnum.num;
+
+							
 						}
 						else{
 							s.$Message.error(data.getmsg);
