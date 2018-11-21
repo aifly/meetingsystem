@@ -15,6 +15,7 @@ $color: #be0000;
         -webkit-justify-content: space-between;
         &>section {
             margin-right: 30px;
+            width: 400px;
             @include displayFlex(row);
             -webkit-align-items: center;
             align-items: center;

@@ -4,7 +4,7 @@
 			<div>学员管理</div>
 			<section>
 				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增学员</Button>
-				<Input v-model="keyword" placeholder="请输入关键字搜索" />
+				<Input v-model="keyword" placeholder="请输入关键字(手机号、姓名、单位及职务)搜索" />
 			</section>
 		</header>
 		<Form v-if='visible' class='wm-student-form wm-scroll' ref="formAdmin" :style="{height:viewH-150+'px'}"  :model="formAdmin" :label-width="86" >
@@ -150,7 +150,7 @@
 						key:'mobile',
 						align:'center'
 					},{
-						title:"单位",
+						title:"单位及职务",
 						key:'companyname',
 						align:'center'
 					}
@@ -289,7 +289,7 @@
 			keyword(val){
 				if(val){
 					this.userList = this.defaultUserList.filter((item,i)=>{
-						return item.studentname.indexOf(val)>-1;
+						return item.studentname.indexOf(val)>-1 ||item.companyname.indexOf(val)>-1||item.mobile.indexOf(val)>-1;
 					})
 				}else{
 					this.userList = this.defaultUserList.concat([]);

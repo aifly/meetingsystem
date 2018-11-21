@@ -8,9 +8,9 @@
 				<div>培训报到管理</div>
 				<div class='wm-header-right-action'>
 					<div>
-						<span>应参会人数：<label>{{totalNum}}</label>人</span>
-						<span>已报到人数：<label>{{participantsNum}}</label>人</span>
-						<span>未报到人数：<label>{{unparticipantsNum}}</label>人</span>
+						<span>应到：<label>{{totalNum}}</label>人</span>
+						<span>已到：<label>{{participantsNum}}</label>人</span>
+						<span>未到：<label>{{unparticipantsNum}}</label>人</span>
 						<Button @click='exportData' size="small" type="primary" icon='md-cloud-upload' style="height:26px;margin-top:14px;margin-left:5px">导出</Button>
 					</div>
 					<div>
@@ -109,7 +109,7 @@
 						key:'sex',
 						align:'center',
 						render:(h,params)=>{
-							return h('div',{},params.row.sex === 1? '男':'女');
+							return h('div',{},params.row.sex === 0? '男':'女');
 						}
 					},{
 						title:"所属小组",

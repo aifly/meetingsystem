@@ -82,6 +82,7 @@
 .wm-course-main-ui .wm-tab-content .wm-header-right-action span,
 .wm-attendance-ui .wm-tab-content .wm-header-right-action span {
   font-size: 12px;
+  margin: 0 5px;
 }
 
 .wm-signup-ui .wm-tab-content .wm-header-right-action span label,

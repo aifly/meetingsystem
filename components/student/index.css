@@ -63,6 +63,7 @@
 
 .wm-student-main-ui > header > section {
   margin-right: 30px;
+  width: 400px;
   display: flex;
   display: -webkit-flex;
   flex-flow: row;
