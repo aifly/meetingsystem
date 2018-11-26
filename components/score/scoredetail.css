@@ -88,12 +88,13 @@
 }
 
 .wm-scoredetail-main-ui .wm-course-title {
-  width: 100%;
+  max-width: 90%;
+  margin: 0 auto;
   text-align: center;
-  line-height: 150px;
-  height: 100px;
   color: #cc0000;
+  padding-top: 40px;
   font-size: 30px;
+  line-height: 40px;
   font-weight: normal;
 }
 
@@ -103,7 +104,7 @@
   text-align: center;
   height: 40px;
   width: 96%;
-  margin: 0 auto;
+  margin: 20px auto 0;
 }
 
 .wm-scoredetail-main-ui .wm-statisitcs {
