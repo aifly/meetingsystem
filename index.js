@@ -17,6 +17,7 @@ import Adminuser from './components/adminuser/index';
 import ScoreItem from './components/scoreitem/index';
 import Score from './components/score/index';
 import Feedback from './components/feedback/index';
+import Place from './components/place/index';
 
 //import Collection from './components/collection/index';
 import iView from 'iview';
@@ -123,7 +124,13 @@ const router = new VueRouter({
 			name: 'meetingoutattendance',
 			component: OutAttendance,
 			props: true
-		},
+		},{
+			path: '/meetingplace/:meetid/:meetname/',
+			name: 'meetingplace',
+			component: Place,
+			props: true
+	 
+		}
 		
 	]
 });

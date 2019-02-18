@@ -46,6 +46,9 @@
 					},{
 						name:'外出考勤',
 						to:'meetingoutattendance'
+					},{
+						name:'上课地点管理',
+						to:'meetingplace'
 					}
 				],
 				formUser:{
