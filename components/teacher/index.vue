@@ -213,6 +213,7 @@
 					data:{
 						admintoken:s.userinfo.accesstoken,
 					    adminuserid:s.userinfo.userid,
+					    pagenum:1000
 					},success(data){
 						if(data.getret === 0){
 							s.teacherList = data.list;

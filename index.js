@@ -18,6 +18,7 @@ import ScoreItem from './components/scoreitem/index';
 import Score from './components/score/index';
 import Feedback from './components/feedback/index';
 import Place from './components/place/index';
+import Readstatus from './components/readstatus/index';
 
 //import Collection from './components/collection/index';
 import iView from 'iview';
@@ -128,8 +129,12 @@ const router = new VueRouter({
 			path: '/meetingplace/:meetid/:meetname/',
 			name: 'meetingplace',
 			component: Place,
-			props: true
-	 
+			props: true	 
+		},{
+			path: '/meetingreadstatus/:meetid/:meetname/:classid/:newtitle/',
+			name: 'meetingreadstatus',
+			component: Readstatus,
+			props: true	 
 		}
 		
 	]

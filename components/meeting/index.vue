@@ -58,7 +58,7 @@
 					</div>
 				</div>
 				<div class='wm-meet-form-radio'>
-					<div>是否开启培训报道</div>
+					<div>是否开启培训报到</div>
 					<div>
 						<RadioGroup v-model="formMeet.isreport">
 							<Radio :value='1' :label="1">是</Radio>

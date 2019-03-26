@@ -235,6 +235,9 @@
 										fontSize:'20px',
 										color:params.row.status===0?'#f90':'#5c6b77'
 									},
+									domProps: {
+					                	title: '拒绝审核'
+					                },
 									props:{
 										type:params.row.status===0?'ios-alert':'ios-alert-outline'
 									},
@@ -250,6 +253,9 @@
 										fontSize:'20px',
 										color:params.row.status===1?'green':'#5c6b77'
 									},
+									domProps: {
+					                	title: '通过审核'
+					                },
 									props:{
 										type:params.row.status===1?'ios-checkmark-circle':'ios-checkmark-circle-outline'
 									},
@@ -267,6 +273,9 @@
 										fontSize:'20px',
 										color:params.row.status===2?'#be0000':'#5c6b77'
 									},
+									domProps: {
+					                	title: '等待审核'
+					                },
 									props:{ 
 										type:params.row.status===2?'ios-remove-circle':'ios-remove-circle-outline'
 									},
