@@ -4,13 +4,72 @@ $baseColor: #fcffb4;
 $viewW: 750px;
 $color: #be0000;
 
-.wm-course-main-ui {
+.wm-readstatus-main-ui {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+
+  .wm-tab-leftpane{
+    width:200px;
+  }
+  .wm-tab-header {
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row;
+    width: 100%;
+    padding: 0 20px;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    line-height: 50px;
+    font-size: 20px;
+}
+  .wm-tab-header > div:nth-of-type(1) {
+    position: relative;
+    text-indent: .5em;
+    &:before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: #be0000;
+      left: -4px;
+      position: absolute;
+      top: 12px;
+    }
+  }
+  .wm-tab-content {
+    box-sizing: border-box;
+    flex: 1;
+    -webkit-flex: 1;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column;
+  }
+  .wm-readstatus-wrap{
+    width: 98%;
+    margin: 10px auto 10px;    
+    position: relative;
+    flex: 1;
+    -webkit-flex: 1;
+    overflow: auto;
+    border-top: 1px solid #ddd;
+  }
+  .wm-readstatus-title{
+    margin:8px 0;
+  }
+  .wm-meet-form{
+    border-top: 1px solid #ddd;
+    width: 100%;
+    margin: 0px auto;
+    padding: 20px 40px;
+    height: 600px;
+    overflow: auto;
+  }
    @at-root.wm-classroom-pos{
        border:1px solid #ddd;
        height:500px;
    }
 
-   .wm-course-list-action{
+   .wm-readstatus-list-action{
        margin-top: 10px;
        @include displayFlex(row);
        &>div,&>ul{
@@ -48,23 +107,13 @@ $color: #be0000;
        }
    }
 
-   .wm-cource-classval{
-    @include displayFlex(row);
-    .wm-cource-classipt{
-      flex:1;
-      -webkit-flex:1;
-    }
-    .wm-cource-classel{
-      width:50%;
-      margin-left: 20px;
-    }
-   }
-   .wm-course-pos{
+
+   .wm-readstatus-pos{
        @include pos(a);
        z-index: 10;
        text-indent: 2em;
        width: 100%;
-       .wm-course-pos-close{
+       .wm-readstatus-pos-close{
            @include pos(a);
            right: 0;
            i{

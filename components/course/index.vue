@@ -44,10 +44,25 @@
 					</FormItem>
 
 					<FormItem label="上课教室：" prop="classroom">
-						<Input v-model="formClass.classroom" placeholder="请填写上课教室"></Input>
+						<!-- <div class="wm-cource-classval">
+							<div class="wm-cource-classipt">
+								<Input v-model="formClass.classroom" placeholder="请填写上课教室"></Input>
+							</div>
+							<div class="wm-cource-classel">
+								<Select @on-change="changeplacelist" :label-in-value="true">
+									<Option v-for="item in placeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+								</Select>
+							</div>
+						</div> -->
+						<AutoComplete
+					        v-model="formClass.classroom"
+					        placeholder="请填写上课教室"
+					        style="width:200px">
+					        <Option v-for="item in placeList" :value="item.label" :key="item.value">{{ item.label }}</Option>
+					    </AutoComplete>
 					</FormItem>
 					<FormItem>
-						<Button type="primary" @click="classAction()" size='large'>添加课程</Button>
+						<Button type="primary" @click="classAction()" size='large'>保存课程</Button>
 					</FormItem>
 				</Form>
 				<div v-if='!showDetail' class="wm-course-list wm-scroll" :style="{maxHeight:viewH - 140+'px',overflow:'auto'}">
@@ -119,6 +134,7 @@
 				showMap:false,
 				viewH:window.innerHeight,
 				classTeacherList:[],
+				data2: [],
 				columns:[
 					{
 						title:"课程名称",
@@ -186,6 +202,10 @@
 										confirm:true,
 										title:"确定要删除吗"
 									},
+									style: {
+										margin: '2px 5px',
+										border:'none'
+                                    },
 									on:{
 										'on-ok':()=>{
 											this.delClass(params.row.syllabusid);
@@ -233,7 +253,8 @@
 
 				},
 				
-				userinfo:{}
+				userinfo:{},
+				placeList:[],//获取上课地点
 			}
 		},
 		components:{
@@ -257,8 +278,7 @@
 			}
 			this.getClassList();
 			this.getTeacherList();
-			
-
+			this.getplacelist();//获取上课地点
 			this.initMap();
 		},
 
@@ -526,6 +546,7 @@
 					data:{
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
+						pagenum:10000
 					},
 					success(data){
 						if(data.getret === 0){
@@ -573,9 +594,32 @@
 
 				 
 			},
-
-			 
-			 
+			getplacelist(){//获取上课地点
+				var s = this;
+				symbinUtil.ajax({
+					url:window.config.baseUrl+'/zmitiadmin/getclassplacelist',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+					},
+					success(data){
+						if(data.getret === 0){
+							console.log(data,'获取上课地点');
+							s.placeList = data.list;
+						}
+					}
+				});
+			},
+			changeplacelist(val){//设置上课地点
+				var s = this;
+				console.log(val,'选中的上课地点');
+				s.formClass.classroom=val.label;
+			},
+			handleSearch2 (value) {//设置上课地点
+                this.data2 = !value || value.indexOf('@') >= 0 ? [] : [
+                    value
+                ];
+            },
 			onEditorBlur(){//失去焦点事件
             },
             onEditorFocus(){//获得焦点事件

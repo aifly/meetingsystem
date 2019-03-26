@@ -8,16 +8,14 @@
   height: 100%;
   position: absolute;
   left: 0;
-  top: 0;
-}
+  top: 0; }
 
 .zmiti-text-overflow {
   overflow: hidden;
   white-space: nowrap;
   word-break: break-all;
   text-overflow: ellipsis;
-  -webkit-text-overflow: ellipsis;
-}
+  -webkit-text-overflow: ellipsis; }
 
 .zmiti-play {
   width: .8rem;
@@ -26,143 +24,94 @@
   position: fixed;
   z-index: 1000;
   right: .5rem;
-  top: .5rem;
-}
-
-.zmiti-play.rotate {
-  -webkit-animation: rotate 5s linear infinite;
-  animation: rotate 5s linear infinite;
-}
+  top: .5rem; }
+  .zmiti-play.rotate {
+    -webkit-animation: rotate 5s linear infinite;
+    animation: rotate 5s linear infinite; }
 
 .symbin-left {
-  float: left !important;
-}
+  float: left !important; }
 
 .symbin-right {
-  float: right !important;
-}
+  float: right !important; }
 
 @-webkit-keyframes rotate {
   to {
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
+    transform: rotate(360deg); } }
 .ivu-message {
-  z-index: 100001 !important;
-}
+  z-index: 100001 !important; }
 
 .wm-outattendance-main-ui .wm-outattendance-main {
   width: 100%;
   display: flex;
   display: -webkit-flex;
-  flex-flow: row;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .ivu-table-wrapper {
-  border-top: 1px solid #e8eaec;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main > div {
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table {
-  width: 100%;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table .ivu-table-wrapper {
-  margin-top: 10px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table.active {
-  width: 70%;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form {
-  margin-top: 10px;
-  margin-left: 2%;
-  width: 28%;
-  position: absolute;
-  right: 0;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter-active, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-active {
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-to {
-  width: 0;
-  overflow: hidden;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form > header {
-  line-height: 40px;
-  height: 40px;
-  font-weight: bold;
-  color: #515a6e;
-  text-indent: 2em;
-  background: #f8f8f9;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item {
-  line-height: 50px;
-  height: 50px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns {
-  text-align: center;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns button {
-  margin: 0 20px;
-  padding: 2px 20px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item input.wm-outattendance-input {
-  padding-left: 6px;
-  height: 30px;
-  width: 70%;
-  border: 1px solid #d8d8d8;
-  outline: none;
-  border-radius: 6px;
-}
-
+  flex-flow: row; }
+  .wm-outattendance-main-ui .wm-outattendance-main .ivu-table-wrapper {
+    border-top: 1px solid #e8eaec; }
+  .wm-outattendance-main-ui .wm-outattendance-main > div {
+    -webkit-transition: 0.3s;
+    transition: 0.3s; }
+  .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table {
+    width: 100%; }
+    .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table .ivu-table-wrapper {
+      margin-top: 10px; }
+    .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-table.active {
+      width: 70%; }
+  .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form {
+    margin-top: 10px;
+    margin-left: 2%;
+    width: 28%;
+    position: absolute;
+    right: 0; }
+    .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter-active, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-active {
+      -webkit-transition: 0.3s;
+      transition: 0.3s; }
+    .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-enter, .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form.detail-leave-to {
+      width: 0;
+      overflow: hidden; }
+    .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form > header {
+      line-height: 40px;
+      height: 40px;
+      font-weight: bold;
+      color: #515a6e;
+      text-indent: 2em;
+      background: #f8f8f9; }
+    .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item {
+      line-height: 50px;
+      height: 50px; }
+      .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns {
+        text-align: center; }
+        .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item.wm-outattendance-btns button {
+          margin: 0 20px;
+          padding: 2px 20px; }
+      .wm-outattendance-main-ui .wm-outattendance-main .wm-outattendance-form .wm-outattendance-form-item input.wm-outattendance-input {
+        padding-left: 6px;
+        height: 30px;
+        width: 70%;
+        border: 1px solid #d8d8d8;
+        outline: none;
+        border-radius: 6px; }
 .wm-outattendance-main-ui .wm-outattendance-detail-main {
   max-width: 500px;
-  margin: 0 auto;
-}
-
+  margin: 0 auto; }
 .wm-outattendance-main-ui .ivu-table-overflowX {
-  overflow: hidden;
-}
-
+  overflow: hidden; }
 .wm-outattendance-main-ui .wm-outattendance-title {
-  line-height: 20px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-title span {
-  margin-right: 40px;
-}
-
+  line-height: 20px; }
+  .wm-outattendance-main-ui .wm-outattendance-title span {
+    margin-right: 40px; }
 .wm-outattendance-main-ui .wm-outattendance-group {
   margin: 10px 0;
   border: 1px solid #e4e4e4;
   border-radius: 4px;
-  padding: 10px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-group .wm-outattendance-group-item {
-  margin: 10px 0;
-}
-
+  padding: 10px; }
+  .wm-outattendance-main-ui .wm-outattendance-group .wm-outattendance-group-item {
+    margin: 10px 0; }
 .wm-outattendance-main-ui .wm-outattendance-detail {
-  overflow: auto;
-}
-
+  overflow: auto; }
+.wm-outattendance-main-ui .hiddentable {
+  display: none; }
 .wm-outattendance-main-ui .wm-outattendance-user-item {
   display: flex;
   display: -webkit-flex;
@@ -172,48 +121,57 @@
   margin: 5px 0;
   line-height: 30px;
   border-bottom: 1px solid #e4e4e4;
-  height: 30px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item > .username {
-  color: #000;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-err {
-  font-size: 12px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-err i {
-  font-size: 16px;
-  color: #be0000;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-success {
-  font-size: 12px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-success i {
-  font-size: 16px;
-  color: #62f500;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span {
-  margin: 0 10px;
-  font-size: 12px;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span:nth-of-type(1) {
-  position: relative;
-}
-
-.wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span:nth-of-type(1):before {
-  content: "";
-  width: 1px;
-  height: 14px;
+  height: 30px; }
+  .wm-outattendance-main-ui .wm-outattendance-user-item > .username {
+    color: #000;
+    font-size: 14px;
+    font-weight: bold; }
+  .wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-err {
+    font-size: 12px; }
+    .wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-err i {
+      font-size: 16px;
+      color: #be0000; }
+  .wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-success {
+    font-size: 12px; }
+    .wm-outattendance-main-ui .wm-outattendance-user-item .wm-outattendance-success i {
+      font-size: 16px;
+      color: #62f500; }
+  .wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span {
+    margin: 0 10px;
+    font-size: 12px; }
+    .wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span:nth-of-type(1) {
+      position: relative; }
+      .wm-outattendance-main-ui .wm-outattendance-user-item > div:nth-of-type(2) span:nth-of-type(1):before {
+        content: "";
+        width: 1px;
+        height: 14px;
+        position: absolute;
+        right: -10px;
+        top: 0;
+        background: #d8d8d8; }
+.wm-outattendance-main-ui .wm-outattendance-pos {
   position: absolute;
-  right: -10px;
-  top: 0;
-  background: #d8d8d8;
-}
+  z-index: 10;
+  text-indent: 2em;
+  width: 100%; }
+  .wm-outattendance-main-ui .wm-outattendance-pos .wm-outattendance-pos-close {
+    position: absolute;
+    right: 0; }
+    .wm-outattendance-main-ui .wm-outattendance-pos .wm-outattendance-pos-close i {
+      font-size: 20px;
+      color: #be0000;
+      cursor: pointer; }
+.wm-outattendance-main-ui .wm-outattendance-posa {
+  position: absolute;
+  z-index: 10;
+  text-indent: 2em;
+  width: 100%; }
+  .wm-outattendance-main-ui .wm-outattendance-posa .wm-outattendance-posa-close {
+    position: absolute;
+    right: 0; }
+    .wm-outattendance-main-ui .wm-outattendance-posa .wm-outattendance-posa-close i {
+      font-size: 20px;
+      color: #be0000;
+      cursor: pointer; }
+
+/*# sourceMappingURL=index.css.map */

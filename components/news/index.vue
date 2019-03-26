@@ -102,6 +102,13 @@
 							<Radio :label="1">签发</Radio>
 						</RadioGroup>
 					</FormItem>
+					<FormItem label="提醒谁看：">
+					    <Select @on-change="senduserlist" multiple  v-model="userids" placeholder='默认推送全部用户' style="width:200px">
+
+					    <Option v-for="item in groupsitem" :value="item.value" :key="item.value+'1'">{{ item.label }}</Option>
+
+					    </Select>
+					</FormItem>
 					<FormItem>
 						<Button :disabled='isDisabledBtn' type="primary" @click="newsAction('click')" size='large'>{{currentNewsId>-1?'保存':'添加'}}</Button>
 					</FormItem>
@@ -181,6 +188,9 @@
 				viewH:window.innerHeight,
 				newsTypeList:[],
 				currentNews:{},
+				meetid:'',
+				meetname:'',
+				newsauthtype:1,//是否推送				
 				ruleValidate:{
 					title: [
                         { required: true, message: '标题不能为空', trigger: 'blur' }
@@ -235,7 +245,7 @@
 						title:'操作',
 						key:'action',
 						align:'center',
-						width:150,
+						width:240,
 						render:(h,params)=>{
 
 
@@ -272,6 +282,28 @@
                                         }
                                     }
                                 }, '详情'),
+                                h('Button',{
+                                	props: {
+                                        type: 'primary',
+										size: 'small'
+										//disabled:params.row.newsauthtype===0?false:true
+                                    },
+                                    style: {
+										margin: '2px 5px',
+										border:'none',
+										//background:params.row.newsauthtype===0?'#2db7f5':'#cccccc',
+										background:'#2db7f5',
+										color:'#fff',
+										padding: '3px 7px 2px',
+										fontSize: '12px',
+										borderRadius: '3px'
+                                    },
+                                    on: {
+										click: () => {
+											this.goreadstatus(params.row.newsid,params.row.title);
+										}
+									}
+                                },'阅读统计'),
                                 h('Poptip',{
 									props:{
 										confirm:true,
@@ -288,6 +320,9 @@
 										props: {
 											type: 'error',
 											size: 'small'
+										},
+										style: {
+											margin: '2px 5px'
 										},
 										on: {
 											click: () => {
@@ -308,6 +343,7 @@
 					iscommend:false,
 					state:1,
 					isNotice:false,//是否是公告
+					userids:'',//推送的用户
 				},
 				newsList:[],
 				 
@@ -316,7 +352,9 @@
 				},
 				total:0,
 				
-				userinfo:{}
+				userinfo:{},
+				userids:[],//推送的用户
+				groupsitem:[]
 			}
 		},
 		components:{
@@ -337,7 +375,9 @@
 				projectclassname:'meetingsystem',
 				projectsubclassname:'project'+s.$route.params.meetid,
 				uploadpath:'public'
-			}
+			};
+			this.meetid=s.$route.params.meetid;
+			this.meetname=s.$route.params.meetname;
 			this.getNewsList();
 			this.getNewsTypeList();
 			this.upload({
@@ -357,6 +397,7 @@
 					mimeTypes: '*/*'
 				}
 			});
+			this.getuserlist();//获取推送用户
 		},
 
 		watch:{
@@ -615,7 +656,7 @@
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
 				p.meetid = s.$route.params.meetid;
-
+				p.newsauthtype=s.newsauthtype;
 				var url = window.config.baseUrl+'/zmitiadmin/addnews';
 				if(s.currentNewsId>-1){
 					url = window.config.baseUrl+'/zmitiadmin/updatenews';
@@ -964,6 +1005,55 @@
             },
             onEditorChange(){//内容改变事件
             },
+            getuserlist(){//获取推送用户
+            	var s = this;
+            	symbinUtil.ajax({
+					_this:s,
+					url:window.config.baseUrl+'/zmitiadmin/getstudentlist/',
+					data:{
+						admintoken:s.userinfo.accesstoken,
+						adminuserid:s.userinfo.userid,
+						meetid:s.meetid,
+						pagenum:1000,
+						status:-1,//查询全部
+					},
+					success(data){
+						if(data.getret === 0){
+							console.log(data,'获取推送用户');
+							//s.groupsitem = data.list;
+							data.list.map(function(item,index){
+								s.groupsitem[index]={
+									'label':item.studentname,
+									'value':item.userid
+								}
+							})
+							console.log(s.groupsitem,'s.groupsitem'); 
+						}
+						else{
+							s.$Message.error(data.getmsg);
+						}
+					}
+
+				})	
+            	
+            },
+            senduserlist(){//推送指定用户
+            	var s = this;
+            	s.formNews.userids=s.userids.join(',');//推送指定用户
+            	console.log(s.formNews.userids,'推送指定用户');
+            	if(s.userids==''){            		
+            		s.newsauthtype=1;
+            		console.log(s.newsauthtype,'没有选择用户');
+            	}else{
+            		s.newsauthtype=0;
+            		console.log(s.newsauthtype,'选择了用户');
+            	}
+            },
+            goreadstatus(id,newtitle){//查看阅读状态
+            	var s = this;
+            	console.log(id,'查看阅读状态');
+            	window.location.href='./#/meetingreadstatus/'+s.meetid+'/'+s.meetname+'/'+id+'/'+encodeURIComponent(newtitle);
+            }
 		}
 	}
 </script>
