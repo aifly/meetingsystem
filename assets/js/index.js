@@ -33115,8 +33115,8 @@
 					}
 
 				}, {
-					title: '报到时间',
-					key: 'createtime',
+					title: '签到时间',
+					key: 'signdate',
 					align: 'center'
 				}, {
 					title: '报到状态',

@@ -4,7 +4,6 @@ var port = 4048;
 var config = {
     entry: {
         'index': "./index.js",
-        'reg': "./reg.js"
         ///endor: ['react','react-dom','iscroll','jquery']
     },
     output: {
