@@ -685,6 +685,10 @@
 								s.getNewsList();
 								s.showDetail = false;
 							}
+							if(s.currentNewsId<=-1 && p.encryptfile && p.encryptfile.length>0){//新增完成后，更新加密文件
+								console.log('开始更新加密文件')
+                                s.newsAction();
+                            }
 						}
 					}
 				})
@@ -1041,18 +1045,13 @@
             	var s = this;
             	s.formNews.userids=s.userids.join(',');//推送指定用户
             	console.log(s.formNews.userids,'推送指定用户');
-            	if(s.userids==''){            		
-            		s.newsauthtype=1;
-            		console.log(s.newsauthtype,'没有选择用户');
-            	}else{
-            		s.newsauthtype=0;
-            		console.log(s.newsauthtype,'选择了用户');
-            	}
+            	s.formNews.userids==''?s.newsauthtype=1:s.newsauthtype=0;
+            	console.log(s.newsauthtype,'推送状态');
             },
             goreadstatus(id,newtitle){//查看阅读状态
             	var s = this;
             	console.log(id,'查看阅读状态');
-            	window.location.href='./#/meetingreadstatus/'+s.meetid+'/'+s.meetname+'/'+id+'/'+encodeURIComponent(newtitle);
+            	window.location.hush='./#/meetingreadstatus/'+s.meetid+'/'+s.meetname+'/'+id+'/'+encodeURIComponent(newtitle);
             }
 		}
 	}

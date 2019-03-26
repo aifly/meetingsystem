@@ -124,6 +124,7 @@
                         ]
                     }
 				},
+				newsauthtype:1,//是否推送
 				ruleValidate:{
 					title: [
                         { required: true, message: '标题不能为空', trigger: 'blur' }
@@ -470,7 +471,7 @@
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
 				p.meetid = s.$route.params.meetid;
-
+				p.newsauthtype=s.newsauthtype;
 				var url = window.config.baseUrl+'/zmitiadmin/addnews';
 				if(s.currentNewsId>-1){
 					url = window.config.baseUrl+'/zmitiadmin/updatenews';
@@ -499,6 +500,9 @@
 								s.getNewsList();
 								s.showDetail = false;
 							}
+							if(s.currentNewsId<=-1 && p.encryptfile && p.encryptfile.length>0){//新增完成后，更新加密文件
+                                s.newsAction();
+                            }
 						}
 					}
 				})
