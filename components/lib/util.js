@@ -23,14 +23,20 @@ var symbinUtil = {
 			window.location.hash = '/login';
 		}
 
-		return loginObj;
+		if(loginObj === null){
+			this.clearCookie('adminlogin');
+			window.location.hash = '/login';
+		}
+
+		
+		return loginObj||{};
 	},
 
  
 
 	ajax(option){
 		var opt = option.data || {};
-	
+		console.log(option)
 		if(option.validate){
 			opt.username = option.validate.username;
 			opt.usertoken = option.validate.usertoken;

@@ -281,7 +281,6 @@
 											s.formOutAttendance.returnendtime = s.formatDateTime(params.row.returnendtime);
 											s.formOutAttendance.content = params.row.content;
 											s.formOutAttendance.activityid=params.row.activityid;
-											console.log(s.formOutAttendance,'s.formOutAttendance');
 											s.initMap();
 											s.initMapa();
                                         }
@@ -499,7 +498,6 @@
 				p.admintoken = s.userinfo.accesstoken;
 				p.adminuserid = s.userinfo.userid;
 				p.meetid = s.$route.params.meetid;
-				console.log(this.formOutAttendance,'this.formOutAttendance');
 				p.setouttime=formatimes.changeDate(this.formOutAttendance.setouttime);
 				p.returntime=formatimes.changeDate(this.formOutAttendance.returntime);
 				var url = window.config.baseUrl+'/zmitiadmin/addmeetactivity';
@@ -524,7 +522,6 @@
 			initMap(){
 				var s = this;
 
-				console.log(s.formOutAttendance.golongitude,s.formOutAttendance.golatitude,'加载地图-去程');
 			
 				var map = new AMap.Map('wm-classroom-posb', {
 					turboMode: false,

@@ -84,7 +84,7 @@
 							<div class='wm-meet-item-actions'>
 								<div @click="entry(meet,i)">详情</div>
 								<div @click='editMeet(meet,i)'>编辑</div>
-								<div>
+								<div v-if='!meet.issignup'>
 									<Poptip
 										confirm
 										title="确定要删除吗？"

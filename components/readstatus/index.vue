@@ -22,15 +22,15 @@
 
 <script>
 	import './index.css';
+	 import '../css/quill.css'
+	
 	import sysbinVerification from '../lib/verification';
 	import symbinUtil from '../lib/util';
 	import Vue from 'vue';
 
 	import Tab from '../commom/tab/index';
 	import VueQuillEditor from 'vue-quill-editor';
-	import 'quill/dist/quill.core.css'
-	import 'quill/dist/quill.snow.css'
-	import 'quill/dist/quill.bubble.css'
+	/**/ 
 	Vue.use(VueQuillEditor)
 	export default {
 		props:['obserable'],

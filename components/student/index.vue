@@ -278,6 +278,7 @@
 		},
 		mounted(){
 			this.userinfo = symbinUtil.getUserInfo();
+			
 			this.getCityData();
 			this.getmeetlist();
 			this.getstudentlist();
