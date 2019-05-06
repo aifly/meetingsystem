@@ -294,6 +294,8 @@
 		
 		methods:{
 
+			
+
 			changePos(index){
 
 				var s = this;

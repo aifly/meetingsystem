@@ -1,46 +1,46 @@
 var imgs = {
-	logo :"./assets/images/logo.png",
-	loginLogo :"./assets/images/login-logo.png",
-	loginTitle :"./assets/images/raterlogo.png",
-	userLoginTitle :"./assets/images/userlogo.png",
+	logo: "./assets/images/logo.png",
+	loginLogo: "./assets/images/login-logo.png",
+	loginTitle: "./assets/images/raterlogo.png",
+	userLoginTitle: "./assets/images/userlogo.png",
 	adminLoginTitle: "./assets/images/manger.png",
-	loginPerson :"./assets/images/login-person.png",
-	loginLock :"./assets/images/login-lock.png",
-	open :"./assets/images/open.png",
-	tip :"./assets/images/tip.png",
-	search :"./assets/images/search.png",
-	back :"./assets/images/back.png",
-	reset :"./assets/images/reset.png",
-	guidang :"./assets/images/guidang.png",
-	loginBg:"./assets/images/login-bg.jpg",
-	adminLoginBg:'./assets/images/adminlogin.png',
-	raterLoginBg:'./assets/images/raterlogin.png',
+	loginPerson: "./assets/images/login-person.png",
+	loginLock: "./assets/images/login-lock.png",
+	open: "./assets/images/open.png",
+	tip: "./assets/images/tip.png",
+	search: "./assets/images/search.png",
+	back: "./assets/images/back.png",
+	reset: "./assets/images/reset.png",
+	guidang: "./assets/images/guidang.png",
+	loginBg: "./assets/images/login-bg.jpg",
+	adminLoginBg: './assets/images/adminlogin.png',
+	raterLoginBg: './assets/images/raterlogin.png',
 
-	man:'./assets/images/man.png',
-	group:'./assets/images/group.png',
-	scoreIco:'./assets/images/score-ico.png',
-	logout:'./assets/images/logout.png',
-	file:'./assets/images/file.png',
-	uncheck:'./assets/images/uncheck.png',
-	uncheck1:'./assets/images/uncheck1.png',
-	pass:'./assets/images/pass.png',
-	pass1:'./assets/images/pass1.png',
-	brower:'./assets/images/brower.png',
-	pass2:'./assets/images/pass2.png',
-	reject:'./assets/images/reject.png',
-	reject1:'./assets/images/reject1.png',
-	user:'./assets/images/user.png',
-	media:'./assets/images/media.png',
-	
-	enable:'./assets/images/enable.png',
-	disable:'./assets/images/disabled.png',
-	createcode:'./assets/images/createcode.png',
+	man: './assets/images/man.png',
+	group: './assets/images/group.png',
+	scoreIco: './assets/images/score-ico.png',
+	logout: './assets/images/logout.png',
+	file: './assets/images/file.png',
+	uncheck: './assets/images/uncheck.png',
+	uncheck1: './assets/images/uncheck1.png',
+	pass: './assets/images/pass.png',
+	pass1: './assets/images/pass1.png',
+	brower: './assets/images/brower.png',
+	pass2: './assets/images/pass2.png',
+	reject: './assets/images/reject.png',
+	reject1: './assets/images/reject1.png',
+	user: './assets/images/user.png',
+	media: './assets/images/media.png',
+
+	enable: './assets/images/enable.png',
+	disable: './assets/images/disabled.png',
+	createcode: './assets/images/createcode.png',
 
 
 	//smile:'./assets/images/smile.png',
-	titleBg:'./assets/images/title-bg.png',
-	
-	scoreBg:'./assets/images/score-bg.png'
+	titleBg: './assets/images/title-bg.png',
+
+	scoreBg: './assets/images/score-bg.png'
 
 
 };
@@ -79,20 +79,20 @@ var imgs = {
 		}, {
 			id: 1,
 			name: '视频',
-			type:'video',
+			type: 'video',
 			extensions: videoExtensions.join(',')
 		}, {
 			id: 2,
 			name: '文本',
-			type:'text',
+			type: 'text',
 			extensions: textExtensions.join(',')
 		}, {
 			id: 3,
 			name: '全部',
-			type:'all',
+			type: 'all',
 			extensions: allExtensions.join(',')
 		}],
-		qrcodeUrl:'http://h5.zmiti.com/public/wmmeeting/'
+		qrcodeUrl: 'http://h5.zmiti.com/public/wmmeeting/'
 	}
 
 	if (window.location.href.indexOf('localhost') > -1 || window.location.href.indexOf('zmiti.com') > -1) {
@@ -100,5 +100,3 @@ var imgs = {
 	}
 
 })();
-
-

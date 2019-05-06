@@ -87,7 +87,7 @@
 
 
 			</Form>
-		<Table ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
+		<Table :loading="loading" ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
 
 	</div>
 </template>
@@ -110,6 +110,7 @@
 				visible:false,
 				imgs:window.imgs,
 				isLoading:false,
+				loading:true,
 				currentUserId:-1,
 				split1: 0.8,
 				showPass:false,
@@ -501,6 +502,7 @@
 						if(data.getret === 0){
 							s.userList = data.list;
 							s.defaultUserList = s.userList.concat([]);
+							s.loading = false;
 						}
 						else{
 							s.$Message.error(data.getmsg);

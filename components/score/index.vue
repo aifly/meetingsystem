@@ -7,11 +7,12 @@
 			<header class="wm-tab-header">
 				<div>评分结果 {{scoreObj.title?">"+scoreObj.title:''}}</div>
 				<div style="font-size:14px;">
+					<a href='javascript:void(0)' @click="exportData" style="margin-right:20px">导出</a>
 					<a :href='"#/meetingscoreitem/"+$route.params.meetid+"/"+$route.params.meetname'>评分项管理</a>
 				</div>
 			</header>
 			<div v-if='mainType === 0'  :style="{height:viewH - 150+'px'}" class='wm-scroll'>
-				<Table @on-row-click='getScoreByCourse' :data='scoreList' :columns='columns'></Table>				
+				<Table ref='scorelist'  @on-row-click='getScoreByCourse' :data='scoreList' :columns='columns'></Table>				
 			</div>
 			<ScoreDetail :scoreObj="scoreObj" v-else-if='mainType === 1'></ScoreDetail>
 			<StudentDetail v-else-if='mainType === 2'></StudentDetail>
@@ -220,6 +221,12 @@
 		},
 		
 		methods:{
+
+			exportData(){
+				 this.$refs['scorelist'].exportCsv({
+					filename: '评分结果'
+				});
+			},
 
 
 			getScoreByCourse(row,index){
