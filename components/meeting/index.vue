@@ -26,7 +26,7 @@
 				<div class='wm-meet-form-item wm-meet-form-muli'>
 					<div><label for="">说明：</label><textarea v-model='formMeet.meetremarks' type="textarea"></textarea></div>
 				</div>
-				<div class='wm-meet-banner-C'>
+				<div class='wm-meet-banner-C' v-show='currentMeetid>-1'>
 					<div>上传培训banner图（750*380）</div>
 					<div class='wm-meet-banner-upload'>
 						<div id="wm-upload" class="wm-upload">
@@ -157,11 +157,13 @@
 		},
 		watch:{
 			showDetail(val){
-				if(val && this.currentMeetid>-1){
-					
+
+				
+				if(val && this.currentMeetid>-1){/// 
 					setTimeout(() => {
 						this.upload();
 					}, 100);
+					
 				}
 			}
 		},
@@ -183,6 +185,8 @@
 				this.showDetail = false;
 
 			})
+
+		
 		},
 		
 		methods:{

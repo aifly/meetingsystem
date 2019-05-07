@@ -683,7 +683,12 @@
 			
 			exportData(){
 				this.$refs.scorelist.exportCsv({
-					filename: '学员报名管理'
+					filename: '学员报名管理',
+					data:this.userList.slice().map((item,i)=>{
+						item.sex = item.sex === 0 ?  '男':'女'
+						item.status = item.status === 0 ? '拒绝审核' : item.status === 1 ? '已通过':'等待审核';
+						return  true;
+					})
 				});
 			},
 

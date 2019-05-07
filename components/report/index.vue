@@ -251,7 +251,12 @@
 			},
 			exportData(){
 				this.$refs.scorelist.exportCsv({
-					filename: '培训报到管理'
+					filename: '培训报到管理',
+					data:this.userList.slice().map((item,i)=>{
+						item.sex = item.sex === 0 ?  '男':'女'
+						item.status = item.issign === 0 ? '未报道' : '已报道';
+						return  true;
+					})
 				});
 			},
 			refresh(){
