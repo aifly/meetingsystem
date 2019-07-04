@@ -78,7 +78,6 @@
 	var obserable = new _componentsLibObserable2['default']();
 
 	_vue2['default'].obserable = obserable;
-	window.baseUrl = 'http://api.symbin.cn/v1/';
 	new _vue2['default']({
 		data: {
 			obserable: obserable,

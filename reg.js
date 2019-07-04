@@ -10,7 +10,7 @@ Vue.use(iView)
 var obserable = new Obserable();
 
 Vue.obserable = obserable;
-window.baseUrl = 'http://api.symbin.cn/v1/'
+ 
 new Vue({
 	data: {
 		obserable,

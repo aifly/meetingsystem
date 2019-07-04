@@ -10,6 +10,7 @@ module.exports = {
     entry: {
         // 入口文件，如果是多页项目，可配置多个
         index: './index.js',
+        reg: './reg.js',
     },
 
     // 输出配置
