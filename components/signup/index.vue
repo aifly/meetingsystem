@@ -154,6 +154,11 @@
 							return h('div',{},params.row.sex === 0? '男':'女');
 						}
 					},{
+						title:"民族",
+						key:'nation',
+						align:'center'
+						
+					},{
 						title:"省/市",
 						key:'provincename',
 						align:'center',
@@ -218,7 +223,10 @@
 					{
 						title:"单位及职务",
 						key:'companyname',
-						align:'center'
+						align:'center',
+						render:(h,params)=>{
+							return h('div',{},params.row.companyname + ' / ' + params.row.job);
+						}
 						
 					},
 					{
@@ -288,7 +296,8 @@
 								 h('Poptip',{
 									props:{
 										confirm:true,
-										title:"确定要删除吗"
+										title:"确定要删除吗",
+										placement:'left'
 									},
 									style:{
 										marginLeft:'20px'
@@ -447,8 +456,8 @@
 						if(data.getret === 0){
 							s.groupList = data.list;
 							data.list.forEach((item,i)=>{
-								s.columns[4].filters = s.columns[4].filters || [];
-								s.columns[4].filters.push({
+								s.columns[5].filters = s.columns[5].filters || [];
+								s.columns[5].filters.push({
 									value:item.groupid,
 									label:item.groupname
 								})
@@ -467,8 +476,8 @@
 						if(data.getret === 0){
 							data.list.map((item,i)=>{
 
-								s.columns[3].filters = s.columns[3].filters || [];
-								s.columns[3].filters.push({
+								s.columns[4].filters = s.columns[4].filters || [];
+								s.columns[4].filters.push({
 									value:item.cityid,
 									label:item.name
 								})

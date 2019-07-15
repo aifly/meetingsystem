@@ -49,7 +49,7 @@
 					</div>
 				</div>
 				<div class='wm-meet-form-radio'>
-					<div>是否开启用户审核</div>
+					<div>是否开启自动审核功能</div>
 					<div>
 						<RadioGroup v-model="formMeet.ischecked">
 							<Radio :value='1' :label="1">是</Radio>
@@ -106,6 +106,9 @@
 								<img :src="meet.qrcode||imgs.createcode" alt="">
 							</a>
 							<img :src="meet.qrcode||imgs.createcode" alt="" v-else />
+							<div>
+								<Button @click="createQrcode(meet,true)" style="width:70px;" size='small'>刷新</Button>
+							</div>
 						</div>
 					</div>
 				</li>
@@ -285,8 +288,8 @@
 				});
 				
 			},
-			createQrcode(meet){
-				if(meet.qrcode){
+			createQrcode(meet,flag){
+				if(meet.qrcode && !flag){
 					return;
 				}
 				var s = this;

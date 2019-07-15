@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=750,user-scalable=no" />
     <title>用户注册</title>
-    <link rel="stylesheet" href="./assets/css/reg.css" />
+    <link rel="stylesheet" href="./assets/css/reg.css?t=12" />
     <style>
         html,body{
 		    font-size: 100%;
@@ -13,9 +13,22 @@
 		    padding: 0;margin: 0;
 		}
 
+		@font-face {
+		  font-family: "Ionicons";
+		  src: url("./assets/fonts/font.eot?v=2.0.0");
+		  src: url("./assets/fonts/font.eot?v=2.0.0#iefix") format("embedded-opentype"),
+ url("./assets/js/d535a25a79fb1365ae814b61e88fae71.ttf?v=2.0.0") format("truetype"),
+ url("./assets/js/99ac3308dd8ee14f749f51538d0d5b9e.woff?v=2.0.0") format("woff"),
+ url("./assets/js/a2c4a261a239aa84463dc70e4bac9b9a.svg?v=2.0.0#Ionicons") format("svg");
+		  font-weight: normal;
+		  font-style: normal;
+		}
 		
 	</style>
     <script>
+		document.addEventListener('touchmove',function(e){
+			e.preventDefault();
+		})
     </script>
     <style>
 
@@ -30,10 +43,11 @@
 		window.baseUrl = 'http://h5.wenming.cn/v1/';
 	</script>
    <!--
-       <script src='./assets/js/reg.js'></script>
+       
+	   <script src='./assets/js/reg.js'></script>
     -->
-    <script src='./assets/js/jquery.min.js'></script>
-    <script src='http://localhost:4048/reg.js'></script>
+	<script src='./assets/js/jquery.min.js'></script>
+	<script src='http://localhost:4048/reg.js'></script>
 </body>
 
 </html>

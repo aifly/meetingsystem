@@ -24,7 +24,7 @@
   height: .8rem;
   border-radius: 50%;
   position: fixed;
-  z-index: 1000;
+  z-index: 12000;
   right: .5rem;
   top: .5rem;
 }
@@ -294,7 +294,7 @@
   flex-flow: row;
   color: #000;
   height: 30px;
-  min-height: 70px;
+  min-height: 90px;
 }
 
 .wm-meeting-main-ui .wm-meet-list > ul li .wm-meet-remark > div:nth-of-type(1) {

@@ -276,7 +276,7 @@ $color: #be0000;
 
                     color: #000;
                     height: 30px;
-                    min-height: 70px;
+                    min-height: 90px;
 
                     &>div {
                         &:nth-of-type(1) {
@@ -289,7 +289,7 @@ $color: #be0000;
 
                         &:nth-of-type(3) {
                             width: 70px;
-
+							
                             @include pos(r);
 
                             top: -10px;

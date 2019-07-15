@@ -119,6 +119,13 @@ body {
   margin: 0 auto;
   box-sizing: border-box;
   position: relative;
+  padding-bottom: 40px;
+}
+
+#app .wm-submit-success img {
+  width: 90%;
+  margin: 40px auto;
+  display: block;
 }
 
 #app .wm-banner {
@@ -143,12 +150,13 @@ body {
 
 #app .wm-banner h2 {
   font-weight: normal;
+  width: 90%;
   font-size: 50px;
   margin: 20px 0;
 }
 
 #app .wm-form-item {
-  width: 700px;
+  width: 600px;
   margin: 20px auto 0;
   height: 70px;
   font-size: 28px;
@@ -174,22 +182,22 @@ body {
 
 #app .wm-form-item .wm-getcode {
   position: absolute;
-  right: 10px;
-  height: 50px;
-  line-height: 50px;
+  right: 68px;
+  height: 60px;
+  line-height: 60px;
   background: #f90;
   color: #fff;
   border-radius: 10px;
   text-align: center;
   padding: 0 20px;
-  top: 10px;
+  top: 9px;
 }
 
 #app .wm-form-item.require {
   position: relative;
 }
 
-#app .wm-form-item.require label:before {
+#app .wm-form-item.require label.label:before {
   content: '*';
   color: #f00;
   position: absolute;
@@ -200,43 +208,58 @@ body {
   height: 60px;
   line-height: 60px;
   outline: none;
+  width: 150px;
 }
 
 #app .wm-form-item input {
   vertical-align: middle;
   height: 60px;
+  line-height: 60px;
   font-size: 28px;
   border: 1px solid #ccc;
-  width: 580px;
-  padding-left: 20px;
+  width: 420px;
   box-sizing: border-box;
+  padding-left: 10px;
   border-radius: 10px;
+  outline: none;
   outline: none;
 }
 
 #app .wm-form-item input::-webkit-input-placeholder {
-  color: #ddd;
+  color: #eee;
+  font-size: 24px;
+}
+
+#app .wm-form-item input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
 }
 
 #app .wm-form-item textarea {
   background: transparent;
   height: 100px;
   vertical-align: top;
-  width: 580px;
+  width: 400px;
   padding-left: 10px;
   box-sizing: border-box;
   outline: none;
 }
 
 #app .wm-form-item .wm-submit-btn {
-  width: 700px;
+  width: 580px;
   height: 70px;
   line-height: 70px;
   text-align: center;
   border-radius: 10px;
   color: #fff;
   background: #f90;
-  margin: 50px auto;
+  margin: 50px auto 100px;
+}
+
+#app .test-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
 }
 
 @media all and (min-width: 752px) {
