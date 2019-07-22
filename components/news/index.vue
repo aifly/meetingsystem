@@ -685,7 +685,7 @@
 								s.getNewsList();
 								s.showDetail = false;
 							}
-							if(s.currentNewsId<=-1 && p.encryptfile && p.encryptfile.length>0){//新增完成后，更新加密文件
+							if(s.currentNewsId>-1 && p.encryptfile && p.encryptfile.length>0){//新增完成后，更新加密文件
 								console.log('开始更新加密文件')
                                 s.newsAction();
                             }
