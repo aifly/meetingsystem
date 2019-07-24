@@ -22,7 +22,7 @@
 					</RadioGroup>
 				</FormItem>
 				<FormItem label="密码：" prop="userpwd">
-					<Input ref='pass' :disabled='!showPass' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
+					<Input ref='pass' :disabled='!showPass' type='password' v-model="formAdmin.userpwd" placeholder="密码" autocomplete="off" />
 					<Button :disabled='currentUserId ===-1' type="primary" style="margin-top:10px" @click='modifyPass'>{{showPass?'确定修改':'修改密码'}}</Button>
 				</FormItem>
 				
