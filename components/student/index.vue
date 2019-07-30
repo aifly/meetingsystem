@@ -4,7 +4,7 @@
 			<div>学员管理</div>
 			<section>
 				<Button type="primary" icon='md-add-circle' @click="addNewAduser">新增学员</Button>
-				<Input v-model="keyword" placeholder="请输入关键字(手机号、姓名、单位及职务)搜索" />
+				<Input v-model="keyword" @on-change='searchStudent' placeholder="请输入关键字(手机号、姓名、单位及职务)搜索" />
 			</section>
 		</header>
 		<Form v-if='visible' class='wm-student-form wm-scroll' ref="formAdmin" :style="{height:viewH-150+'px'}"  :model="formAdmin" :label-width="86" >
@@ -87,8 +87,10 @@
 
 
 			</Form>
-		<Table :loading="loading" ref='scorelist' v-else  :height='viewH - 64- 70 ' :data='userList' :columns='columns'   stripe></Table>
-
+		<Table :loading="loading" ref='scorelist' v-else  :height='viewH - 124- 70 ' :data='userList' :columns='columns'   stripe></Table>
+		<div style="line-height:80px;margin:0 auto;width:500px;height:80px;" v-if='!visible'>
+			<Page :total="totalnum" show-total @on-change='change'/>
+		</div>
 	</div>
 </template>
 
@@ -263,7 +265,9 @@
 						}
 					}
 				],
-
+				pagenum:100,
+				page:0,
+				totalnum:0,
 				
 				userinfo:{}
 			}
@@ -288,7 +292,7 @@
 			
 		},
 		watch:{
-			keyword(val){
+			/* keyword(val){
 				if(val){
 					this.userList = this.defaultUserList.filter((item,i)=>{
 						return item.studentname.indexOf(val)>-1 ||item.companyname.indexOf(val)>-1||item.mobile.indexOf(val)>-1;
@@ -296,10 +300,11 @@
 				}else{
 					this.userList = this.defaultUserList.concat([]);
 				}
-			}
+			} */
 		},
 		
 		methods:{
+
 			getGroupList(){
 				var s = this;
 				symbinUtil.ajax({
@@ -484,8 +489,21 @@
 				};
 				this.visible = true;
 			},
+			change(e){
+				this.page = e;
+				this.getstudentlist();
+			},
+			searchStudent(){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.getstudentlist();
+
+				},300)
+			},
 			getstudentlist(){
 				var s = this;
+				s.loading = true;
+				s.userList = [];
 				symbinUtil.ajax({
 					_this:s,
 					url:window.config.baseUrl+'/zmitiadmin/getstudentlist/',
@@ -494,13 +512,15 @@
 						admintoken:s.userinfo.accesstoken,
 						adminuserid:s.userinfo.userid,
 						//meetid:'2072951143',
-						pagenum:1000,
+						keyword:s.keyword,
+						pagenum:s.pagenum,
+						page:s.page,
 						status:-1,//查询全部
 					},
 					success(data){
-						console.log(data);
 						if(data.getret === 0){
 							s.userList = data.list;
+							s.totalnum = data.totalnum;
 							s.defaultUserList = s.userList.concat([]);
 							s.loading = false;
 						}
